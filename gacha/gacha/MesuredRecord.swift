@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class MesuredRecord: Identifiable {
+class MeasuredRecord: Identifiable {
     var id = UUID()
     var date = Date()
     var minAngle: Int

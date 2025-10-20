@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - 메인 뷰
 /// Vision을 이용하여 사람의 신체를 인식하고 각도를 측정하는 뷰
-struct RomMesureView: View {
+struct MeasureView: View {
     @StateObject private var cameraManager = CameraManager()
 
     var body: some View {
@@ -55,5 +55,5 @@ struct CameraPreviewView: UIViewRepresentable {
 }
 
 #Preview {
-    RomMesureView()
+    MeasureView()
 }

@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @Query var allRecords: [MesuredRecord]
+    @Query var allRecords: [MeasuredRecord]
     @Environment(\.modelContext) private var context
     
     var body: some View {
@@ -31,7 +31,7 @@ struct ContentView: View {
                 .tint(.red)
                 .disabled(allRecords.isEmpty)
                 NavigationLink("측정하기") {
-                    RomMesureView()
+                    MeasureView()
                 }
             }
             .padding()
@@ -61,7 +61,7 @@ struct ContentView: View {
     }
     
     func addRecord() {
-        let record = MesuredRecord(
+        let record = MeasuredRecord(
             minAngle: 0,
             maxAngle: 90,
             isDeleted: false,
@@ -74,7 +74,7 @@ struct ContentView: View {
         print("추가 후 레코드 개수: \(allRecords.count)")
     }
     
-    func deleteRecord(_ record: MesuredRecord) {
+    func deleteRecord(_ record: MeasuredRecord) {
         context.delete(record)
         try? context.save()
         print("레코드 삭제됨: \(record.id)")
@@ -91,5 +91,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: [MesuredRecord.self])
+        .modelContainer(for: [MeasuredRecord.self])
 }

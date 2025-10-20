@@ -14,7 +14,7 @@ struct gachaApp: App {
         WindowGroup {
             ContentView()
                 .modelContainer(for: [
-                    MesuredRecord.self,
+                    MeasuredRecord.self,
                 ])
         }
     }
