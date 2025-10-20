@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct gachaApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: [
+                    MesuredRecord.self,
+                ])
         }
     }
 }
