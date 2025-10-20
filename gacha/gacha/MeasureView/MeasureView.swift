@@ -19,8 +19,26 @@ struct MeasureView: View {
             ZStack {
                 // 1. 카메라 프리뷰 레이어 (배경)
                 CameraPreview(cameraManager: cameraManager)
-                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .frame(
+                        width: geometry.size.width,
+                        height: geometry.size.height
+                    )
                     .ignoresSafeArea()
+
+                // 2. 감지된 신체 랜드마크와 각도를 그리는 오버레이
+                BodyOverlayView(detectedBody: cameraManager.detectedBody)
+                
+                // 3. 측정 버튼
+                HStack {
+                    Button("측정") {
+                        cameraManager.startRecording()
+                    }
+                    Button("종료") {
+                        print(">>>",cameraManager.stopRecording())
+                    }
+                }
+                
+                
             }
         }
         .ignoresSafeArea()
@@ -36,12 +54,12 @@ struct MeasureView: View {
                 let value = UIInterfaceOrientation.landscapeRight.rawValue
                 UIDevice.current.setValue(value, forKey: "orientation")
             }
-            
+
             cameraManager.startSession()
         }
         .onDisappear {
             cameraManager.stopSession()
-            
+
             // 화면 세로로 되돌리기
             if #available(iOS 16.0, *) {
                 let windowScene =
