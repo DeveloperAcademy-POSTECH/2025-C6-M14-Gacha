@@ -13,7 +13,7 @@ struct ContentView: View {
     @Environment(\.modelContext) private var context
     
     var body: some View {
-        VStack {
+        NavigationStack {
             Text("총 레코드 개수: \(allRecords.count)")
                 .font(.headline)
                 .padding()
@@ -30,6 +30,9 @@ struct ContentView: View {
                 .buttonStyle(.bordered)
                 .tint(.red)
                 .disabled(allRecords.isEmpty)
+                NavigationLink("측정하기") {
+                    RomMesureView()
+                }
             }
             .padding()
 
