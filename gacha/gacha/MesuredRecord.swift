@@ -10,16 +10,18 @@ import SwiftData
 
 @Model
 class MesuredRecord: Identifiable {
-    var id = UUID()
-    var date = Date()
-    var minAngle: Int
-    var maxAngle: Int
+    @Attribute(.unique) var id: UUID
+    var date: Date
+    var flexionAngle: Int
+    var extensionAngle: Int
     var isDeleted: Bool
     var image_id: String
 
-    init(minAngle: Int, maxAngle: Int, isDeleted: Bool, image_id: String) {
-        self.minAngle = minAngle
-        self.maxAngle = maxAngle
+    init(flexionAngle: Int, extensionAngle: Int, isDeleted: Bool, image_id: String) {
+        self.id = UUID()
+        self.date = Date()
+        self.flexionAngle = flexionAngle
+        self.extensionAngle = extensionAngle
         self.isDeleted = isDeleted
         self.image_id = image_id
     }
