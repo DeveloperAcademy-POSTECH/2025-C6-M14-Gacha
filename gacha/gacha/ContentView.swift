@@ -9,11 +9,12 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @Query(sort: \MesuredRecord.date, order: .forward) var allRecords: [MesuredRecord]
+
+    @Query(sort: \MeasuredRecord.date, order: .forward) var allRecords: [MesuredRecord]
     @Environment(\.modelContext) private var context
     
     var body: some View {
-        VStack {
+        NavigationStack {
             Text("총 레코드 개수: \(allRecords.count)")
                 .font(.headline)
                 .padding()
@@ -31,6 +32,9 @@ struct ContentView: View {
                 .buttonStyle(.bordered)
                 .tint(.red)
                 .disabled(allRecords.isEmpty)
+                NavigationLink("측정하기") {
+                    MeasureView()
+                }
             }
             .padding()
 
@@ -102,7 +106,7 @@ struct ContentView: View {
         print("=== 레코드 추가 완료 ===\n")
     }
     
-    func deleteRecord(_ record: MesuredRecord) {
+    func deleteRecord(_ record: MeasuredRecord) {
         context.delete(record)
         try? context.save()
         print("레코드 삭제됨: \(record.id)")
@@ -116,8 +120,10 @@ struct ContentView: View {
         print("모든 레코드 삭제됨")
     }
 }
+
 //
 //#Preview {
 //    ContentView()
-//        .modelContainer(for: [MesuredRecord.self])
+//        .modelContainer(for: [MeasuredRecord.self])
 //}
+

@@ -9,11 +9,13 @@ import Foundation
 import SwiftData
 
 @Model
-class MesuredRecord: Identifiable {
+
+class MeasuredRecord: Identifiable {
     @Attribute(.unique) var id: UUID
     var date: Date
     var flexionAngle: Int
     var extensionAngle: Int
+
     var isDeleted: Bool
     var image_id: String
 
