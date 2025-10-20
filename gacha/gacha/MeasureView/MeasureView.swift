@@ -18,17 +18,13 @@ struct MeasureView: View {
         GeometryReader { geometry in
             ZStack {
                 // 1. 카메라 프리뷰 레이어 (배경)
-                CameraPreviewView(cameraManager: cameraManager)
+                CameraPreview(cameraManager: cameraManager)
                     .frame(width: geometry.size.width, height: geometry.size.height)
                     .ignoresSafeArea()
-            }
-            .onAppear {
-                print("📐 GeometryReader size: \(geometry.size)")
             }
         }
         .ignoresSafeArea()
         .onAppear {
-            print("👀 MeasureView onAppear")
             // 화면 가로로 바꾸기
             if #available(iOS 16.0, *) {
                 let windowScene =
@@ -36,28 +32,26 @@ struct MeasureView: View {
                 windowScene?.requestGeometryUpdate(
                     .iOS(interfaceOrientations: .landscapeRight)
                 )
-                print("🔄 화면 회전 요청: landscapeRight (iOS 16+)")
             } else {
                 let value = UIInterfaceOrientation.landscapeRight.rawValue
                 UIDevice.current.setValue(value, forKey: "orientation")
-                print("🔄 화면 회전 요청: landscapeRight (iOS 15-)")
             }
+            
             cameraManager.startSession()
         }
         .onDisappear {
-            print("👋 MeasureView onDisappear")
             cameraManager.stopSession()
+            
+            // 화면 세로로 되돌리기
             if #available(iOS 16.0, *) {
                 let windowScene =
                     UIApplication.shared.connectedScenes.first as? UIWindowScene
                 windowScene?.requestGeometryUpdate(
                     .iOS(interfaceOrientations: .portrait)
                 )
-                print("🔄 화면 회전 복원: portrait (iOS 16+)")
             } else {
                 let value = UIInterfaceOrientation.portrait.rawValue
                 UIDevice.current.setValue(value, forKey: "orientation")
-                print("🔄 화면 회전 복원: portrait (iOS 15-)")
             }
         }
     }
@@ -65,7 +59,7 @@ struct MeasureView: View {
 
 // MARK: - 카메라 프리뷰 뷰
 /// 카메라 화면을 보여주는 UIView를 SwiftUI로 감싸는 뷰
-struct CameraPreviewView: UIViewRepresentable {
+struct CameraPreview: UIViewRepresentable {
     let cameraManager: CameraManager
 
     func makeUIView(context: Context) -> PreviewView {

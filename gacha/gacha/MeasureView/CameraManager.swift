@@ -32,12 +32,7 @@ class CameraManager: NSObject, ObservableObject {
 
     /// 카메라 초기 설정
     private func setupCamera() {
-        print("🎥 카메라 설정 시작")
-
-        // 카메라 권한 확인
-        checkCameraPermission()
-
-        // 1. 카메라 입력 설정
+        // (1) 카메라 디바이스 설정: 전면
         guard
             let camera = AVCaptureDevice.default(
                 .builtInWideAngleCamera,
@@ -49,81 +44,51 @@ class CameraManager: NSObject, ObservableObject {
             return
         }
 
-        print("✅ 카메라 디바이스 찾음")
-
         do {
             let input = try AVCaptureDeviceInput(device: camera)
 
-            // 세션 설정 시작
+            // (2) 세션 설정 시작
             captureSession.beginConfiguration()
 
-            // 2. 입력을 세션에 추가
+            // (3) 입력을 세션에 추가
             if captureSession.canAddInput(input) {
                 captureSession.addInput(input)
             }
 
-            // 3. 세션 품질 설정 (720p - 성능과 정확도 균형)
+            // (4) 세션 품질 설정
             if captureSession.canSetSessionPreset(.hd1280x720) {
                 captureSession.sessionPreset = .hd1280x720
             }
 
-            // 4. 비디오 출력 설정
+            // (5) 비디오 출력 설정
             videoOutput.setSampleBufferDelegate(self, queue: sessionQueue)
 
-            // 5. 출력을 세션에 추가
+            // (6) 출력을 세션에 추가
             if captureSession.canAddOutput(videoOutput) {
                 captureSession.addOutput(videoOutput)
             }
 
-            // 6. 비디오 출력 연결 설정 (가로 방향)
-            if let connection = videoOutput.connection(with: .video) {
-                connection.videoRotationAngle = 90  // Landscape Right
-            }
-
-            // 세션 설정 완료
+            // (7) 레이어 설정 완료
             captureSession.commitConfiguration()
 
-            // 7. 프리뷰 레이어 생성
-            let previewLayer = AVCaptureVideoPreviewLayer(
-                session: captureSession
-            )
+            // (8) 프리뷰 레이어 생성
+            let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             previewLayer.videoGravity = .resizeAspectFill
 
-            // 프리뷰를 가로 방향으로 설정 (Landscape Right)
+            // (9) 프리뷰의 레이어 연결에서 방향을 가로 방향으로 설정 (Landscape Right)
             if let connection = previewLayer.connection {
                 connection.videoRotationAngle = 180
                 print("✅ 프리뷰 레이어 회전 설정: 180도")
             } else {
                 print("⚠️ 프리뷰 레이어 연결을 찾을 수 없음")
             }
-
+            
+            // (10) 프리뷰 설정 완료
             self.previewLayer = previewLayer
             print("✅ 카메라 설정 완료")
 
         } catch {
             print("❌ 카메라 설정 에러: \(error.localizedDescription)")
-        }
-    }
-
-    /// 카메라 권한 확인
-    private func checkCameraPermission() {
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        print("📹 카메라 권한 상태: \(status.rawValue)")
-
-        switch status {
-        case .authorized:
-            print("✅ 카메라 권한 승인됨")
-        case .notDetermined:
-            print("⚠️ 카메라 권한 요청 필요")
-            AVCaptureDevice.requestAccess(for: .video) { granted in
-                print(granted ? "✅ 카메라 권한 승인됨" : "❌ 카메라 권한 거부됨")
-            }
-        case .denied:
-            print("❌ 카메라 권한 거부됨 - 설정에서 변경 필요")
-        case .restricted:
-            print("❌ 카메라 권한 제한됨")
-        @unknown default:
-            print("❌ 알 수 없는 카메라 권한 상태")
         }
     }
 
