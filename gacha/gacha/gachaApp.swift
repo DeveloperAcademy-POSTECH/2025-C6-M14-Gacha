@@ -56,11 +56,12 @@ struct gachaApp: App {
 
 struct RootTabView: View {
     @State private var selectedTab = 0
+    @State private var navigationID = UUID()  // NavigationStack 재생성용 ID
 
     var body: some View {
         TabView(selection: $selectedTab) {
             Tab("Home", systemImage: "house", value: 0) {
-                ContentView()
+                MainView()
             }
             Tab("History", systemImage: "book.closed", value: 1) {
                 HistoryView()
@@ -71,6 +72,13 @@ struct RootTabView: View {
                         selectedTab = 1  // History 탭으로 이동
                     })
                 }
+                .id(navigationID)  // ID로 NavigationStack 재생성
+            }
+        }
+        .onChange(of: selectedTab) { oldValue, newValue in
+            // Camera 탭으로 전환될 때마다 NavigationStack 초기화
+            if newValue == 2 {
+                navigationID = UUID()
             }
         }
     }
