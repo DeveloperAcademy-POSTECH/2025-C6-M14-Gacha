@@ -15,16 +15,17 @@ class MeasuredRecord: Identifiable {
     var date: Date
     var flexionAngle: Int
     var extensionAngle: Int
-
     var isDeleted: Bool
-    var image_id: String
+    var flexionImage_id: String
+    var extensionImage_id: String
 
-    init(flexionAngle: Int, extensionAngle: Int, isDeleted: Bool, image_id: String) {
+    init(flexionAngle: Int, extensionAngle: Int, isDeleted: Bool, flexionImage_id: String, extensionImage_id: String) {
         self.id = UUID()
         self.date = Date()
         self.flexionAngle = flexionAngle
         self.extensionAngle = extensionAngle
         self.isDeleted = isDeleted
-        self.image_id = image_id
+        self.flexionImage_id = flexionImage_id
+        self.extensionImage_id = extensionImage_id
     }
 }
