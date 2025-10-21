@@ -48,18 +48,30 @@ struct gachaApp: App {
 
     var body: some Scene {
         WindowGroup {
-            TabView {
-                Tab("Home", systemImage: "house") {
-                    MainView()
-                }
-                Tab("History", systemImage: "book.closed") {
-                    HistoryView()
-                }
-                Tab("Camera", systemImage: "camera", role: .search) {
-                    MeasureView()
+            RootTabView()
+        }
+        .modelContainer(modelContainer)
+    }
+}
+
+struct RootTabView: View {
+    @State private var selectedTab = 0
+
+    var body: some View {
+        TabView(selection: $selectedTab) {
+            Tab("Home", systemImage: "house", value: 0) {
+                ContentView()
+            }
+            Tab("History", systemImage: "book.closed", value: 1) {
+                HistoryView()
+            }
+            Tab("Camera", systemImage: "camera", value: 2, role: .search) {
+                NavigationStack {
+                    MeasureView(onDismissToHome: {
+                        selectedTab = 1  // History 탭으로 이동
+                    })
                 }
             }
         }
-        .modelContainer(modelContainer)
     }
 }

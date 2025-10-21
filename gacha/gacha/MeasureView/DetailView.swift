@@ -4,7 +4,7 @@ struct DetailView: View {
     let record: MeasuredRecord
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.presentationMode) var presentationMode
+    var onDismiss: () -> Void
 
     var body: some View {
         
@@ -103,13 +103,7 @@ struct DetailView: View {
         
             // 확인 버튼
             Button(action: {
-                // DetailView → ConfirmView 닫기
-                presentationMode.wrappedValue.dismiss()
-
-                // ConfirmView → MeasureView 닫기 (0.1초 후)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    presentationMode.wrappedValue.dismiss()
-                }
+                onDismiss()
             }) {
                 Text("확인")
                     .font(.headline)

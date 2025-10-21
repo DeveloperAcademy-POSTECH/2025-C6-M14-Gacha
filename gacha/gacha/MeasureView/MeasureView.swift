@@ -21,6 +21,8 @@ struct MeasureView: View {
     // NotificationCenter 옵저버 관리
     @State private var notificationObservers: [NSObjectProtocol] = []
 
+    var onDismissToHome: (() -> Void)? = nil
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -178,6 +180,10 @@ struct MeasureView: View {
                                 // 다시 촬영 버튼: 카메라로 돌아가기
                                 navigateToDetail = false
                                 measuredRecord = nil
+                            },
+                            onDismissToHome: {
+                                // DetailView에서 Home으로 이동
+                                onDismissToHome?()
                             }
                         )
                         .navigationBarHidden(true) : nil,

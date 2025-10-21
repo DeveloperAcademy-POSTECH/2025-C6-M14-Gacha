@@ -15,6 +15,7 @@ struct ConfirmView: View {
 
     var onConfirm: () -> Void
     var onRetake: () -> Void
+    var onDismissToHome: () -> Void
 
     var body: some View {
         VStack(spacing: 0) {
@@ -85,8 +86,13 @@ struct ConfirmView: View {
 
             // DetailView로 네비게이션
             NavigationLink(
-                destination: DetailView(record: record)
-                    .navigationBarHidden(true),
+                destination: DetailView(
+                    record: record,
+                    onDismiss: {
+                        onDismissToHome()
+                    }
+                )
+                .navigationBarHidden(true),
                 isActive: $navigateToDetail
             ) {
                 EmptyView()
