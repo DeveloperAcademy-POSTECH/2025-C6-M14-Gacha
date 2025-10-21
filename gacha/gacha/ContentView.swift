@@ -13,6 +13,10 @@ struct ContentView: View {
     @Query(sort: \MeasuredRecord.date, order: .forward) var allRecords:
         [MeasuredRecord]
     @Environment(\.modelContext) private var context
+    
+    // Watch 연결 관찰 (싱글톤이므로 @ObservedObject 사용)
+    @ObservedObject private var watchLink = WatchLink.shared
+    @State private var navigateToMeasure = false
 
     var body: some View {
         NavigationStack {
@@ -33,12 +37,40 @@ struct ContentView: View {
                 .buttonStyle(.bordered)
                 .tint(.red)
                 .disabled(allRecords.isEmpty)
-                NavigationLink("측정하기") {
-                    MeasureView()
-                        .modelContainer(for: [MeasuredRecord.self])
+                
+                Button("측정하기") {
+                    navigateToMeasure = true
                 }
+                .buttonStyle(.borderedProminent)
             }
             .padding()
+            
+            // Watch로부터의 네비게이션 처리
+            NavigationLink(
+                destination: MeasureView()
+                    .modelContainer(for: [MeasuredRecord.self])
+                    .onAppear {
+                        // Watch 명령으로 네비게이션된 경우 자동 측정 시작
+                        if watchLink.shouldStartMeasuringAfterNav {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                NotificationCenter.default.post(name: .watchStartMeasuring, object: nil)
+                                watchLink.shouldStartMeasuringAfterNav = false
+                            }
+                        }
+                    },
+                isActive: $navigateToMeasure
+            ) {
+                EmptyView()
+            }
+            .hidden()
+            .onChange(of: watchLink.shouldNavigateToMeasure) { _, newValue in
+                print("🔔 shouldNavigateToMeasure 변경됨: \(newValue)")
+                if newValue {
+                    navigateToMeasure = true
+                    watchLink.shouldNavigateToMeasure = false
+                    print("📱 MeasureView로 네비게이션 시작")
+                }
+            }
 
             HStack {
 
