@@ -108,7 +108,7 @@ class CameraManager: NSObject, ObservableObject {
 
             // (9) 프리뷰의 레이어 연결에서 방향을 가로 방향으로 설정 (Landscape Right)
             if let connection = previewLayer.connection {
-                connection.videoRotationAngle = 0
+                connection.videoRotationAngle = 90
                 print("✅ 프리뷰 레이어 회전 설정: 180도")
             } else {
                 print("⚠️ 프리뷰 레이어 연결을 찾을 수 없음")
