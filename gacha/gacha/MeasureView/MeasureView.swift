@@ -35,9 +35,9 @@ struct MeasureView: View {
                 BodyOverlayView(detectedBody: cameraManager.detectedBody)
 
                 // 3. 원형 측정 버튼 (우측 중앙)
-                HStack {
-                    Spacer()
-                    VStack {
+                VStack {
+                    // 상단: 무릎 선택 버튼
+                    HStack {
                         Button(action: {
                             showKneeSelector = true
                         }) {
@@ -52,16 +52,71 @@ struct MeasureView: View {
                             .cornerRadius(8)
                         }
                         .padding()
+
                         Spacer()
+
+                        // 중앙: 준비 자세 안내
+                        if !cameraManager.isMeasuring {
+                            VStack(spacing: 16) {
+                                if cameraManager.isInReadyPosition {
+                                    // 준비 자세 진행률 표시
+                                    VStack(spacing: 8) {
+                                        Text("준비 자세 유지 중...")
+                                            .font(.title2)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.white)
+
+                                        // 진행 바
+                                        ProgressView(
+                                            value: cameraManager
+                                                .readyPositionProgress
+                                        )
+                                        .progressViewStyle(
+                                            LinearProgressViewStyle(
+                                                tint: .green
+                                            )
+                                        )
+                                        .frame(width: 200)
+
+                                        Text(
+                                            "\(Int(cameraManager.readyPositionProgress * 100))%"
+                                        )
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                    }
+                                    .padding()
+                                    .background(Color.black.opacity(0.7))
+                                    .cornerRadius(12)
+                                } else {
+                                    // 준비 자세 안내
+                                    VStack(spacing: 8) {
+                                        Text("다리를 펴고 앉아주세요")
+                                            .font(.title3)
+                                            .foregroundColor(.white)
+
+                                        Text("150-180도 범위를 2초간 유지")
+                                            .font(.caption)
+                                            .foregroundColor(
+                                                .white.opacity(0.8)
+                                            )
+                                    }
+                                    .padding()
+                                    .background(Color.black.opacity(0.7))
+                                    .cornerRadius(12)
+                                }
+                            }
+                            .transition(.opacity)
+                        }
+
+                        Spacer()
+
+                        // 하단: 측정 버튼
                         Button(action: {
                             if cameraManager.isMeasuring {
-                                // 측정 종료
-                                let result = cameraManager.stopMeasuring()
-                                if let record = result {
-                                    saveToDatabase(record)
+                                if let result = cameraManager.stopMeasuring() {
+                                    saveToDatabase(result)
                                 }
                             } else {
-                                // 측정 시작
                                 cameraManager.startMeasuring()
                             }
                         }) {
@@ -131,24 +186,6 @@ struct MeasureView: View {
 
             // NotificationCenter 옵저버 등록
             setupNotificationObservers()
-        }
-        .onDisappear {
-            cameraManager.stopSession()
-
-            // 화면 세로로 되돌리기
-            if #available(iOS 16.0, *) {
-                let windowScene =
-                    UIApplication.shared.connectedScenes.first as? UIWindowScene
-                windowScene?.requestGeometryUpdate(
-                    .iOS(interfaceOrientations: .portrait)
-                )
-            } else {
-                let value = UIInterfaceOrientation.portrait.rawValue
-                UIDevice.current.setValue(value, forKey: "orientation")
-            }
-
-            // NotificationCenter 옵저버 해제
-            removeNotificationObservers()
         }
         .sheet(isPresented: $showKneeSelector) {
             KneeSelectionView(selectedKnee: $cameraManager.selectedKnee)

@@ -28,9 +28,16 @@ class CameraManager: NSObject, ObservableObject {
     // 신뢰도 임계값
     private let minJointConfidence: Float = 0.6
 
-    // ⭐ 시간적 일관성 체크용 프로퍼티 추가
-    private var previousAngle: Double?  // 이전 프레임의 각도
-    private let maxAngleChangePerFrame: Double = 15.0  // 프레임당 최대 15도 변화 허용
+    // 준비 자세 감지 관련 추가
+    @Published var isInReadyPosition: Bool = false  // 준비 자세인지 여부
+    @Published var readyPositionProgress: Double = 0.0  // 진행률 (0.0 ~ 1.0)
+
+    private var readyPositionStartTime: Date?  // 준비 자세 시작 시간
+    private let readyAngleMin: Double = 150.0  // 준비 자세 최소 각도
+    private let readyAngleMax: Double = 180.0  // 준비 자세 최대 각도
+    private let readyPositionDuration: TimeInterval = 3.0
+
+    private var readyCheckTimer: Timer?  // 타이머
 
     // 감지된 데이터 - View에서 사용하기 위해 Publish
     @Published var detectedBody: DetectedBody?
@@ -41,7 +48,7 @@ class CameraManager: NSObject, ObservableObject {
     @Published var flexionAngle: Double?
     @Published var extensionAngle: Double?
 
-    private var currentPixelBuffer: CVPixelBuffer?  // ⭐ 현재 프레임의 pixelBuffer 저장용
+    private var currentPixelBuffer: CVPixelBuffer?  // 현재 프레임의 pixelBuffer 저장용
     private var flexionAngleImage: UIImage?  // 굴곡 시 이미지
     private var extensionAngleImage: UIImage?  // 신전 시 이미지
 
@@ -133,6 +140,11 @@ class CameraManager: NSObject, ObservableObject {
     /// 카메라 세션 종료
     func stopSession() {
         print("⏹️ 카메라 세션 종료 요청")
+
+        // ⭐ 준비 자세 타이머 정리
+        readyCheckTimer?.invalidate()
+        readyCheckTimer = nil
+
         sessionQueue.async { [weak self] in
             self?.captureSession.stopRunning()
             print("⏹️ 카메라 세션 종료됨")
@@ -214,17 +226,12 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         didOutput sampleBuffer: CMSampleBuffer,
         from connection: AVCaptureConnection
     ) {
-
-        if !isMeasuring { return }
-
         // 1. 프레임을 이미지로 변환
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         else { return }
 
-        // ⭐ 2. 현재 pixelBuffer를 저장 (이미지 캡처용)
-        if isMeasuring {
-            self.currentPixelBuffer = pixelBuffer
-        }
+        // 2. 현재 pixelBuffer를 저장 (이미지 캡처용)
+        self.currentPixelBuffer = pixelBuffer
 
         // 3. Vision 요청 핸들러 생성
         let handler = VNImageRequestHandler(
@@ -261,7 +268,9 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         else { return }
 
         // 신뢰도가 높은 포인트만 필터링
-        let validPoints = recognizedPoints.filter { $0.value.confidence > minJointConfidence }
+        let validPoints = recognizedPoints.filter {
+            $0.value.confidence > minJointConfidence
+        }
 
         // DetectedBody 객체 생성
         let body = DetectedBody(points: validPoints)
@@ -283,38 +292,67 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
                 return
             }
 
-            let angleDifferenceThreshold = 30.0
-
-            // 굴곡 각도(최소) 업데이트
-            if self.flexionAngle == nil {
-                self.flexionAngle = angle
-                self.flexionAngleImage = self.captureCurrentFrame()  // ⭐ 이미지 캡처
-                print("🔽 초기 굴곡 각도: \(String(format: "%.1f", angle))°")
-            } else if angle < self.flexionAngle! {
-                let difference = abs(angle - self.flexionAngle!)
-                if difference < angleDifferenceThreshold {
-                    self.flexionAngle = angle
-                    self.flexionAngleImage = self.captureCurrentFrame()  // ⭐ 이미지 캡처
-                    print(
-                        "🔽 굴곡 각도 업데이트: \(String(format: "%.1f", angle))° (이미지 저장)"
-                    )
-                }
+            // 측정 중이 아닐 때만 준비 자세 체크
+            if !self.isMeasuring {
+                self.checkReadyPosition(angle)
             }
 
-            // 신전 각도(최대) 업데이트
-            if self.extensionAngle == nil {
+            // 측정 중일 때 각도 업데이트
+            if self.isMeasuring {
+                // 각도 업데이트
+                self.updateAngleInfo(angle, pixelBuffer: pixelBuffer)
+            }
+        }
+    }
+
+    /// 준비 자세 체크
+    private func checkReadyPosition(_ angle: Double) {
+        if isAngleInReadyRange(angle) {
+            // 준비 자세 범위 내
+            if readyPositionStartTime == nil {
+                startReadyPositionTracking()
+            }
+        } else {
+            // 준비 자세 범위 벗어남
+            if readyPositionStartTime != nil {
+                stopReadyPositionTracking()
+            }
+        }
+    }
+
+    ///
+    private func updateAngleInfo(_ angle: Double, pixelBuffer: CVPixelBuffer) {
+        let angleDifferenceThreshold = 30.0
+
+        // 굴곡 각도(최소) 업데이트
+        if self.flexionAngle == nil {
+            self.flexionAngle = angle
+            self.flexionAngleImage = self.captureCurrentFrame()  // ⭐ 이미지 캡처
+            print("🔽 초기 굴곡 각도: \(String(format: "%.1f", angle))°")
+        } else if angle < self.flexionAngle! {
+            let difference = abs(angle - self.flexionAngle!)
+            if difference < angleDifferenceThreshold {
+                self.flexionAngle = angle
+                self.flexionAngleImage = self.captureCurrentFrame()  // ⭐ 이미지 캡처
+                print(
+                    "🔽 굴곡 각도 업데이트: \(String(format: "%.1f", angle))° (이미지 저장)"
+                )
+            }
+        }
+
+        // 신전 각도(최대) 업데이트
+        if self.extensionAngle == nil {
+            self.extensionAngle = angle
+            self.extensionAngleImage = self.captureCurrentFrame()  // ⭐ 이미지 캡처
+            print("🔼 초기 신전 각도: \(String(format: "%.1f", angle))°")
+        } else if angle > self.extensionAngle! {
+            let difference = abs(angle - self.extensionAngle!)
+            if difference < angleDifferenceThreshold {
                 self.extensionAngle = angle
                 self.extensionAngleImage = self.captureCurrentFrame()  // ⭐ 이미지 캡처
-                print("🔼 초기 신전 각도: \(String(format: "%.1f", angle))°")
-            } else if angle > self.extensionAngle! {
-                let difference = abs(angle - self.extensionAngle!)
-                if difference < angleDifferenceThreshold {
-                    self.extensionAngle = angle
-                    self.extensionAngleImage = self.captureCurrentFrame()  // ⭐ 이미지 캡처
-                    print(
-                        "🔼 신전 각도 업데이트: \(String(format: "%.1f", angle))° (이미지 저장)"
-                    )
-                }
+                print(
+                    "🔼 신전 각도 업데이트: \(String(format: "%.1f", angle))° (이미지 저장)"
+                )
             }
         }
     }
@@ -458,4 +496,71 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 
         return image
     }
+}
+
+//MARK: 준비 자세 체크 함수 추가
+extension CameraManager {
+    /// 현재 각도가 준비 자세 범위 내에 있는지 확인
+    private func isAngleInReadyRange(_ angle: Double) -> Bool {
+        return angle >= readyAngleMin && angle <= readyAngleMax
+    }
+
+    /// 준비 자세 추적 시작
+    private func startReadyPositionTracking() {
+        readyPositionStartTime = Date()
+        isInReadyPosition = true
+
+        // 타이머 시작 (0.1초마다 진행률 업데이트)
+        readyCheckTimer?.invalidate()
+        readyCheckTimer = Timer.scheduledTimer(
+            withTimeInterval: 0.1,
+            repeats: true
+        ) { [weak self] _ in
+            self?.updateReadyPositionProgress()
+        }
+        print("🟡 준비 자세 감지 시작")
+    }
+
+    /// 준비 자세 추적 종료
+    private func stopReadyPositionTracking() {
+        readyPositionStartTime = nil
+        isInReadyPosition = false
+        readyPositionProgress = 0.0
+        readyCheckTimer?.invalidate()
+        readyCheckTimer = nil
+
+        print("⚪️ 준비 자세 해제")
+    }
+
+    /// 준비 자세 진행률 업데이트
+    private func updateReadyPositionProgress() {
+        guard let startTime = readyPositionStartTime else {
+            stopReadyPositionTracking()
+            return
+        }
+
+        let elapsed = Date().timeIntervalSince(startTime)
+        let progress = min(elapsed / readyPositionDuration, 1.0)
+
+        DispatchQueue.main.async { [weak self] in
+            self?.readyPositionProgress = progress
+        }
+
+        // 2초 경과 시 자동 측정 시작
+        if elapsed >= readyPositionDuration {
+            DispatchQueue.main.async { [weak self] in
+                self?.autoStartMeasuring()
+            }
+        }
+    }
+
+    /// 자동 측정 시작
+    private func autoStartMeasuring() {
+        guard !isMeasuring else { return }
+
+        print("🎬 자동 측정 시작!")
+        stopReadyPositionTracking()
+        startMeasuring()
+    }
+
 }
