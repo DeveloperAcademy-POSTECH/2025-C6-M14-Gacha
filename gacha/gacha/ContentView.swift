@@ -10,9 +10,10 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @Query(sort: \MeasuredRecord.date, order: .forward) var allRecords: [MesuredRecord]
+    @Query(sort: \MeasuredRecord.date, order: .forward) var allRecords:
+        [MeasuredRecord]
     @Environment(\.modelContext) private var context
-    
+
     var body: some View {
         NavigationStack {
             Text("총 레코드 개수: \(allRecords.count)")
@@ -34,18 +35,97 @@ struct ContentView: View {
                 .disabled(allRecords.isEmpty)
                 NavigationLink("측정하기") {
                     MeasureView()
+                        .modelContainer(for: [MeasuredRecord.self])
                 }
             }
             .padding()
+
+            HStack {
+
+            }
 
             // 데이터 목록 표시
             List {
                 ForEach(allRecords) { record in
                     HStack {
+                        // 이미지 미리보기
+                        VStack(spacing: 8) {
+                            // 굴곡 이미지
+                            if let flexionImage = loadImage(
+                                fileName: record.flexionImage_id
+                            ) {
+                                VStack {
+                                    Image(uiImage: flexionImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 80, height: 80)
+                                        .clipShape(
+                                            RoundedRectangle(cornerRadius: 8)
+                                        )
+
+                                    Text("굴곡: \(record.flexionAngle)°")
+                                        .font(.caption)
+                                        .foregroundColor(.blue)
+                                }
+                            } else {
+                                VStack {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color.gray.opacity(0.3))
+                                        .frame(width: 80, height: 80)
+                                        .overlay(
+                                            Image(systemName: "photo")
+                                                .foregroundColor(.gray)
+                                        )
+
+                                    Text("굴곡: \(record.flexionAngle)°")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                }
+                            }
+
+                            // 신전 이미지
+                            if let extensionImage =
+                                loadImage(
+                                    fileName: record.flexionImage_id
+                                )
+                            {
+                                VStack {
+                                    Image(uiImage: extensionImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 80, height: 80)
+                                        .clipShape(
+                                            RoundedRectangle(cornerRadius: 8)
+                                        )
+
+                                    Text("신전: \(record.extensionAngle)°")
+                                        .font(.caption)
+                                        .foregroundColor(.green)
+                                }
+                            } else {
+                                VStack {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color.gray.opacity(0.3))
+                                        .frame(width: 80, height: 80)
+                                        .overlay(
+                                            Image(systemName: "photo")
+                                                .foregroundColor(.gray)
+                                        )
+
+                                    Text("신전: \(record.extensionAngle)°")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                        }
                         VStack(alignment: .leading) {
                             Text("ID: \(record.id.uuidString.prefix(8))...")
-                            Text("Flexion: \(record.flexionAngle)° Extension: \(record.extensionAngle)°")
-                            Text("Range: \(record.extensionAngle - record.flexionAngle)°")
+                            Text(
+                                "Flexion: \(record.flexionAngle)° Extension: \(record.extensionAngle)°"
+                            )
+                            Text(
+                                "Range: \(record.extensionAngle - record.flexionAngle)°"
+                            )
                             Text("Date: \(record.date.formatted())")
                         }
 
@@ -62,50 +142,53 @@ struct ContentView: View {
             }
         }
     }
-    
+
     func addRecord() {
         print("=== 레코드 추가 시작 ===")
         print("현재 레코드 개수: \(allRecords.count)")
-        
+
         // flexion: 110~45 범위의 랜덤값 (감소하는 값)
         let flexion = Int.random(in: 45...110)
         // extension: 175~180 범위의 랜덤값 (증가하는 값)
         let extensionValue = Int.random(in: 175...180)
-        
+
         print("생성할 데이터 - Flexion: \(flexion), Extension: \(extensionValue)")
-        
-        let record = MesuredRecord(
+
+        let record = MeasuredRecord(
             flexionAngle: flexion,
             extensionAngle: extensionValue,
             isDeleted: false,
-            image_id: "/"
+            flexionImage_id: "/",
+            extensionImage_id: "/"
         )
-        
+
         print("레코드 생성됨: ID = \(record.id)")
-        
+
         context.insert(record)
         print("context.insert 완료")
-        
+
         do {
             try context.save()
             print("✅ 저장 성공!")
-            
+
             // 저장 후 컨텍스트에서 직접 fetch해서 확인
-            let descriptor = FetchDescriptor<MesuredRecord>()
+            let descriptor = FetchDescriptor<MeasuredRecord>()
             let fetchedRecords = try context.fetch(descriptor)
             print("📊 컨텍스트에서 직접 fetch한 레코드 개수: \(fetchedRecords.count)")
             for (index, rec) in fetchedRecords.enumerated() {
-                print("  [\(index)] ID: \(rec.id), Flexion: \(rec.flexionAngle), Extension: \(rec.extensionAngle)")
+                print(
+                    "  [\(index)] ID: \(rec.id), Flexion: \(rec.flexionAngle), Extension: \(rec.extensionAngle)"
+                )
             }
         } catch {
             print("❌ 저장 실패: \(error.localizedDescription)")
             print("상세 에러: \(error)")
         }
-        
+
         print("저장 후 @Query 레코드 개수: \(allRecords.count)")
         print("=== 레코드 추가 완료 ===\n")
     }
-    
+
     func deleteRecord(_ record: MeasuredRecord) {
         context.delete(record)
         try? context.save()
@@ -121,9 +204,7 @@ struct ContentView: View {
     }
 }
 
-//
-//#Preview {
-//    ContentView()
-//        .modelContainer(for: [MeasuredRecord.self])
-//}
-
+#Preview {
+    ContentView()
+        .modelContainer(for: [MeasuredRecord.self])
+}

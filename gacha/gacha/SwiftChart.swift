@@ -12,7 +12,7 @@ import SwiftData
 struct WeightChartView: View {
     /// sort: 데이터를 어떤 속성으로 정렬할지 지정
     /// order: 정렬 방식 forward(과거->현재), reverse(최근->과거)
-    @Query(sort: \MesuredRecord.date, order: .forward) private var items: [MesuredRecord]
+    @Query(sort: \MeasuredRecord.date, order: .forward) private var items: [MeasuredRecord]
     
     /// Y축 범위
     /// ClosedRange<Double>: 시작과 끝이 모두 포함된 범위 타입

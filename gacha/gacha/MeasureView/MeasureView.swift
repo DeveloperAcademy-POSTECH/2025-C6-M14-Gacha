@@ -8,19 +8,58 @@
 import AVFoundation
 import SwiftUI
 import UIKit
+import SwiftData
 
 // MARK: - 메인 뷰
 /// Vision을 이용하여 사람의 신체를 인식하고 각도를 측정하는 뷰
 struct MeasureView: View {
     @StateObject private var cameraManager = CameraManager()
+    @Environment(\.modelContext) private var context
 
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 // 1. 카메라 프리뷰 레이어 (배경)
                 CameraPreview(cameraManager: cameraManager)
-                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .frame(
+                        width: geometry.size.width,
+                        height: geometry.size.height
+                    )
                     .ignoresSafeArea()
+
+                // 2. 감지된 신체 랜드마크와 각도를 그리는 오버레이
+                BodyOverlayView(detectedBody: cameraManager.detectedBody)
+                
+                // 3. 측정 버튼
+                HStack {
+                    Button("측정") {
+                        cameraManager.startRecording()
+                    }
+                    Button("종료") {
+                        let result = cameraManager.stopRecording()
+                        if let record = result {
+                            context.insert(record)
+                        }
+                        
+                        do {
+                            try context.save()
+                            print("✅ 저장 성공!")
+                            
+                            // 저장 후 컨텍스트에서 직접 fetch해서 확인
+                            let descriptor = FetchDescriptor<MeasuredRecord>()
+                            let fetchedRecords = try context.fetch(descriptor)
+                            print("📊 컨텍스트에서 직접 fetch한 레코드 개수: \(fetchedRecords.count)")
+                            for (index, rec) in fetchedRecords.enumerated() {
+                                print("  [\(index)] ID: \(rec.id), Flexion: \(rec.flexionAngle), Extension: \(rec.extensionAngle)")
+                            }
+                        } catch {
+                            print("❌ 저장 실패: \(error.localizedDescription)")
+                            print("상세 에러: \(error)")
+                        }
+                    }
+                }
+                
+                
             }
         }
         .ignoresSafeArea()
@@ -36,12 +75,12 @@ struct MeasureView: View {
                 let value = UIInterfaceOrientation.landscapeRight.rawValue
                 UIDevice.current.setValue(value, forKey: "orientation")
             }
-            
+
             cameraManager.startSession()
         }
         .onDisappear {
-            cameraManager.stopSession()
-            
+            let result = cameraManager.stopSession()
+
             // 화면 세로로 되돌리기
             if #available(iOS 16.0, *) {
                 let windowScene =
@@ -104,4 +143,5 @@ class PreviewView: UIView {
 
 #Preview {
     MeasureView()
+        .modelContainer(for: [MeasuredRecord.self])
 }

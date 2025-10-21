@@ -18,7 +18,7 @@ struct gachaApp: App {
     init() {
         do {
             /// swiftData가 저장할 모델 목록 정의
-            let schema = Schema([MesuredRecord.self])
+            let schema = Schema([MeasuredRecord.self])
             /// 실제 저장 위치와 설정 정의
             /// schema: 모델 목록
             /// isStoredInMemoryOnly: false(앱 종료 후에도 유지), true(앱 종료 시 데이터 삭제)
