@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @Query(sort: \MeasuredRecord.date, order: .forward) var allRecords: [MesuredRecord]
+    @Query(sort: \MeasuredRecord.date, order: .forward) var allRecords: [MeasuredRecord]
     @Environment(\.modelContext) private var context
     
     var body: some View {
@@ -74,7 +74,7 @@ struct ContentView: View {
         
         print("생성할 데이터 - Flexion: \(flexion), Extension: \(extensionValue)")
         
-        let record = MesuredRecord(
+        let record = MeasuredRecord(
             flexionAngle: flexion,
             extensionAngle: extensionValue,
             isDeleted: false,
@@ -91,7 +91,7 @@ struct ContentView: View {
             print("✅ 저장 성공!")
             
             // 저장 후 컨텍스트에서 직접 fetch해서 확인
-            let descriptor = FetchDescriptor<MesuredRecord>()
+            let descriptor = FetchDescriptor<MeasuredRecord>()
             let fetchedRecords = try context.fetch(descriptor)
             print("📊 컨텍스트에서 직접 fetch한 레코드 개수: \(fetchedRecords.count)")
             for (index, rec) in fetchedRecords.enumerated() {

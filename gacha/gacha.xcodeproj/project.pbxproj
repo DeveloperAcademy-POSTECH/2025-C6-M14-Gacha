@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		3C8FDB5D2EA5DC3200369473 /* gacha Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 3C8FDB5C2EA5DC3200369473 /* gacha Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		3C8FDB5E2EA5DC3200369473 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,7 +23,6 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				3C8FDB5D2EA5DC3200369473 /* gacha Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -35,8 +30,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3C8FDB4F2EA5DC3000369473 /* gacha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gacha.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3C8FDB5C2EA5DC3200369473 /* gacha Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "gacha Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C8FDB4F2EA5DC3000369473 /* gacha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = gacha.app; path = "/Users/chawj/Documents/Challenge6/2025-C6-M14-Gacha/gacha/build/Debug-iphoneos/gacha.app"; sourceTree = "<absolute>"; };
+		3C8FDB5C2EA5DC3200369473 /* gacha Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "gacha Watch App.app"; path = "/Users/chawj/Documents/Challenge6/2025-C6-M14-Gacha/gacha/build/Debug-watchos/gacha Watch App.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -48,6 +43,11 @@
 		3C8FDB602EA5DC3200369473 /* gacha Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "gacha Watch App";
+			sourceTree = "<group>";
+		};
+		799A94F62EA70F1B00A4D6ED /* Example */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Example;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -73,19 +73,10 @@
 		3C8FDB462EA5DC3000369473 = {
 			isa = PBXGroup;
 			children = (
+				799A94F62EA70F1B00A4D6ED /* Example */,
 				3C8FDB512EA5DC3000369473 /* gacha */,
 				3C8FDB602EA5DC3200369473 /* gacha Watch App */,
-				3C8FDB502EA5DC3000369473 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		3C8FDB502EA5DC3000369473 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3C8FDB4F2EA5DC3000369473 /* gacha.app */,
-				3C8FDB5C2EA5DC3200369473 /* gacha Watch App.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -107,6 +98,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				3C8FDB512EA5DC3000369473 /* gacha */,
+				799A94F62EA70F1B00A4D6ED /* Example */,
 			);
 			name = gacha;
 			packageProductDependencies = (
@@ -165,7 +157,7 @@
 			mainGroup = 3C8FDB462EA5DC3000369473;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 3C8FDB502EA5DC3000369473 /* Products */;
+			productRefGroup = 3C8FDB462EA5DC3000369473;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
