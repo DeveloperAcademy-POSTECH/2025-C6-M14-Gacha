@@ -32,13 +32,18 @@ struct MeasureView: View {
                     )
                     .ignoresSafeArea()
 
+                // 1.5. 측정중이면 초록색 필터 씌우기
+                if cameraManager.isMeasuring {
+                    Color.green.opacity(0.3)
+                }
+                
                 // 2. 감지된 신체 랜드마크와 각도를 그리는 오버레이
                 BodyOverlayView(detectedBody: cameraManager.detectedBody)
 
                 // 3. 원형 측정 버튼 (우측 중앙)
                 VStack {
                     // 상단: 무릎 선택 버튼
-                    HStack {
+                    VStack {
                         Button(action: {
                             showKneeSelector = true
                         }) {
@@ -53,6 +58,7 @@ struct MeasureView: View {
                             .cornerRadius(8)
                         }
                         .padding()
+                        .padding(.top, 20)
 
                         Spacer()
 
@@ -112,11 +118,10 @@ struct MeasureView: View {
                         Spacer()
 
                         // 하단: 측정 버튼
-                        Button(action: {
-                            if cameraManager.isMeasuring {
+                        if cameraManager.isMeasuring {
+                            Button {
                                 // 측정 종료
                                 if let result = cameraManager.stopMeasuring() {
-                                    // DB 저장
                                     saveToDatabase(result)
                                 }
                             } else {
@@ -147,12 +152,15 @@ struct MeasureView: View {
                                                     width: 60,
                                                     height: 60
                                                 )
+                                                .fill(Color.red)
+                                                .frame(width: 30, height: 30)
+                                            }
                                         }
-                                    }
-                                )
+                                    )
+                            }
+                            .frame(width: 80, height: 80)
+                            .padding(.trailing, 30)
                         }
-                        .frame(width: 80, height: 80)
-                        .padding(.trailing, 30)
                         Spacer()
                     }
                     .padding(.top, 40)
@@ -172,16 +180,9 @@ struct MeasureView: View {
         }
         .ignoresSafeArea()
         .onAppear {
-            // 화면 가로로 바꾸기
-            if #available(iOS 16.0, *) {
-                let windowScene =
-                    UIApplication.shared.connectedScenes.first as? UIWindowScene
-                windowScene?.requestGeometryUpdate(
-                    .iOS(interfaceOrientations: .landscapeRight)
-                )
-            } else {
-                let value = UIInterfaceOrientation.landscapeRight.rawValue
-                UIDevice.current.setValue(value, forKey: "orientation")
+            // 화면 가로로 바꾸기 (탭 전환 시 딜레이 추가)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                rotateToLandscape()
             }
 
             cameraManager.startSession()
@@ -189,20 +190,15 @@ struct MeasureView: View {
             // NotificationCenter 옵저버 등록
             setupNotificationObservers()
         }
+        .task {
+            // 탭 전환 시에도 확실하게 가로 회전
+            rotateToLandscape()
+        }
         .onDisappear {
             cameraManager.stopSession()
 
             // 화면 세로로 되돌리기
-            if #available(iOS 16.0, *) {
-                let windowScene =
-                    UIApplication.shared.connectedScenes.first as? UIWindowScene
-                windowScene?.requestGeometryUpdate(
-                    .iOS(interfaceOrientations: .portrait)
-                )
-            } else {
-                let value = UIInterfaceOrientation.portrait.rawValue
-                UIDevice.current.setValue(value, forKey: "orientation")
-            }
+            rotateToPortrait()
 
             // NotificationCenter 옵저버 해제
             removeNotificationObservers()
@@ -233,6 +229,40 @@ struct MeasureView: View {
             print("❌ 저장 실패: \(error.localizedDescription)")
             print("상세 에러: \(error)")
         }
+    }
+
+    // MARK: - Orientation 관련 메서드
+
+    private func rotateToLandscape() {
+        if #available(iOS 16.0, *) {
+            guard
+                let windowScene = UIApplication.shared.connectedScenes.first
+                    as? UIWindowScene
+            else { return }
+            windowScene.requestGeometryUpdate(
+                .iOS(interfaceOrientations: .landscapeRight)
+            )
+        } else {
+            let value = UIInterfaceOrientation.landscapeRight.rawValue
+            UIDevice.current.setValue(value, forKey: "orientation")
+        }
+        print("📱 화면 가로 회전 요청")
+    }
+
+    private func rotateToPortrait() {
+        if #available(iOS 16.0, *) {
+            guard
+                let windowScene = UIApplication.shared.connectedScenes.first
+                    as? UIWindowScene
+            else { return }
+            windowScene.requestGeometryUpdate(
+                .iOS(interfaceOrientations: .portrait)
+            )
+        } else {
+            let value = UIInterfaceOrientation.portrait.rawValue
+            UIDevice.current.setValue(value, forKey: "orientation")
+        }
+        print("📱 화면 세로 회전 요청")
     }
 
     // MARK: - NotificationCenter 관련 메서드
@@ -368,7 +398,3 @@ struct KneeSelectionView: View {
     }
 }
 
-#Preview {
-    MeasureView()
-        .modelContainer(for: [MeasuredRecord.self])
-}
