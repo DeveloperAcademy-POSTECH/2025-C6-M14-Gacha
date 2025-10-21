@@ -53,7 +53,7 @@ struct gachaApp: App {
                     MainView()
                 }
                 Tab("History", systemImage: "book.closed") {
-                    WeightChartView()
+                    HistoryView()
                 }
                 Tab("Camera", systemImage: "camera", role: .search) {
                     MeasureView()

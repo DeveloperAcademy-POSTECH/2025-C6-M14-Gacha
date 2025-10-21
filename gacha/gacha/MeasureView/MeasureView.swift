@@ -36,7 +36,7 @@ struct MeasureView: View {
                 if cameraManager.isMeasuring {
                     Color.green.opacity(0.3)
                 }
-                
+
                 // 2. 감지된 신체 랜드마크와 각도를 그리는 오버레이
                 BodyOverlayView(detectedBody: cameraManager.detectedBody)
 
@@ -124,37 +124,24 @@ struct MeasureView: View {
                                 if let result = cameraManager.stopMeasuring() {
                                     saveToDatabase(result)
                                 }
-                            } else {
-                                cameraManager.startMeasuring()
-                            }
-                        }) {
-                            Circle()
-                                .fill(Color.clear)  // 투명한 원
-                                .frame(width: 80, height: 80)
-                                .overlay(
-                                    Circle()
-                                        .stroke(Color.white, lineWidth: 4)
-                                )
-                                .overlay(
-                                    Group {
-                                        if cameraManager.isMeasuring {
-                                            // 측정 중: 빨간 사각형 (정지 아이콘)
-                                            RoundedRectangle(
-                                                cornerRadius: 4
-                                            )
-                                            .fill(Color.red)
-                                            .frame(width: 30, height: 30)
-                                        } else {
-                                            // 측정 전: 빨간 원
-                                            Circle()
-                                                .fill(Color.red)
-                                                .frame(
-                                                    width: 60,
-                                                    height: 60
+                            } label: {
+                                Circle()
+                                    .fill(Color.clear)  // 투명한 원
+                                    .frame(width: 80, height: 80)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(Color.white, lineWidth: 4)
+                                    )
+                                    .overlay(
+                                        Group {
+                                            if cameraManager.isMeasuring {
+                                                // 측정 중: 빨간 사각형 (정지 아이콘)
+                                                RoundedRectangle(
+                                                    cornerRadius: 4
                                                 )
                                                 .fill(Color.red)
                                                 .frame(width: 30, height: 30)
-                                            }
+                                            } 
                                         }
                                     )
                             }
@@ -165,12 +152,12 @@ struct MeasureView: View {
                     }
                     .padding(.top, 40)
                 }
-                
+
                 // DetailView로 네비게이션
                 NavigationLink(
-                    destination: measuredRecord != nil ? 
-                        DetailView(record: measuredRecord!)
-                        .navigationBarHidden(true) : nil,
+                    destination: measuredRecord != nil
+                        ? DetailView(record: measuredRecord!)
+                            .navigationBarHidden(true) : nil,
                     isActive: $navigateToDetail
                 ) {
                     EmptyView()
@@ -289,7 +276,7 @@ struct MeasureView: View {
                 do {
                     try context.save()
                     print("✅ Watch 명령으로 측정 종료 및 저장 성공")
-                    
+
                     // DetailView로 네비게이션
                     measuredRecord = record
                     navigateToDetail = true
@@ -397,4 +384,3 @@ struct KneeSelectionView: View {
         .presentationDetents([.height(300)])
     }
 }
-
