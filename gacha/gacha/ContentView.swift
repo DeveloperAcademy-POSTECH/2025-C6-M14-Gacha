@@ -118,7 +118,7 @@ struct ContentView: View {
                             // 신전 이미지
                             if let extensionImage =
                                 loadImage(
-                                    fileName: record.flexionImage_id
+                                    fileName: record.extensionImage_id
                                 )
                             {
                                 VStack {
