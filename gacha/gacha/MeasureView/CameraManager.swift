@@ -14,11 +14,9 @@ import Vision
 let FLEXION_BASIC_ANGLE: Double = 90.0
 let EXTENSION_BASIC_ANGLE: Double = 0.0
 
-
 // MARK: - 카메라 매니저
 /// 카메라 세션을 관리하고 Vision을 이용해 신체를 감지하는 클래스
 class CameraManager: NSObject, ObservableObject {
-
     // 카메라 관련
     private let captureSession = AVCaptureSession()
     private let videoOutput = AVCaptureVideoDataOutput()
@@ -32,6 +30,7 @@ class CameraManager: NSObject, ObservableObject {
     @Published var currentAngles: BodyAngles?
 
     @Published var isMeasuring: Bool = false
+	@Published var selectedKnee: KneeSelection = .right
     @Published var flexionAngle: Double?
     @Published var extensionAngle: Double?
 
@@ -178,11 +177,13 @@ class CameraManager: NSObject, ObservableObject {
             let extensionImage = extensionAngleImage
         {
             let result = saveImage(flexionImage, extensionImage)
-            
+
             if let result = result {
                 return MeasuredRecord(
                     flexionAngle: Int(flexionAngle ?? FLEXION_BASIC_ANGLE),
-                    extensionAngle: Int(extensionAngle ?? EXTENSION_BASIC_ANGLE),
+                    extensionAngle: Int(
+                        extensionAngle ?? EXTENSION_BASIC_ANGLE
+                    ),
                     isDeleted: false,
                     flexionImage_id: "\(result.0)",
                     extensionImage_id: "\(result.1)"
@@ -233,7 +234,7 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
             }
 
             // 5. 신체 포즈 처리 (각도 계산 및 이미지 저장)
-            processBodyPose(observation: observation)
+            processBodyPose(observation: observation, pixelBuffer: pixelBuffer)
 
         } catch {
             print("❌ Vision 요청 실패: \(error.localizedDescription)")
@@ -241,31 +242,19 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
     }
 
     /// 감지된 신체 포즈를 처리하는 함수
-    private func processBodyPose(observation: VNHumanBodyPoseObservation) {
+    private func processBodyPose(
+        observation: VNHumanBodyPoseObservation,
+        pixelBuffer: CVPixelBuffer
+    ) {
         // 주요 관절 포인트 추출
         guard
-            let recognizedPoints = try? observation.recognizedPoints(.rightLeg)
+            let recognizedPoints = try? observation.recognizedPoints(
+                selectedKnee.jointGroupForSelectedKnee()
+            )
         else { return }
 
         // 신뢰도가 높은 포인트만 필터링 (0.3 이상으로 낮춤 - 더 많은 포인트 감지)
         let validPoints = recognizedPoints.filter { $0.value.confidence > 0.3 }
-
-        // 디버그: 감지된 관절 정보 출력
-//        #if DEBUG
-//            let kneePoints = validPoints.filter {
-//                $0.key == .leftKnee || $0.key == .rightKnee
-//                    || $0.key == .leftHip || $0.key == .rightHip
-//                    || $0.key == .leftAnkle || $0.key == .rightAnkle
-//            }
-//            if !kneePoints.isEmpty {
-//                print("📍 감지된 하체 관절:")
-//                for (joint, point) in kneePoints {
-//                    print(
-//                        "  \(joint.rawValue): 신뢰도 \(String(format: "%.2f", point.confidence))"
-//                    )
-//                }
-//            }
-//        #endif
 
         // DetectedBody 객체 생성
         let body = DetectedBody(points: validPoints)
@@ -328,36 +317,52 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         from points: [VNHumanBodyPoseObservation.JointName: VNRecognizedPoint]
     ) -> BodyAngles? {
 
-        // 무릎 각도만 계산 (팔 각도는 nil로 설정)
+        var rightKneeAngle: Double? = nil
+        var leftKneeAngle: Double? = nil
 
-        // 오른쪽 무릎 각도 계산 (엉덩이-무릎-발목)
-        let rightKneeAngle = calculateAngle(
-            point1: points[.rightHip],
-            point2: points[.rightKnee],
-            point3: points[.rightAnkle]
-        )
-
-        // 왼쪽 무릎 각도 계산
-        let leftKneeAngle = calculateAngle(
-            point1: points[.leftHip],
-            point2: points[.leftKnee],
-            point3: points[.leftAnkle]
-        )
-
-        // 디버그: 각도 계산 결과 출력
-        #if DEBUG
-            if let rightAngle = rightKneeAngle {
-                print("  ✅ 오른쪽 무릎 각도: \(String(format: "%.1f", rightAngle))°")
-            } else {
-                print("  ❌ 오른쪽 무릎 각도 계산 실패")
+        // ⭐ 선택된 무릎에 따라 계산
+        switch selectedKnee {
+        case .right:
+            // 오른쪽 무릎만 계산
+            rightKneeAngle = calculateAngle(
+                point1: points[.rightHip],
+                point2: points[.rightKnee],
+                point3: points[.rightAnkle]
+            )
+            if let angle = rightKneeAngle {
+                print("📐 오른쪽 무릎 각도: \(String(format: "%.1f", angle))°")
             }
 
-            if let leftAngle = leftKneeAngle {
-                print("  ✅ 왼쪽 무릎 각도: \(String(format: "%.1f", leftAngle))°")
-            } else {
-                print("  ❌ 왼쪽 무릎 각도 계산 실패")
+        case .left:
+            // 왼쪽 무릎만 계산
+            leftKneeAngle = calculateAngle(
+                point1: points[.leftHip],
+                point2: points[.leftKnee],
+                point3: points[.leftAnkle]
+            )
+            if let angle = leftKneeAngle {
+                print("📐 왼쪽 무릎 각도: \(String(format: "%.1f", angle))°")
             }
-        #endif
+
+        case .both:
+            // 양쪽 모두 계산
+            rightKneeAngle = calculateAngle(
+                point1: points[.rightHip],
+                point2: points[.rightKnee],
+                point3: points[.rightAnkle]
+            )
+            leftKneeAngle = calculateAngle(
+                point1: points[.leftHip],
+                point2: points[.leftKnee],
+                point3: points[.leftAnkle]
+            )
+
+            if let right = rightKneeAngle, let left = leftKneeAngle {
+                print(
+                    "📐 오른쪽: \(String(format: "%.1f", right))°, 왼쪽: \(String(format: "%.1f", left))°"
+                )
+            }
+        }
 
         return BodyAngles(
             rightKnee: rightKneeAngle,

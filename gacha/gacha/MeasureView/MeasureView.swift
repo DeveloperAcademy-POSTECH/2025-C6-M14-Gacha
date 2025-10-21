@@ -6,16 +6,17 @@
 //
 
 import AVFoundation
+import SwiftData
 import SwiftUI
 import UIKit
-import SwiftData
 
 // MARK: - 메인 뷰
 /// Vision을 이용하여 사람의 신체를 인식하고 각도를 측정하는 뷰
 struct MeasureView: View {
     @StateObject private var cameraManager = CameraManager()
     @Environment(\.modelContext) private var context
-    
+    @State private var showKneeSelector = false
+
     // NotificationCenter 옵저버 관리
     @State private var notificationObservers: [NSObjectProtocol] = []
 
@@ -88,9 +89,32 @@ struct MeasureView: View {
                         .padding(.trailing, 30)
                         Spacer()
                     }
+                    .padding(.top, 40)
+
+                    Spacer()
+
+                    // 하단: 측정 버튼 (기존 코드 유지)
+                    Button(action: {
+                        if cameraManager.isRecording {
+                            if let result = cameraManager.stopRecording() {
+                                saveToDatabase(result)
+                            }
+                        } else {
+                            cameraManager.startRecording()
+                        }
+                    }) {
+                        Text(cameraManager.isRecording ? "측정 종료" : "측정 시작")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(
+                                cameraManager.isRecording
+                                    ? Color.red : Color.green
+                            )
+                            .cornerRadius(10)
+                    }
+                    .padding(.bottom, 40)
                 }
-                
-                
             }
         }
         .ignoresSafeArea()
@@ -129,6 +153,32 @@ struct MeasureView: View {
             
             // NotificationCenter 옵저버 해제
             removeNotificationObservers()
+        }
+        .sheet(isPresented: $showKneeSelector) {
+            KneeSelectionView(selectedKnee: $cameraManager.selectedKnee)
+        }
+    }
+
+    func saveToDatabase(_ result: MeasuredRecord) {
+        do {
+            try context.insert(result)
+            try context.save() 
+            print("✅ 저장 성공!")
+
+            // 저장 후 컨텍스트에서 직접 fetch해서 확인
+            let descriptor = FetchDescriptor<MeasuredRecord>()
+            let fetchedRecords = try context.fetch(descriptor)
+            print(
+                "📊 컨텍스트에서 직접 fetch한 레코드 개수: \(fetchedRecords.count)"
+            )
+            for (index, rec) in fetchedRecords.enumerated() {
+                print(
+                    "  [\(index)] ID: \(rec.id), Flexion: \(rec.flexionAngle), Extension: \(rec.extensionAngle)"
+                )
+            }
+        } catch {
+            print("❌ 저장 실패: \(error.localizedDescription)")
+            print("상세 에러: \(error)")
         }
     }
     
@@ -220,9 +270,48 @@ class PreviewView: UIView {
     }
 }
 
+struct KneeSelectionView: View {
+    @Binding var selectedKnee: KneeSelection
+    @Environment(\.dismiss) var dismiss
 
-//
-//#Preview {
-//    MeasureView()
-//        .modelContainer(for: [MeasuredRecord.self])
-//}
+    var body: some View {
+        NavigationView {
+            List {
+                ForEach(KneeSelection.allCases, id: \.self) {
+                    knee in
+                    Button(action: {
+                        selectedKnee = knee
+                        dismiss()
+                    }) {
+                        HStack {
+                            Text(knee.rawValue)
+                                .foregroundColor(.primary)
+
+                            Spacer()
+
+                            if selectedKnee == knee {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                    }
+                }
+            }
+            .navigationTitle("측정할 무릎 선택")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("닫기") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+        .presentationDetents([.height(300)])
+    }
+}
+
+#Preview {
+    MeasureView()
+        .modelContainer(for: [MeasuredRecord.self])
+}
