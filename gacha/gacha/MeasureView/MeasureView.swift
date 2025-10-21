@@ -15,9 +15,9 @@ import UIKit
 struct MeasureView: View {
     @StateObject private var cameraManager = CameraManager()
     @Environment(\.modelContext) private var context
-
+    @State private var navigateToDetail = false
+    @State private var measuredRecord: MeasuredRecord?
     @State private var showKneeSelector = false
-
     // NotificationCenter 옵저버 관리
     @State private var notificationObservers: [NSObjectProtocol] = []
 
@@ -124,25 +124,33 @@ struct MeasureView: View {
                                 if let result = cameraManager.stopMeasuring() {
                                     saveToDatabase(result)
                                 }
-
-                                // 0.3초 후 화면 나가기 (저장 완료 대기)
-                                DispatchQueue.main.asyncAfter(
-                                    deadline: .now() + 0.3
-                                ) {}
-                            } label: {
-                                Circle()
-                                    .fill(Color.clear)  // 투명한 원
-                                    .frame(width: 80, height: 80)
-                                    .overlay(
-                                        Circle()
-                                            .stroke(Color.white, lineWidth: 4)
-                                    )
-                                    .overlay(
-                                        Group {
-                                            if cameraManager.isMeasuring {
-                                                // 측정 중: 빨간 사각형 (정지 아이콘)
-                                                RoundedRectangle(
-                                                    cornerRadius: 4
+                            } else {
+                                cameraManager.startMeasuring()
+                            }
+                        }) {
+                            Circle()
+                                .fill(Color.clear)  // 투명한 원
+                                .frame(width: 80, height: 80)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.white, lineWidth: 4)
+                                )
+                                .overlay(
+                                    Group {
+                                        if cameraManager.isMeasuring {
+                                            // 측정 중: 빨간 사각형 (정지 아이콘)
+                                            RoundedRectangle(
+                                                cornerRadius: 4
+                                            )
+                                            .fill(Color.red)
+                                            .frame(width: 30, height: 30)
+                                        } else {
+                                            // 측정 전: 빨간 원
+                                            Circle()
+                                                .fill(Color.red)
+                                                .frame(
+                                                    width: 60,
+                                                    height: 60
                                                 )
                                                 .fill(Color.red)
                                                 .frame(width: 30, height: 30)
@@ -157,6 +165,17 @@ struct MeasureView: View {
                     }
                     .padding(.top, 40)
                 }
+                
+                // DetailView로 네비게이션
+                NavigationLink(
+                    destination: measuredRecord != nil ? 
+                        DetailView(record: measuredRecord!)
+                        .navigationBarHidden(true) : nil,
+                    isActive: $navigateToDetail
+                ) {
+                    EmptyView()
+                }
+                .hidden()
             }
         }
         .ignoresSafeArea()
@@ -270,6 +289,10 @@ struct MeasureView: View {
                 do {
                     try context.save()
                     print("✅ Watch 명령으로 측정 종료 및 저장 성공")
+                    
+                    // DetailView로 네비게이션
+                    measuredRecord = record
+                    navigateToDetail = true
                 } catch {
                     print("❌ 저장 실패: \(error.localizedDescription)")
                 }

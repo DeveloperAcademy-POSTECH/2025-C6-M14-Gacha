@@ -43,6 +43,20 @@ struct ContentView: View {
                 }
                 .buttonStyle(.borderedProminent)
             }
+            
+            // HistoryView로 이동하는 버튼
+            NavigationLink(destination: HistoryView()) {
+                HStack {
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                    Text("ROM 히스토리")
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+            }
+            .padding(.horizontal)
             .padding()
             
             // Watch로부터의 네비게이션 처리
