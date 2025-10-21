@@ -33,7 +33,7 @@ struct MeasureView: View {
 
                 // 2. 감지된 신체 랜드마크와 각도를 그리는 오버레이
                 BodyOverlayView(detectedBody: cameraManager.detectedBody)
-                
+
                 // 3. 원형 측정 버튼 (우측 중앙)
                 HStack {
                     Spacer()
@@ -44,23 +44,7 @@ struct MeasureView: View {
                                 // 측정 종료
                                 let result = cameraManager.stopMeasuring()
                                 if let record = result {
-                                    context.insert(record)
-                                }
-                                
-                                do {
-                                    try context.save()
-                                    print("✅ 저장 성공!")
-                                    
-                                    // 저장 후 컨텍스트에서 직접 fetch해서 확인
-                                    let descriptor = FetchDescriptor<MeasuredRecord>()
-                                    let fetchedRecords = try context.fetch(descriptor)
-                                    print("📊 컨텍스트에서 직접 fetch한 레코드 개수: \(fetchedRecords.count)")
-                                    for (index, rec) in fetchedRecords.enumerated() {
-                                        print("  [\(index)] ID: \(rec.id), Flexion: \(rec.flexionAngle), Extension: \(rec.extensionAngle)")
-                                    }
-                                } catch {
-                                    print("❌ 저장 실패: \(error.localizedDescription)")
-                                    print("상세 에러: \(error)")
+                                    saveToDatabase(record)
                                 }
                             } else {
                                 // 측정 시작
@@ -71,7 +55,7 @@ struct MeasureView: View {
                                 Circle()
                                     .stroke(Color.white, lineWidth: 4)
                                     .frame(width: 80, height: 80)
-                                
+
                                 if cameraManager.isMeasuring {
                                     // 측정 중: 빨간 사각형 (정지 아이콘)
                                     RoundedRectangle(cornerRadius: 4)
@@ -93,27 +77,6 @@ struct MeasureView: View {
 
                     Spacer()
 
-                    // 하단: 측정 버튼 (기존 코드 유지)
-                    Button(action: {
-                        if cameraManager.isRecording {
-                            if let result = cameraManager.stopRecording() {
-                                saveToDatabase(result)
-                            }
-                        } else {
-                            cameraManager.startRecording()
-                        }
-                    }) {
-                        Text(cameraManager.isRecording ? "측정 종료" : "측정 시작")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(
-                                cameraManager.isRecording
-                                    ? Color.red : Color.green
-                            )
-                            .cornerRadius(10)
-                    }
-                    .padding(.bottom, 40)
                 }
             }
         }
@@ -132,7 +95,7 @@ struct MeasureView: View {
             }
 
             cameraManager.startSession()
-            
+
             // NotificationCenter 옵저버 등록
             setupNotificationObservers()
         }
@@ -150,7 +113,7 @@ struct MeasureView: View {
                 let value = UIInterfaceOrientation.portrait.rawValue
                 UIDevice.current.setValue(value, forKey: "orientation")
             }
-            
+
             // NotificationCenter 옵저버 해제
             removeNotificationObservers()
         }
@@ -162,7 +125,7 @@ struct MeasureView: View {
     func saveToDatabase(_ result: MeasuredRecord) {
         do {
             try context.insert(result)
-            try context.save() 
+            try context.save()
             print("✅ 저장 성공!")
 
             // 저장 후 컨텍스트에서 직접 fetch해서 확인
@@ -181,9 +144,9 @@ struct MeasureView: View {
             print("상세 에러: \(error)")
         }
     }
-    
+
     // MARK: - NotificationCenter 관련 메서드
-    
+
     private func setupNotificationObservers() {
         // Watch로부터 측정 시작 명령
         let startObserver = NotificationCenter.default.addObserver(
@@ -193,7 +156,7 @@ struct MeasureView: View {
         ) { [self] _ in
             cameraManager.startMeasuring()
         }
-        
+
         // Watch로부터 측정 종료 명령
         let stopObserver = NotificationCenter.default.addObserver(
             forName: .watchStopMeasuring,
@@ -211,12 +174,12 @@ struct MeasureView: View {
                 }
             }
         }
-        
+
         // queryStatus 옵저버는 제거됨 (WatchLink가 직접 상태 반환)
-        
+
         notificationObservers = [startObserver, stopObserver]
     }
-    
+
     private func removeNotificationObservers() {
         notificationObservers.forEach { observer in
             NotificationCenter.default.removeObserver(observer)
