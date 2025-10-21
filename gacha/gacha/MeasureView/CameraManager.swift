@@ -25,12 +25,19 @@ class CameraManager: NSObject, ObservableObject {
     // Vision 관련
     private var bodyPoseRequest = VNDetectHumanBodyPoseRequest()
 
+    // 신뢰도 임계값
+    private let minJointConfidence: Float = 0.6
+
+    // ⭐ 시간적 일관성 체크용 프로퍼티 추가
+    private var previousAngle: Double?  // 이전 프레임의 각도
+    private let maxAngleChangePerFrame: Double = 15.0  // 프레임당 최대 15도 변화 허용
+
     // 감지된 데이터 - View에서 사용하기 위해 Publish
     @Published var detectedBody: DetectedBody?
     @Published var currentAngles: BodyAngles?
 
     @Published var isMeasuring: Bool = false
-	@Published var selectedKnee: KneeSelection = .right
+    @Published var selectedKnee: KneeSelection = .right
     @Published var flexionAngle: Double?
     @Published var extensionAngle: Double?
 
@@ -115,10 +122,10 @@ class CameraManager: NSObject, ObservableObject {
         sessionQueue.async { [weak self] in
             self?.captureSession.startRunning()
             print("▶️ 카메라 세션 실행 중")
-            
+
             // 카메라 준비 완료 - WatchLink 상태 업데이트 (저장 + 브로드캐스트)
             #if os(iOS)
-            WatchLink.shared.setCameraReady(true)
+                WatchLink.shared.setCameraReady(true)
             #endif
         }
     }
@@ -129,10 +136,10 @@ class CameraManager: NSObject, ObservableObject {
         sessionQueue.async { [weak self] in
             self?.captureSession.stopRunning()
             print("⏹️ 카메라 세션 종료됨")
-            
+
             // 카메라 준비 해제 - WatchLink 상태 업데이트 (저장 + 브로드캐스트)
             #if os(iOS)
-            WatchLink.shared.setCameraReady(false)
+                WatchLink.shared.setCameraReady(false)
             #endif
         }
     }
@@ -143,16 +150,16 @@ class CameraManager: NSObject, ObservableObject {
             print("⚠️ 이미 측정 중입니다")
             return
         }
-        
+
         isMeasuring = true
         flexionAngle = nil
         extensionAngle = nil
 
         print("📸 측정 시작")
-        
+
         // WatchLink 상태 업데이트 (저장 + 브로드캐스트)
         #if os(iOS)
-        WatchLink.shared.setMeasuring(true)
+            WatchLink.shared.setMeasuring(true)
         #endif
     }
 
@@ -162,14 +169,14 @@ class CameraManager: NSObject, ObservableObject {
             print("⚠️ 측정 중이 아닙니다")
             return nil
         }
-        
+
         isMeasuring = false
 
         print("⏹️ 측정 종료")
-        
+
         // WatchLink 상태 업데이트 (저장 + 브로드캐스트)
         #if os(iOS)
-        WatchLink.shared.setMeasuring(false)
+            WatchLink.shared.setMeasuring(false)
         #endif
 
         // image 인앱에 저장
@@ -253,8 +260,8 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
             )
         else { return }
 
-        // 신뢰도가 높은 포인트만 필터링 (0.3 이상으로 낮춤 - 더 많은 포인트 감지)
-        let validPoints = recognizedPoints.filter { $0.value.confidence > 0.3 }
+        // 신뢰도가 높은 포인트만 필터링
+        let validPoints = recognizedPoints.filter { $0.value.confidence > minJointConfidence }
 
         // DetectedBody 객체 생성
         let body = DetectedBody(points: validPoints)

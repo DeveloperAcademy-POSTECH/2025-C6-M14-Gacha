@@ -38,6 +38,20 @@ struct MeasureView: View {
                 HStack {
                     Spacer()
                     VStack {
+                        Button(action: {
+                            showKneeSelector = true
+                        }) {
+                            HStack {
+                                Image(systemName: "person.fill")
+                                Text(cameraManager.selectedKnee.rawValue)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(Color.blue.opacity(0.8))
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                        }
+                        .padding()
                         Spacer()
                         Button(action: {
                             if cameraManager.isMeasuring {
@@ -51,22 +65,44 @@ struct MeasureView: View {
                                 cameraManager.startMeasuring()
                             }
                         }) {
-                            ZStack {
-                                Circle()
-                                    .stroke(Color.white, lineWidth: 4)
-                                    .frame(width: 80, height: 80)
-
+                            Button(action: {
                                 if cameraManager.isMeasuring {
-                                    // 측정 중: 빨간 사각형 (정지 아이콘)
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(Color.red)
-                                        .frame(width: 30, height: 30)
+                                    if let result =
+                                        cameraManager.stopMeasuring()
+                                    {
+                                        saveToDatabase(result)
+                                    }
                                 } else {
-                                    // 측정 전: 빨간 원
-                                    Circle()
-                                        .fill(Color.red)
-                                        .frame(width: 60, height: 60)
+                                    cameraManager.startMeasuring()
                                 }
+                            }) {
+                                Circle()
+                                    .fill(Color.clear)  // 투명한 원
+                                    .frame(width: 80, height: 80)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(Color.white, lineWidth: 4)
+                                    )
+                                    .overlay(
+                                        Group {
+                                            if cameraManager.isMeasuring {
+                                                // 측정 중: 빨간 사각형 (정지 아이콘)
+                                                RoundedRectangle(
+                                                    cornerRadius: 4
+                                                )
+                                                .fill(Color.red)
+                                                .frame(width: 30, height: 30)
+                                            } else {
+                                                // 측정 전: 빨간 원
+                                                Circle()
+                                                    .fill(Color.red)
+                                                    .frame(
+                                                        width: 60,
+                                                        height: 60
+                                                    )
+                                            }
+                                        }
+                                    )
                             }
                         }
                         .frame(width: 80, height: 80)
@@ -74,9 +110,6 @@ struct MeasureView: View {
                         Spacer()
                     }
                     .padding(.top, 40)
-
-                    Spacer()
-
                 }
             }
         }
