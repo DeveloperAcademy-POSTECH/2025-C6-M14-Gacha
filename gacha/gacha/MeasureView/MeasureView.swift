@@ -167,16 +167,9 @@ struct MeasureView: View {
         }
         .ignoresSafeArea()
         .onAppear {
-            // 화면 가로로 바꾸기
-            if #available(iOS 16.0, *) {
-                let windowScene =
-                    UIApplication.shared.connectedScenes.first as? UIWindowScene
-                windowScene?.requestGeometryUpdate(
-                    .iOS(interfaceOrientations: .landscapeRight)
-                )
-            } else {
-                let value = UIInterfaceOrientation.landscapeRight.rawValue
-                UIDevice.current.setValue(value, forKey: "orientation")
+            // 화면 가로로 바꾸기 (탭 전환 시 딜레이 추가)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                rotateToLandscape()
             }
 
             cameraManager.startSession()
@@ -184,20 +177,15 @@ struct MeasureView: View {
             // NotificationCenter 옵저버 등록
             setupNotificationObservers()
         }
+        .task {
+            // 탭 전환 시에도 확실하게 가로 회전
+            rotateToLandscape()
+        }
         .onDisappear {
             cameraManager.stopSession()
 
             // 화면 세로로 되돌리기
-            if #available(iOS 16.0, *) {
-                let windowScene =
-                    UIApplication.shared.connectedScenes.first as? UIWindowScene
-                windowScene?.requestGeometryUpdate(
-                    .iOS(interfaceOrientations: .portrait)
-                )
-            } else {
-                let value = UIInterfaceOrientation.portrait.rawValue
-                UIDevice.current.setValue(value, forKey: "orientation")
-            }
+            rotateToPortrait()
 
             // NotificationCenter 옵저버 해제
             removeNotificationObservers()
@@ -228,6 +216,34 @@ struct MeasureView: View {
             print("❌ 저장 실패: \(error.localizedDescription)")
             print("상세 에러: \(error)")
         }
+    }
+
+    // MARK: - Orientation 관련 메서드
+
+    private func rotateToLandscape() {
+        if #available(iOS 16.0, *) {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+            windowScene.requestGeometryUpdate(
+                .iOS(interfaceOrientations: .landscapeRight)
+            )
+        } else {
+            let value = UIInterfaceOrientation.landscapeRight.rawValue
+            UIDevice.current.setValue(value, forKey: "orientation")
+        }
+        print("📱 화면 가로 회전 요청")
+    }
+
+    private func rotateToPortrait() {
+        if #available(iOS 16.0, *) {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+            windowScene.requestGeometryUpdate(
+                .iOS(interfaceOrientations: .portrait)
+            )
+        } else {
+            let value = UIInterfaceOrientation.portrait.rawValue
+            UIDevice.current.setValue(value, forKey: "orientation")
+        }
+        print("📱 화면 세로 회전 요청")
     }
 
     // MARK: - NotificationCenter 관련 메서드
@@ -359,7 +375,7 @@ struct KneeSelectionView: View {
     }
 }
 
-#Preview {
-    MeasureView()
-        .modelContainer(for: [MeasuredRecord.self])
-}
+//#Preview {
+//    MeasureView()
+//        .modelContainer(for: [MeasuredRecord.self])
+//}
