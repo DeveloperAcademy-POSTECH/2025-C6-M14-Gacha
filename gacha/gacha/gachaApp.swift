@@ -33,6 +33,11 @@ struct gachaApp: App {
             /// 에러 처리
             fatalError("ModelContainer 초기화 실패: \(error)")
         }
+        
+        // WatchConnectivity 초기화
+        #if os(iOS)
+        WatchLink.shared.start()
+        #endif
     }
     
     var body: some Scene {

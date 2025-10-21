@@ -31,7 +31,7 @@ class CameraManager: NSObject, ObservableObject {
     @Published var detectedBody: DetectedBody?
     @Published var currentAngles: BodyAngles?
 
-    @Published var isRecording: Bool = false
+    @Published var isMeasuring: Bool = false
     @Published var flexionAngle: Double?
     @Published var extensionAngle: Double?
 
@@ -116,6 +116,11 @@ class CameraManager: NSObject, ObservableObject {
         sessionQueue.async { [weak self] in
             self?.captureSession.startRunning()
             print("▶️ 카메라 세션 실행 중")
+            
+            // 카메라 준비 완료 - WatchLink 상태 업데이트 (저장 + 브로드캐스트)
+            #if os(iOS)
+            WatchLink.shared.setCameraReady(true)
+            #endif
         }
     }
 
@@ -125,19 +130,48 @@ class CameraManager: NSObject, ObservableObject {
         sessionQueue.async { [weak self] in
             self?.captureSession.stopRunning()
             print("⏹️ 카메라 세션 종료됨")
+            
+            // 카메라 준비 해제 - WatchLink 상태 업데이트 (저장 + 브로드캐스트)
+            #if os(iOS)
+            WatchLink.shared.setCameraReady(false)
+            #endif
         }
     }
 
-    func startRecording() {
-        isRecording = true
+    func startMeasuring() {
+        // 이미 측정 중이면 무시
+        guard !isMeasuring else {
+            print("⚠️ 이미 측정 중입니다")
+            return
+        }
+        
+        isMeasuring = true
         flexionAngle = nil
         extensionAngle = nil
 
         print("📸 측정 시작")
+        
+        // WatchLink 상태 업데이트 (저장 + 브로드캐스트)
+        #if os(iOS)
+        WatchLink.shared.setMeasuring(true)
+        #endif
     }
 
-    func stopRecording() -> MeasuredRecord? {
-        isRecording = false
+    func stopMeasuring() -> MeasuredRecord? {
+        // 측정 중이 아니면 무시
+        guard isMeasuring else {
+            print("⚠️ 측정 중이 아닙니다")
+            return nil
+        }
+        
+        isMeasuring = false
+
+        print("⏹️ 측정 종료")
+        
+        // WatchLink 상태 업데이트 (저장 + 브로드캐스트)
+        #if os(iOS)
+        WatchLink.shared.setMeasuring(false)
+        #endif
 
         // image 인앱에 저장
         if let flexionImage = flexionAngleImage,
@@ -173,14 +207,14 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         from connection: AVCaptureConnection
     ) {
 
-        if !isRecording { return }
+        if !isMeasuring { return }
 
         // 1. 프레임을 이미지로 변환
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         else { return }
 
         // ⭐ 2. 현재 pixelBuffer를 저장 (이미지 캡처용)
-        if isRecording {
+        if isMeasuring {
             self.currentPixelBuffer = pixelBuffer
         }
 
