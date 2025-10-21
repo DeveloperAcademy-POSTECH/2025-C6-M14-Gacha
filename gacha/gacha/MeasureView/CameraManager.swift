@@ -11,6 +11,10 @@ import SwiftUI
 import UIKit
 import Vision
 
+let FLEXION_BASIC_ANGLE: Double = 90.0
+let EXTENSION_BASIC_ANGLE: Double = 0.0
+
+
 // MARK: - 카메라 매니저
 /// 카메라 세션을 관리하고 Vision을 이용해 신체를 감지하는 클래스
 class CameraManager: NSObject, ObservableObject {
@@ -132,12 +136,32 @@ class CameraManager: NSObject, ObservableObject {
         print("📸 측정 시작")
     }
 
-    func stopRecording() -> (flexionAngle: Double?, extensionAngle: Double?, flexionImage: UIImage?, extensionImage: UIImage?) {
-          isRecording = false
-          print("🛑 측정 종료 - 최소: \(flexionAngle ?? 0)°, 최대: \(extensionAngle ?? 0)°")
-          return (flexionAngle, extensionAngle, flexionAngleImage, extensionAngleImage)
-      }
+    func stopRecording() -> MeasuredRecord? {
+        isRecording = false
 
+        // image 인앱에 저장
+        if let flexionImage = flexionAngleImage,
+            let extensionImage = extensionAngleImage
+        {
+            let result = saveImage(flexionImage, extensionImage)
+            
+            if let result = result {
+                return MeasuredRecord(
+                    flexionAngle: Int(flexionAngle ?? FLEXION_BASIC_ANGLE),
+                    extensionAngle: Int(extensionAngle ?? EXTENSION_BASIC_ANGLE),
+                    isDeleted: false,
+                    flexionImage_id: "\(result.0)",
+                    extensionImage_id: "\(result.1)"
+                )
+            } else {
+                print("🚨 이미지 저장 오류")
+                return nil
+            }
+        } else {
+            print("🚨 이미지 저장 오류")
+            return nil
+        }
+    }
 }
 
 // MARK: - 비디오 프레임 처리
@@ -193,21 +217,21 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         let validPoints = recognizedPoints.filter { $0.value.confidence > 0.3 }
 
         // 디버그: 감지된 관절 정보 출력
-        #if DEBUG
-            let kneePoints = validPoints.filter {
-                $0.key == .leftKnee || $0.key == .rightKnee
-                    || $0.key == .leftHip || $0.key == .rightHip
-                    || $0.key == .leftAnkle || $0.key == .rightAnkle
-            }
-            if !kneePoints.isEmpty {
-                print("📍 감지된 하체 관절:")
-                for (joint, point) in kneePoints {
-                    print(
-                        "  \(joint.rawValue): 신뢰도 \(String(format: "%.2f", point.confidence))"
-                    )
-                }
-            }
-        #endif
+//        #if DEBUG
+//            let kneePoints = validPoints.filter {
+//                $0.key == .leftKnee || $0.key == .rightKnee
+//                    || $0.key == .leftHip || $0.key == .rightHip
+//                    || $0.key == .leftAnkle || $0.key == .rightAnkle
+//            }
+//            if !kneePoints.isEmpty {
+//                print("📍 감지된 하체 관절:")
+//                for (joint, point) in kneePoints {
+//                    print(
+//                        "  \(joint.rawValue): 신뢰도 \(String(format: "%.2f", point.confidence))"
+//                    )
+//                }
+//            }
+//        #endif
 
         // DetectedBody 객체 생성
         let body = DetectedBody(points: validPoints)
@@ -220,7 +244,7 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         // UI 업데이트 (메인 스레드에서)
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
+
             self.detectedBody = body
             self.currentAngles = angles
 
@@ -359,9 +383,9 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         guard var image = pixelBufferToUIImage(pixelBuffer) else { return nil }
 
         if let compressedData = image.jpegData(compressionQuality: 0.8) {
-                  image = UIImage(data: compressedData) ?? image
-                  print("📸 이미지 캡처 및 압축 완료")
-              }
+            image = UIImage(data: compressedData) ?? image
+            print("📸 이미지 캡처 및 압축 완료")
+        }
 
         return image
     }
@@ -388,5 +412,4 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 
         return image
     }
-
 }
