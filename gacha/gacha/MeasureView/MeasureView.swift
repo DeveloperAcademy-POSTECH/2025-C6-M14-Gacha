@@ -15,6 +15,7 @@ import UIKit
 struct MeasureView: View {
     @StateObject private var cameraManager = CameraManager()
     @Environment(\.modelContext) private var context
+
     @State private var showKneeSelector = false
 
     // NotificationCenter 옵저버 관리
@@ -113,52 +114,48 @@ struct MeasureView: View {
                         // 하단: 측정 버튼
                         Button(action: {
                             if cameraManager.isMeasuring {
+                                // 측정 종료
                                 if let result = cameraManager.stopMeasuring() {
+                                    // DB 저장
                                     saveToDatabase(result)
+                                }
+
+                                // 0.3초 후 화면 나가기 (저장 완료 대기)
+                                DispatchQueue.main.asyncAfter(
+                                    deadline: .now() + 0.3
+                                ) {
                                 }
                             } else {
                                 cameraManager.startMeasuring()
                             }
                         }) {
-                            Button(action: {
-                                if cameraManager.isMeasuring {
-                                    if let result =
-                                        cameraManager.stopMeasuring()
-                                    {
-                                        saveToDatabase(result)
-                                    }
-                                } else {
-                                    cameraManager.startMeasuring()
-                                }
-                            }) {
-                                Circle()
-                                    .fill(Color.clear)  // 투명한 원
-                                    .frame(width: 80, height: 80)
-                                    .overlay(
-                                        Circle()
-                                            .stroke(Color.white, lineWidth: 4)
-                                    )
-                                    .overlay(
-                                        Group {
-                                            if cameraManager.isMeasuring {
-                                                // 측정 중: 빨간 사각형 (정지 아이콘)
-                                                RoundedRectangle(
-                                                    cornerRadius: 4
-                                                )
+                            Circle()
+                                .fill(Color.clear)  // 투명한 원
+                                .frame(width: 80, height: 80)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.white, lineWidth: 4)
+                                )
+                                .overlay(
+                                    Group {
+                                        if cameraManager.isMeasuring {
+                                            // 측정 중: 빨간 사각형 (정지 아이콘)
+                                            RoundedRectangle(
+                                                cornerRadius: 4
+                                            )
+                                            .fill(Color.red)
+                                            .frame(width: 30, height: 30)
+                                        } else {
+                                            // 측정 전: 빨간 원
+                                            Circle()
                                                 .fill(Color.red)
-                                                .frame(width: 30, height: 30)
-                                            } else {
-                                                // 측정 전: 빨간 원
-                                                Circle()
-                                                    .fill(Color.red)
-                                                    .frame(
-                                                        width: 60,
-                                                        height: 60
-                                                    )
-                                            }
+                                                .frame(
+                                                    width: 60,
+                                                    height: 60
+                                                )
                                         }
-                                    )
-                            }
+                                    }
+                                )
                         }
                         .frame(width: 80, height: 80)
                         .padding(.trailing, 30)
@@ -186,6 +183,24 @@ struct MeasureView: View {
 
             // NotificationCenter 옵저버 등록
             setupNotificationObservers()
+        }
+        .onDisappear {
+            cameraManager.stopSession()
+
+            // 화면 세로로 되돌리기
+            if #available(iOS 16.0, *) {
+                let windowScene =
+                    UIApplication.shared.connectedScenes.first as? UIWindowScene
+                windowScene?.requestGeometryUpdate(
+                    .iOS(interfaceOrientations: .portrait)
+                )
+            } else {
+                let value = UIInterfaceOrientation.portrait.rawValue
+                UIDevice.current.setValue(value, forKey: "orientation")
+            }
+
+            // NotificationCenter 옵저버 해제
+            removeNotificationObservers()
         }
         .sheet(isPresented: $showKneeSelector) {
             KneeSelectionView(selectedKnee: $cameraManager.selectedKnee)
