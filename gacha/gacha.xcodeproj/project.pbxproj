@@ -6,8 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		7910E7442EA75F2500A721BB /* gacha Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 7910E6BC2EA7597D00A721BB /* gacha Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3C8FDB5E2EA5DC3200369473 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3C8FDB472EA5DC3000369473 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3C8FDB5B2EA5DC3200369473;
+			remoteInfo = "gacha Watch App";
+		};
+		7910E7452EA75F2500A721BB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3C8FDB472EA5DC3000369473 /* Project object */;
 			proxyType = 1;
@@ -23,6 +34,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
+				7910E7442EA75F2500A721BB /* gacha Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -30,8 +42,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3C8FDB4F2EA5DC3000369473 /* gacha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = gacha.app; path = "/Users/chawj/Documents/Challenge6/2025-C6-M14-Gacha/gacha/build/Debug-iphoneos/gacha.app"; sourceTree = "<absolute>"; };
-		3C8FDB5C2EA5DC3200369473 /* gacha Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "gacha Watch App.app"; path = "/Users/chawj/Documents/Challenge6/2025-C6-M14-Gacha/gacha/build/Debug-watchos/gacha Watch App.app"; sourceTree = "<absolute>"; };
+		7910E6BC2EA7597D00A721BB /* gacha Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "gacha Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		799A955C2EA755E400A4D6ED /* gacha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gacha.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -45,9 +57,9 @@
 			path = "gacha Watch App";
 			sourceTree = "<group>";
 		};
-		799A94F62EA70F1B00A4D6ED /* Example */ = {
+		799A95532EA7224900A4D6ED /* example */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Example;
+			path = example;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -73,10 +85,20 @@
 		3C8FDB462EA5DC3000369473 = {
 			isa = PBXGroup;
 			children = (
-				799A94F62EA70F1B00A4D6ED /* Example */,
 				3C8FDB512EA5DC3000369473 /* gacha */,
 				3C8FDB602EA5DC3200369473 /* gacha Watch App */,
+				799A95532EA7224900A4D6ED /* example */,
+				799A955C2EA755E400A4D6ED /* gacha.app */,
+				7910E6BC2EA7597D00A721BB /* gacha Watch App.app */,
+				7910E7432EA75F2500A721BB /* Frameworks */,
 			);
+			sourceTree = "<group>";
+		};
+		7910E7432EA75F2500A721BB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -95,16 +117,17 @@
 			);
 			dependencies = (
 				3C8FDB5F2EA5DC3200369473 /* PBXTargetDependency */,
+				7910E7462EA75F2500A721BB /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				3C8FDB512EA5DC3000369473 /* gacha */,
-				799A94F62EA70F1B00A4D6ED /* Example */,
+				799A95532EA7224900A4D6ED /* example */,
 			);
 			name = gacha;
 			packageProductDependencies = (
 			);
 			productName = gacha;
-			productReference = 3C8FDB4F2EA5DC3000369473 /* gacha.app */;
+			productReference = 799A955C2EA755E400A4D6ED /* gacha.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3C8FDB5B2EA5DC3200369473 /* gacha Watch App */ = {
@@ -126,7 +149,7 @@
 			packageProductDependencies = (
 			);
 			productName = "gacha Watch App";
-			productReference = 3C8FDB5C2EA5DC3200369473 /* gacha Watch App.app */;
+			productReference = 7910E6BC2EA7597D00A721BB /* gacha Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -207,6 +230,11 @@
 			target = 3C8FDB5B2EA5DC3200369473 /* gacha Watch App */;
 			targetProxy = 3C8FDB5E2EA5DC3200369473 /* PBXContainerItemProxy */;
 		};
+		7910E7462EA75F2500A721BB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3C8FDB5B2EA5DC3200369473 /* gacha Watch App */;
+			targetProxy = 7910E7452EA75F2500A721BB /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -268,6 +296,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_COMPILATION_MODE = incremental;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -333,7 +362,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6925U525RD;
+				DEVELOPMENT_TEAM = U9JJVCW82P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = gacha;
@@ -366,7 +395,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6925U525RD;
+				DEVELOPMENT_TEAM = U9JJVCW82P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = gacha;
@@ -400,13 +429,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6925U525RD;
+				DEVELOPMENT_TEAM = U9JJVCW82P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = gacha;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSCameraUsageDescription = "이 앱은 카메라를 사용하여 무릎 각도를 측정합니다";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -436,13 +464,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6925U525RD;
+				DEVELOPMENT_TEAM = U9JJVCW82P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = gacha;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSCameraUsageDescription = "이 앱은 카메라를 사용하여 무릎 각도를 측정합니다";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
