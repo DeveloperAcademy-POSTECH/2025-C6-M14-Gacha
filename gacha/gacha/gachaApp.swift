@@ -49,6 +49,10 @@ struct gachaApp: App {
     var body: some Scene {
         WindowGroup {
             RootTabView()
+                .onAppear {
+                    // 앱 시작 시 목업 데이터 생성 (데이터가 없을 때만)
+                    MockDataGenerator.generateMockData(context: modelContainer.mainContext)
+                }
         }
         .modelContainer(modelContainer)
     }
