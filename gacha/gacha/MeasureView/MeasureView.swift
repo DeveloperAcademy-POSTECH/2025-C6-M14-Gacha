@@ -32,13 +32,18 @@ struct MeasureView: View {
                     )
                     .ignoresSafeArea()
 
+                // 1.5. 측정중이면 초록색 필터 씌우기
+                if cameraManager.isMeasuring {
+                    Color.green.opacity(0.3)
+                }
+                
                 // 2. 감지된 신체 랜드마크와 각도를 그리는 오버레이
                 BodyOverlayView(detectedBody: cameraManager.detectedBody)
 
                 // 3. 원형 측정 버튼 (우측 중앙)
                 VStack {
                     // 상단: 무릎 선택 버튼
-                    HStack {
+                    VStack {
                         Button(action: {
                             showKneeSelector = true
                         }) {
@@ -53,6 +58,7 @@ struct MeasureView: View {
                             .cornerRadius(8)
                         }
                         .padding()
+                        .padding(.top, 20)
 
                         Spacer()
 
@@ -112,53 +118,41 @@ struct MeasureView: View {
                         Spacer()
 
                         // 하단: 측정 버튼
-                        Button(action: {
-                            if cameraManager.isMeasuring {
+                        if cameraManager.isMeasuring {
+                            Button {
                                 // 측정 종료
                                 if let result = cameraManager.stopMeasuring() {
-                                    // DB 저장
                                     saveToDatabase(result)
                                 }
 
                                 // 0.3초 후 화면 나가기 (저장 완료 대기)
                                 DispatchQueue.main.asyncAfter(
                                     deadline: .now() + 0.3
-                                ) {
-                                }
-                            } else {
-                                cameraManager.startMeasuring()
-                            }
-                        }) {
-                            Circle()
-                                .fill(Color.clear)  // 투명한 원
-                                .frame(width: 80, height: 80)
-                                .overlay(
-                                    Circle()
-                                        .stroke(Color.white, lineWidth: 4)
-                                )
-                                .overlay(
-                                    Group {
-                                        if cameraManager.isMeasuring {
-                                            // 측정 중: 빨간 사각형 (정지 아이콘)
-                                            RoundedRectangle(
-                                                cornerRadius: 4
-                                            )
-                                            .fill(Color.red)
-                                            .frame(width: 30, height: 30)
-                                        } else {
-                                            // 측정 전: 빨간 원
-                                            Circle()
-                                                .fill(Color.red)
-                                                .frame(
-                                                    width: 60,
-                                                    height: 60
+                                ) {}
+                            } label: {
+                                Circle()
+                                    .fill(Color.clear)  // 투명한 원
+                                    .frame(width: 80, height: 80)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(Color.white, lineWidth: 4)
+                                    )
+                                    .overlay(
+                                        Group {
+                                            if cameraManager.isMeasuring {
+                                                // 측정 중: 빨간 사각형 (정지 아이콘)
+                                                RoundedRectangle(
+                                                    cornerRadius: 4
                                                 )
+                                                .fill(Color.red)
+                                                .frame(width: 30, height: 30)
+                                            }
                                         }
-                                    }
-                                )
+                                    )
+                            }
+                            .frame(width: 80, height: 80)
+                            .padding(.trailing, 30)
                         }
-                        .frame(width: 80, height: 80)
-                        .padding(.trailing, 30)
                         Spacer()
                     }
                     .padding(.top, 40)
@@ -222,7 +216,10 @@ struct MeasureView: View {
 
     private func rotateToLandscape() {
         if #available(iOS 16.0, *) {
-            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+            guard
+                let windowScene = UIApplication.shared.connectedScenes.first
+                    as? UIWindowScene
+            else { return }
             windowScene.requestGeometryUpdate(
                 .iOS(interfaceOrientations: .landscapeRight)
             )
@@ -235,7 +232,10 @@ struct MeasureView: View {
 
     private func rotateToPortrait() {
         if #available(iOS 16.0, *) {
-            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+            guard
+                let windowScene = UIApplication.shared.connectedScenes.first
+                    as? UIWindowScene
+            else { return }
             windowScene.requestGeometryUpdate(
                 .iOS(interfaceOrientations: .portrait)
             )
@@ -375,7 +375,3 @@ struct KneeSelectionView: View {
     }
 }
 
-//#Preview {
-//    MeasureView()
-//        .modelContainer(for: [MeasuredRecord.self])
-//}
