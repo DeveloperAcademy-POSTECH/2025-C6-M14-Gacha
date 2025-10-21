@@ -15,6 +15,8 @@ import SwiftData
 struct MeasureView: View {
     @StateObject private var cameraManager = CameraManager()
     @Environment(\.modelContext) private var context
+    @State private var navigateToDetail = false
+    @State private var measuredRecord: MeasuredRecord?
     
     // NotificationCenter 옵저버 관리
     @State private var notificationObservers: [NSObjectProtocol] = []
@@ -44,22 +46,27 @@ struct MeasureView: View {
                                 let result = cameraManager.stopMeasuring()
                                 if let record = result {
                                     context.insert(record)
-                                }
-                                
-                                do {
-                                    try context.save()
-                                    print("✅ 저장 성공!")
                                     
-                                    // 저장 후 컨텍스트에서 직접 fetch해서 확인
-                                    let descriptor = FetchDescriptor<MeasuredRecord>()
-                                    let fetchedRecords = try context.fetch(descriptor)
-                                    print("📊 컨텍스트에서 직접 fetch한 레코드 개수: \(fetchedRecords.count)")
-                                    for (index, rec) in fetchedRecords.enumerated() {
-                                        print("  [\(index)] ID: \(rec.id), Flexion: \(rec.flexionAngle), Extension: \(rec.extensionAngle)")
+                                    do {
+                                        try context.save()
+                                        print("✅ 저장 성공!")
+                                        
+                                        // 저장 후 컨텍스트에서 직접 fetch해서 확인
+                                        let descriptor = FetchDescriptor<MeasuredRecord>()
+                                        let fetchedRecords = try context.fetch(descriptor)
+                                        print("📊 컨텍스트에서 직접 fetch한 레코드 개수: \(fetchedRecords.count)")
+                                        for (index, rec) in fetchedRecords.enumerated() {
+                                            print("  [\(index)] ID: \(rec.id), Flexion: \(rec.flexionAngle), Extension: \(rec.extensionAngle)")
+                                        }
+                                        
+                                        // DetailView로 네비게이션
+                                        measuredRecord = record
+                                        navigateToDetail = true
+                                        
+                                    } catch {
+                                        print("❌ 저장 실패: \(error.localizedDescription)")
+                                        print("상세 에러: \(error)")
                                     }
-                                } catch {
-                                    print("❌ 저장 실패: \(error.localizedDescription)")
-                                    print("상세 에러: \(error)")
                                 }
                             } else {
                                 // 측정 시작
@@ -90,7 +97,16 @@ struct MeasureView: View {
                     }
                 }
                 
-                
+                // DetailView로 네비게이션
+                NavigationLink(
+                    destination: measuredRecord != nil ? 
+                        DetailView(record: measuredRecord!)
+                        .navigationBarHidden(true) : nil,
+                    isActive: $navigateToDetail
+                ) {
+                    EmptyView()
+                }
+                .hidden()
             }
         }
         .ignoresSafeArea()
@@ -156,6 +172,10 @@ struct MeasureView: View {
                 do {
                     try context.save()
                     print("✅ Watch 명령으로 측정 종료 및 저장 성공")
+                    
+                    // DetailView로 네비게이션
+                    measuredRecord = record
+                    navigateToDetail = true
                 } catch {
                     print("❌ 저장 실패: \(error.localizedDescription)")
                 }
