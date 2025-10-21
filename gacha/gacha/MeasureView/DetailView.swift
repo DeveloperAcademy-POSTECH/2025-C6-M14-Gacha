@@ -3,9 +3,9 @@ import SwiftUI
 struct DetailView: View {
     let record: MeasuredRecord
 
-
     @Environment(\.dismiss) private var dismiss
-    
+    @Environment(\.presentationMode) var presentationMode
+
     var body: some View {
         
         VStack(spacing: 20) {
@@ -40,76 +40,50 @@ struct DetailView: View {
                     .stroke(Color.black, lineWidth: 2)
                     .frame(height: 350)
                     .overlay(
-                        VStack {
-                            // 굴곡 이미지
+                        HStack {
                             if let flexionImage = loadImage(fileName: record.flexionImage_id) {
                                 Image(uiImage: flexionImage)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(height: 200)
-                                    .rotationEffect(.degrees(-90)) // 90도 회전
-
-                            } else {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.gray.opacity(0.3))
-                                    .frame(height: 180)
-                                    .overlay(
-                                        VStack {
-                                            Image(systemName: "photo")
-                                                .font(.largeTitle)
-                                                .foregroundColor(.gray)
-                                            Text("굴곡 이미지")
-                                                .font(.caption)
-                                                .foregroundColor(.gray)
-                                        }
-                                    )
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 300)
+                                    .cornerRadius(12)
+                                    .shadow(radius: 5)
                             }
-                            
-                            // 신전 이미지
                             if let extensionImage = loadImage(fileName: record.extensionImage_id) {
                                 Image(uiImage: extensionImage)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(height: 200)
-                                    .rotationEffect(.degrees(-90)) // 90도 회전
-                            } else {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.gray.opacity(0.3))
-                                    .frame(height: 180)
-                                    .overlay(
-                                        VStack {
-                                            Image(systemName: "photo")
-                                                .font(.largeTitle)
-                                                .foregroundColor(.gray)
-                                            
-                                            Text("신전 이미지")
-                                                .font(.caption)
-                                                .foregroundColor(.gray)
-                                        }
-                                    )
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 300)
+                                    .cornerRadius(12)
+                                    .shadow(radius: 5)
                             }
                         }
+                        .padding()
+                        .background(Color(.systemBackground))
+                        
                     )
             }
             .padding(.horizontal, 20)
             
             // 측정 결과 텍스트 영역
 
-            VStack(alignment:.leading, spacing:20) {
+            VStack(alignment:.leading, spacing:10) {
                 Text("측정 결과는 이렇게 나왔어요 ⚡")
-                    .font(.title3)
+                    .font(.body)
                     .fontWeight(.semibold)
                 HStack {
                     Text("굽힘 각도 :")
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.semibold)
                     Text("\(record.flexionAngle)°")
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.semibold)
                 }
                 HStack {
                     Text("펴짐 각도 :")
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.semibold)
                     Text("\(record.extensionAngle)°")
                         .font(.title2)
@@ -117,7 +91,7 @@ struct DetailView: View {
                 }
                 HStack {
                     Text("총 가동 범위 :")
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.semibold)
                     Text("\(record.extensionAngle - record.flexionAngle)°")
                         .font(.title2)
@@ -127,28 +101,27 @@ struct DetailView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 20)
         
-            
-            Spacer()
-            
             // 확인 버튼
             Button(action: {
-                dismiss()
+                // DetailView → ConfirmView 닫기
+                presentationMode.wrappedValue.dismiss()
+
+                // ConfirmView → MeasureView 닫기 (0.1초 후)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    presentationMode.wrappedValue.dismiss()
+                }
             }) {
                 Text("확인")
                     .font(.headline)
                     .fontWeight(.semibold)
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
-                    .background(Color.white)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.black, lineWidth: 2)
-                    )
-                    .cornerRadius(8)
+                    .background(Color.blue)
+                    .cornerRadius(12)
             }
             .padding(.horizontal, 20)
-            .padding(.bottom, 80)
+            .padding(.bottom, 120)
         }
         .navigationBarHidden(true)
     }

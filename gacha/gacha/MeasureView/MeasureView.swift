@@ -120,9 +120,21 @@ struct MeasureView: View {
                         // 하단: 측정 버튼
                         if cameraManager.isMeasuring {
                             Button {
-                                // 측정 종료
+                                // 1. 측정 종료
                                 if let result = cameraManager.stopMeasuring() {
+                                    // 2. DB 저장
                                     saveToDatabase(result)
+
+                                    // 3. 측정 결과 저장
+                                    measuredRecord = result
+
+                                    // 4. 카메라 세션 중지
+                                    cameraManager.stopSession()
+
+                                    // 5. DetailView로 이동
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        navigateToDetail = true
+                                    }
                                 }
                             } label: {
                                 Circle()
@@ -153,25 +165,37 @@ struct MeasureView: View {
                     .padding(.top, 40)
                 }
 
-                // DetailView로 네비게이션
+                // ConfirmView로 네비게이션
                 NavigationLink(
                     destination: measuredRecord != nil
-                        ? DetailView(record: measuredRecord!)
-                            .navigationBarHidden(true) : nil,
+                        ? ConfirmView(
+                            record: measuredRecord!,
+                            onConfirm: {
+                                // 확인 버튼: DetailView로 이동
+                                // (ConfirmView에서 직접 처리)
+                            },
+                            onRetake: {
+                                // 다시 촬영 버튼: 카메라로 돌아가기
+                                navigateToDetail = false
+                                measuredRecord = nil
+                            }
+                        )
+                        .navigationBarHidden(true) : nil,
                     isActive: $navigateToDetail
                 ) {
                     EmptyView()
                 }
                 .hidden()
+                .onChange(of: navigateToDetail) { _, isActive in
+                    // ConfirmView에서 돌아왔을 때 카메라 재시작
+                    if !isActive {
+                        cameraManager.startSession()
+                    }
+                }
             }
         }
         .ignoresSafeArea()
         .onAppear {
-            // 화면 가로로 바꾸기 (탭 전환 시 딜레이 추가)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                rotateToLandscape()
-            }
-
             cameraManager.startSession()
 
             // NotificationCenter 옵저버 등록
@@ -183,9 +207,6 @@ struct MeasureView: View {
         }
         .onDisappear {
             cameraManager.stopSession()
-
-            // 화면 세로로 되돌리기
-            rotateToPortrait()
 
             // NotificationCenter 옵저버 해제
             removeNotificationObservers()
