@@ -26,7 +26,7 @@ class CameraManager: NSObject, ObservableObject {
     private var bodyPoseRequest = VNDetectHumanBodyPoseRequest()
 
     // 신뢰도 임계값
-    private let minJointConfidence: Float = 0.5
+    private let minJointConfidence: Float = 0.45
 
     // 준비 자세 감지 관련 추가
     @Published var isInReadyPosition: Bool = false  // 준비 자세인지 여부
