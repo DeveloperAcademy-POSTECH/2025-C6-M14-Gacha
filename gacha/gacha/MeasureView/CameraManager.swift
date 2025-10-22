@@ -109,7 +109,7 @@ class CameraManager: NSObject, ObservableObject {
             // (9) 프리뷰의 레이어 연결에서 방향을 가로 방향으로 설정 (Landscape Right)
             if let connection = previewLayer.connection {
                 connection.videoRotationAngle = 90
-                print("✅ 프리뷰 레이어 회전 설정: 180도")
+                print("✅ 프리뷰 레이어 회전 설정: 90도")
             } else {
                 print("⚠️ 프리뷰 레이어 연결을 찾을 수 없음")
             }
@@ -236,6 +236,7 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         // 3. Vision 요청 핸들러 생성
         let handler = VNImageRequestHandler(
             cvPixelBuffer: pixelBuffer,
+            orientation: .right,
             options: [:]
         )
 
@@ -491,7 +492,7 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
 
         // 4. CGImage를 UIImage로 변환
-        // 회전 각도 고려 (카메라 방향에 맞춰 조정)
+        // 왼쪽으로 90도 회전 (세로 모드에 맞춤)
         let image = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
 
         return image

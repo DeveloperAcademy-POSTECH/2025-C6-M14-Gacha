@@ -21,6 +21,8 @@ struct MeasureView: View {
     // NotificationCenter 옵저버 관리
     @State private var notificationObservers: [NSObjectProtocol] = []
 
+    var onDismissToHome: (() -> Void)? = nil
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -36,7 +38,7 @@ struct MeasureView: View {
                 if cameraManager.isMeasuring {
                     Color.green.opacity(0.3)
                 }
-                
+
                 // 2. 감지된 신체 랜드마크와 각도를 그리는 오버레이
                 BodyOverlayView(detectedBody: cameraManager.detectedBody)
 
@@ -120,41 +122,40 @@ struct MeasureView: View {
                         // 하단: 측정 버튼
                         if cameraManager.isMeasuring {
                             Button {
-                                // 측정 종료
+                                // 1. 측정 종료
                                 if let result = cameraManager.stopMeasuring() {
+                                    // 2. DB 저장
                                     saveToDatabase(result)
+
+                                    // 3. 측정 결과 저장
+                                    measuredRecord = result
+
+                                    // 4. 카메라 세션 중지
+                                    cameraManager.stopSession()
+
+                                    // 5. DetailView로 이동
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        navigateToDetail = true
+                                    }
                                 }
-                            } else {
-                                cameraManager.startMeasuring()
-                            }
-                        }) {
-                            Circle()
-                                .fill(Color.clear)  // 투명한 원
-                                .frame(width: 80, height: 80)
-                                .overlay(
-                                    Circle()
-                                        .stroke(Color.white, lineWidth: 4)
-                                )
-                                .overlay(
-                                    Group {
-                                        if cameraManager.isMeasuring {
-                                            // 측정 중: 빨간 사각형 (정지 아이콘)
-                                            RoundedRectangle(
-                                                cornerRadius: 4
-                                            )
-                                            .fill(Color.red)
-                                            .frame(width: 30, height: 30)
-                                        } else {
-                                            // 측정 전: 빨간 원
-                                            Circle()
-                                                .fill(Color.red)
-                                                .frame(
-                                                    width: 60,
-                                                    height: 60
+                            } label: {
+                                Circle()
+                                    .fill(Color.clear)  // 투명한 원
+                                    .frame(width: 80, height: 80)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(Color.white, lineWidth: 4)
+                                    )
+                                    .overlay(
+                                        Group {
+                                            if cameraManager.isMeasuring {
+                                                // 측정 중: 빨간 사각형 (정지 아이콘)
+                                                RoundedRectangle(
+                                                    cornerRadius: 4
                                                 )
                                                 .fill(Color.red)
                                                 .frame(width: 30, height: 30)
-                                            }
+                                            } 
                                         }
                                     )
                             }
@@ -165,26 +166,42 @@ struct MeasureView: View {
                     }
                     .padding(.top, 40)
                 }
-                
-                // DetailView로 네비게이션
+
+                // ConfirmView로 네비게이션
                 NavigationLink(
-                    destination: measuredRecord != nil ? 
-                        DetailView(record: measuredRecord!)
+                    destination: measuredRecord != nil
+                        ? ConfirmView(
+                            record: measuredRecord!,
+                            onConfirm: {
+                                // 확인 버튼: DetailView로 이동
+                                // (ConfirmView에서 직접 처리)
+                            },
+                            onRetake: {
+                                // 다시 촬영 버튼: 카메라로 돌아가기
+                                navigateToDetail = false
+                                measuredRecord = nil
+                            },
+                            onDismissToHome: {
+                                // DetailView에서 Home으로 이동
+                                onDismissToHome?()
+                            }
+                        )
                         .navigationBarHidden(true) : nil,
                     isActive: $navigateToDetail
                 ) {
                     EmptyView()
                 }
                 .hidden()
+                .onChange(of: navigateToDetail) { _, isActive in
+                    // ConfirmView에서 돌아왔을 때 카메라 재시작
+                    if !isActive {
+                        cameraManager.startSession()
+                    }
+                }
             }
         }
         .ignoresSafeArea()
         .onAppear {
-            // 화면 가로로 바꾸기 (탭 전환 시 딜레이 추가)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                rotateToLandscape()
-            }
-
             cameraManager.startSession()
 
             // NotificationCenter 옵저버 등록
@@ -196,9 +213,6 @@ struct MeasureView: View {
         }
         .onDisappear {
             cameraManager.stopSession()
-
-            // 화면 세로로 되돌리기
-            rotateToPortrait()
 
             // NotificationCenter 옵저버 해제
             removeNotificationObservers()
@@ -289,7 +303,7 @@ struct MeasureView: View {
                 do {
                     try context.save()
                     print("✅ Watch 명령으로 측정 종료 및 저장 성공")
-                    
+
                     // DetailView로 네비게이션
                     measuredRecord = record
                     navigateToDetail = true
@@ -397,4 +411,3 @@ struct KneeSelectionView: View {
         .presentationDetents([.height(300)])
     }
 }
-

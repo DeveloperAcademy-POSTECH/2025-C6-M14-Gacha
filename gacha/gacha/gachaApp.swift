@@ -48,18 +48,42 @@ struct gachaApp: App {
 
     var body: some Scene {
         WindowGroup {
-            TabView {
-                Tab("Home", systemImage: "house") {
-                    MainView()
+            RootTabView()
+                .onAppear {
+                    // 앱 시작 시 목업 데이터 생성 (데이터가 없을 때만)
+                    MockDataGenerator.generateMockData(context: modelContainer.mainContext)
                 }
-                Tab("History", systemImage: "book.closed") {
-                    WeightChartView()
-                }
-                Tab("Camera", systemImage: "camera", role: .search) {
-                    MeasureView()
-                }
-            }
         }
         .modelContainer(modelContainer)
+    }
+}
+
+struct RootTabView: View {
+    @State private var selectedTab = 0
+    @State private var navigationID = UUID()  // NavigationStack 재생성용 ID
+
+    var body: some View {
+        TabView(selection: $selectedTab) {
+            Tab("Home", systemImage: "house", value: 0) {
+                MainView()
+            }
+            Tab("History", systemImage: "book.closed", value: 1) {
+                HistoryView()
+            }
+            Tab("Camera", systemImage: "camera", value: 2, role: .search) {
+                NavigationStack {
+                    MeasureView(onDismissToHome: {
+                        selectedTab = 1  // History 탭으로 이동
+                    })
+                }
+                .id(navigationID)  // ID로 NavigationStack 재생성
+            }
+        }
+        .onChange(of: selectedTab) { oldValue, newValue in
+            // Camera 탭으로 전환될 때마다 NavigationStack 초기화
+            if newValue == 2 {
+                navigationID = UUID()
+            }
+        }
     }
 }

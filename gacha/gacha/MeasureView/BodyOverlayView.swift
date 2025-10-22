@@ -43,7 +43,7 @@ struct BodyOverlayView: View {
     private func convertVisionPoint(_ point: CGPoint, to size: CGSize) -> CGPoint {
         return CGPoint(
             x: point.x * size.width,
-            y: (1 - point.y) * size.height // Y축 반전
+            y: (1-point.y) * size.height
         )
     }
 
