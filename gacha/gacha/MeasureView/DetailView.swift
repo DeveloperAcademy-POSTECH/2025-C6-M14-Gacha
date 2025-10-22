@@ -12,19 +12,19 @@ struct DetailView: View {
             // 상단 헤더 영역
             
             VStack(alignment: .leading) {
-                HStack{
+//                HStack{
                     Text("2025-10-22")
                         .font(.title2)
                         .fontWeight(.bold)
-                    Text("관절 가동 범위 측정 결과")
+                    Text("Joint Range of Motion Test Results")
                         .font(.title2)
                         .fontWeight(.bold)
-                }
-                Text("지난번보다 5° 더 좋아졌어요.")
+//                }
+                Text("You've improved by 5° compared to last time.")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 
-                Text("지금처럼만 해도 충분히 잘하고 있어요 💪")
+                Text("You're doing great just as you are! 💪")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
@@ -70,11 +70,11 @@ struct DetailView: View {
             // 측정 결과 텍스트 영역
 
             VStack(alignment:.leading, spacing:10) {
-                Text("측정 결과는 이렇게 나왔어요 ⚡")
+                Text("Here are your test results ⚡")
                     .font(.body)
                     .fontWeight(.semibold)
                 HStack {
-                    Text("굽힘 각도 :")
+                    Text("Flexion Angle:")
                         .font(.title3)
                         .fontWeight(.semibold)
                     Text("\(record.flexionAngle)°")
@@ -82,7 +82,7 @@ struct DetailView: View {
                         .fontWeight(.semibold)
                 }
                 HStack {
-                    Text("펴짐 각도 :")
+                    Text("Extension Angle:")
                         .font(.title3)
                         .fontWeight(.semibold)
                     Text("\(record.extensionAngle)°")
@@ -90,7 +90,7 @@ struct DetailView: View {
                         .fontWeight(.semibold)
                 }
                 HStack {
-                    Text("총 가동 범위 :")
+                    Text("Total Range of Motion:")
                         .font(.title3)
                         .fontWeight(.semibold)
                     Text("\(record.extensionAngle - record.flexionAngle)°")
@@ -101,11 +101,11 @@ struct DetailView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 20)
         
-            // 확인 버튼
+            // Confirm button
             Button(action: {
                 onDismiss()
             }) {
-                Text("확인")
+                Text("Confirm")
                     .font(.headline)
                     .fontWeight(.semibold)
                     .foregroundColor(.white)

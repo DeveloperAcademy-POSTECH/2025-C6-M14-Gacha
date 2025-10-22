@@ -9,10 +9,10 @@ struct HistoryView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 20) {
-                    // 제목
+                    // Title
                     VStack(alignment: .leading, spacing: 8) {
 
-                        Text("나의 ROM 추이")
+                        Text("My ROM Progress")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -134,12 +134,12 @@ struct FlexionExtensionChartView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            // 범례
+            // Legend
             HStack {
                 Circle()
                     .fill(Color.blue)
                     .frame(width: 8, height: 8)
-                Text("굴곡")
+                Text("Flexion")
                     .font(.caption)
                     .foregroundColor(.black)
                 
@@ -147,7 +147,7 @@ struct FlexionExtensionChartView: View {
                 Circle()
                     .fill(Color.red)
                     .frame(width: 8, height: 8)
-                Text("신전")
+                Text("Extension")
                     .font(.caption)
                     .foregroundColor(.black)
             }
@@ -233,7 +233,7 @@ struct PastRecordsListView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("과거 기록")
+            Text("Past Records")
                 .font(.headline)
                 .padding(.horizontal)
             

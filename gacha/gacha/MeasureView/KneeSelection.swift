@@ -8,11 +8,11 @@
 import Foundation
 import Vision
 
-// 무릎 선택 enum 추가 (class 내부)
+// Knee selection enum
 enum KneeSelection: String, CaseIterable {
-    case left = "왼쪽 무릎"
-    case right = "오른쪽 무릎"
-    case both = "양쪽 무릎"
+    case left = "Left Knee"
+    case right = "Right Knee"
+    case both = "Both Knees"
 
     func jointGroupForSelectedKnee()
         -> VNHumanBodyPoseObservation.JointsGroupName

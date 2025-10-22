@@ -20,35 +20,35 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            Text("총 레코드 개수: \(allRecords.count)")
+            Text("Total Records: \(allRecords.count)")
                 .font(.headline)
                 .padding()
 
             HStack {
-                Button("데이터 추가") {
+                Button("Add Data") {
                     addRecord()
-                    print("추가 버튼 누르기")
+                    print("Add button pressed")
                 }
                 .buttonStyle(.borderedProminent)
 
-                Button("전체 삭제") {
+                Button("Delete All") {
                     deleteAllRecords()
                 }
                 .buttonStyle(.bordered)
                 .tint(.red)
                 .disabled(allRecords.isEmpty)
                 
-                Button("측정하기") {
+                Button("Measure") {
                     navigateToMeasure = true
                 }
                 .buttonStyle(.borderedProminent)
             }
             
-            // HistoryView로 이동하는 버튼
+            // Navigate to HistoryView
             NavigationLink(destination: HistoryView()) {
                 HStack {
                     Image(systemName: "chart.line.uptrend.xyaxis")
-                    Text("ROM 히스토리")
+                    Text("ROM History")
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -109,7 +109,7 @@ struct ContentView: View {
                                             RoundedRectangle(cornerRadius: 8)
                                         )
 
-                                    Text("굴곡: \(record.flexionAngle)°")
+                                    Text("Flexion: \(record.flexionAngle)°")
                                         .font(.caption)
                                         .foregroundColor(.blue)
                                 }
@@ -123,7 +123,7 @@ struct ContentView: View {
                                                 .foregroundColor(.gray)
                                         )
 
-                                    Text("굴곡: \(record.flexionAngle)°")
+                                    Text("Flexion: \(record.flexionAngle)°")
                                         .font(.caption)
                                         .foregroundColor(.gray)
                                 }
@@ -144,7 +144,7 @@ struct ContentView: View {
                                             RoundedRectangle(cornerRadius: 8)
                                         )
 
-                                    Text("신전: \(record.extensionAngle)°")
+                                    Text("Extension: \(record.extensionAngle)°")
                                         .font(.caption)
                                         .foregroundColor(.green)
                                 }
@@ -158,7 +158,7 @@ struct ContentView: View {
                                                 .foregroundColor(.gray)
                                         )
 
-                                    Text("신전: \(record.extensionAngle)°")
+                                    Text("Extension: \(record.extensionAngle)°")
                                         .font(.caption)
                                         .foregroundColor(.gray)
                                 }

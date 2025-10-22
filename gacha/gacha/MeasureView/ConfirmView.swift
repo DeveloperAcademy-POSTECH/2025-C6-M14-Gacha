@@ -46,12 +46,12 @@ struct ConfirmView: View {
 
             // 하단 버튼 영역
             HStack {
-                // 다시 촬영 버튼
+                // Retake button
                 Button(action: {
                     dismiss()
                     onRetake()
                 }) {
-                    Text("재촬영")
+                    Text("Retake")
                         .font(.headline)
                         .fontWeight(.semibold)
                         .foregroundColor(.blue)
@@ -65,12 +65,12 @@ struct ConfirmView: View {
                         .cornerRadius(12)
                 }
                 Spacer()
-                // 확인 버튼
+                // Confirm button
                 Button(action: {
                     navigateToDetail = true
                     onConfirm()
                 }) {
-                    Text("확인")
+                    Text("Confirm")
                         .font(.headline)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)

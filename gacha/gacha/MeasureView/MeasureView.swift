@@ -70,7 +70,7 @@ struct MeasureView: View {
                                 if cameraManager.isInReadyPosition {
                                     // 준비 자세 진행률 표시
                                     VStack(spacing: 8) {
-                                        Text("준비 자세 유지 중...")
+                                        Text("Maintaining Ready Position...")
                                             .font(.title2)
                                             .fontWeight(.bold)
                                             .foregroundColor(.white)
@@ -97,13 +97,13 @@ struct MeasureView: View {
                                     .background(Color.black.opacity(0.7))
                                     .cornerRadius(12)
                                 } else {
-                                    // 준비 자세 안내
+                                    // Ready position guide
                                     VStack(spacing: 8) {
-                                        Text("다리를 펴고 앉아주세요")
+                                        Text("Please sit with legs extended")
                                             .font(.title3)
                                             .foregroundColor(.white)
 
-                                        Text("150-180도 범위를 2초간 유지")
+                                        Text("Maintain 150-180° range for 2 seconds")
                                             .font(.caption)
                                             .foregroundColor(
                                                 .white.opacity(0.8)
@@ -398,11 +398,11 @@ struct KneeSelectionView: View {
                     }
                 }
             }
-            .navigationTitle("측정할 무릎 선택")
+            .navigationTitle("Select Knee to Measure")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("닫기") {
+                    Button("Close") {
                         dismiss()
                     }
                 }
