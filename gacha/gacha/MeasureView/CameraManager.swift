@@ -26,7 +26,7 @@ class CameraManager: NSObject, ObservableObject {
     private var bodyPoseRequest = VNDetectHumanBodyPoseRequest()
 
     // 신뢰도 임계값
-    private let minJointConfidence: Float = 0.6
+    private let minJointConfidence: Float = 0.5
 
     // 준비 자세 감지 관련 추가
     @Published var isInReadyPosition: Bool = false  // 준비 자세인지 여부
@@ -35,7 +35,7 @@ class CameraManager: NSObject, ObservableObject {
     private var readyPositionStartTime: Date?  // 준비 자세 시작 시간
     private let readyAngleMin: Double = 150.0  // 준비 자세 최소 각도
     private let readyAngleMax: Double = 180.0  // 준비 자세 최대 각도
-    private let readyPositionDuration: TimeInterval = 3.0
+    private let readyPositionDuration: TimeInterval = 2.0
 
     private var readyCheckTimer: Timer?  // 타이머
 
