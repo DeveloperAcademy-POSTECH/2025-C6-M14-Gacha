@@ -45,6 +45,15 @@ public enum RomChangeState: Equatable {
     // delta를 파라미터로 설정하여 상태와 수치(변화량)도 함께 담는 연관값
     case warning(delta: Double) // alert 이상 "하락"(나빠짐)
     case better(delta: Double)  // alert 이상 "상승"(호전)
+    
+    public var delta: Double {
+        switch self {
+        case .normal(let delta),
+             .warning(let delta),
+             .better(let delta):
+            return delta
+        }
+    }
 
     public static func calculate(
         latestAngle: Double,
@@ -72,19 +81,39 @@ public enum PainChangeState: Equatable {
     case better(delta: Double)  // 통증 감소
     case visitRecommended(delta: Double) // 내원 필요
     
+    /**
+    1. switch self
+     → “현재 enum이 어떤 상태인지 확인하겠다.”
+    2. case .normal(let delta), .warning(let delta), ...
+     → 모든 case에서 공통으로 들어 있는 delta를
+     하나의 변수(delta)  로 바인딩(추출)한다.
+    3. return delta
+     → 추출된 delta 값을 반환한다.
+     **/
+    public var delta: Double {
+        switch self {
+        case .normal(let delta),
+             .warning(let delta),
+             .better(let delta),
+             .visitRecommended(let delta):
+            return delta
+        }
+    }
+    
+    
     public static func calculate(
-        lastPainLevel: Double,
+        latestPainLevel: Double,
         previousPainLevel: Double,
         alertThreshold: PainThreshold = .alert,
         safeThreshold: PainThreshold = .safe
     ) -> PainChangeState {
-        /// lastPainLevel - previousPainLevel의 부호 기준: +값: "하락(악화)",  -값: "상승(호전)"
+        /// lastPainLevel - previousPainLevel의 부호 기준: +값: "증가(악화)",  -값: "하락(호전)"
 
-        let delta = lastPainLevel - previousPainLevel
+        let delta = latestPainLevel - previousPainLevel
         let alertValue = alertThreshold.rawValue
         let safeValue = safeThreshold.rawValue
         
-        if delta >= alertValue { // alert 수치 이상 증가했을 때
+        if delta >= alertValue { // alert 수치 이상 증가했을때
             return .visitRecommended(delta: delta)
         }
         else {                   // alert 수치 이상보다 작을 때
