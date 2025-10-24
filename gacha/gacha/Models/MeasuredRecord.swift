@@ -13,9 +13,15 @@ class MeasuredRecord {
     var measuredDate: Date = Date.now
     var flexionAngle: Double = 0.0
     var extensionAngle: Double = 0.0
-    var ROM: Double = 0.0
-    var measuredTime: Int = 0
-    var painLevel: Int = 0
+    // flexionAngle과 extensionAngle의 차이를 계산하여 ROM을 계산할 수 있지 않나?
+    //var ROM: Double = 0.0
+
+    public var ROM: Double {
+        return extensionAngle - flexionAngle
+    }
+
+    var measuredMinutes: Int = 0
+    var painLevel: Double = 0.0
     
     init (
         id: UUID,
@@ -23,15 +29,15 @@ class MeasuredRecord {
         measuredDate: Date,
         extensionAngle: Double,
         ROM: Double,
-        measuredTime: Int,
-        painLevel: Int
+        measuredMinutes: Int,
+        painLevel: Double
     ){
         self.id = id
         self.flexionAngle = flexionAngle
         self.measuredDate = measuredDate
         self.extensionAngle = extensionAngle
         self.ROM = ROM
-        self.measuredTime = measuredTime
+        self.measuredMinutes = measuredMinutes
         self.painLevel = painLevel
     }
 }
