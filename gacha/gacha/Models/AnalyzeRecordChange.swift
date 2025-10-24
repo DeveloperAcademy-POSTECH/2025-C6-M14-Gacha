@@ -29,7 +29,7 @@ func analyzeRecordChange(latest:MeasuredRecord, previous:MeasuredRecord) -> Chan
     let latestFlexionAngle = latest.flexionAngle
     let latestExtensionAngle = latest.extensionAngle
     let latestROM = latest.ROM
-    let latestMeasuredTime = latest.measuredTime
+    let latestMeasuredMinutes = latest.measuredMinutes
     let latestPainLevel = latest.painLevel
     
     
@@ -38,7 +38,7 @@ func analyzeRecordChange(latest:MeasuredRecord, previous:MeasuredRecord) -> Chan
     let previousFlexionAngle = previous.flexionAngle
     let previousExtensionAngle = previous.extensionAngle
     let previousROM = previous.ROM
-    let previousMeasuredTime = previous.measuredTime
+    let previousMeasuredMinutes = previous.measuredMinutes
     let previousPainLevel = previous.painLevel
     
     

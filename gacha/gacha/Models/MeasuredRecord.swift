@@ -28,7 +28,7 @@ class MeasuredRecord {
         flexionAngle:Double,
         measuredDate: Date,
         extensionAngle: Double,
-        ROM: Double,
+        //ROM: Double,
         measuredMinutes: Int,
         painLevel: Double
     ){
@@ -36,7 +36,7 @@ class MeasuredRecord {
         self.flexionAngle = flexionAngle
         self.measuredDate = measuredDate
         self.extensionAngle = extensionAngle
-        self.ROM = ROM
+        //self.ROM = ROM
         self.measuredMinutes = measuredMinutes
         self.painLevel = painLevel
     }
