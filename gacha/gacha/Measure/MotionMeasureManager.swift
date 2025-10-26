@@ -10,17 +10,28 @@ import CoreMotion
 import Foundation
 import UIKit
 
+enum KneeMotionType: String {
+    case flexionRom = "굴곡"
+    case extensionRom = "신전"
+}
+
+// MARK: - Delegate Protocol
+protocol MotionMeasureManagerDelegate: AnyObject {
+    func motionManagerDidFinishRecording(type: KneeMotionType, angle: Double)
+}
+
+// MARK: - MeasureManager Protocol
 protocol MeasureManager {
     var currentAngle: Double { get }
     func startMeasuring()
     func startRecording()
     func stopRecording()
-    func finishRecording()
     func stopMeasuring()
 }
 
 class MotionMeasureManager: ObservableObject, MeasureManager {
     private let motionManager = CMMotionManager()
+    weak var delegate: MotionMeasureManagerDelegate? // VM을 약한 참조
 
     enum DeviceOrientation: String {
         case portrait = "세로"
@@ -38,10 +49,6 @@ class MotionMeasureManager: ObservableObject, MeasureManager {
     @Published var currentAngle: Double = 0
     @Published var currentMeasurements: [Double] = []
 
-    enum KneeMotionType: String {
-        case flexionRom = "굴곡"
-        case extensionRom = "신전"
-    }
     @Published var kneeMotion: KneeMotionType = .extensionRom
     @Published var measuredROM: Double = 0.0  // 측정된 ROM 값
 
@@ -142,7 +149,7 @@ class MotionMeasureManager: ObservableObject, MeasureManager {
     }
 
     // 4. 녹화 완료
-    func finishRecording() {
+    private func finishRecording() {
         recordingTimer?.invalidate()
         recordingTimer = nil
         isRecording = false
@@ -156,10 +163,14 @@ class MotionMeasureManager: ObservableObject, MeasureManager {
         // 분석 - 최빈값으로 ROM 계산
         if let angle = mode(of: currentMeasurements) {
             measuredROM = calculateKneeAngle(angle: angle)  // 무릎 각도 변환
-            print("📊 \(kneeMotion.rawValue) ROM: \(String(format: "%.1f", measuredROM))°")
+            print(
+                "📊 \(kneeMotion.rawValue) ROM: \(String(format: "%.1f", measuredROM))°"
+            )
         }
 
         //MARK: ⚠️ 데이터에 저장하는 flow 필요
+        delegate?.motionManagerDidFinishRecording(type: kneeMotion, angle: measuredROM)
+
         recordingStartTime = nil
     }
 
