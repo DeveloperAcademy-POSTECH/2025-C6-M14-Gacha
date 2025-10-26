@@ -18,7 +18,6 @@ protocol MeasureManager {
 
 class MotionMeasureManager: ObservableObject, MeasureManager {
     private let motionManager = CMMotionManager()
-    private let cancellables = Set<AnyCancellable>()
 
     enum DeviceOrientation: String {
         case portrait = "세로"
@@ -46,7 +45,6 @@ class MotionMeasureManager: ObservableObject, MeasureManager {
     // 녹화 관련
     private var recordingTimer: Timer?
     private var recordingStartTime: Date?
-    private var recordingEndTime: Date?
     @Published var recordingProgress: Double = 0.0
     private let recordingDurationThreshold: TimeInterval = 3.0  // 3.0
 
