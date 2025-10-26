@@ -9,32 +9,25 @@ import Foundation
 
 @Model
 class MeasuredRecord {
-    var measuredDate: Date = Date.now
-    var flexionAngle: Double = 0.0
-    var extensionAngle: Double = 0.0
+    var measuredDate: Date
+    var extensionAngle: Double
+    var flexionAngle: Double?
     // flexionAngle과 extensionAngle의 차이를 계산하여 ROM을 계산할 수 있지 않나?
     //var ROM: Double = 0.0
 
-    public var ROM: Double {
-        return extensionAngle - flexionAngle
+    public var ROM: Double? {
+        guard let flexion = flexionAngle else { return nil }
+        return extensionAngle - flexion
     }
 
-    var measuredMinutes: Int = 0
-    var painLevel: Double = 0.0
-    
-    init (
-        measuredDate: Date,
-        flexionAngle:Double,
-        extensionAngle: Double,
-        //ROM: Double,
-        measuredMinutes: Int,
-        painLevel: Double
-    ){
-        self.measuredDate = measuredDate
-        self.flexionAngle = flexionAngle
+    var measuredMinutes: Int?
+    var painLevel: Double?
+
+    init(extensionAngle: Double) {
+        self.measuredDate = Date.now
         self.extensionAngle = extensionAngle
-        //self.ROM = ROM
-        self.measuredMinutes = measuredMinutes
-        self.painLevel = painLevel
+        self.flexionAngle = nil
+        self.measuredMinutes = nil
+        self.painLevel = nil
     }
 }
