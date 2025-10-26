@@ -13,6 +13,9 @@ import UIKit
 protocol MeasureManager {
     var currentAngle: Double { get }
     func startMeasuring()
+    func startRecording()
+    func stopRecording()
+    func finishRecording()
     func stopMeasuring()
 }
 
@@ -130,7 +133,7 @@ class MotionMeasureManager: ObservableObject, MeasureManager {
         cancelRecording()
     }
 
-    // 3-2. 녹화 취소
+    // 3. 녹화 취소
     func cancelRecording(reason: String = "취소됨") {
         recordingTimer?.invalidate()
         recordingTimer = nil
@@ -143,7 +146,7 @@ class MotionMeasureManager: ObservableObject, MeasureManager {
     }
 
     // 4. 녹화 완료
-    private func finishRecording() {
+    func finishRecording() {
         recordingTimer?.invalidate()
         recordingTimer = nil
         isRecording = false
