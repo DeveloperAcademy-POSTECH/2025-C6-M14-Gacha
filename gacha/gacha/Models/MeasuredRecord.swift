@@ -9,7 +9,6 @@ import Foundation
 
 @Model
 class MeasuredRecord {
-    var id: UUID = UUID()
     var measuredDate: Date = Date.now
     var flexionAngle: Double = 0.0
     var extensionAngle: Double = 0.0
@@ -24,17 +23,15 @@ class MeasuredRecord {
     var painLevel: Double = 0.0
     
     init (
-        id: UUID,
-        flexionAngle:Double,
         measuredDate: Date,
+        flexionAngle:Double,
         extensionAngle: Double,
         //ROM: Double,
         measuredMinutes: Int,
         painLevel: Double
     ){
-        self.id = id
-        self.flexionAngle = flexionAngle
         self.measuredDate = measuredDate
+        self.flexionAngle = flexionAngle
         self.extensionAngle = extensionAngle
         //self.ROM = ROM
         self.measuredMinutes = measuredMinutes
