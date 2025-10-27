@@ -9,9 +9,9 @@ import Combine
 import SwiftData
 import SwiftUI
 
-class MeasureViewModel: ObservableObject {
-    private let repository: RecordRepository
-    let measureManager: MotionMeasureManager
+final class MeasureViewModel: ObservableObject {
+    private var repository: RecordRepository
+    @Published var measureManager: MotionMeasureManager  // @Published 추가
 
     @Published var currentRecord: MeasuredRecord? = nil
     @Published var allRecords: [MeasuredRecord] = []
