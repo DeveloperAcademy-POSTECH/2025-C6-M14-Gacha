@@ -26,7 +26,7 @@ enum RecordError: Error {
 }
 
 @MainActor
-class SwiftDataRecordRepository: RecordRepository {
+final class SwiftDataRecordRepository: RecordRepository {
       private let modelContext: ModelContext
 
       init(modelContext: ModelContext) {

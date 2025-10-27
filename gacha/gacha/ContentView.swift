@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var motionManager = MotionMeasureManager()
-
     var body: some View {
         VStack {
             Text("Content View")
