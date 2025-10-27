@@ -15,63 +15,38 @@ enum KneeMotionType: String {
     case extensionRom = "신전"
 }
 
-// MARK: - Delegate Protocol
-protocol MotionMeasureManagerDelegate: AnyObject {
-    func motionManagerDidFinishRecording(type: KneeMotionType, angle: Double)
-}
-
 // MARK: - MeasureManager Protocol
 protocol MeasureManager {
-    var delegate: MotionMeasureManagerDelegate? { get set }
-    
-    var kneeMotion: KneeMotionType { get set }
-    
     var isMeasuring: Bool { get }
-    var isRecording: Bool { get }
-    
-    var recordingProgress: Double { get }
-    
+    var isRecording: Bool { get set }
     var currentAngle: Double { get }
-    var measuredROM: Double { get }
-    
+    var currentAngles: [Double] { get set }
     func startMeasuring()
-    func startRecording()
-    func stopRecording()
     func stopMeasuring()
 }
 
-final class MotionMeasureManager: ObservableObject, MeasureManager {
+final class MotionMeasureManager: MeasureManager {
     private let motionManager = CMMotionManager()
-    weak var delegate: MotionMeasureManagerDelegate? // VM을 약한 참조
 
     enum DeviceOrientation: String {
         case portrait = "세로"
         case landscape = "가로"
     }
-
-    @Published var selectedOrientation: DeviceOrientation = .portrait
-    @Published var isMotionAvailable = false
+    var selectedOrientation: DeviceOrientation = .portrait
+    var isMotionAvailable = false
 
     // 상태
-    @Published var isMeasuring = false  // 센서 작동 중
-    @Published var isRecording = false  // 데이터 수집 중
+    var isMeasuring = false  // 센서 작동 중
+    var isRecording = false // 외부에서 제어
 
     // 데이터
-    @Published var currentAngle: Double = 0
-    @Published var currentMeasurements: [Double] = []
+    var currentAngle: Double = 0
+    var currentAngles: [Double] = []
 
-    @Published var kneeMotion: KneeMotionType = .extensionRom
-    @Published var measuredROM: Double = 0.0  // 측정된 ROM 값
-
-    // 녹화 관련
-    private var recordingTimer: Timer?
-    private var recordingStartTime: Date?
-    @Published var recordingProgress: Double = 0.0
-    private let recordingDurationThreshold: TimeInterval = 0.5  // 3.0
 
     // 상대 각도용
-    @Published var baselinePitch: Double = 0.0
-    @Published var baselineRoll: Double = 0.0
+    var baselinePitch: Double = 0.0
+    var baselineRoll: Double = 0.0
 
     init() {
         checkMotionAvailability()
@@ -81,7 +56,7 @@ final class MotionMeasureManager: ObservableObject, MeasureManager {
         isMotionAvailable = motionManager.isDeviceMotionAvailable
     }
 
-    // 1. 앱 시작 - 센서만 켜두기
+    // 1. 앱 시작
     func startMeasuring() {
         guard isMotionAvailable else {
             print("❌ Motion 센서를 사용할 수 없습니다")
@@ -103,102 +78,17 @@ final class MotionMeasureManager: ObservableObject, MeasureManager {
             guard let self = self, let motion = motion else { return }
 
             self.updateAngle(from: motion)
-
-            // 기록 중이면 배열에 추가
+            
             if self.isRecording {
-                self.currentMeasurements.append(self.currentAngle)
+                self.currentAngles.append(self.currentAngle)
             }
         }
-
         isMeasuring = true
         print("🏁 센서 시작")
     }
 
-    // 2-1. 터치 시작 - 기록 시작
-    func startRecording() {
-        guard isMeasuring else {
-            print("⚠️ 센서를 먼저 시작하세요")
-            return
-        }
-
-        currentMeasurements.removeAll()
-        isRecording = true
-        recordingStartTime = Date()
-        recordingProgress = 0.0
-
-        // 진행률 업데이트 타이머
-        recordingTimer = Timer.scheduledTimer(
-            withTimeInterval: 0.1,
-            repeats: true
-        ) { [weak self] _ in
-            guard let self = self,
-                let startTime = self.recordingStartTime
-            else { return }
-
-            let elapsed = Date().timeIntervalSince(startTime)
-            self.recordingProgress = min(
-                1.0,
-                elapsed / self.recordingDurationThreshold
-            )
-
-            // 3초 도달 시 자동 완료
-            if elapsed >= self.recordingDurationThreshold {
-                self.finishRecording()
-            }
-        }
-        print("🎬 녹화 시작")
-    }
-
-    // 2-2. 터치 종료 - 즉시 종료
-    func stopRecording() {
-        guard isRecording else { return }
-        cancelRecording()
-    }
-
-    // 3. 녹화 취소
-    func cancelRecording(reason: String = "취소됨") {
-        recordingTimer?.invalidate()
-        recordingTimer = nil
-        isRecording = false
-        recordingStartTime = nil
-        recordingProgress = 0.0
-        currentMeasurements.removeAll()
-
-        print("❌ 녹화 취소: \(reason)")
-    }
-
-    // 4. 녹화 완료
-    private func finishRecording() {
-        recordingTimer?.invalidate()
-        recordingTimer = nil
-        isRecording = false
-        recordingProgress = 1.0
-
-        let count = currentMeasurements.count
-        let duration = Date().timeIntervalSince(recordingStartTime ?? Date())
-
-        print("✅ 녹화 완료: \(count)개 데이터 (\(String(format: "%.1f", duration))초)")
-
-        // 분석 - 최빈값으로 ROM 계산
-        if let angle = mode(of: currentMeasurements) {
-            measuredROM = calculateKneeAngle(angle: angle)  // 무릎 각도 변환
-            print(
-                "📊 \(kneeMotion.rawValue) ROM: \(String(format: "%.1f", measuredROM))°"
-            )
-        }
-
-        //MARK: ⚠️ 데이터에 저장하는 flow 필요
-        delegate?.motionManagerDidFinishRecording(type: kneeMotion, angle: measuredROM)
-
-        recordingStartTime = nil
-    }
-
-    // 5. 앱 종료 시
+    // 앱 종료 시
     func stopMeasuring() {
-        if isRecording {
-            cancelRecording(reason: "측정 중지")
-        }
-
         isMeasuring = false
         motionManager.stopDeviceMotionUpdates()
         print("센서 중지")
@@ -226,17 +116,10 @@ final class MotionMeasureManager: ObservableObject, MeasureManager {
 
         angle = calculateAttitudeAngle(attitude: attitude)
         currentAngle = angle
-
-    }
-
-    // ROM 계산 함수 : 180 - 무릎각도, 무릎각도 = 180 - (측정값 * 2) (이등변 삼각형으로 가정)
-    private func calculateKneeAngle(angle: Double) -> Double {
-        return angle * 2
     }
 
     func calculateAttitudeAngle(attitude: CMAttitude) -> Double {
         var angleDiff: Double = 0.0
-
         switch selectedOrientation {
         case .portrait:
             angleDiff = (attitude.pitch - baselinePitch) * 180 / .pi
@@ -245,18 +128,5 @@ final class MotionMeasureManager: ObservableObject, MeasureManager {
         }
 
         return angleDiff
-    }
-
-    func mode<T: Hashable>(of array: [T]) -> T? {
-        guard !array.isEmpty else { return nil }
-
-        // 빈도수 계산
-        var counts: [T: Int] = [:]
-        for element in array {
-            counts[element, default: 0] += 1
-        }
-
-        // 최대 빈도수 찾기
-        return counts.max(by: { $0.value < $1.value })?.key
     }
 }
