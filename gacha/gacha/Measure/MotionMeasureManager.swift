@@ -22,18 +22,25 @@ protocol MotionMeasureManagerDelegate: AnyObject {
 
 // MARK: - MeasureManager Protocol
 protocol MeasureManager {
+    var delegate: MotionMeasureManagerDelegate? { get set }
+    
+    var kneeMotion: KneeMotionType { get set }
+    
+    var isMeasuring: Bool { get }
+    var isRecording: Bool { get }
+    
+    var recordingProgress: Double { get }
+    
     var currentAngle: Double { get }
+    var measuredROM: Double { get }
+    
     func startMeasuring()
     func startRecording()
     func stopRecording()
     func stopMeasuring()
 }
 
-class MotionMeasureManager: ObservableObject, MeasureManager {
-    
-    var onMeasureComplete: ((Double) -> Void)?
-
-    
+final class MotionMeasureManager: ObservableObject, MeasureManager {
     private let motionManager = CMMotionManager()
     weak var delegate: MotionMeasureManagerDelegate? // VM을 약한 참조
 
@@ -78,6 +85,7 @@ class MotionMeasureManager: ObservableObject, MeasureManager {
     func startMeasuring() {
         guard isMotionAvailable else {
             print("❌ Motion 센서를 사용할 수 없습니다")
+            print("⚠️ 실제 기기에서 테스트하세요 (시뮬레이터는 모션 센서 없음)")
             return
         }
 
@@ -85,6 +93,13 @@ class MotionMeasureManager: ObservableObject, MeasureManager {
 
         motionManager.startDeviceMotionUpdates(to: .main) {
             [weak self] motion, error in
+
+            // 에러 체크
+            if let error = error {
+                print("❌ Motion 업데이트 에러: \(error.localizedDescription)")
+                return
+            }
+
             guard let self = self, let motion = motion else { return }
 
             self.updateAngle(from: motion)
@@ -211,6 +226,7 @@ class MotionMeasureManager: ObservableObject, MeasureManager {
 
         angle = calculateAttitudeAngle(attitude: attitude)
         currentAngle = angle
+
     }
 
     // ROM 계산 함수 : 180 - 무릎각도, 무릎각도 = 180 - (측정값 * 2) (이등변 삼각형으로 가정)
