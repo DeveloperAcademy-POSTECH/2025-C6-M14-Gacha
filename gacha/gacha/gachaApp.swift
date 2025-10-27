@@ -68,6 +68,7 @@ struct gachaApp: App {
             
             try? context.save()
         }
+        .modelContainer(modelContainer)
     }
 
     var body: some Scene {
