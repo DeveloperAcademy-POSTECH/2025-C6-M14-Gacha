@@ -18,7 +18,7 @@ class MeasuredRecord {
 
     public var ROM: Double? {
         guard let flexion = flexionAngle else { return nil }
-        return extensionAngle - flexion
+        return flexion - extensionAngle
     }
 
     var measuredMinutes: Int?
