@@ -1,5 +1,5 @@
 //
-//  HomeView.swift
+//  DailyMeasureStartView.swift
 //  gacha
 //
 //  Created by 차원준 on 10/28/25.
@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-struct HomeView:View {
+struct DailyMeasureStartView: View {
     @Bindable var session: MeasureSession
+    let onStartMeasure: () -> Void
 
     @State private var selection = 0
     @State private var showHistorySheet = false
@@ -62,7 +63,7 @@ struct HomeView:View {
                 .frame(height: geo.size.height * 0.45)
                 
                 Button {
-                    // extensionmeasureView
+                    onStartMeasure()
                 } label: {
                     Text("측정시작하기")
                         .font(.headline)

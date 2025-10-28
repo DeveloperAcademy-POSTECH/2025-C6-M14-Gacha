@@ -12,6 +12,7 @@ import SwiftData
 struct PainLevelView: View {
     @Environment(\.modelContext) private var modelContext
     @Bindable var session: MeasureSession
+    let onComplete: () -> Void
 
     @State private var value: Double = 5.0   // 0~10 범위
     
@@ -52,7 +53,7 @@ struct PainLevelView: View {
                     Button("확인") {
                         session.painLevel = value
                         saveToDatabase()
-                        session.moveToNextStep()
+                        onComplete()
                     }
                     .font(.system(size: 17, weight: .semibold))
                     .foregroundStyle(Color.white)

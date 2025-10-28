@@ -8,17 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Bindable var session: MeasureSession
+    let motionType: MotionMeasureManager.KneeMotionType
+    let onComplete: () -> Void
+    
     @StateObject private var motionManager = MotionMeasureManager()
 
     var body: some View {
         VStack(spacing: 30) {
-            // 측정 타입 선택
-            Picker("측정 타입", selection: $motionManager.kneeMotion) {
-                Text("굴곡").tag(MotionMeasureManager.KneeMotionType.flexionRom)
-                Text("신전").tag(MotionMeasureManager.KneeMotionType.extensionRom)
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
+//            // 측정 타입 선택
+//            Picker("측정 타입", selection: $motionManager.kneeMotion) {
+//                Text("굴곡").tag(MotionMeasureManager.KneeMotionType.flexionRom)
+//                Text("신전").tag(MotionMeasureManager.KneeMotionType.extensionRom)
+//            }
+//            .pickerStyle(.segmented)
+//            .padding(.horizontal)
 
             // 현재 각도
             Text("\(String(format: "%.1f", motionManager.currentAngle))°")
@@ -94,15 +98,29 @@ struct ContentView: View {
             .cornerRadius(12)
         }
         .onAppear {
+            motionManager.kneeMotion = motionType
             motionManager.startMeasuring()  // 센서 시작
         }
         .onDisappear {
             motionManager.stopMeasuring()  // 센서 중지
         }
-
+        .onChange(of: motionManager.measuredROM) { oldValue, newValue in
+                    // 측정이 완료되면 (0보다 크고, 녹화 중이 아닐 때)
+                    if newValue > 0 && !motionManager.isRecording {
+                        // 세션에 저장
+                        switch motionType {
+                        case .extensionRom:
+                            session.extensionAngle = newValue
+                        case .flexionRom:
+                            session.flexionAngle = newValue
+                        }
+                        
+                        // 1초 후 다음 단계로 (사용자가 결과를 볼 시간 제공)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            onComplete()
+                        }
+                    }
+            }
     }
 }
 
-#Preview {
-    ContentView()
-}
