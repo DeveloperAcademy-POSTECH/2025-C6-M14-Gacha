@@ -11,10 +11,12 @@ import SwiftUI
 
 struct FlexionMeasureView: View {
     @Bindable var session: MeasureSession
+    let onNext: () -> Void
+    let onSkipToPain: () -> Void
+    let onCancel: () -> Void
 
-    @State private var showingAlert = false
-
-    
+    @State private var showingCancelAlert = false
+    @State private var showingSkipAlert = false
     @State private var selection = 0
 
     let items = ["FlexionLeg"]
@@ -24,11 +26,35 @@ struct FlexionMeasureView: View {
             VStack(spacing: 0) {
                 // 상단 영역
                 VStack(alignment: .leading, spacing: 9) {
+                    HStack {
+                        Button {
+                            showingCancelAlert = true
+                        } label: {
+                            ZStack {
+                                Circle()
+                                    .fill(Color.blue.opacity(0.3))
+                                    .frame(width: 44, height: 44)
+                                Image(systemName: "chevron.left")
+                                    .frame(width: 44, height: 44)
+                                    .foregroundStyle(.white)
+                            }
+                        }
+                        .alert(isPresented: $showingCancelAlert) {
+                            Alert(
+                                title: Text("측정을 종료 하시겠습니까?\n지금까지의 기록은 모두 삭제됩니다."), 
+                                message: nil,
+                                primaryButton: .destructive(Text("네"), action: {
+                                    onCancel()
+                                }), 
+                                secondaryButton: .cancel(Text("아니요"))
+                            )
+                        }
+                        Spacer()
+                    }
                     
-                    Text("무릎 굽힘정도 측정")
-                        .font(.system(size: 34, weight: .bold))
-                    Text("무릎이 최대로 굽혀지는 정도를 측정합니다.\n통증이 너무 심할 경우 통증수준 기록으로 넘어갈 수 있습니다.")
-                        .font(.system(size: 15,weight: .medium))
+                    Text("화면을 꾹 눌러서 측정을 시작해주세요")
+                        .font(.system(size: 22, weight: .bold))
+                   
                 }
                 .padding(.horizontal, 20)
                 .frame(height: geo.size.height * 0.25)
@@ -56,23 +82,22 @@ struct FlexionMeasureView: View {
                 
                 // 하단 영역
                 VStack {
-                    Text("측정을 시작하려면 화면을 꼭 눌러주세요")
-                        .font(.system(size: 22, weight: .bold))
-                        .foregroundColor(.black)
-                    
-                    
                     Button(action: {
-                        self.showingAlert.toggle()
+                        showingSkipAlert = true
                     }, label: {
                         Text("측정 건너뛰기")
                             .font(.system(size: 15, weight: .semibold))
                     })
                     .padding(.bottom, 20)
-                    .alert(isPresented: $showingAlert) {
-                        Alert(title: Text("측정을 건너뛰시겠습니까?\n통증수준 기록으로 바로 넘어갑니다"), message: nil,primaryButton: .destructive(Text("네"), action: {
-                            session.moveToNextStep()
-                            
-                        }), secondaryButton: .cancel(Text("아니요")))
+                    .alert(isPresented: $showingSkipAlert) {
+                        Alert(
+                            title: Text("측정을 건너뛰시겠습니까?\n통증수준 기록으로 바로 넘어갑니다"), 
+                            message: nil,
+                            primaryButton: .destructive(Text("네"), action: {
+                                onSkipToPain()
+                            }), 
+                            secondaryButton: .cancel(Text("아니요"))
+                        )
                     }
                     
                 }
@@ -81,7 +106,7 @@ struct FlexionMeasureView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(Color.blue.opacity(0.2))
             .onTapGesture {
-                session.moveToNextStep()
+                onNext()
             }
         }
     }
