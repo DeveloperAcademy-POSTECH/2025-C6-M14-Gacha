@@ -55,7 +55,7 @@ struct MeasureView: View {
                 Circle()
                     .trim(from: 0, to: vm.recordingProgress)
                     .stroke(
-                        vm.isRecording ? Color.blue : Color.gray,
+                        vm.isTouching ? Color.blue : Color.gray,
                         lineWidth: 15
                     )
                     .frame(width: 200, height: 200)
@@ -67,7 +67,7 @@ struct MeasureView: View {
 
                 // 버튼 텍스트
                 VStack(spacing: 8) {
-                    if vm.isRecording {
+                    if vm.isTouching {
                         Text(
                             "\(String(format: "%.1f", (1.0 - vm.recordingProgress) * 3.0))초"
                         )
@@ -89,13 +89,13 @@ struct MeasureView: View {
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { _ in
-                        if !vm.isRecording {
+                        if !vm.isTouching {
                             vm.startRecording()
                         }
                     }
                     .onEnded { _ in
-                        if vm.isRecording {
-                            vm.cancleRecording()
+                        if !vm.isFinished {
+                            vm.stopRecording()
                         }
                     }
             )

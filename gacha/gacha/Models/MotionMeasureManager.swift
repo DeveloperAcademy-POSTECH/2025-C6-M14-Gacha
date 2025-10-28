@@ -17,12 +17,15 @@ enum KneeMotionType: String {
 
 // MARK: - MeasureManager Protocol
 protocol MeasureManager {
-    var isMeasuring: Bool { get }
-    var isRecording: Bool { get set }
     var currentAngle: Double { get }
-    var currentAngles: [Double] { get set }
+    var recordedAngles: [Double] { get set }
+    
     func startMeasuring()
     func stopMeasuring()
+    
+    func startRecording()
+    func cancelRecording()
+    func stopRecording()
 }
 
 final class MotionMeasureManager: MeasureManager {
@@ -36,12 +39,12 @@ final class MotionMeasureManager: MeasureManager {
     var isMotionAvailable = false
 
     // 상태
-    var isMeasuring = false  // 센서 작동 중
-    var isRecording = false // 외부에서 제어
+    var isMeasuring = false // 센서 작동 중
+    var isRecording = false
 
     // 데이터
     var currentAngle: Double = 0
-    var currentAngles: [Double] = []
+    var recordedAngles: [Double] = []
 
 
     // 상대 각도용
@@ -80,11 +83,25 @@ final class MotionMeasureManager: MeasureManager {
             self.updateAngle(from: motion)
             
             if self.isRecording {
-                self.currentAngles.append(self.currentAngle)
+                self.recordedAngles.append(self.currentAngle)
             }
         }
         isMeasuring = true
         print("🏁 센서 시작")
+    }
+    
+    func startRecording() {
+        isRecording = true
+        recordedAngles.removeAll()
+    }
+    
+    func cancelRecording() {
+        isRecording = false
+        recordedAngles.removeAll()
+    }
+    
+    func stopRecording() {
+        isRecording = false
     }
 
     // 앱 종료 시
