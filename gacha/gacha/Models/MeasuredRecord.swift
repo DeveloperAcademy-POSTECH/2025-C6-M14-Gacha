@@ -19,7 +19,7 @@ class MeasuredRecord {
         return flexion - extensionAngle
     }
 
-    var measuredMinutes: Int?
+    var measuredSeconds: Int?
     var painLevel: Int?
 
     init(extensionAngle: Double) {
@@ -27,7 +27,7 @@ class MeasuredRecord {
         self.measuredDate = Date.now
         self.extensionAngle = extensionAngle
         self.flexionAngle = nil
-        self.measuredMinutes = nil
+        self.measuredSeconds = nil
         self.painLevel = nil
     }
 }

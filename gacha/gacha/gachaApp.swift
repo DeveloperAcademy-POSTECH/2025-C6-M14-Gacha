@@ -32,7 +32,7 @@ struct gachaApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MeasureView()
+            MeasureFlowView()
                 .environmentObject(measureVM)
         }
         .modelContainer(modelContainer)

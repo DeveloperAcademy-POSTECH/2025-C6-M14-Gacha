@@ -18,6 +18,13 @@ final class MeasureViewModel: ObservableObject {
 
     @Published var isTouching: Bool = false // 뷰에서 사용
     @Published var isFinished: Bool = false
+
+    // MARK: - Navigation Properties
+    @Published var navigationPath = NavigationPath()
+
+    var currentStepNumber: Int {
+        return navigationPath.count + 1  // 1단계(Extension) + path count
+    }
     private var recordingTimer: Timer?
     private var recordingStartTime: Date?
     @Published var recordingProgress: Double = 0.0
@@ -138,6 +145,14 @@ final class MeasureViewModel: ObservableObject {
 
         let record = MeasuredRecord(extensionAngle: measuredRom)
         currentRecord = record
+
+        // Extension 측정 완료 후 Flexion으로 자동 이동
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            guard let self = self else { return }
+            self.kneeType = .flexionRom  // 측정 타입 변경
+            self.navigationPath.append(MeasureStep.flexionMeasure)
+            print("📍 Extension 완료 → Flexion으로 이동")
+        }
     }
 
     // MARK: - Flexion 측정 완료 시
@@ -151,15 +166,21 @@ final class MeasureViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }  // 현재 함수가 끝날 때 자동으로 실행
 
-        let measurementMinutes = calculateMeasurementMinutes(
+        let measurementSeconds = calculateMeasurementSeconds(
             from: currentRecord.measuredDate
         )
-        
-        currentRecord.flexionAngle = measuredRom
-        currentRecord.measuredMinutes = measurementMinutes
-        
-        print(currentRecord.measuredDate, currentRecord.measuredMinutes)
 
+        currentRecord.flexionAngle = measuredRom
+        currentRecord.measuredSeconds = measurementSeconds
+
+        print(currentRecord.measuredDate, currentRecord.measuredSeconds)
+
+        // Flexion 측정 완료 후 PainLevel로 자동 이동
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            guard let self = self else { return }
+            self.navigationPath.append(MeasureStep.painLevel)
+            print("📍 Flexion 완료 → PainLevel로 이동")
+        }
     }
 
     // MARK: - PainLevel 측정 완료 시
@@ -171,9 +192,27 @@ final class MeasureViewModel: ObservableObject {
         }
 
         isLoading = true
-        defer { isLoading = false }
 
         currentRecord.painLevel = level
+
+        // 모든 측정 완료 - 데이터 저장 후 초기화
+        Task {
+            await saveCurrentRecord()
+
+            await MainActor.run {
+                isLoading = false
+                print("📍 PainLevel 완료 → 측정 완료 및 저장")
+
+                // 0.5초 후 네비게이션 리셋 (처음으로 돌아가기)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                    guard let self = self else { return }
+                    self.navigationPath.removeLast(self.navigationPath.count)
+                    self.startNewMeasurement()
+                    self.kneeType = .extensionRom  // 측정 타입 리셋
+                    print("🔄 새 측정 준비 완료")
+                }
+            }
+        }
     }
     
     // MARK: - 측정 정보를 저장 시
@@ -189,28 +228,23 @@ final class MeasureViewModel: ObservableObject {
         
         do {
             try await repository.createRecord(record: currentRecord)
+            print("save \(currentRecord.measuredDate), \(currentRecord.flexionAngle), \(currentRecord.extensionAngle), \(currentRecord.painLevel)")
         } catch {
             print("Error")
         }
     }
 
     // MARK: - 뒤로가기
-    func back() async {
+    func clearCurrentRecord() {
         guard let record = currentRecord else {
             errorMessage = "현재 레코드가 없습니다."
             print("⚠️ \(errorMessage ?? "")")
             return
         }
 
-        do {
-            try await repository.deleteRecord(by: record.id)
-            print("🗑️ 레코드 삭제 완료")
-        } catch {
-            errorMessage = "레코드 삭제 실패: \(error.localizedDescription)"
-            print("❌ \(errorMessage ?? "")")
-        }
+        currentRecord = nil
     }
-
+    
     // MARK: - 전체 레코드 조회
     func loadAllRecords() async {
         isLoading = true
@@ -250,6 +284,22 @@ final class MeasureViewModel: ObservableObject {
         errorMessage = nil
         print("🆕 새 측정 시작")
     }
+    
+    // MARK: - 오늘 데이터가 있다면 삭제하기
+    func deleteTodayRecords() async {
+        do {
+            if try await repository.hasTodayRecord {
+                print(repository.hasTodayRecord)
+                let legacyRecord = try await repository.loadLatestRecord()
+                guard let record = legacyRecord else { return }
+                print(record.measuredDate)
+                try await repository.deleteRecord(by: record.id)
+                print("delete")
+            }
+        } catch {
+            print("error")
+        }
+    }
 }
 
 extension MeasureViewModel {
@@ -271,8 +321,8 @@ extension MeasureViewModel {
         return angle * 2
     }
 
-    private func calculateMeasurementMinutes(from startDate: Date) -> Int {
+    private func calculateMeasurementSeconds(from startDate: Date) -> Int {
         let elapsed = Date().timeIntervalSince(startDate)
-        return Int(elapsed / 60)  // 초 → 분
+        return Int(elapsed) 
     }
 }
