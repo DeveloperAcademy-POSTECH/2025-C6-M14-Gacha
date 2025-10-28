@@ -1,28 +1,17 @@
 //
-//  MeasureView.swift
+//  ExtensionMeasureView.swift
 //  gacha
 //
-//  Created by Oh Seojin on 10/26/25.
+//  Created by Oh Seojin on 10/28/25.
 //
 
-import SwiftData
 import SwiftUI
 
-struct MeasureView: View {
+struct ExtensionMeasureView: View {
     @EnvironmentObject var vm: MeasureViewModel
 
     var body: some View {
-        VStack(spacing: 30) {
-            // 측정 타입 선택
-            Picker("측정 타입", selection: $vm.kneeType) {
-                Text("굴곡").tag(KneeMotionType.flexionRom)
-                Text("신전").tag(KneeMotionType.extensionRom)
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
-
-            Spacer()
-
+        VStack {
             // 측정 결과 표시
             VStack(spacing: 10) {
                 Text("측정된 ROM")
@@ -33,9 +22,6 @@ struct MeasureView: View {
                     Text(vm.kneeType.rawValue)
                         .font(.headline)
                         .foregroundColor(.blue)
-
-                    Text("\(String(format: "%.1f", vm.measuredRom))°")
-                        .font(.system(size: 48, weight: .bold))
                 }
             }
             .padding()
@@ -101,6 +87,12 @@ struct MeasureView: View {
             )
 
             Spacer()
+            
+            Button("뒤로가기") {
+                vm.clearCurrentRecord()
+            }
+            
+            Spacer()
 
             // 저장된 레코드 정보
             if let record = vm.currentRecord {
@@ -130,23 +122,12 @@ struct MeasureView: View {
                     .padding()
             }
         }
-        .padding()
         .onAppear {
-            vm.startMeasuring()
-        }
-        .onDisappear {
-            vm.stopMeasuring()
+            vm.kneeType = .extensionRom
         }
     }
 }
 
 #Preview {
-    let container = try! ModelContainer(for: MeasuredRecord.self)
-    let repository = SwiftDataRecordRepository(
-        modelContext: container.mainContext
-    )
-    let viewModel = MeasureViewModel(repository: repository)
-    return MeasureView()
-        .environmentObject(viewModel)
-        .modelContainer(container)
+    ExtensionMeasureView()
 }
