@@ -75,7 +75,6 @@ struct FlexionMeasureView: View {
                     .tabViewStyle(.page(indexDisplayMode: .never))
                     .frame(height: 280)
                     
-                    FCustomIndicator(count: items.count, selectedIndex: selection)
                 }
                 .frame(height: geo.size.height * 0.45)
                 
@@ -111,22 +110,3 @@ struct FlexionMeasureView: View {
         }
     }
 }
-
-    
-struct FCustomIndicator : View {
-    let count: Int
-    let selectedIndex: Int
-
-    var body: some View{
-        HStack{
-            ForEach(0..<count, id: \.self) { index in
-                Circle()
-                    .fill(index == selectedIndex ? Color.black : Color.gray.opacity(0.3))
-                    .frame(width: 8, height: 8)
-                    .animation(.easeInOut(duration: 0.2), value: selectedIndex)
-            }
-        }
-        
-    }
-}
-

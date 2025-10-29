@@ -1,5 +1,5 @@
 //
-//  MeasureCheckedView.swift
+//  MeasureFinishedView.swift
 //  gacha
 //
 //  Created by 차원준 on 10/28/25.
@@ -7,27 +7,16 @@
 
 import SwiftUI
 
-struct MeasureCheckedView: View {
+struct MeasureFinishedView: View {
     let onComplete: () -> Void
-    
     @State private var scale: CGFloat = 0.5
     @State private var opacity: Double = 0
     
     var body: some View {
         VStack(spacing: 20) {
-            // 체크마크 애니메이션
-            ZStack {
-                Circle()
-                    .frame(width: 234, height: 234)
-                    .foregroundStyle(.green)
-                Image(systemName: "checkmark")
-                    .font(Font.system(size: 150))
-                    .foregroundStyle(.white)
-            }
-            .scaleEffect(scale)
-            .opacity(opacity)
-            
-          
+            Text("측정이 완료되었습니다!")
+                .font(Font.system(size: 30, weight: .bold))
+                .opacity(opacity)
         }
         .onAppear {
             // 스프링 애니메이션
@@ -45,7 +34,7 @@ struct MeasureCheckedView: View {
 }
 
 #Preview {
-    MeasureCheckedView(onComplete: {
+    MeasureFinishedView(onComplete: {
         print("완료!")
     })
 }

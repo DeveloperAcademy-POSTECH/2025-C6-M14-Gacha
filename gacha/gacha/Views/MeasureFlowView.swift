@@ -34,7 +34,8 @@ struct MeasureFlowView: View {
         DailyMeasureStartView(
             session: session,
             onStartMeasure: {
-                navigationPath.append(MeasureFlowStep.extensionGuide)
+                let step: MeasureFlowStep = .extensionGuide
+                navigationPath.append(step)
             }
         )
     }
@@ -49,7 +50,8 @@ struct MeasureFlowView: View {
             ExtensionMeasureView(
                 session: session,
                 onNext: {
-                    navigationPath.append(.extensionMeasuring)
+                    let step: MeasureFlowStep = .extensionMeasuring
+                    navigationPath.append(step)
                 },
                 onBack: {
                     navigationPath.removeLast()
@@ -62,7 +64,17 @@ struct MeasureFlowView: View {
                 session: session,
                 motionType: .extensionRom,
                 onComplete: {
-                    navigationPath.append(.flexionGuide)
+                    let step: MeasureFlowStep = .extensionChecked
+                    navigationPath.append(step)
+                }
+            )
+            .navigationBarHidden(true)
+            
+        case .extensionChecked:
+            MeasureCheckedView(
+                onComplete: {
+                    let step: MeasureFlowStep = .flexionGuide
+                    navigationPath.append(step)
                 }
             )
             .navigationBarHidden(true)
@@ -71,11 +83,13 @@ struct MeasureFlowView: View {
             FlexionMeasureView(
                 session: session,
                 onNext: {
-                    navigationPath.append(.flexionMeasuring)
+                    let step: MeasureFlowStep = .flexionMeasuring
+                    navigationPath.append(step)
                 },
                 onSkipToPain: {
                     session.flexionAngle = 0.0
-                    navigationPath.append(.painLevel)
+                    let step: MeasureFlowStep = .painLevel
+                    navigationPath.append(step)
                 },
                 onCancel: {
                     session.resetData()
@@ -89,7 +103,17 @@ struct MeasureFlowView: View {
                 session: session,
                 motionType: .flexionRom,
                 onComplete: {
-                    navigationPath.append(.painLevel)
+                    let step: MeasureFlowStep = .flexionFinished
+                    navigationPath.append(step)
+                }
+            )
+            .navigationBarHidden(true)
+            
+        case .flexionFinished:
+            MeasureFinishedView(
+                onComplete: {
+                    let step: MeasureFlowStep = .painLevel
+                    navigationPath.append(step)
                 }
             )
             .navigationBarHidden(true)
@@ -98,7 +122,8 @@ struct MeasureFlowView: View {
             PainLevelView(
                 session: session,
                 onComplete: {
-                    navigationPath.append(.result)
+                    let step: MeasureFlowStep = .result
+                    navigationPath.append(step)
                 }
             )
             .navigationBarHidden(true)
@@ -109,10 +134,12 @@ struct MeasureFlowView: View {
                 onRemeasure: {
                     session.resetData()
                     navigationPath.removeLast(navigationPath.count)
-                    navigationPath.append(.extensionGuide)
+                    let step: MeasureFlowStep = .extensionGuide
+                    navigationPath.append(step)
                 },
                 onConfirm: {
-                    navigationPath.append(.summary)
+                    let step: MeasureFlowStep = .summary
+                    navigationPath.append(step)
                 }
             )
             .navigationBarHidden(true)
@@ -123,7 +150,8 @@ struct MeasureFlowView: View {
                 onRemeasure: {
                     session.resetData()
                     navigationPath.removeLast(navigationPath.count)
-                    navigationPath.append(.extensionGuide)
+                    let step: MeasureFlowStep = .extensionGuide
+                    navigationPath.append(step)
                 },
                 onDone: {
                     navigationPath.removeLast(navigationPath.count)
