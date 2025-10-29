@@ -17,6 +17,10 @@ protocol MeasureManager {
 }
 
 class MotionMeasureManager: ObservableObject, MeasureManager {
+    
+    var onMeasureComplete: ((Double) -> Void)?
+
+    
     private let motionManager = CMMotionManager()
 
     enum DeviceOrientation: String {
@@ -46,7 +50,7 @@ class MotionMeasureManager: ObservableObject, MeasureManager {
     private var recordingTimer: Timer?
     private var recordingStartTime: Date?
     @Published var recordingProgress: Double = 0.0
-    private let recordingDurationThreshold: TimeInterval = 3.0  // 3.0
+    private let recordingDurationThreshold: TimeInterval = 0.5  // 3.0
 
     // 상대 각도용
     @Published var baselinePitch: Double = 0.0
@@ -154,6 +158,9 @@ class MotionMeasureManager: ObservableObject, MeasureManager {
         if let angle = mode(of: currentMeasurements) {
             measuredROM = calculateKneeAngle(angle: angle)  // 무릎 각도 변환
             print("📊 \(kneeMotion.rawValue) ROM: \(String(format: "%.1f", measuredROM))°")
+            
+            onMeasureComplete?(measuredROM)
+
         }
 
         //MARK: ⚠️ 데이터에 저장하는 flow 필요

@@ -12,8 +12,10 @@ enum MeasureFlowStep: Hashable {
     case home                // DailyMeasureStartView (홈 화면)
     case extensionGuide      // ExtensionMeasureView
     case extensionMeasuring  // ContentView (신전 모드)
+    case extensionChecked    // MeasureCheckedView (신전 측정 완료)
     case flexionGuide        // FlexionMeasureView
     case flexionMeasuring    // ContentView (굴곡 모드)
+    case flexionFinished     // DailyMeasureDoneView (굴곡 측정 완료)
     case painLevel           // PainLevelView
     case result              // ProgressDetailView
     case summary             // DailyMeasureSummaryView (측정 완료)
