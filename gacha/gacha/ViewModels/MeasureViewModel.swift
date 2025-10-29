@@ -36,28 +36,36 @@ final class MeasureViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String? = nil
 
+    // MARK: - Progress Properties
+    @Published var previousRecord: MeasuredRecord?
+    @Published var changeResult: ChangeResult?
+
     init(repository: RecordRepository) {
         self.repository = repository
         self.measureManager = MotionMeasureManager()
     }
-    
+
     func printAllRecords() async {
         let records = try! await repository.loadRecords()
         for record in records {
-            print("📝 \(record)")
+            print("📝 \(record.measuredDate)")
         }
     }
 
     func checkTodayRecord() async {
+        var record: MeasuredRecord? = nil
+        
         do {
             hasTodayRecord = try await repository.hasTodayRecord
             print("📅 오늘의 기록 여부: \(hasTodayRecord)")
-            await self.loadLatestRecord()
+            if hasTodayRecord {
+                record = await loadLatestRecord()
+            }
         } catch {
             print("❌ 기록 확인 실패: \(error)")
             hasTodayRecord = false
         }
-        print(currentRecord?.measuredDate.description ?? "없음")
+        print("📅 오늘의 기록: \(record?.measuredDate.description ?? "없음")")
     }
 
     func startMeasuring() {
@@ -163,7 +171,7 @@ final class MeasureViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }  // 현재 함수가 끝날 때 자동으로 실행
 
-        let record = MeasuredRecord(extensionAngle: measuredRom)
+        let record = MeasuredRecord(extensionAngle: angle)
         currentRecord = record
         print("Extionsion: \(record.extensionAngle)")
 
@@ -185,7 +193,7 @@ final class MeasureViewModel: ObservableObject {
             from: record.measuredDate
         )
 
-        record.flexionAngle = measuredRom
+        record.flexionAngle = angle
         record.measuredSeconds = measurementSeconds
         print("Flexion: \(record.flexionAngle), \(record.measuredSeconds)")
 
@@ -204,14 +212,7 @@ final class MeasureViewModel: ObservableObject {
 
         currentRecord.painLevel = level
 
-        // 모든 측정 완료 - 데이터 저장 후 초기화
-        await saveCurrentRecord()
-
-        await MainActor.run {
-            isLoading = false
-            print("📍 PainLevel 완료 → 측정 완료 및 저장")
-            self.startNewMeasurement()
-        }
+        isLoading = false
     }
 
     // MARK: - 측정 정보를 저장 시
@@ -230,6 +231,7 @@ final class MeasureViewModel: ObservableObject {
             print(
                 "save \(currentRecord.measuredDate), \(currentRecord.flexionAngle), \(currentRecord.extensionAngle), \(currentRecord.painLevel)"
             )
+            self.clearCurrentRecord()
         } catch {
             print("Error")
         }
@@ -254,30 +256,26 @@ final class MeasureViewModel: ObservableObject {
         }
     }
 
-    // MARK: - 최근 레코드 조회
-    func loadLatestRecord() async {
+    // MARK: - 최근 레코드 불러오기
+    func loadLatestRecord() async -> MeasuredRecord? {
         isLoading = true
         defer { isLoading = false }
 
         do {
-            currentRecord = try await repository.loadLatestRecord()
+            let record = try await repository.loadLatestRecord()
 
-            if let record = currentRecord {
+            if let record = record {
                 print("📝 최근 레코드 로드: Extension \(record.extensionAngle)°")
             } else {
                 print("⚠️ 저장된 레코드가 없습니다")
             }
+            
+            return record
         } catch {
             errorMessage = "최근 레코드 로드 실패: \(error.localizedDescription)"
             print("❌ \(errorMessage ?? "")")
+            return nil
         }
-    }
-
-    // MARK: - 새 측정 시작 (currentRecord 초기화)
-    func startNewMeasurement() {
-        currentRecord = nil
-        errorMessage = nil
-        print("🆕 새 측정 시작")
     }
 
     // MARK: - 오늘 데이터가 있다면 삭제하기
@@ -287,7 +285,7 @@ final class MeasureViewModel: ObservableObject {
                 print(repository.hasTodayRecord)
                 let legacyRecord = try await repository.loadLatestRecord()
                 guard let record = legacyRecord else { return }
-                print(record.measuredDate)
+                print("🗑️ deleteTodayRecords: ", record.measuredDate)
                 try await repository.deleteRecord(by: record.id)
                 print("🗑️ 오늘의 레코드를 delete")
             }

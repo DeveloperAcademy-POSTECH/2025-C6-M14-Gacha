@@ -76,10 +76,10 @@ public enum RomChangeState: Equatable {
 
 // 통증 상태
 public enum PainChangeState: Equatable {
-    case normal(delta: Double)  // 통증 보통
-    case warning(delta: Double) // 통증이 심함
-    case better(delta: Double)  // 통증 감소
-    case visitRecommended(delta: Double) // 내원 필요
+    case normal(delta: Int)  // 통증 보통
+    case warning(delta: Int) // 통증이 심함
+    case better(delta: Int)  // 통증 감소
+    case visitRecommended(delta: Int) // 내원 필요
     
     /**
     1. switch self
@@ -90,7 +90,7 @@ public enum PainChangeState: Equatable {
     3. return delta
      → 추출된 delta 값을 반환한다.
      **/
-    public var delta: Double {
+    public var delta: Int {
         switch self {
         case .normal(let delta),
              .warning(let delta),
@@ -102,8 +102,8 @@ public enum PainChangeState: Equatable {
     
     
     public static func calculate(
-        latestPainLevel: Double,
-        previousPainLevel: Double,
+        latestPainLevel: Int,
+        previousPainLevel: Int,
         alertThreshold: PainThreshold = .alert,
         safeThreshold: PainThreshold = .safe
     ) -> PainChangeState {
@@ -113,13 +113,13 @@ public enum PainChangeState: Equatable {
         let alertValue = alertThreshold.rawValue
         let safeValue = safeThreshold.rawValue
         
-        if delta >= alertValue { // alert 수치 이상 증가했을때
+        if delta >= Int(alertValue) { // alert 수치 이상 증가했을때
             return .visitRecommended(delta: delta)
         }
         else {                   // alert 수치 이상보다 작을 때
-            if delta >= safeValue {
+            if delta >= Int(safeValue) {
                 return .warning(delta: delta)
-            } else if delta <= -safeValue {
+            } else if delta <= -Int(safeValue) {
                 return .better(delta: delta)
             } else {
                 return .normal(delta: delta)

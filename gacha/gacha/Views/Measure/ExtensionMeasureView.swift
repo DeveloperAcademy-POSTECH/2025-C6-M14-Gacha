@@ -1,4 +1,3 @@
-import SwiftData
 //
 //  ExtensionMeasureView.swift
 //  gacha
@@ -6,6 +5,7 @@ import SwiftData
 //  Created by 차원준 on 10/26/25.
 //
 import SwiftUI
+import SwiftData
 
 struct ExtensionMeasureView: View {
     @EnvironmentObject var vm: MeasureViewModel

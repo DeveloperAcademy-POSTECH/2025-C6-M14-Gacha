@@ -70,7 +70,9 @@ struct DailyMeasureSummaryView: View {
                         primaryButton: .destructive(
                             Text("네"),
                             action: {
-                                vm.navigationPath.append(MeasureFlowStep.extensionMeasure)
+                                vm.navigationPath.append(
+                                    MeasureFlowStep.extensionMeasure
+                                )
                             }
                         ),
                         secondaryButton: .cancel(Text("아니요"))
@@ -86,7 +88,11 @@ struct DailyMeasureSummaryView: View {
                     .presentationDragIndicator(.hidden)
             }
         }
+        .onAppear {
+            vm.clearCurrentRecord()
+        }
     }
+
 }
 
 #Preview {

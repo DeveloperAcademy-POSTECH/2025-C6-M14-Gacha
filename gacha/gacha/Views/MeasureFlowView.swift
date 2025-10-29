@@ -18,40 +18,48 @@ struct MeasureFlowViewWrapper: View {
 }
 
 struct MeasureFlowView: View {
-    @StateObject private var vm: MeasureViewModel
+    @StateObject private var measureVM: MeasureViewModel
+    @StateObject private var historyVM: ProgressHistoryViewModel
 
     init(modelContext: ModelContext) {
         let repository = SwiftDataRecordRepository(modelContext: modelContext)
-        _vm = StateObject(
+        _measureVM = StateObject(
             wrappedValue: MeasureViewModel(repository: repository)
         )
+        _historyVM = StateObject(wrappedValue: ProgressHistoryViewModel(repository: repository))
     }
 
     var body: some View {
-        NavigationStack(path: $vm.navigationPath) {
+        NavigationStack(path: $measureVM.navigationPath) {
             // 루트 화면: DailyMeasureStartView
             homeView()
                 .navigationDestination(for: MeasureFlowStep.self) { step in
                     viewForStep(step)
                 }
         }
-        .onAppear() {
-            vm.startMeasuring()
-            Task {
-                await vm.checkTodayRecord()
-                await vm.printAllRecords()
+        .onChange(of: measureVM.navigationPath.count) { oldValue, newValue in
+            // 홈으로 돌아왔을 때 (path가 비었을 때)
+            if newValue == 0 {
+                Task {
+                    await measureVM.checkTodayRecord()
+                }
             }
         }
-        .onDisappear {
-            vm.stopMeasuring()
+        .onAppear {
+            measureVM.startMeasuring()
         }
-        .environmentObject(vm)  // 모든 하위 뷰에 VM 주입
+        .onDisappear {
+            measureVM.stopMeasuring()
+        }
+        .environmentObject(measureVM)
+        .environmentObject(historyVM)
+
     }
 
     // MARK: - View Builder
     @ViewBuilder
     private func homeView() -> some View {
-        if vm.hasTodayRecord {
+        if measureVM.hasTodayRecord {
             DailyMeasureSummaryView()
         } else {
             DailyMeasureStartView()
@@ -76,6 +84,7 @@ struct MeasureFlowView: View {
             FlexionMeasureView()
                 .navigationBarBackButtonHidden(true)
 
+            
         case .painLevel:
             PainLevelView()
                 .navigationBarHidden(true)
