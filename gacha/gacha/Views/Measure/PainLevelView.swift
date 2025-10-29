@@ -288,14 +288,3 @@ struct ArcShape: Shape {
     }
 }
 
-#Preview {
-    // 더미 세션 생성
-    let sampleSession = MeasureSession()
-    sampleSession.flexionAngle = 120
-    sampleSession.extensionAngle = 10
-    sampleSession.painLevel = 5
-
-    // SwiftData 환경 주입 (모델 컨텍스트 필요)
-    return PainLevelView(session: sampleSession)
-        .modelContainer(for: MeasuredRecord.self, inMemory: true)
-}

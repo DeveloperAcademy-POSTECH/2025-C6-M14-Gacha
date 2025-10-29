@@ -35,7 +35,9 @@ struct ExtensionMeasureView: View {
                         }
                         Spacer()
                     }
-                }
+                    
+                    Text("화면을 꾹 눌러서 측정을 시작해주세요")
+                        .font(.system(size: 22, weight: .bold))                }
                 .padding(.horizontal, 20)
                 .frame(height: geo.size.height * 0.25)
 
