@@ -25,7 +25,7 @@ struct gachaApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MeasureFlowView()
+            MeasureFlowViewWrapper()
         }
         .modelContainer(modelContainer)
     }
@@ -41,34 +41,32 @@ struct gachaApp: App {
         // 데이터가 없으면 샘플 데이터 추가
         if existingRecords?.isEmpty ?? true {
             let sampleData = [
-                (days: -9, flexion: 50.0, extension: 140.0, pain: 4.0),
-                (days: -8, flexion: 25.0, extension: 105.0, pain: 5.0),
-                (days: -7, flexion: 28.0, extension: 98.0, pain: 5.0),
-                (days: -6, flexion: 22.0, extension: 125.0, pain: 4.0),
-                (days: -5, flexion: 50.0, extension: 80.0, pain: 3.0),
-                (days: -4, flexion: 18.0, extension: 135.0, pain: 5.0),
-                (days: -3, flexion: 55.0, extension: 160.0, pain: 6.0),
-                (days: -2, flexion: 32.0, extension: 145.0, pain: 5.0),
-                (days: -1, flexion: 10.0, extension: 170.0, pain: 4.0),
-                (days: 0, flexion: 8.0, extension: 152.0, pain: 7.0)
+                (days: -9, flexion: 50.0, extension: 140.0, pain: 4),
+                (days: -8, flexion: 25.0, extension: 105.0, pain: 5),
+                (days: -7, flexion: 28.0, extension: 98.0, pain: 5),
+                (days: -6, flexion: 22.0, extension: 125.0, pain: 4),
+                (days: -5, flexion: 50.0, extension: 80.0, pain: 3),
+                (days: -4, flexion: 18.0, extension: 135.0, pain: 5),
+                (days: -3, flexion: 55.0, extension: 160.0, pain: 6),
+                (days: -2, flexion: 32.0, extension: 145.0, pain: 5),
+                (days: -1, flexion: 10.0, extension: 170.0, pain: 4),
             ]
             
             let calendar = Calendar.current
             for data in sampleData {
                 let date = calendar.date(byAdding: .day, value: data.days, to: Date())!
                 let record = MeasuredRecord(
-                    measuredDate: date,
-                    flexionAngle: data.flexion,
                     extensionAngle: data.extension,
-                    measuredMinutes: 30,
+                    flexionAngle: data.flexion,
+                    measuredSeconds: 30,
                     painLevel: data.pain
                 )
+                record.measuredDate = date  // 샘플 데이터용 날짜 설정
                 context.insert(record)
             }
             
             try? context.save()
         }
-        .modelContainer(modelContainer)
     }
 
     var body: some Scene {

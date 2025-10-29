@@ -50,7 +50,7 @@ final class SwiftDataRecordRepository: RecordRepository {
         modelContext.insert(record)
         try modelContext.save()
 
-        print("✅ Record 생성: Extension \(record.extensionAngle)°")
+        print("✅ Record 생성: \(record.measuredDate)°")
         return record
     }
 

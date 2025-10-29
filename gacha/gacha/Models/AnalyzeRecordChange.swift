@@ -1,28 +1,28 @@
+////
+////  AnalyzeRecordChange.swift
+////  gacha
+////
+////  Created by 차원준 on 10/23/25.
+////
 //
-//  AnalyzeRecordChange.swift
-//  gacha
+///**
+//MeasuredRecord
+//var id: UUID = UUID()
+//var measuredDate: Date = Date.now
+//var flexionAngle: Double = 0.0
+//var extensionAngle: Double = 0.0
+//var ROM: Double = 0.0
+//var measuredTime: Int = 0
+//var painLevel: Double = 0.0
+// 
+//ChangeResult
+//- RomDiff: Double
+//- RomDiffState: `enum` ROM 측정값 변화 상태
+//- PainDiff: Double
+//- PainDiffState: `enum` 고통 점수 변화 상태
+//**/
 //
-//  Created by 차원준 on 10/23/25.
 //
-
-/**
-MeasuredRecord
-var id: UUID = UUID()
-var measuredDate: Date = Date.now
-var flexionAngle: Double = 0.0
-var extensionAngle: Double = 0.0
-var ROM: Double = 0.0
-var measuredTime: Int = 0
-var painLevel: Double = 0.0
- 
-ChangeResult
-- RomDiff: Double
-- RomDiffState: `enum` ROM 측정값 변화 상태
-- PainDiff: Double
-- PainDiffState: `enum` 고통 점수 변화 상태
-**/
-
-
 //func analyzeRecordChange(latest:MeasuredRecord, previous:MeasuredRecord) -> ChangeResult {
 //    //최신 데이터
 //    let latestDate = latest.measuredDate

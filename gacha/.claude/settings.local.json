@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/ohseojin/Library/Developer/Xcode/UserData/Previews/Simulator Devices/0AE1EAA5-FE95-4F86-908C-9830FB5D3BEB/data/Containers/Shared/SystemGroup/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

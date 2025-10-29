@@ -14,7 +14,8 @@ class MeasuredRecord {
     var extensionAngle: Double
     var flexionAngle: Double?
 
-    public var ROM: Double? {
+    @Transient
+    var ROM: Double? {
         guard let flexion = flexionAngle else { return nil }
         return flexion - extensionAngle
     }
@@ -22,12 +23,12 @@ class MeasuredRecord {
     var measuredSeconds: Int?
     var painLevel: Int?
 
-    init(extensionAngle: Double) {
+    init(extensionAngle: Double, flexionAngle: Double? = nil, measuredSeconds: Int? = nil, painLevel: Int? = nil) {
         self.id = UUID()
         self.measuredDate = Date.now
         self.extensionAngle = extensionAngle
-        self.flexionAngle = nil
-        self.measuredSeconds = nil
-        self.painLevel = nil
+        self.flexionAngle = flexionAngle
+        self.measuredSeconds = measuredSeconds
+        self.painLevel = painLevel
     }
 }

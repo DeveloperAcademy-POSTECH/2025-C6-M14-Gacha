@@ -5,159 +5,88 @@
 //  Created by 차원준 on 10/28/25.
 //
 
-
+import SwiftData
 import SwiftUI
 
-struct MeasureFlowView: View {
+// MARK: - Wrapper View (Environment에서 modelContext 받아서 전달)
+struct MeasureFlowViewWrapper: View {
     @Environment(\.modelContext) private var modelContext
-    
-    // 측정 세션 (데이터만 관리)
-    @State private var session = MeasureSession()
-    
-    // 네비게이션 경로 (화면 이동 관리)
-    @State private var navigationPath = NavigationPath()
-    
+
     var body: some View {
-        NavigationStack(path: $navigationPath) {
+        MeasureFlowView(modelContext: modelContext)
+    }
+}
+
+struct MeasureFlowView: View {
+    @StateObject private var vm: MeasureViewModel
+
+    init(modelContext: ModelContext) {
+        let repository = SwiftDataRecordRepository(modelContext: modelContext)
+        _vm = StateObject(
+            wrappedValue: MeasureViewModel(repository: repository)
+        )
+    }
+
+    var body: some View {
+        NavigationStack(path: $vm.navigationPath) {
             // 루트 화면: DailyMeasureStartView
             homeView()
                 .navigationDestination(for: MeasureFlowStep.self) { step in
                     viewForStep(step)
                 }
         }
+        .onAppear() {
+            vm.startMeasuring()
+            Task {
+                await vm.checkTodayRecord()
+                await vm.printAllRecords()
+            }
+        }
+        .onDisappear {
+            vm.stopMeasuring()
+        }
+        .environmentObject(vm)  // 모든 하위 뷰에 VM 주입
     }
-    
-    // MARK: - View Builders
-    
+
+    // MARK: - View Builder
     @ViewBuilder
     private func homeView() -> some View {
-        DailyMeasureStartView(
-            session: session,
-            onStartMeasure: {
-                let step: MeasureFlowStep = .extensionGuide
-                navigationPath.append(step)
-            }
-        )
+        if vm.hasTodayRecord {
+            DailyMeasureSummaryView()
+        } else {
+            DailyMeasureStartView()
+        }
     }
-    
+
     @ViewBuilder
     private func viewForStep(_ step: MeasureFlowStep) -> some View {
         switch step {
         case .home:
             homeView()
-            
-        case .extensionGuide:
-            ExtensionMeasureView(
-                session: session,
-                onNext: {
-                    let step: MeasureFlowStep = .extensionMeasuring
-                    navigationPath.append(step)
-                },
-                onBack: {
-                    navigationPath.removeLast()
-                }
-            )
-            .navigationBarBackButtonHidden(true)
-            
-        case .extensionMeasuring:
-            ContentView(
-                session: session,
-                motionType: .extensionRom,
-                onComplete: {
-                    let step: MeasureFlowStep = .extensionChecked
-                    navigationPath.append(step)
-                }
-            )
-            .navigationBarHidden(true)
-            
-        case .extensionChecked:
-            MeasureCheckedView(
-                onComplete: {
-                    let step: MeasureFlowStep = .flexionGuide
-                    navigationPath.append(step)
-                }
-            )
-            .navigationBarHidden(true)
-            
-        case .flexionGuide:
-            FlexionMeasureView(
-                session: session,
-                onNext: {
-                    let step: MeasureFlowStep = .flexionMeasuring
-                    navigationPath.append(step)
-                },
-                onSkipToPain: {
-                    session.flexionAngle = 0.0
-                    let step: MeasureFlowStep = .painLevel
-                    navigationPath.append(step)
-                },
-                onCancel: {
-                    session.resetData()
-                    navigationPath.removeLast(navigationPath.count)
-                }
-            )
-            .navigationBarBackButtonHidden(true)
-            
-        case .flexionMeasuring:
-            ContentView(
-                session: session,
-                motionType: .flexionRom,
-                onComplete: {
-                    let step: MeasureFlowStep = .flexionFinished
-                    navigationPath.append(step)
-                }
-            )
-            .navigationBarHidden(true)
-            
-        case .flexionFinished:
-            MeasureFinishedView(
-                onComplete: {
-                    let step: MeasureFlowStep = .painLevel
-                    navigationPath.append(step)
-                }
-            )
-            .navigationBarHidden(true)
-            
+
+        case .extensionMeasure:
+            ExtensionMeasureView()
+                .navigationBarBackButtonHidden(true)
+
+        case .measureChecked:
+            MeasureCheckedView()
+                .navigationBarHidden(true)
+
+        case .flexionMeasure:
+            FlexionMeasureView()
+                .navigationBarBackButtonHidden(true)
+
         case .painLevel:
-            PainLevelView(
-                session: session,
-                onComplete: {
-                    let step: MeasureFlowStep = .result
-                    navigationPath.append(step)
-                }
-            )
-            .navigationBarHidden(true)
-            
+            PainLevelView()
+                .navigationBarHidden(true)
+
         case .result:
-            ProgressDetailView(
-                session: session,
-                onRemeasure: {
-                    session.resetData()
-                    navigationPath.removeLast(navigationPath.count)
-                    let step: MeasureFlowStep = .extensionGuide
-                    navigationPath.append(step)
-                },
-                onConfirm: {
-                    let step: MeasureFlowStep = .summary
-                    navigationPath.append(step)
-                }
-            )
-            .navigationBarHidden(true)
-            
+            ProgressDetailView()
+                .navigationBarHidden(true)
+
         case .summary:
-            DailyMeasureSummaryView(
-                session: session,
-                onRemeasure: {
-                    session.resetData()
-                    navigationPath.removeLast(navigationPath.count)
-                    let step: MeasureFlowStep = .extensionGuide
-                    navigationPath.append(step)
-                },
-                onDone: {
-                    navigationPath.removeLast(navigationPath.count)
-                }
-            )
-            .navigationBarHidden(true)
+            DailyMeasureSummaryView()
+                .navigationBarHidden(true)
         }
     }
 }
