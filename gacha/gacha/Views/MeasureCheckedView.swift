@@ -20,10 +20,10 @@ struct MeasureCheckedView: View {
             ZStack {
                 Circle()
                     .frame(width: 234, height: 234)
-                    .foregroundStyle(.green)
+                    .foregroundStyle(Color("ButtonGreen"))
                 Image(systemName: "checkmark")
                     .font(Font.system(size: 150))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color("White"))
             }
             .scaleEffect(scale)
             .opacity(opacity)

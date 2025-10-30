@@ -27,19 +27,19 @@ struct DailyMeasureStartView: View {
                         } label: {
                             ZStack {
                                 Circle()
-                                    .fill(Color.blue.opacity(0.3))
+                                    .fill(Color("Primary300"))
                                     .frame(width: 44, height: 44)
                                 Image(systemName: "chart.xyaxis.line")
                                     .frame(width: 44, height: 44)
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(Color("White"))
                             }
                         }
                     }
 
                     Text("오늘의 측정")
-                        .font(.system(size: 34, weight: .bold))
+                        .font(.displayLargeBold)
                     Text("일일 기록을 측정합니다.")
-                        .font(.system(size: 15, weight: .medium))
+                        .font(.roundedTitle3Medium)
                 }
                 .padding(.horizontal, 20)
                 .frame(height: geo.size.height * 0.25)
@@ -66,16 +66,16 @@ struct DailyMeasureStartView: View {
                     vm.navigationPath.append(MeasureFlowStep.extensionMeasure)
                 } label: {
                     Text("측정시작하기")
-                        .font(.headline)
+                        .font(.displayHeadlineSemibold)
                         .frame(maxWidth: .infinity)
                         .frame(height: 50)
-                        .foregroundStyle(.white)
-                        .background(Color.blue)
+                        .foregroundStyle(Color("White"))
+                        .background(Color("Primary500"))
                         .cornerRadius(25)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .background(Color.blue.opacity(0.2))
+            .background(Color("BackgroundBase"))
 
             .sheet(isPresented: $showHistorySheet) {
                 ProgressHistoryView()

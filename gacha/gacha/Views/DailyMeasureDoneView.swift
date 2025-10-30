@@ -17,7 +17,7 @@ struct DailyMeasureDoneView: View {
     var body: some View {
         VStack(spacing: 20) {
             Text("측정이 완료되었습니다!")
-                .font(.system(size: 30))
+                .font(.displayTitle1Bold)
         }
         .onAppear {
 
