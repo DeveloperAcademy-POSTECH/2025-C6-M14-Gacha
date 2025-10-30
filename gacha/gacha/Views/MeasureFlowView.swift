@@ -46,7 +46,10 @@ struct MeasureFlowView: View {
             }
         }
         .onAppear {
-            measureVM.startMeasuring()
+            Task {
+                await measureVM.checkTodayRecord()
+                measureVM.startMeasuring()
+            }
         }
         .onDisappear {
             measureVM.stopMeasuring()
@@ -59,10 +62,14 @@ struct MeasureFlowView: View {
     // MARK: - View Builder
     @ViewBuilder
     private func homeView() -> some View {
-        if measureVM.hasTodayRecord {
-            DailyMeasureSummaryView()
+        if measureVM.isLoading {
+            Text("Loading...")
         } else {
-            DailyMeasureStartView()
+            if measureVM.hasTodayRecord {
+                DailyMeasureSummaryView()
+            } else {
+                DailyMeasureStartView()
+            }
         }
     }
 

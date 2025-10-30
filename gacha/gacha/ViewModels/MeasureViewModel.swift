@@ -57,12 +57,14 @@ final class MeasureViewModel: ObservableObject {
 
     func checkTodayRecord() async {
         var record: MeasuredRecord? = nil
+        isLoading = true
+        defer { isLoading = false }
 
         do {
             hasTodayRecord = try await repository.hasTodayRecord
             print("📅 오늘의 기록 여부: \(hasTodayRecord)")
             if hasTodayRecord {
-                record = await loadLatestRecord()
+                currentRecord = await loadLatestRecord()
             }
         } catch {
             print("❌ 기록 확인 실패: \(error)")
