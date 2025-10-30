@@ -16,73 +16,83 @@ struct DailyMeasureSummaryView: View {
 
     var body: some View {
         GeometryReader { geo in
-            VStack(spacing: 0) {
-                // MARK: - 상단 영역
-                VStack(alignment: .leading, spacing: 8) {
-                    HStack {
-                        Spacer()
+            if vm.isLoading {
+                Text("Loading...")
+            } else {
 
-                        ButtonComponent(
-                            background: Color("Primary300"),
-                            systemImageName: "chart.xyaxis.line",
-                            weight: .semibold,
-                            color: Color("White")
-                        ) {
-                            showHistorySheet = true
+                VStack(spacing: 0) {
+                    // MARK: - 상단 영역
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Spacer()
+
+                            ButtonComponent(
+                                background: Color("Primary300"),
+                                systemImageName: "chart.xyaxis.line",
+                                weight: .semibold,
+                                color: Color("White")
+                            ) {
+                                showHistorySheet = true
+                            }
+
                         }
 
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(Strings.Summary.title)
+                                .font(.displayLargeBold)
+                            Text(Strings.Summary.description)
+                                .font(.displayTitle3Medium)
+                        }
                     }
+                    .padding(.horizontal, 16)
 
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(Strings.Summary.title)
-                            .font(.displayLargeBold)
-                        Text(Strings.Summary.description)
-                            .font(.displayTitle3Medium)
+                    Spacer()
+
+                    // MARK: - 중간 영역
+                    resultCardWithMeasurements
+
+                    Spacer()
+
+                    CapsuleButtonComponent(
+                        title: Strings.Summary.button,
+                        style: .primary
+                    ) {
+                        showingAlert = true
+                    }
+                    .alert(isPresented: $showingAlert) {
+                        Alert(
+                            title: Text(Strings.Alert.Remeasure.title),
+                            message: Text(Strings.Alert.Remeasure.message),
+                            primaryButton: .destructive(
+                                Text("네"),
+                                action: {
+                                    vm.navigationPath.append(
+                                        MeasureFlowStep.extensionMeasure
+                                    )
+                                }
+                            ),
+                            secondaryButton: .cancel(Text("아니요"))
+                        )
                     }
                 }
-                .padding(.horizontal, 16)
-                
-                Spacer()
+                .frame(
+                    maxWidth: .infinity,
+                    maxHeight: .infinity,
+                    alignment: .top
+                )
+                .appBackground()
 
-                // MARK: - 중간 영역
-                resultCardWithMeasurements
-
-                Spacer()
-
-                CapsuleButtonComponent(
-                    title: Strings.Summary.button,
-                    style: .primary
-                ) {
-                    showingAlert = true
+                .sheet(isPresented: $showHistorySheet) {
+                    ProgressHistoryView()
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.hidden)
                 }
-                .alert(isPresented: $showingAlert) {
-                    Alert(
-                        title: Text(Strings.Alert.Remeasure.title),
-                        message: Text(Strings.Alert.Remeasure.message),
-                        primaryButton: .destructive(
-                            Text("네"),
-                            action: {
-                                vm.navigationPath.append(
-                                    MeasureFlowStep.extensionMeasure
-                                )
-                            }
-                        ),
-                        secondaryButton: .cancel(Text("아니요"))
-                    )
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .appBackground()
-
-            .sheet(isPresented: $showHistorySheet) {
-                ProgressHistoryView()
-                    .presentationDetents([.large])
-                    .presentationDragIndicator(.hidden)
             }
         }
         .onAppear {
             Task {
-                await vm.loadPreviousRecord()
+                await vm.loadTodayRecord()
+                await vm.loadYesterdayRecord()
                 vm.calculateRecordChange()
             }
             vm.clearCurrentRecord()
@@ -104,28 +114,36 @@ struct DailyMeasureSummaryView: View {
                         .scaledToFill()
                         .frame(width: 115, height: 115)
                         .overlay(alignment: .topTrailing) {
-                            Text(vm.formatAngle(vm.currentRecord?.extensionAngle))
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .padding(.top, 8)
-                                .padding(.trailing, 8)
+                            Text(
+                                vm.formatAngle(
+                                    vm.currentRecord?.extensionAngle
+                                )
+                            )
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.top, 8)
+                            .padding(.trailing, 8)
                         }
                 }
-                
+
                 VStack(spacing: 8) {
                     Image("FlexionBody")
                         .resizable()
                         .scaledToFill()
                         .frame(width: 115, height: 115)
-                         .overlay(alignment: .topTrailing) {
-                            Text(vm.formatAngle(vm.currentRecord?.flexionAngle))
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .padding(.top, 8)
-                                .padding(.trailing, 8)
+                        .overlay(alignment: .topTrailing) {
+                            Text(
+                                vm.formatAngle(
+                                    vm.currentRecord?.flexionAngle
+                                )
+                            )
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.top, 8)
+                            .padding(.trailing, 8)
                         }
                 }
-                
+
             }
             .frame(maxWidth: .infinity, alignment: .center)
 
@@ -138,9 +156,9 @@ struct DailyMeasureSummaryView: View {
                     .foregroundStyle(.secondary)
             }
 
-            
             // 측정값 그리드
             measurementGrid
+
         }
         .padding(24)
         .frame(width: 345, alignment: .topLeading)
@@ -215,7 +233,8 @@ struct DailyMeasureSummaryView: View {
                         Image(
                             systemName: changeValue > 0
                                 ? "arrowtriangle.up.fill"
-                                : changeValue < 0 ? "arrowtriangle.down.fill" : "minus"
+                                : changeValue < 0
+                                    ? "arrowtriangle.down.fill" : "minus"
                         )
                         .font(.caption2)
                         Text("\(changeValue)°")
