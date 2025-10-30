@@ -18,22 +18,25 @@ struct ExtensionMeasureView: View {
             ZStack {
                 VStack(spacing: 0) {
                     // MARK: - 상단 영역
-                    HStack {
-                        ButtonComponent(
-                            background: Color("Primary300"),
-                            systemImageName: "chevron.left",
-                            weight: .semibold,
-                            color: Color("White")
-                        ) {
-                            vm.navigationPath.removeLast()
-                        }
-                        Spacer()
-                    }
-                    .padding(.horizontal, 16)
+                    if vm.recordingProgress == 0 {
 
-                    // MARK: - 인디케이터
-                    IndicatorComponent(currentStep: vm.kneeType)
-                        .padding(.top, 24)
+                        HStack {
+                            ButtonComponent(
+                                background: Color("Primary300"),
+                                systemImageName: "chevron.left",
+                                weight: .semibold,
+                                color: Color("White")
+                            ) {
+                                vm.navigationPath.removeLast()
+                            }
+                            Spacer()
+                        }
+                        .padding(.horizontal, 16)
+                        
+                        // MARK: - 인디케이터
+                        IndicatorComponent(currentStep: vm.kneeType)
+                            .padding(.top, 24)
+                    }
 
                     // MARK: - 측정 영역
                     ZStack {
@@ -95,7 +98,7 @@ struct ExtensionMeasureView: View {
                                 }
                         )
                     }
-                    .padding(.top, 48)
+                    .padding(.top, vm.recordingProgress > 0 ? 160 :  48)
                     
                     //MARK: - Text
                     Text(vm.recordingProgress > 0 ? Strings.Extension.measuring : Strings.Extension.instructionEmphasis)
