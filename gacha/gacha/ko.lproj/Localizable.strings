@@ -8,15 +8,12 @@
 
 /* Common */
 
-//MARK: common.confirm은 사용되는 곳이 없음. 글자수를 줄이기 위해 선택지는 네/아니오로 통일. (추후 변동 가능성 아주 약간 있음)
 "common.confirm" = "확인";
 "common.yes" = "네";
 "common.no" = "아니오";
 "common.continue" = "아니오";
 "common.back_to_start" = "네";
 "common.skip" = "네";
-
-//MARK: ProgressDetail View 버튼 추가
 "common.retake" = "다시 측정하기";
 "common.back_home" = "처음으로 가기";
 
@@ -55,7 +52,6 @@
 "pain.button" = "결과 보기";
 
 /* Pain Levels 0-10 (11 categories) */
-//MARK: 11 categories로 변경
 "pain.level.0" = "아프지 않아요";
 "pain.level.1" = "살짝 아파요";
 "pain.level.2" = "조금 아파요";
@@ -63,7 +59,7 @@
 "pain.level.4" = "꽤 아파요";
 "pain.level.5" = "많이 아파요";
 "pain.level.6" = "아주 아파요";
-"pain.level.7" = "많이 아파요";
+"pain.level.7" = "엄청 아파요";
 "pain.level.8" = "참기 힘들어요";
 "pain.level.9" = "참을 수 없어요";
 "pain.level.10" = "견딜 수 없어요";
@@ -84,7 +80,6 @@
 "progress.warning.title" = "움직이기 어려운 상태예요.";
 "progress.warning.description" = "무릎이 잘 펴지거나 굽혀지지 않으세요?";
 "progress.warning.emphasis" = "전문가와 상의해 보세요.";
-//MARK: 상태 추가
 "progress.pain_normal.title" = "통증이 느껴졌어요.";
 "progress.pain_normal.description" = "회복 과정에서 나타날 수 있는 자연스러운 반응이에요.\n 오늘은 잠시 쉬어도 괜찮아요.";
 "progress.pain_caution.title" = "통증이 심해졌어요.";
@@ -95,12 +90,10 @@
 "progress.pain_warning.emphasis" = "가까운 병원을 방문해 보세요.";
 "progress.first_take.title" = "첫 기록을 남기셨네요!";
 "progress.first_take.description" = "오늘의 기록이 회복을 향한 첫 발자국이에요.\n 앞으로도 꾸준히 함께해요.";
-
-//MARK: 카드 변수명 추가
-"card.extension_angle" = "펴짐 각도"
-"card.flexion_angle" = "굽힘 각도"
-"card.knee_ROM" = " 무릎 움직임 범위"
-"card.pain_level" = "통증 단계"
+"card.extension_angle" = "펴짐 각도";
+"card.flexion_angle" = "굽힘 각도";
+"card.knee_ROM" = "무릎 움직임 범위";
+"card.pain_level" = "통증 단계";
 
 /* ProgressHistoryView */
 "history.title" = "변화 보기";
