@@ -63,7 +63,7 @@ class ProgressHistoryViewModel: ObservableObject {
 
     func formatShortDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "M.d"
+        formatter.dateFormat = "M/d"
         return formatter.string(from: date)
     }
     

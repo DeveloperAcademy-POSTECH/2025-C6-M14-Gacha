@@ -26,30 +26,35 @@ struct ProgressHistoryView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             Text("무릎 가동범위 추이")
                                 .font(.displayTitle3Bold)
-                            HStack(alignment: .top) {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("평균")
-                                        .font(.displayCaption1Semibold)
-                                        .foregroundColor(Color("Gray500"))
-                                    Text("\(vm.romAverage)°")
-                                        .font(.displayTitle1Bold)
-                                }
-                                Spacer()
+                            
+                            VStack(alignment: .leading) {
+
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("평균")
+                                            .font(.displayCaption1Semibold)
+                                            .foregroundColor(Color("Gray500"))
+                                        Text("\(vm.romAverage)°")
+                                            .font(.displayTitle1Bold)
+                                    }
+                                Text(vm.dateRangeText)
+                                    .font(.displayCaption1Semibold)
+                                    .foregroundColor(Color("Gray500"))
+                                romChart
+                                    
                             }
-
-                            Text(vm.dateRangeText)
-                                .font(.displayCaption1Semibold)
-                                .foregroundColor(Color("Gray500"))
-
-                            romChart
+                            .padding(16)
+                            .background(Color.white)
+                            .cornerRadius(24)
                         }
+                
+
 
                         // MARK: - 통증 수준 추이
                         VStack(alignment: .leading, spacing: 16) {
                             Text("통증 수준 추이")
                                 .font(.displayTitle3Bold)
-
-                            HStack(alignment: .top) {
+                            
+                            VStack(alignment: .leading) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("최소~최대")
                                         .font(.displayCaption1Semibold)
@@ -58,15 +63,16 @@ struct ProgressHistoryView: View {
                                     Text("\(vm.painMin)~\(vm.painMax)")
                                         .font(.displayTitle1Bold)
                                 }
+                                
+                                Text(vm.dateRangeText)
+                                    .font(.displayCaption1Semibold)
+                                    .foregroundColor(Color("Gray500"))
 
-                                Spacer()
+                                painChart
                             }
-
-                            Text(vm.dateRangeText)
-                                .font(.displayCaption1Semibold)
-                                .foregroundColor(Color("Gray500"))
-
-                            painChart
+                            .padding(16)
+                            .background(Color.white)
+                            .cornerRadius(24)
                         }
                     }
                     .padding(.horizontal, 20)
@@ -78,7 +84,7 @@ struct ProgressHistoryView: View {
                 // MARK: - Close Button
 
                 ButtonComponent(
-                    background: Color("Primary500"),
+                    background: Color("Primary900"),
                     systemImageName: "xmark",
                     weight: .bold,
                     color: Color("White")
@@ -152,7 +158,9 @@ struct ProgressHistoryView: View {
         }
         .chartYScale(domain: 0...190)
         .chartXSelection(value: $vm.selectedROMDate)
-        .frame(height: 250)
+        .frame(height: 361)
+       
+    
     }
 
     @ViewBuilder
@@ -165,21 +173,33 @@ struct ProgressHistoryView: View {
                 )
             })
         {
-            VStack(alignment: .leading) {
+            VStack(alignment: .center, spacing: 4) {
                 Text("무릎 가동범위")
                     .font(.displayCaption1Semibold)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    
 
                 HStack {
-                    Text("\(Int(selectedRecord.flexionAngle ?? 0))° ~")
+                    
+                    Text("\(Int(selectedRecord.extensionAngle))°~")
                         .font(.displayTitle2Semibold)
-
-                    Text("\(Int(selectedRecord.extensionAngle))°")
+                    
+                    Text("\(Int(selectedRecord.flexionAngle ?? 0))°")
                         .font(.displayTitle2Semibold)
+                    
                 }
+                .frame(maxWidth: .infinity, alignment: .topLeading)
+                
+
+
                 Text(vm.formatDate(selectedRecord.measuredDate))
                     .font(.displayCaption1Semibold)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    
             }
-            .padding(12)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .frame(width: 125, alignment: .center)
             .background(.thinMaterial)
             .clipShape(RoundedRectangle(cornerRadius: 8))
         }
@@ -244,37 +264,23 @@ struct ProgressHistoryView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("통증 수준(VAS)")
                     .font(.displayCaption1Semibold)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
 
-                Text(
-                    "\(selectedRecord.painLevel ?? 0)"
-                )
-                .font(.displayHeadlineSemibold)
+                Text("\(selectedRecord.painLevel ?? 0)")
+                .font(.displayTitle2Semibold)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+
 
                 Text(vm.formatDate(selectedRecord.measuredDate))
                     .font(.displayCaption1Semibold)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+
             }
-            .padding(12)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .frame(width: 120, alignment: .center)
             .background(.thinMaterial)
             .clipShape(RoundedRectangle(cornerRadius: 8))
         }
     }
-}
-
-#Preview {
-    // 1. 메모리 전용 ModelContainer 생성
-    let container = try! ModelContainer(
-        for: MeasuredRecord.self,
-        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-    )
-
-    // 2. Repository 생성
-    let repository = SwiftDataRecordRepository(
-        modelContext: container.mainContext
-    )
-
-    // 3. ViewModel 생성
-    let vm = ProgressHistoryViewModel(repository: repository)
-
-    ProgressHistoryView()
-        .environmentObject(vm)
 }
