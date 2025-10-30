@@ -13,8 +13,12 @@ struct ChangeResult {
     // 신전 각도의 차이와 상태
     let extenRomDiff: Double
     let extenRomDiffState: RomChangeState
+    
+    // ROM 각도의 차이와 상태
+    let romDiff: Double
+    let romDiffState: RomChangeState
 
     // 통증의 변화와 상태
-    let painDiff: Double
+    let painDiff: Int
     let painDiffState: PainChangeState
 }

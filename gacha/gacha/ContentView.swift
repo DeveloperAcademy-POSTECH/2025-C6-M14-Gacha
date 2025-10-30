@@ -8,21 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var motionManager = MotionMeasureManager()
+    @EnvironmentObject var vm: MeasureViewModel
+    let motionType: KneeMotionType
 
     var body: some View {
         VStack(spacing: 30) {
-            // 측정 타입 선택
-            Picker("측정 타입", selection: $motionManager.kneeMotion) {
-                Text("굴곡").tag(MotionMeasureManager.KneeMotionType.flexionRom)
-                Text("신전").tag(MotionMeasureManager.KneeMotionType.extensionRom)
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
-
-            // 현재 각도
-            Text("\(String(format: "%.1f", motionManager.currentAngle))°")
-                .font(.system(size: 60, weight: .bold))
+            //            // 측정 타입 선택
+            //            Picker("측정 타입", selection: $motionManager.kneeMotion) {
+            //                Text("굴곡").tag(MotionMeasureManager.KneeMotionType.flexionRom)
+            //                Text("신전").tag(MotionMeasureManager.KneeMotionType.extensionRom)
+            //            }
+            //            .pickerStyle(.segmented)
+            //            .padding(.horizontal)
 
             // 측정 버튼
             ZStack {
@@ -33,23 +30,23 @@ struct ContentView: View {
 
                 // 진행률 원
                 Circle()
-                    .trim(from: 0, to: motionManager.recordingProgress)
+                    .trim(from: 0, to: vm.recordingProgress)
                     .stroke(
-                        motionManager.isRecording ? Color.blue : Color.gray,
+                        vm.recordingProgress > 0 ? Color.blue : Color.gray,
                         lineWidth: 15
                     )
                     .frame(width: 200, height: 200)
                     .rotationEffect(.degrees(-90))
                     .animation(
                         .linear(duration: 0.1),
-                        value: motionManager.recordingProgress
+                        value: vm.recordingProgress
                     )
 
                 // 텍스트
                 VStack {
-                    if motionManager.isRecording {
+                    if vm.recordingProgress > 0 {
                         Text(
-                            "\(String(format: "%.1f", (1.0 - motionManager.recordingProgress) * 3.0))초"
+                            "\(String(format: "%.1f", (1.0 - vm.recordingProgress) * 3.0))초"
                         )
                         .font(.title)
                         .fontWeight(.bold)
@@ -63,13 +60,13 @@ struct ContentView: View {
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { _ in
-                        if !motionManager.isRecording {
-                            motionManager.startRecording()
+                        if vm.recordingProgress == 0 {
+                            vm.startRecording()
                         }
                     }
                     .onEnded { _ in
-                        if motionManager.isRecording {
-                            motionManager.stopRecording()
+                        if vm.isFinished {
+                            vm.stopRecording()
                         }
                     }
             )
@@ -81,12 +78,14 @@ struct ContentView: View {
                     .foregroundColor(.secondary)
 
                 HStack(spacing: 8) {
-                    Text(motionManager.kneeMotion.rawValue)
+                    Text(vm.kneeType.rawValue)
                         .font(.headline)
                         .foregroundColor(.blue)
 
-                    Text("\(String(format: "%.1f", motionManager.measuredROM))°")
-                        .font(.system(size: 36, weight: .bold))
+                    Text(
+                        "\(String(format: "%.1f", vm.measuredRom))°"
+                    )
+                    .font(.system(size: 36, weight: .bold))
                 }
             }
             .padding()
@@ -94,15 +93,28 @@ struct ContentView: View {
             .cornerRadius(12)
         }
         .onAppear {
-            motionManager.startMeasuring()  // 센서 시작
+            vm.kneeType = motionType
+            vm.startMeasuring()  // 센서 시작
         }
         .onDisappear {
-            motionManager.stopMeasuring()  // 센서 중지
+            vm.stopMeasuring()  // 센서 중지
+        }
+        .onChange(of: vm.measuredRom) { oldValue, newValue in
+            // 측정이 완료되면 (0보다 크고, 녹화 중이 아닐 때)
+            //                    if newValue > 0 && !motionManager.isRecording {
+            //                        // 세션에 저장
+            //                        switch motionType {
+            //                        case .extensionRom:
+            //                            extensionAngle = newValue
+            //                        case .flexionRom:
+            //                            flexionAngle = newValue
+            //                        }
+
+            // 1초 후 다음 단계로 (사용자가 결과를 볼 시간 제공)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//                onComplete()
+            }
         }
 
     }
-}
-
-#Preview {
-    ContentView()
 }
