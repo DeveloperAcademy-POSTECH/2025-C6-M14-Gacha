@@ -15,14 +15,23 @@ struct DailyMeasureDoneView: View {
     @State private var opacity: Double = 0
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text("측정이 완료되었습니다!")
+        VStack(spacing: 16) {
+            Text(Strings.MeasureDone.title)
                 .font(.displayTitle1Bold)
+            Text(Strings.MeasureDone.subtitle)
+                .font(.displayBodyMedium)
         }
-        .onAppear {
-
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity,
+        )
+        .appBackground()
+        .task {
             // 1.5초 후 다음 단계로
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            try? await Task.sleep(nanoseconds: 1_500_000_000)
+
+            // Task가 취소되지 않았을 때만 실행
+            if !Task.isCancelled {
                 vm.navigationPath.append(MeasureFlowStep.painLevel)
             }
         }

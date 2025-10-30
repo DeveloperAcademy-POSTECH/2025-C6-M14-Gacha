@@ -21,8 +21,9 @@ struct FlexionMeasureView: View {
         GeometryReader { geo in
             ZStack {
                 VStack(spacing: 0) {
-                    // 상단 영역
-                    VStack(alignment: .leading, spacing: 9) {
+                    // MARK: - 상단 영역
+                    if vm.recordingProgress == 0 {
+
                         HStack {
                             ButtonComponent(
                                 background: Color("Primary300"),
@@ -30,14 +31,16 @@ struct FlexionMeasureView: View {
                                 weight: .semibold,
                                 color: Color("White")
                             ) {
-                                showingCancelAlert = true
+                                vm.navigationPath.removeLast(vm.navigationPath.count)
                             }
                             .alert(isPresented: $showingCancelAlert) {
                                 Alert(
                                     title: Text(
-                                        "측정을 종료 하시겠습니까?\n지금까지의 기록은 모두 삭제됩니다."
+                                        Strings.Alert.QuitExtension.title
                                     ),
-                                    message: nil,
+                                    message: Text(
+                                        Strings.Alert.QuitExtension.message
+                                    ),
                                     primaryButton: .destructive(
                                         Text("네"),
                                         action: {
@@ -52,66 +55,126 @@ struct FlexionMeasureView: View {
                             }
                             Spacer()
                         }
+                        .padding(.horizontal, 16)
 
-                        Text("화면을 꾹 눌러서 측정을 시작해주세요")
-                            .font(.displayTitle2Bold)
-
+                        // MARK: - 인디케이터
+                        IndicatorComponent(currentStep: vm.kneeType)
+                            .padding(.top, 24)
                     }
-                    .padding(.horizontal, 20)
-                    .frame(height: geo.size.height * 0.25)
 
-                    // 중간 영역 (캐러셀 + 인디케이터)
-                    VStack(spacing: 10) {
-                        TabView(selection: $selection) {
-                            ForEach(Array(items.enumerated()), id: \.offset) {
-                                index,
-                                imageName in
-                                Image(imageName)
+                    // MARK: - 측정 영역
+                    ZStack {
+                        // 300x300 이미지 원
+                        ZStack {
+                            Circle()
+                                .fill(.white)
+                                .stroke(.gray100, lineWidth: 1)
+                                .frame(width: 300, height: 300)
+
+                            VStack(spacing: 16) {
+                                Image("flexion_leg")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 353, height: 300)
-                                    .tag(index)
-
+                                    .frame(width: 300)
+                                // 텍스트
+                                Text(Strings.Flexion.instruction)
+                                    .multilineTextAlignment(.center)
                             }
                         }
-                        .tabViewStyle(.page(indexDisplayMode: .never))
-                        .frame(height: 280)
+
+                        // 진행률 원
+                        ZStack {
+                            Circle()
+                                .stroke(.white, lineWidth: 27)
+                                .frame(width: 327, height: 327)
+                                .shadow(
+                                    color: .black.opacity(0.15),
+                                    radius: 2,
+                                    x: 0,
+                                    y: 2
+                                )
+
+                            Circle()
+                                .trim(from: 0, to: vm.recordingProgress)
+                                .stroke(
+                                    .primary700,
+                                    style: StrokeStyle(
+                                        lineWidth: 27,
+                                        lineCap: .round
+                                    )
+                                )
+                                .frame(width: 327, height: 327)
+                                .rotationEffect(.degrees(-90))
+                                .animation(
+                                    .linear(duration: 0.1),
+                                    value: vm.recordingProgress
+                                )
+                                .shadow(
+                                    color: .black.opacity(0.15),
+                                    radius: 2,
+                                    x: 0,
+                                    y: 2
+                                )
+                        }
+                        .contentShape(Circle())
 
                     }
-                    .frame(height: geo.size.height * 0.45)
-
-                    // 하단 영역
-                    VStack {
-                        Button(
-                            action: {
-                                showingSkipAlert = true
-                            },
-                            label: {
-                                Text("측정 건너뛰기")
-                                    .font(.displayCalloutSemibold)
+                    .padding(.top, vm.recordingProgress > 0 ? 160 : 48)
+                    .gesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { _ in
+                                if vm.recordingProgress == 0 {
+                                    vm.startRecording()
+                                }
                             }
+                            .onEnded { _ in
+                                if !vm.isFinished {
+                                    vm.stopRecording()
+                                }
+                            }
+                    )
+
+                    //MARK: - Text
+                    Text(
+                        vm.recordingProgress > 0
+                            ? Strings.Flexion.measuring
+                            : Strings.Flexion.instructionEmphasis
+                    )
+                    .font(.roundedTitle2Bold)
+                    .padding(.top, 40)
+                    
+
+                    //MARK: - 건너뛰기
+                    Button(
+                        action: {
+                            showingSkipAlert = true
+                        },
+                        label: {
+                            Text(Strings.Flexion.skipButton)
+                                .font(.displayCalloutSemibold)
+                                .foregroundColor(.gray500)
+                        }
+                    )
+                    .padding(.top, 12)
+                    .alert(isPresented: $showingSkipAlert) {
+                        Alert(
+                            title: Text(
+                                Strings.Alert.SkipFlexion.title
+                            ),
+                            message: Text(
+                                Strings.Alert.SkipFlexion.message
+                            ),
+                            primaryButton: .destructive(
+                                Text("네"),
+                                action: {
+                                    vm.navigationPath.append(
+                                        MeasureFlowStep.painLevel
+                                    )
+                                }
+                            ),
+                            secondaryButton: .cancel(Text("아니요"))
                         )
-                        .padding(.bottom, 20)
-                        .alert(isPresented: $showingSkipAlert) {
-                            Alert(
-                                title: Text(
-                                    "측정을 건너뛰시겠습니까?\n통증수준 기록으로 바로 넘어갑니다"
-                                ),
-                                message: nil,
-                                primaryButton: .destructive(
-                                    Text("네"),
-                                    action: {
-                                        vm.navigationPath.append(
-                                            MeasureFlowStep.painLevel
-                                        )
-                                    }
-                                ),
-                                secondaryButton: .cancel(Text("아니요"))
-                            )
-                        }
-
                     }
-                    .frame(height: geo.size.height * 0.3)
                 }
                 .frame(
                     maxWidth: .infinity,
@@ -119,61 +182,6 @@ struct FlexionMeasureView: View {
                     alignment: .top
                 )
                 .appBackground()
-
-                ZStack {
-                    // 배경 원
-                    Circle()
-                        .stroke(Color("Gray300"), lineWidth: 15)
-                        .frame(width: 200, height: 200)
-
-                    // 진행률 원
-                    Circle()
-                        .trim(from: 0, to: vm.recordingProgress)
-                        .stroke(
-                            vm.recordingProgress > 0 ? Color("Primary500") : Color("Gray500"),
-                            lineWidth: 15
-                        )
-                        .frame(width: 200, height: 200)
-                        .rotationEffect(.degrees(-90))
-                        .animation(
-                            .linear(duration: 0.1),
-                            value: vm.recordingProgress
-                        )
-
-                    // 버튼 텍스트
-                    VStack(spacing: 8) {
-                        if vm.recordingProgress > 0 {
-                            Text(
-                                "\(String(format: "%.1f", (1.0 - vm.recordingProgress) * 3.0))초"
-                            )
-                            .font(.title)
-                            .fontWeight(.bold)
-                            Text("측정 중...")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        } else {
-                            Text("측정하기")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            Text("3초간 터치")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                }
-                .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { _ in
-                            if vm.recordingProgress == 0 {
-                                vm.startRecording()
-                            }
-                        }
-                        .onEnded { _ in
-                            if !vm.isFinished {
-                                vm.stopRecording()
-                            }
-                        }
-                )
             }
         }
         .onAppear {
