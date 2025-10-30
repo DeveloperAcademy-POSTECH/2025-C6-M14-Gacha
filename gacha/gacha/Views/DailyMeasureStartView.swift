@@ -70,7 +70,7 @@ struct DailyMeasureStartView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .background(Color("BackgroundBase"))
+            .appBackground()
 
             .sheet(isPresented: $showHistorySheet) {
                 ProgressHistoryView()

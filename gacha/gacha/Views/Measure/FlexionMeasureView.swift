@@ -118,7 +118,7 @@ struct FlexionMeasureView: View {
                     maxHeight: .infinity,
                     alignment: .top
                 )
-                .background(Color("BackgroundBase"))
+                .appBackground()
 
                 ZStack {
                     // 배경 원

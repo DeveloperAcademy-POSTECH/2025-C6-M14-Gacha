@@ -73,7 +73,7 @@ struct ProgressHistoryView: View {
                     .padding(.top, 60)
                     .padding(.bottom, 20)
                 }
-                .background(Color("BackgroundBase"))
+                .appBackground()
 
                 // MARK: - Close Button
 
