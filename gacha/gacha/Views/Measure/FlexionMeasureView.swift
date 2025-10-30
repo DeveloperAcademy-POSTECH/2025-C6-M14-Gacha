@@ -134,7 +134,7 @@ struct FlexionMeasureView: View {
                     Circle()
                         .trim(from: 0, to: vm.recordingProgress)
                         .stroke(
-                            vm.isTouching ? Color.blue : Color.gray,
+                            vm.recordingProgress > 0 ? Color.blue : Color.gray,
                             lineWidth: 15
                         )
                         .frame(width: 200, height: 200)
@@ -146,7 +146,7 @@ struct FlexionMeasureView: View {
 
                     // 버튼 텍스트
                     VStack(spacing: 8) {
-                        if vm.isTouching {
+                        if vm.recordingProgress > 0 {
                             Text(
                                 "\(String(format: "%.1f", (1.0 - vm.recordingProgress) * 3.0))초"
                             )
@@ -168,7 +168,7 @@ struct FlexionMeasureView: View {
                 .gesture(
                     DragGesture(minimumDistance: 0)
                         .onChanged { _ in
-                            if !vm.isTouching {
+                            if vm.recordingProgress == 0 {
                                 vm.startRecording()
                             }
                         }

@@ -16,7 +16,6 @@ final class MeasureViewModel: ObservableObject {
     @Published var kneeType: KneeMotionType = .extensionRom
     @Published var measuredRom: Double = 0.0
 
-    @Published var isTouching: Bool = false  // 뷰에서 사용
     @Published var isFinished: Bool = false
     @Published var hasTodayRecord: Bool = false
 
@@ -137,7 +136,7 @@ final class MeasureViewModel: ObservableObject {
 
         recordingTimer?.invalidate()
         recordingTimer = nil
-        recordingProgress = 1.0
+        recordingProgress = 0.0
 
         measureManager.stopRecording()
 
