@@ -16,34 +16,14 @@ struct DailyMeasureDoneView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            // 체크마크 애니메이션
-            ZStack {
-                Circle()
-                    .frame(width: 234, height: 234)
-                    .foregroundStyle(.green)
-                Image(systemName: "checkmark")
-                    .font(Font.system(size: 150))
-                    .foregroundStyle(.white)
-            }
-            .scaleEffect(scale)
-            .opacity(opacity)
-
+            Text("측정이 완료되었습니다!")
+                .font(.displayTitle1Bold)
         }
         .onAppear {
-            // 스프링 애니메이션
-            withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
-                scale = 1.0
-                opacity = 1.0
-            }
 
             // 1.5초 후 다음 단계로
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                switch vm.kneeType{
-                case .extensionRom:
-                    vm.navigationPath.append(MeasureFlowStep.flexionMeasure)
-                case .flexionRom:
-                    vm.navigationPath.append(MeasureFlowStep.painLevel)
-                }
+                vm.navigationPath.append(MeasureFlowStep.painLevel)
             }
         }
     }
@@ -60,6 +40,6 @@ struct DailyMeasureDoneView: View {
     )
     let viewModel = MeasureViewModel(repository: repository)
 
-    MeasureCheckedView()
+    DailyMeasureDoneView()
         .environmentObject(viewModel)
 }

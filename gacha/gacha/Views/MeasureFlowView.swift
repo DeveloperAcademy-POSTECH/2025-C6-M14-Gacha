@@ -76,7 +76,7 @@ struct MeasureFlowView: View {
             ExtensionMeasureView()
                 .navigationBarBackButtonHidden(true)
 
-        case .measureChecked:
+        case .extensionCheck:
             MeasureCheckedView()
                 .navigationBarHidden(true)
 
@@ -84,6 +84,9 @@ struct MeasureFlowView: View {
             FlexionMeasureView()
                 .navigationBarBackButtonHidden(true)
 
+        case .flexionCheck:
+            DailyMeasureDoneView()
+                .navigationBarHidden(true)
             
         case .painLevel:
             PainLevelView()

@@ -29,11 +29,11 @@ struct FlexionMeasureView: View {
                             } label: {
                                 ZStack {
                                     Circle()
-                                        .fill(Color.blue.opacity(0.3))
+                                        .fill(Color("Primary300"))
                                         .frame(width: 44, height: 44)
                                     Image(systemName: "chevron.left")
                                         .frame(width: 44, height: 44)
-                                        .foregroundStyle(.white)
+                                        .foregroundStyle(Color("White"))
                                 }
                             }
                             .alert(isPresented: $showingCancelAlert) {
@@ -58,7 +58,7 @@ struct FlexionMeasureView: View {
                         }
 
                         Text("화면을 꾹 눌러서 측정을 시작해주세요")
-                            .font(.system(size: 22, weight: .bold))
+                            .font(.displayTitle2Bold)
 
                     }
                     .padding(.horizontal, 20)
@@ -92,7 +92,7 @@ struct FlexionMeasureView: View {
                             },
                             label: {
                                 Text("측정 건너뛰기")
-                                    .font(.system(size: 15, weight: .semibold))
+                                    .font(.displayCalloutSemibold)
                             }
                         )
                         .padding(.bottom, 20)
@@ -122,19 +122,19 @@ struct FlexionMeasureView: View {
                     maxHeight: .infinity,
                     alignment: .top
                 )
-                .background(Color.blue.opacity(0.2))
+                .background(Color("BackgroundBase"))
 
                 ZStack {
                     // 배경 원
                     Circle()
-                        .stroke(Color.gray.opacity(0.3), lineWidth: 15)
+                        .stroke(Color("Gray300"), lineWidth: 15)
                         .frame(width: 200, height: 200)
 
                     // 진행률 원
                     Circle()
                         .trim(from: 0, to: vm.recordingProgress)
                         .stroke(
-                            vm.recordingProgress > 0 ? Color.blue : Color.gray,
+                            vm.recordingProgress > 0 ? Color("Primary500") : Color("Gray500"),
                             lineWidth: 15
                         )
                         .frame(width: 200, height: 200)
