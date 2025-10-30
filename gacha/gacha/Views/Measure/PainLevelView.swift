@@ -24,14 +24,13 @@ struct PainLevelView: View {
                         .font(.displayTitle3Medium)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(.blue)
                 .padding(.leading, 16)
                 .padding(.top, 52)
 
                 Spacer()
 
                 // MARK: - 이모지
-                Text(painEmoji(for: value))
+                Text(painEmoji(for: Int(value)))
                     .font(.system(size: 136))
 
                 Spacer()
@@ -60,7 +59,7 @@ struct PainLevelView: View {
         }
     }
 
-    private func painEmoji(for value: Double) -> String {
+    private func painEmoji(for value: Int) -> String {
         switch value {
         case 0: return "😁"  // 완전히 편안함
         case 1: return "🙂"  // 약간의 이완
@@ -127,10 +126,10 @@ struct ArcSlider: View {
                                 )
                                 let angle = atan2(vector.dy, vector.dx)
                                 let degrees = angle * 180 / .pi
-
+                                
                                 // 원호 범위: 160° ~ 20° (반시계방향, 총 220°)
                                 var mappedValue: Double = 0
-
+                                
                                 if degrees >= 160 {
                                     // 160° ~ 180° 범위 (시작 부분)
                                     mappedValue = (degrees - 160) / 220 * 10
@@ -145,8 +144,21 @@ struct ArcSlider: View {
                                         mappedValue = 0  // 160도 쪽 (시작점)
                                     }
                                 }
-
+                                
                                 value = min(max(mappedValue, 0), 10)
+                                
+                                let newIntValue = Int(round(value))
+                                if newIntValue != lastIntValue {
+                                                impactFeedback.impactOccurred()
+                                                lastIntValue = newIntValue
+                                            }
+                            }
+                            .onEnded { _ in
+                                // 드래그가 끝났을 때, value를 가장 가까운 정수로 스냅
+                                let roundedValue = Double(Int(round(value)))
+                                withAnimation(.spring()) {
+                                    value = roundedValue
+                                }
                             }
                     )
 
@@ -168,10 +180,6 @@ struct ArcSlider: View {
             }
             .onChange(of: value) { oldValue, newValue in
                 let newIntValue = Int(round(newValue))
-                if newIntValue != lastIntValue {
-                    impactFeedback.impactOccurred()
-                    lastIntValue = newIntValue
-                }
             }
 
         }
