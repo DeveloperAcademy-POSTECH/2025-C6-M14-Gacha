@@ -1,0 +1,89 @@
+/* 
+  Localizable.strings
+  gacha
+
+  Created by 차원준 on 10/29/25.
+  
+*/
+
+/* Common */
+"common.confirm" = "Confirm";
+"common.yes" = "Yes";
+"common.no" = "No";
+"common.continue" = "Continue Measuring";
+"common.back_to_start" = "Back to Start";
+"common.skip" = "Skip Measurement";
+
+/* DailyMeasureStartView */
+"daily_start.title" = "Knee Range of Motion";
+"daily_start.description" = "Let's check how much your knee can move.";
+"daily_start.instruction" = "Please sit on a flat surface where you can comfortably extend and bend your leg";
+"daily_start.button" = "Start Measurement";
+
+/* ExtensionMeasureView */
+"extension.instruction" = "Sit with your leg extended and place your phone on your thigh.";
+"extension.instruction_emphasis" = "Press and hold the circle to start measuring.";
+"extension.measuring" = "Measuring knee extension angle.";
+
+/* FlexionMeasureView */
+"flexion.instruction" = "Keep your heel on the floor and bend your leg until you feel discomfort.";
+"flexion.instruction_emphasis" = "Press and hold the circle to start measuring.";
+"flexion.measuring" = "Measuring knee flexion angle.";
+"flexion.skip_button" = "Skip Measurement";
+
+/* Alerts */
+"alert.quit_extension.title" = "Cancel knee extension measurement?";
+"alert.quit_extension.message" = "You'll return to the start screen.";
+"alert.skip_flexion.title" = "Skip knee flexion measurement?";
+"alert.skip_flexion.message" = "Only extension data will be saved, and you'll proceed to pain recording.";
+"alert.remeasure.title" = "Measure again?";
+"alert.remeasure.message" = "New measurement will update and replace today's record.";
+
+/* MeasureDoneView */
+"measure_done.title" = "Great! You've completed both extension and flexion measurements.";
+"measure_done.subtitle" = "Now, let's record your pain level.";
+
+/* PainLevelView */
+"pain.title" = "Pain Record";
+"pain.description" = "Please select the pain level you felt during the measurement.";
+"pain.button" = "Confirm";
+
+/* Pain Levels 0-10 (6 categories) */
+"pain.level.0" = "No pain";
+"pain.level.1" = "Mild pain";
+"pain.level.2" = "Mild pain";
+"pain.level.3" = "Moderate pain";
+"pain.level.4" = "Moderate pain";
+"pain.level.5" = "Moderately severe pain";
+"pain.level.6" = "Moderately severe pain";
+"pain.level.7" = "Severe pain";
+"pain.level.8" = "Severe pain";
+"pain.level.9" = "Very severe pain";
+"pain.level.10" = "Very severe pain";
+
+/* ProgressDetailView */
+"progress.title" = "Today's Record";
+"progress.excellent.title" = "Excellent progress!";
+"progress.excellent.description" = "All measurements have improved from yesterday.\nWishing you a continued recovery.";
+"progress.good.title" = "You're improving.";
+"progress.good.description" = "All measurements have improved from yesterday.\nWishing you a continued recovery.";
+"progress.same.title" = "Same as yesterday.";
+"progress.same.description" = "No noticeable changes yet, but you may be improving gradually.\nWishing you a steady recovery.";
+"progress.normal.title" = "Within normal range.";
+"progress.normal.description" = "Slightly lower than yesterday, but this could be due to measurement variance or temporary condition.\nPlease monitor and manage your condition.";
+"progress.caution.title" = "Condition care needed.";
+"progress.caution.description" = "Your pain level has increased somewhat.";
+"progress.caution.emphasis" = "Consider resting today without overexertion.";
+"progress.warning.title" = "Consider consulting a professional.";
+"progress.warning.description" = "Results may vary based on your condition. Try measuring again after adequate rest.";
+"progress.warning.emphasis" = "If similar results persist or severe pain continues, we recommend consulting your doctor or a healthcare professional.";
+
+/* ProgressHistoryView */
+"history.title" = "View Progress";
+"history.rom_title" = "Range of Motion Trend";
+"history.pain_title" = "Pain Level Trend";
+
+/* DailyMeasureSummaryView */
+"summary.title" = "Today's Record";
+"summary.description" = "You've already recorded a measurement today.\nWould you like to measure again?";
+"summary.button" = "Measure Again";
