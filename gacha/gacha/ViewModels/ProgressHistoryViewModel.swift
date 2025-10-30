@@ -12,7 +12,6 @@ import SwiftUI
 class ProgressHistoryViewModel: ObservableObject {
     private var repository: RecordRepository
 
-    @Published var records: [MeasuredRecord] = []
     @Published var recentRecords: [MeasuredRecord] = []
     @Published var selectedROMDate: Date? = nil
     @Published var selectedPainDate: Date? = nil
