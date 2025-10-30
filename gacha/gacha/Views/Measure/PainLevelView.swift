@@ -19,12 +19,12 @@ struct PainLevelView: View {
                 // 상단 영역
                 VStack(alignment: .leading, spacing: 9) {
                     Text("통증수준 기록")
-                        .font(.system(size: 34, weight: .bold))
-                        .foregroundStyle(Color.black)
+                        .font(.displayLargeBold)
+                        .foregroundStyle(Color("Gray900"))
 
                     Text("측정 중 느낀 통증의 수준을 선택해주세요\n이후 오늘의 측정 결과를 확인할 수 있습니다")
-                        .font(.system(size: 15, weight: .medium))
-                        .foregroundStyle(Color.black.opacity(0.7))
+                        .font(.displayTitle3Medium)
+                        .foregroundStyle(Color("Gray700"))
                         .lineSpacing(4)
                 }
                 .padding(.horizontal, 20)
@@ -55,18 +55,18 @@ struct PainLevelView: View {
                     }
                     vm.navigationPath.append(MeasureFlowStep.result)
                 }
-                .font(.system(size: 17, weight: .semibold))
-                .foregroundStyle(Color.white)
+                .font(.displayHeadlineSemibold)
+                .foregroundStyle(Color("White"))
                 .frame(width: 315, height: 50)
                 .background(
-                    Color(red: 0.33, green: 0.64, blue: 0.98)
+                    Color("Primary500")
                 )
                 .clipShape(Capsule())
 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(
-                Color(red: 0.85, green: 0.92, blue: 0.98)
+                Color("BackgroundBase")
             )
 
         }
@@ -85,6 +85,9 @@ struct PainLevelView: View {
 
 struct ArcSlider: View {
     @Binding var value: Double
+    @State private var lastIntValue:Int = 5
+    
+    private let impactFeedback = UIImpactFeedbackGenerator(style: .light)
 
     var body: some View {
         GeometryReader { geo in
@@ -98,7 +101,7 @@ struct ArcSlider: View {
                     endAngle: .degrees(20)
                 )
                 .stroke(
-                    Color.gray.opacity(0.3),
+                    Color("Gray300"),
                     style: StrokeStyle(lineWidth: 40, lineCap: .round)
                 )
 
@@ -108,14 +111,14 @@ struct ArcSlider: View {
                     endAngle: .degrees(160 + (value / 10) * 220)
                 )
                 .stroke(
-                    Color(red: 0.33, green: 0.64, blue: 0.98),
+                    Color("Primary500"),
                     style: StrokeStyle(lineWidth: 40, lineCap: .round)
                 )
                 .animation(.easeInOut(duration: 0.2), value: value)
 
                 // 핸들 원 — Arc 경로를 따라 움직임
                 Circle()
-                    .fill(Color.white)
+                    .fill(Color("White"))
                     .frame(width: 40, height: 40)
                     .shadow(radius: 3)
                     .position(circlePosition(for: value, in: geo.size))
@@ -154,12 +157,12 @@ struct ArcSlider: View {
                 // 중앙 텍스트 (값 + 상태)
                 VStack(spacing: 6) {
                     Text("\(Int(value))")
-                        .font(.system(size: 40, weight: .bold))
-                        .foregroundStyle(Color.black)
+                        .font(.roundedTitle1Semibold)
+                        .foregroundStyle(Color("Gray900"))
 
                     Text(levelDescription(for: value))
-                        .font(.system(size: 28, weight: .bold))
-                        .foregroundStyle(Color.black.opacity(0.7))
+                        .font(.displayTitle1Bold)
+                        .foregroundStyle(Color("Gray700"))
 
                 }
                 .position(
@@ -170,15 +173,15 @@ struct ArcSlider: View {
                 HStack {
                     // 왼쪽 라벨 (0)
                     Text("0")
-                        .font(.system(size: 23, weight: .medium))
-                        .foregroundStyle(Color.black.opacity(0.6))
+                        .font(.displayCaption2Regular)
+                        .foregroundStyle(Color("Gray700"))
 
                     Spacer()
 
                     // 오른쪽 라벨 (10)
                     Text("10")
-                        .font(.system(size: 23, weight: .medium))
-                        .foregroundStyle(Color.black.opacity(0.6))
+                        .font(.displayCaption2Regular)
+                        .foregroundStyle(Color("Gray700"))
                 }
                 .frame(width: size.width * 0.65)
 
@@ -186,7 +189,13 @@ struct ArcSlider: View {
                     x: size.width / 2,
                     y: size.height * 0.75
                 )
-
+            }
+            .onChange(of: value) { oldValue, newValue in
+                let newIntValue = Int(round(newValue))
+                if newIntValue != lastIntValue {
+                    impactFeedback.impactOccurred()
+                    lastIntValue = newIntValue
+                }
             }
 
         }

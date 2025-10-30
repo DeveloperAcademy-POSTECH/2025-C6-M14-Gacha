@@ -20,10 +20,10 @@ struct MeasureCheckedView: View {
             ZStack {
                 Circle()
                     .frame(width: 234, height: 234)
-                    .foregroundStyle(.green)
+                    .foregroundStyle(Color("ButtonGreen"))
                 Image(systemName: "checkmark")
                     .font(Font.system(size: 150))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color("White"))
             }
             .scaleEffect(scale)
             .opacity(opacity)
@@ -38,12 +38,7 @@ struct MeasureCheckedView: View {
 
             // 1.5초 후 다음 단계로
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                switch vm.kneeType{
-                case .extensionRom:
-                    vm.navigationPath.append(MeasureFlowStep.flexionMeasure)
-                case .flexionRom:
-                    vm.navigationPath.append(MeasureFlowStep.painLevel)
-                }
+                vm.navigationPath.append(MeasureFlowStep.flexionMeasure)
             }
         }
     }

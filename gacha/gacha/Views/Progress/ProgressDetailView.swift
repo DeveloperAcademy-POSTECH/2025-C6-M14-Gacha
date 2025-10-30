@@ -65,7 +65,7 @@ struct ProgressDetailView: View {
 
             // 일러스트 영역 (추후 추가)
             Rectangle()
-                .fill(Color(.systemGray6))
+                .fill(Color("Gray100"))
                 .frame(height: 180)
                 .cornerRadius(12)
 
@@ -177,11 +177,11 @@ struct ProgressDetailView: View {
                 vm.navigationPath.removeLast(vm.navigationPath.count)
             } label: {
                 Text("다시 측정하기")
-                    .font(.headline)
+                    .font(.displayHeadlineSemibold)
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
-                    .foregroundStyle(.primary)
-                    .background(Color(.systemGray5))
+                    .foregroundStyle(Color("Gray900"))
+                    .background(Color("Gray100"))
                     .cornerRadius(25)
             }
 
@@ -192,11 +192,11 @@ struct ProgressDetailView: View {
                 }
             } label: {
                 Text("확인")
-                    .font(.headline)
+                    .font(.displayHeadlineSemibold)
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
-                    .foregroundStyle(.white)
-                    .background(Color.blue)
+                    .foregroundStyle(Color("White"))
+                    .background(Color("Primary500"))
                     .cornerRadius(25)
             }
         }

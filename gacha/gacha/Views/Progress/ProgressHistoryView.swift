@@ -25,21 +25,21 @@ struct ProgressHistoryView: View {
                         // MARK: - 무릎 가동범위 추이
                         VStack(alignment: .leading, spacing: 16) {
                             Text("무릎 가동범위 추이")
-                                .font(.system(size: 20, weight: .bold))
+                                .font(.displayTitle3Bold)
                             HStack(alignment: .top) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("평균")
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.gray)
+                                        .font(.displayCaption1Semibold)
+                                        .foregroundColor(Color("Gray500"))
                                     Text("\(vm.romAverage)°")
-                                        .font(.system(size: 32, weight: .bold))
+                                        .font(.displayTitle1Bold)
                                 }
                                 Spacer()
                             }
 
                             Text(vm.dateRangeText)
-                                .font(.system(size: 12))
-                                .foregroundColor(.gray)
+                                .font(.displayCaption1Semibold)
+                                .foregroundColor(Color("Gray500"))
 
                             romChart
                         }
@@ -47,24 +47,24 @@ struct ProgressHistoryView: View {
                         // MARK: - 통증 수준 추이
                         VStack(alignment: .leading, spacing: 16) {
                             Text("통증 수준 추이")
-                                .font(.system(size: 20, weight: .bold))
+                                .font(.displayTitle3Bold)
 
                             HStack(alignment: .top) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("최소~최대")
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.gray)
+                                        .font(.displayCaption1Semibold)
+                                        .foregroundColor(Color("Gray500"))
 
                                     Text("\(vm.painMin)~\(vm.painMax)")
-                                        .font(.system(size: 32, weight: .bold))
+                                        .font(.displayTitle1Bold)
                                 }
 
                                 Spacer()
                             }
 
                             Text(vm.dateRangeText)
-                                .font(.system(size: 12))
-                                .foregroundColor(.gray)
+                                .font(.displayCaption1Semibold)
+                                .foregroundColor(Color("Gray500"))
 
                             painChart
                         }
@@ -73,7 +73,7 @@ struct ProgressHistoryView: View {
                     .padding(.top, 60)
                     .padding(.bottom, 20)
                 }
-                .background(Color.blue.opacity(0.2))
+                .background(Color("BackgroundBase"))
 
                 // MARK: - Close Button
 
@@ -81,12 +81,12 @@ struct ProgressHistoryView: View {
                     dismiss()
                 } label: {
                     Image(systemName: "xmark")
-                        .font(.system(size: 22, weight: .semibold))
-                        .foregroundColor(.white)
+                        .font(.displayTitle2Bold)
+                        .foregroundColor(Color("White"))
                         .frame(width: 44, height: 44)
                         .background(
                             Circle()
-                                .fill(Color.blue.opacity(0.5))
+                                .fill(Color("Primary500"))
                         )
                 }
                 .padding(.top, 8)
@@ -112,7 +112,7 @@ struct ProgressHistoryView: View {
             )
             .foregroundStyle(
                 LinearGradient(
-                    colors: [Color.blue.opacity(0.7), Color.blue],
+                    colors: [Color("Primary300"), Color("Primary500")],
                     startPoint: .top,
                     endPoint: .bottom
                 )
@@ -121,7 +121,7 @@ struct ProgressHistoryView: View {
 
             if let selectedROMDate = vm.selectedROMDate {
                 RuleMark(x: .value("Selected", selectedROMDate, unit: .day))
-                    .foregroundStyle(Color.gray.opacity(0.3))
+                    .foregroundStyle(Color("Gray300"))
                     .zIndex(-1)
                     .annotation(
                         position: .top,
@@ -171,17 +171,17 @@ struct ProgressHistoryView: View {
         {
             VStack(alignment: .leading) {
                 Text("무릎 가동범위")
-                    .font(.system(size: 11, weight: .medium))
+                    .font(.displayCaption1Semibold)
 
                 HStack {
                     Text("\(Int(selectedRecord.flexionAngle ?? 0))° ~")
-                        .font(.system(size: 24, weight: .semibold))
+                        .font(.displayTitle2Semibold)
 
                     Text("\(Int(selectedRecord.extensionAngle))°")
-                        .font(.system(size: 24, weight: .semibold))
+                        .font(.displayTitle2Semibold)
                 }
                 Text(vm.formatDate(selectedRecord.measuredDate))
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(.displayCaption1Semibold)
             }
             .padding(12)
             .background(.thinMaterial)
@@ -195,19 +195,19 @@ struct ProgressHistoryView: View {
                 x: .value("날짜", record.measuredDate, unit: .day),
                 y: .value("통증", record.painLevel ?? 0)
             )
-            .foregroundStyle(Color.purple)
+            .foregroundStyle(Color("GraphSecondary"))
             .interpolationMethod(.catmullRom)
 
             PointMark(
                 x: .value("날짜", record.measuredDate, unit: .day),
                 y: .value("통증", record.painLevel ?? 0)
             )
-            .foregroundStyle(Color.purple)
+            .foregroundStyle(Color("GraphSecondary"))
             .symbolSize(60)
 
             if let selectedPainDate = vm.selectedPainDate {
                 RuleMark(x: .value("Selected", selectedPainDate, unit: .day))
-                    .foregroundStyle(Color.gray.opacity(0.3))
+                    .foregroundStyle(Color("Gray300"))
                     .zIndex(-1)
                     .annotation(
                         position: .top,
@@ -247,15 +247,15 @@ struct ProgressHistoryView: View {
         {
             VStack(alignment: .leading, spacing: 4) {
                 Text("통증 수준(VAS)")
-                    .font(.system(size: 12))
+                    .font(.displayCaption1Semibold)
 
                 Text(
                     "\(selectedRecord.painLevel ?? 0)"
                 )
-                .font(.system(size: 18, weight: .semibold))
+                .font(.displayHeadlineSemibold)
 
                 Text(vm.formatDate(selectedRecord.measuredDate))
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(.displayCaption1Semibold)
             }
             .padding(12)
             .background(.thinMaterial)

@@ -29,9 +29,6 @@ final class MeasureViewModel: ObservableObject {
 
     @Published var navigationPath = NavigationPath()
 
-    var currentStepNumber: Int {
-        return navigationPath.count + 1  // 1단계(Extension) + path count
-    }
     private var recordingTimer: Timer?
     private var recordingStartTime: Date?
     @Published var recordingProgress: Double = 0.0
@@ -60,7 +57,7 @@ final class MeasureViewModel: ObservableObject {
 
     func checkTodayRecord() async {
         var record: MeasuredRecord? = nil
-        
+
         do {
             hasTodayRecord = try await repository.hasTodayRecord
             print("📅 오늘의 기록 여부: \(hasTodayRecord)")
@@ -104,6 +101,18 @@ final class MeasureViewModel: ObservableObject {
                 1.0,
                 elapsed / self.recordingDurationThreshold
             )
+
+            // 진행률 10% 단위로 햅틱
+            let milestones = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+            for milestone in milestones {
+                if self.recordingProgress < milestone
+                    && newProgress >= milestone
+                {
+                    self.impactFeedback.impactOccurred()
+                }
+            }
+
+            self.recordingProgress = newProgress
 
             if elapsed >= self.recordingDurationThreshold {
                 self.isFinished = true
@@ -181,7 +190,7 @@ final class MeasureViewModel: ObservableObject {
         currentRecord = record
         print("Extionsion: \(record.extensionAngle)")
 
-        navigationPath.append(MeasureFlowStep.measureChecked)
+        navigationPath.append(MeasureFlowStep.extensionCheck)
     }
 
     // MARK: - Flexion 측정 완료 시
@@ -203,7 +212,7 @@ final class MeasureViewModel: ObservableObject {
         record.measuredSeconds = measurementSeconds
         print("Flexion: \(record.flexionAngle), \(record.measuredSeconds)")
 
-        navigationPath.append(MeasureFlowStep.measureChecked)
+        navigationPath.append(MeasureFlowStep.flexionCheck)
     }
 
     // MARK: - PainLevel 측정 완료 시
@@ -275,7 +284,7 @@ final class MeasureViewModel: ObservableObject {
             } else {
                 print("⚠️ 저장된 레코드가 없습니다")
             }
-            
+
             return record
         } catch {
             errorMessage = "최근 레코드 로드 실패: \(error.localizedDescription)"
