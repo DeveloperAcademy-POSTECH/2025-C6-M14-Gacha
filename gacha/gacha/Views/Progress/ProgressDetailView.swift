@@ -173,31 +173,21 @@ struct ProgressDetailView: View {
 
     private var buttonStack: some View {
         VStack(spacing: 12) {
-            Button {
+            CapsuleButtonComponent(
+                title: "다시 측정하기",
+                style: .secondary
+            ) {
                 vm.navigationPath.removeLast(vm.navigationPath.count)
-            } label: {
-                Text("다시 측정하기")
-                    .font(.displayHeadlineSemibold)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .foregroundStyle(Color("Gray900"))
-                    .background(Color("Gray100"))
-                    .cornerRadius(25)
             }
 
-            Button {
+            CapsuleButtonComponent(
+                title: "확인",
+                style: .primary
+            ) {
                 Task {
                     await vm.saveCurrentRecord()
                     vm.navigationPath.removeLast(vm.navigationPath.count)
                 }
-            } label: {
-                Text("확인")
-                    .font(.displayHeadlineSemibold)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .foregroundStyle(Color("White"))
-                    .background(Color("Primary500"))
-                    .cornerRadius(25)
             }
         }
     }

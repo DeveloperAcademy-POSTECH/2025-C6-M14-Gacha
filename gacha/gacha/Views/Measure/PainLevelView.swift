@@ -46,7 +46,10 @@ struct PainLevelView: View {
                 // 반원형 슬라이더
                 ArcSlider(value: $value)
 
-                Button("확인") {
+                CapsuleButtonComponent(
+                    title: "확인",
+                    style: .primary
+                ) {
                     Task {
                         if vm.hasTodayRecord {
                             await vm.deleteTodayRecords()
@@ -55,13 +58,6 @@ struct PainLevelView: View {
                     }
                     vm.navigationPath.append(MeasureFlowStep.result)
                 }
-                .font(.displayHeadlineSemibold)
-                .foregroundStyle(Color("White"))
-                .frame(width: 315, height: 50)
-                .background(
-                    Color("Primary500")
-                )
-                .clipShape(Capsule())
 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

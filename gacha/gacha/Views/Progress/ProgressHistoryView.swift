@@ -77,17 +77,13 @@ struct ProgressHistoryView: View {
 
                 // MARK: - Close Button
 
-                Button {
+                ButtonComponent(
+                    background: Color("Primary500"),
+                    systemImageName: "xmark",
+                    weight: .bold,
+                    color: Color("White")
+                ) {
                     dismiss()
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.displayTitle2Bold)
-                        .foregroundColor(Color("White"))
-                        .frame(width: 44, height: 44)
-                        .background(
-                            Circle()
-                                .fill(Color("Primary500"))
-                        )
                 }
                 .padding(.top, 8)
                 .padding(.trailing, 16)
