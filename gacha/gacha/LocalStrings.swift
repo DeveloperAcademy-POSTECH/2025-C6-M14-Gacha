@@ -44,6 +44,12 @@ enum Strings {
         static var skip: String {
             NSLocalizedString("common.skip", comment: "")
         }
+        static var retake: String {
+            NSLocalizedString("common.retake", comment: "")
+        }
+        static var backHome: String {
+            NSLocalizedString("common.back_home", comment: "")
+        }
     }
     
     // MARK: - DailyMeasureStartView
@@ -213,6 +219,64 @@ enum Strings {
             static var emphasis: String {
                 NSLocalizedString("progress.warning.emphasis", comment: "")
             }
+        }
+        
+        enum PainNormal {
+            static var title: String {
+                NSLocalizedString("progress.pain_normal.title", comment: "")
+            }
+            static var description: String {
+                NSLocalizedString("progress.pain_normal.description", comment: "")
+            }
+        }
+        
+        enum PainCaution {
+            static var title: String {
+                NSLocalizedString("progress.pain_caution.title", comment: "")
+            }
+            static var description: String {
+                NSLocalizedString("progress.pain_caution.description", comment: "")
+            }
+            static var emphasis: String {
+                NSLocalizedString("progress.pain_caution.emphasis", comment: "")
+            }
+        }
+        
+        enum PainWarning {
+            static var title: String {
+                NSLocalizedString("progress.pain_warning.title", comment: "")
+            }
+            static var description: String {
+                NSLocalizedString("progress.pain_warning.description", comment: "")
+            }
+            static var emphasis: String {
+                NSLocalizedString("progress.pain_warning.emphasis", comment: "")
+            }
+        }
+        
+        enum FirstTake {
+            static var title: String {
+                NSLocalizedString("progress.first_take.title", comment: "")
+            }
+            static var description: String {
+                NSLocalizedString("progress.first_take.description", comment: "")
+            }
+        }
+    }
+    
+    // MARK: - Card
+    enum Card {
+        static var extensionAngle: String {
+            NSLocalizedString("card.extension_angle", comment: "")
+        }
+        static var flexionAngle: String {
+            NSLocalizedString("card.flexion_angle", comment: "")
+        }
+        static var kneeROM: String {
+            NSLocalizedString("card.knee_ROM", comment: "")
+        }
+        static var painLevel: String {
+            NSLocalizedString("card.pain_level", comment: "")
         }
     }
     
