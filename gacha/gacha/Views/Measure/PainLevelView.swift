@@ -85,6 +85,9 @@ struct PainLevelView: View {
 
 struct ArcSlider: View {
     @Binding var value: Double
+    @State private var lastIntValue:Int = 5
+    
+    private let impactFeedback = UIImpactFeedbackGenerator(style: .light)
 
     var body: some View {
         GeometryReader { geo in
@@ -186,7 +189,13 @@ struct ArcSlider: View {
                     x: size.width / 2,
                     y: size.height * 0.75
                 )
-
+            }
+            .onChange(of: value) { oldValue, newValue in
+                let newIntValue = Int(round(newValue))
+                if newIntValue != lastIntValue {
+                    impactFeedback.impactOccurred()
+                    lastIntValue = newIntValue
+                }
             }
 
         }
