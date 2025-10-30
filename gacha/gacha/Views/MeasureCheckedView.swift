@@ -31,16 +31,21 @@ struct MeasureCheckedView: View {
             maxWidth: .infinity,
             maxHeight: .infinity,
             alignment: .top
-        ).appBackground()
+        )
+        .appBackground()
         .onAppear {
             // 스프링 애니메이션
             withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
                 scale = 1.0
                 opacity = 1.0
             }
-
+        }
+        .task {
             // 1.5초 후 다음 단계로
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            try? await Task.sleep(nanoseconds: 1_500_000_000)
+
+            // Task가 취소되지 않았을 때만 실행
+            if !Task.isCancelled {
                 vm.navigationPath.append(MeasureFlowStep.flexionMeasure)
             }
         }

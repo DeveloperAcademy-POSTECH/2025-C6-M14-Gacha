@@ -12,15 +12,13 @@ struct DailyMeasureSummaryView: View {
     @EnvironmentObject var vm: MeasureViewModel
 
     @State private var showingAlert = false
-    @State private var selection = 0
     @State private var showHistorySheet = false
-    let items = ["ExtensionLeg", "HoldGesture"]  // 임시 데이터
 
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: 0) {
-                // 상단 영역
-                VStack(alignment: .leading, spacing: 9) {
+                // MARK: - 상단 영역
+                VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Spacer()
 
@@ -32,36 +30,45 @@ struct DailyMeasureSummaryView: View {
                         ) {
                             showHistorySheet = true
                         }
+
                     }
-                    
 
-                    Text("오늘의 측정")
-                        .font(.displayLargeBold)
-                    Text("다시 측정할 경우 기존 기록은 정리됩니다.")
-                        .font(.roundedTitle3Medium)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(Strings.Summary.title)
+                            .font(.displayLargeBold)
+                        Text(Strings.Summary.description)
+                            .font(.displayTitle3Medium)
+                    }
                 }
+                .padding(.horizontal, 16)
+                
+                Spacer()
+
+                // MARK: - 중간 영역
+                VStack(spacing: 16) {
+                    VStack {
+                        Text("원준띠니 코드 받아올 예정")
+                    }
+                    .padding(24)
+                }
+                .frame(maxWidth: .infinity)
+                .background(.white)
+                .cornerRadius(24)
+                .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 2)
                 .padding(.horizontal, 20)
-                .frame(height: geo.size.height * 0.25)
-
-                // 중간 영역 (캐러셀 + 인디케이터)
-                VStack(spacing: 10) {
-                    Rectangle()
-                        .fill(Color("White"))
-                }
-                .frame(height: geo.size.height * 0.45)
 
                 Spacer()
 
                 CapsuleButtonComponent(
-                    title: "다시 측정하기",
+                    title: Strings.Summary.button,
                     style: .primary
                 ) {
                     showingAlert = true
                 }
                 .alert(isPresented: $showingAlert) {
                     Alert(
-                        title: Text("다시 측정하시겠습니까?\n오늘 측정한 기록은 삭제됩니다."),
-                        message: nil,
+                        title: Text(Strings.Alert.Remeasure.title),
+                        message: Text(Strings.Alert.Remeasure.message),
                         primaryButton: .destructive(
                             Text("네"),
                             action: {

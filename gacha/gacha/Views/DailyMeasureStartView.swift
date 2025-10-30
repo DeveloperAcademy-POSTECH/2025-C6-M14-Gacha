@@ -38,7 +38,7 @@ struct DailyMeasureStartView: View {
                         Text(Strings.DailyStart.title)
                             .font(.displayLargeBold)
                         Text(Strings.DailyStart.description)
-                            .font(.roundedTitle3Medium)
+                            .font(.displayTitle3Medium)
                     }
                 }
                 .padding(.horizontal, 16)
@@ -66,6 +66,7 @@ struct DailyMeasureStartView: View {
 
                 Spacer()
                 
+                // MARK: - 측정 버튼
                 CapsuleButtonComponent(
                     title: "측정시작하기",
                     style: .primary
