@@ -13,77 +13,97 @@ struct ProgressDetailView: View {
 
     // MARK: - Body
     var body: some View {
-        ScrollView {
-            if vm.isLoading {
-                Text("Loading...")
-            } else {
-                VStack(spacing: 24) {
-                    // 헤더
-                    VStack(spacing: 8) {
-                        Text("측정 결과")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
+        if vm.isLoading {
+            Text("Loading...")
+        } else {
+            VStack(spacing: 24) {
+                // 헤더
+                Text("측정 결과")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 111)
 
-                        Text("지난 측정과 비교한 결과가 제공됩니다")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.top, 40)
+                // 결과 카드 (측정값 포함)
+                resultCardWithMeasurements
 
-                    // 결과 카드
-                    resultCard
-                        .padding(.horizontal, 20)
+                Spacer()
 
-                    // 측정값 그리드
-                    measurementGrid
-                        .padding(.horizontal, 20)
-
-                    Spacer()
-
-                    // 버튼들
-                    buttonStack
-                        .padding(.horizontal, 40)
-                        .padding(.bottom, 40)
-                }
+                // 버튼들
+                buttonStack
+                    .padding(.horizontal, 39)
+                    .padding(.bottom, 40)
             }
-        }
-        .onAppear {
-            Task {
-                await vm.loadPreviousRecord()
-                vm.calculateRecordChange()
+            .onAppear {
+                Task {
+                    await vm.loadPreviousRecord()
+                    vm.calculateRecordChange()
+                }
             }
         }
     }
 
     // MARK: - SubView
-    private var resultCard: some View {
-        VStack(spacing: 16) {
+    private var resultCardWithMeasurements: some View {
+        VStack(alignment: .leading, spacing: 24) {
             Text(vm.questionText)
                 .font(.title3)
                 .fontWeight(.semibold)
-                .multilineTextAlignment(.center)
 
-            // 일러스트 영역 (추후 추가)
-            Rectangle()
-                .fill(Color("Gray100"))
-                .frame(height: 180)
-                .cornerRadius(12)
 
-            VStack(spacing: 8) {
+            // 일러스트 영역 (모크 데이터 - 추후 이미지 에셋으로 교체 예정)
+            HStack(spacing: 40) {
+                VStack {
+                    Image("ExtensionBody")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 115, height: 115)
+                        .overlay(alignment: .topTrailing) {
+                            Text(vm.formatAngle(vm.currentRecord?.extensionAngle))
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding(.top, 8)
+                                .padding(.trailing, 8)
+                        }
+                }
+                
+                VStack(spacing: 8) {
+                    Image("FlexionBody")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 115, height: 115)
+                         .overlay(alignment: .topTrailing) {
+                            Text(vm.formatAngle(vm.currentRecord?.flexionAngle))
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding(.top, 8)
+                                .padding(.trailing, 8)
+                        }
+                }
+                
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+
+
+            VStack(alignment: .leading, spacing: 8) {
                 Text(vm.feedbackMessage)
                     .font(.body)
-                    .multilineTextAlignment(.center)
 
                 Text(vm.guidanceText)
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
             }
+
+            
+            // 측정값 그리드
+            measurementGrid
         }
         .padding(24)
-        .background(Color(.systemBackground))
+        .frame(width: 345, alignment: .topLeading)
+        .background(.white)
         .cornerRadius(24)
-        .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 4)
+        .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 2)
     }
 
     private var measurementGrid: some View {
@@ -95,14 +115,14 @@ struct ProgressDetailView: View {
                     value: vm.formatAngle(vm.currentRecord?.extensionAngle),
                     changeValue: vm.hasComparison
                         ? Int(vm.changeResult?.extenRomDiff ?? 0) : 0,
-                    isPositiveGood: true
+                    isPositiveGood: false
                 )
 
                 measurementItem(
                     title: "무릎 가동범위",
                     value: vm.formatAngle(vm.currentRecord?.ROM),
                     changeValue: vm.hasComparison
-                        ? Int(vm.changeResult?.extenRomDiff ?? 0) : 0,
+                        ? Int(vm.changeResult?.romDiff ?? 0) : 0,
                     isPositiveGood: true
                 )
             }
@@ -144,21 +164,20 @@ struct ProgressDetailView: View {
             HStack(alignment: .firstTextBaseline, spacing: 8) {
                 // 현재 값
                 Text(value)
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(.displayBodySemibold)
+
 
                 // 변화 값
                 if changeValue != 0 {
                     HStack(spacing: 2) {
                         Image(
                             systemName: changeValue > 0
-                                ? "arrow.up"
-                                : changeValue < 0 ? "arrow.down" : "minus"
+                                ? "arrowtriangle.up.fill"
+                                : changeValue < 0 ? "arrowtriangle.down.fill" : "minus"
                         )
                         .font(.caption2)
                         Text("\(changeValue)°")
-                            .font(.caption)
-                            .fontWeight(.medium)
+                            .font(.displayBodySemibold)
                     }
                     .foregroundStyle(
                         vm.changeColor(
@@ -177,8 +196,9 @@ struct ProgressDetailView: View {
                 title: "다시 측정하기",
                 style: .secondary
             ) {
-                vm.navigationPath.removeLast(vm.navigationPath.count)
+                vm.navigationPath.removeLast(vm.navigationPath.count-1)
             }
+            .frame(width: 315, height: 50)
 
             CapsuleButtonComponent(
                 title: "확인",
@@ -189,25 +209,7 @@ struct ProgressDetailView: View {
                     vm.navigationPath.removeLast(vm.navigationPath.count)
                 }
             }
+            .frame(width: 315, height: 50)
         }
     }
-}
-
-#Preview {
-    // 1. 메모리 전용 ModelContainer 생성
-    let container = try! ModelContainer(
-        for: MeasuredRecord.self,
-        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-    )
-
-    // 2. Repository 생성
-    let repository = SwiftDataRecordRepository(
-        modelContext: container.mainContext
-    )
-
-    // 3. ViewModel 생성
-    let vm = MeasureViewModel(repository: repository)
-
-    ProgressDetailView()
-        .environmentObject(vm)
 }
