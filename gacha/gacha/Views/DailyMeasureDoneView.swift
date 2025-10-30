@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct MeasureCheckedView: View {
+struct DailyMeasureDoneView: View {
     @EnvironmentObject var vm: MeasureViewModel
 
     @State private var scale: CGFloat = 0.5
