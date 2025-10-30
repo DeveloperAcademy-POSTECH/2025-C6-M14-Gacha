@@ -66,6 +66,7 @@
 "pain.level.10" = "Intolerable";
 
 /* ProgressDetailView */
+"progress.title" = "Today's Record";
 "progress.excellent.title" = "Movement Improved!";
 "progress.excellent.description" = "Knee bends naturally.\nConsistent rehab helps.";
 
@@ -79,20 +80,24 @@
 "progress.normal.description" = "Knee movement changed.\nNormal in recovery.";
 
 "progress.caution.title" = "Movement Slightly Less";
-"progress.caution.description" = "Knee may feel stiff.\nRest and try again.";
+"progress.caution.description" = "Knee may feel stiff.";
+"progress.caution.emphasis" = "Rest and try again.";
 
 "progress.warning.title" = "Hard to Move";
-"progress.warning.description" = "Knee not bending?\nConsult a doctor.";
+"progress.warning.description" = "Knee not bending?";
+"progress.warning.emphasis" = "Consult a doctor.";
 
 //MARK: Add statement
 "progress.pain_normal.title" = "Feeling Some Pain";
 "progress.pain_normal.description" = "Natural during recovery.\nShort rest is OK.";
 
 "progress.pain_caution.title" = "Pain Increased";
-"progress.pain_caution.description" = "Knee may be strained.\nRest and check.";
+"progress.pain_caution.description" = "Knee may be strained.";
+"progress.pain_caution.emphasis" = "Rest and check your condition today.";
 
 "progress.pain_warning.title" = "Pain Persists";
-"progress.pain_warning.description" = "If pain continues,\nsee a doctor.";
+"progress.pain_warning.description" = "If pain continues, professional care is needed.";
+"progress.pain_warning.emphasis" = "Please visit a nearby clinic.";
 
 "progress.first_take.title" = "First Record Made!";
 "progress.first_take.description" = "Today is the first step.\nKeep going consistently.";
