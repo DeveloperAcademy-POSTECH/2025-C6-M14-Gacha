@@ -35,6 +35,7 @@ struct ProgressDetailView: View {
                     .padding(.horizontal, 39)
                     .padding(.bottom, 40)
             }
+            .appBackground()
             .onAppear {
                 Task {
                     await vm.loadPreviousRecord()
