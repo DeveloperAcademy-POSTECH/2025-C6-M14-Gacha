@@ -15,36 +15,30 @@ struct PainLevelView: View {
 
     var body: some View {
         GeometryReader { geo in
-            VStack(spacing: 0) {
-                // 상단 영역
-                VStack(alignment: .leading, spacing: 9) {
-                    Text("통증수준 기록")
+            VStack(alignment: .center, spacing: 0) {
+                // MARK: - 상단 영역
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(Strings.Pain.title)
                         .font(.displayLargeBold)
-                        .foregroundStyle(Color("Gray900"))
-
-                    Text("측정 중 느낀 통증의 수준을 선택해주세요\n이후 오늘의 측정 결과를 확인할 수 있습니다")
+                    Text(Strings.Pain.description)
                         .font(.displayTitle3Medium)
-                        .foregroundStyle(Color("Gray700"))
-                        .lineSpacing(4)
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 60)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.blue)
+                .padding(.leading, 16)
+                .padding(.top, 52)
 
                 Spacer()
 
-                // 중간 영역 고통 표정
-                VStack {
-                    Text(painEmoji(for: value))
-                        .font(.system(size: 120))
-                }
-                .padding(.vertical, 20)
+                // MARK: - 이모지
+                Text(painEmoji(for: value))
+                    .font(.system(size: 136))
 
                 Spacer()
 
-                // 하단 영역
-                // 반원형 슬라이더
+                // MARK: - 반원형 슬라이더
                 ArcSlider(value: $value)
+                    .frame(height: 250)
 
                 CapsuleButtonComponent(
                     title: "확인",
@@ -58,22 +52,28 @@ struct PainLevelView: View {
                     }
                     vm.navigationPath.append(MeasureFlowStep.result)
                 }
-
+                .padding(.horizontal, 40)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(
-                Color("BackgroundBase")
-            )
+            .appBackground()
 
         }
     }
 
     private func painEmoji(for value: Double) -> String {
         switch value {
-        case 0..<2: return "😁"
-        case 2..<4: return "🤔"
-        case 4..<7: return "😕"
-        default: return "😩"
+        case 0: return "😁"  // 완전히 편안함
+        case 1: return "🙂"  // 약간의 이완
+        case 2: return "😊"  // 거의 통증 없음
+        case 3: return "😐"  // 약간 불편함
+        case 4: return "😕"  // 가벼운 통증
+        case 5: return "🙁"  // 눈에 띄는 통증
+        case 6: return "😣"  // 꽤 아픔
+        case 7: return "😖"  // 심한 통증
+        case 8: return "😫"  // 매우 아픔
+        case 9: return "😩"  // 극심한 통증
+        case 10: return "😭"  // 견딜 수 없는 통증
+        default: return "😕"
         }
     }
 
@@ -81,8 +81,8 @@ struct PainLevelView: View {
 
 struct ArcSlider: View {
     @Binding var value: Double
-    @State private var lastIntValue:Int = 5
-    
+    @State private var lastIntValue: Int = 5
+
     private let impactFeedback = UIImpactFeedbackGenerator(style: .light)
 
     var body: some View {
@@ -97,7 +97,7 @@ struct ArcSlider: View {
                     endAngle: .degrees(20)
                 )
                 .stroke(
-                    Color("Gray300"),
+                    Color(.gray300),
                     style: StrokeStyle(lineWidth: 40, lineCap: .round)
                 )
 
@@ -107,7 +107,7 @@ struct ArcSlider: View {
                     endAngle: .degrees(160 + (value / 10) * 220)
                 )
                 .stroke(
-                    Color("Primary500"),
+                    Color(.primary900),
                     style: StrokeStyle(lineWidth: 40, lineCap: .round)
                 )
                 .animation(.easeInOut(duration: 0.2), value: value)
@@ -151,9 +151,9 @@ struct ArcSlider: View {
                     )
 
                 // 중앙 텍스트 (값 + 상태)
-                VStack(spacing: 6) {
+                VStack(spacing: 16) {
                     Text("\(Int(value))")
-                        .font(.roundedTitle1Semibold)
+                        .font(.system(size: 40, weight: .bold))
                         .foregroundStyle(Color("Gray900"))
 
                     Text(levelDescription(for: value))
@@ -164,26 +164,6 @@ struct ArcSlider: View {
                 .position(
                     x: size.width / 2,
                     y: size.height / 2
-                )
-
-                HStack {
-                    // 왼쪽 라벨 (0)
-                    Text("0")
-                        .font(.displayCaption2Regular)
-                        .foregroundStyle(Color("Gray700"))
-
-                    Spacer()
-
-                    // 오른쪽 라벨 (10)
-                    Text("10")
-                        .font(.displayCaption2Regular)
-                        .foregroundStyle(Color("Gray700"))
-                }
-                .frame(width: size.width * 0.65)
-
-                .position(
-                    x: size.width / 2,
-                    y: size.height * 0.75
                 )
             }
             .onChange(of: value) { oldValue, newValue in
@@ -198,12 +178,7 @@ struct ArcSlider: View {
     }
 
     private func levelDescription(for value: Double) -> String {
-        switch value {
-        case 0..<2: return "통증 없음"  // 😁
-        case 2..<4: return "조금 아프다"  // 🤔
-        case 4..<7: return "꽤 아프다"  // 😕
-        default: return "매우 아프다"  // 😩
-        }
+        return Strings.Pain.level(Int(value))
     }
 
     // 반원 경로상의 좌표 계산

@@ -31,7 +31,7 @@ struct FlexionMeasureView: View {
                                 weight: .semibold,
                                 color: Color("White")
                             ) {
-                                vm.navigationPath.removeLast()
+                                vm.navigationPath.removeLast(vm.navigationPath.count)
                             }
                             .alert(isPresented: $showingCancelAlert) {
                                 Alert(
