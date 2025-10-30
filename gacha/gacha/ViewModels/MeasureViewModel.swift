@@ -5,13 +5,21 @@
 //  Created by Oh Seojin on 10/26/25.
 //
 
+import AVFoundation
+import AudioToolbox
 import Combine
 import SwiftData
 import SwiftUI
+import UIKit
 
 final class MeasureViewModel: ObservableObject {
     private var repository: RecordRepository
     private var measureManager: MeasureManager
+    private var audioPlayer: AVAudioPlayer?
+
+    // 햅틱 생성기 추가
+    private let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+    private var lastHapticProgress: Double = 0.0
 
     @Published var kneeType: KneeMotionType = .extensionRom
     @Published var measuredRom: Double = 0.0
@@ -19,7 +27,6 @@ final class MeasureViewModel: ObservableObject {
     @Published var isFinished: Bool = false
     @Published var hasTodayRecord: Bool = false
 
-    // MARK: - Navigation Properties
     @Published var navigationPath = NavigationPath()
 
     var currentStepNumber: Int {
@@ -93,7 +100,7 @@ final class MeasureViewModel: ObservableObject {
             else { return }
 
             let elapsed = Date().timeIntervalSince(startTime)
-            self.recordingProgress = min(
+            let newProgress = min(
                 1.0,
                 elapsed / self.recordingDurationThreshold
             )
@@ -140,9 +147,9 @@ final class MeasureViewModel: ObservableObject {
 
         measureManager.stopRecording()
 
-        let count = measureManager.recordedAngles.count
-        let duration = Date().timeIntervalSince(recordingStartTime ?? Date())
-        print("✅ 녹화 완료: \(count)개 데이터 (\(String(format: "%.1f", duration))초)")
+        // 완료 시 햅틱 + 사운드 재생
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        AudioServicesPlaySystemSound(1109)  // Alert
 
         // 분석 - 최빈값으로 ROM 계산
         if let angle = mode(of: measureManager.recordedAngles) {
