@@ -58,13 +58,11 @@ struct DailyMeasureStartView: View {
                     }
                     .padding(.vertical, 32)
                 }
-                .padding(.horizontal, 20)
+                .frame(maxWidth: .infinity)
                 .background(.white)
                 .cornerRadius(24)
                 .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 2)
-                .frame(maxWidth: .infinity)
-
-                Spacer()
+                .padding(.horizontal, 20)
 
                 Spacer()
                 
@@ -89,22 +87,22 @@ struct DailyMeasureStartView: View {
         }
     }
 }
-//
-//#Preview {
-//    // 1. 메모리 전용 ModelContainer 생성
-//    let container = try! ModelContainer(
-//        for: MeasuredRecord.self,
-//        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-//    )
-//
-//    // 2. Repository 생성
-//    let repository = SwiftDataRecordRepository(
-//        modelContext: container.mainContext
-//    )
-//
-//    // 3. ViewModel 생성
-//    let vm = MeasureViewModel(repository: repository)
-//
-//    DailyMeasureStartView()
-//        .environmentObject(vm)
-//}
+
+#Preview {
+    // 1. 메모리 전용 ModelContainer 생성
+    let container = try! ModelContainer(
+        for: MeasuredRecord.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+
+    // 2. Repository 생성
+    let repository = SwiftDataRecordRepository(
+        modelContext: container.mainContext
+    )
+
+    // 3. ViewModel 생성
+    let vm = MeasureViewModel(repository: repository)
+
+    DailyMeasureStartView()
+        .environmentObject(vm)
+}
