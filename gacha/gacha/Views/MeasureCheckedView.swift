@@ -16,19 +16,22 @@ struct MeasureCheckedView: View {
 
     var body: some View {
         VStack(spacing: 20) {
+
             // 체크마크 애니메이션
-            ZStack {
-                Circle()
-                    .frame(width: 234, height: 234)
-                    .foregroundStyle(Color("ButtonGreen"))
-                Image(systemName: "checkmark")
-                    .font(Font.system(size: 150))
-                    .foregroundStyle(Color("White"))
-            }
-            .scaleEffect(scale)
-            .opacity(opacity)
+            Image(systemName: "checkmark.circle.fill")
+                .font(Font.system(size: 295))
+                .foregroundStyle(Color(.buttonGreen))
+
+                .padding(.top, 160)
+                .scaleEffect(scale)
+                .opacity(opacity)
 
         }
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity,
+            alignment: .top
+        ).appBackground()
         .onAppear {
             // 스프링 애니메이션
             withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
