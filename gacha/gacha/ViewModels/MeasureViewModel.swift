@@ -56,7 +56,7 @@ final class MeasureViewModel: ObservableObject {
     }
 
     func checkTodayRecord() async {
-        var record: MeasuredRecord? = nil
+        let record: MeasuredRecord? = nil
         isLoading = true
         defer { isLoading = false }
 
@@ -212,7 +212,6 @@ final class MeasureViewModel: ObservableObject {
 
         record.flexionAngle = angle
         record.measuredSeconds = measurementSeconds
-        print("Flexion: \(record.flexionAngle), \(record.measuredSeconds)")
 
         navigationPath.append(MeasureFlowStep.flexionCheck)
     }
@@ -245,9 +244,6 @@ final class MeasureViewModel: ObservableObject {
 
         do {
             try await repository.createRecord(record: currentRecord)
-            print(
-                "save \(currentRecord.measuredDate), \(currentRecord.flexionAngle), \(currentRecord.extensionAngle), \(currentRecord.painLevel)"
-            )
             self.clearCurrentRecord()
         } catch {
             print("Error")
@@ -299,7 +295,6 @@ final class MeasureViewModel: ObservableObject {
     func deleteTodayRecords() async {
         do {
             if try await repository.hasTodayRecord {
-                print(repository.hasTodayRecord)
                 let legacyRecord = try await repository.loadLatestRecord()
                 guard let record = legacyRecord else { return }
                 print("🗑️ deleteTodayRecords: ", record.measuredDate)
