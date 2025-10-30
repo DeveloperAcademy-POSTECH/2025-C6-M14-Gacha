@@ -20,17 +20,13 @@ struct ExtensionMeasureView: View {
                     // 상단 영역
                     VStack(alignment: .leading, spacing: 9) {
                         HStack {
-                            Button {
+                            ButtonComponent(
+                                background: Color("Primary300"),
+                                systemImageName: "chevron.left",
+                                weight: .semibold,
+                                color: Color("White")
+                            ) {
                                 vm.navigationPath.removeLast()
-                            } label: {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color("Primary300"))
-                                        .frame(width: 44, height: 44)
-                                    Image(systemName: "chevron.left")
-                                        .frame(width: 44, height: 44)
-                                        .foregroundStyle(Color("White"))
-                                }
                             }
                             Spacer()
                         }
@@ -65,7 +61,7 @@ struct ExtensionMeasureView: View {
                     maxHeight: .infinity,
                     alignment: .top
                 )
-                .background(Color("BackgroundBase"))
+                .appBackground()
 
                 ZStack {
                     // 배경 원

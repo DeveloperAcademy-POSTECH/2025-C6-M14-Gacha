@@ -22,18 +22,16 @@ struct DailyMeasureStartView: View {
                 VStack(alignment: .leading, spacing: 9) {
                     HStack {
                         Spacer()
-                        Button {
+
+                        ButtonComponent(
+                            background: Color("Primary300"),
+                            systemImageName: "chart.xyaxis.line",
+                            weight: .semibold,
+                            color: Color("White")
+                        ) {
                             showHistorySheet = true
-                        } label: {
-                            ZStack {
-                                Circle()
-                                    .fill(Color("Primary300"))
-                                    .frame(width: 44, height: 44)
-                                Image(systemName: "chart.xyaxis.line")
-                                    .frame(width: 44, height: 44)
-                                    .foregroundStyle(Color("White"))
-                            }
                         }
+
                     }
 
                     Text("오늘의 측정")
@@ -62,20 +60,17 @@ struct DailyMeasureStartView: View {
                 }
                 .frame(height: geo.size.height * 0.45)
 
-                Button {
+                Spacer()
+                
+                CapsuleButtonComponent(
+                    title: "측정시작하기",
+                    style: .primary
+                ) {
                     vm.navigationPath.append(MeasureFlowStep.extensionMeasure)
-                } label: {
-                    Text("측정시작하기")
-                        .font(.displayHeadlineSemibold)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .foregroundStyle(Color("White"))
-                        .background(Color("Primary500"))
-                        .cornerRadius(25)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .background(Color("BackgroundBase"))
+            .appBackground()
 
             .sheet(isPresented: $showHistorySheet) {
                 ProgressHistoryView()
@@ -85,22 +80,22 @@ struct DailyMeasureStartView: View {
         }
     }
 }
-
-#Preview {
-    // 1. 메모리 전용 ModelContainer 생성
-    let container = try! ModelContainer(
-        for: MeasuredRecord.self,
-        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-    )
-
-    // 2. Repository 생성
-    let repository = SwiftDataRecordRepository(
-        modelContext: container.mainContext
-    )
-
-    // 3. ViewModel 생성
-    let vm = MeasureViewModel(repository: repository)
-
-    DailyMeasureStartView()
-        .environmentObject(vm)
-}
+//
+//#Preview {
+//    // 1. 메모리 전용 ModelContainer 생성
+//    let container = try! ModelContainer(
+//        for: MeasuredRecord.self,
+//        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+//    )
+//
+//    // 2. Repository 생성
+//    let repository = SwiftDataRecordRepository(
+//        modelContext: container.mainContext
+//    )
+//
+//    // 3. ViewModel 생성
+//    let vm = MeasureViewModel(repository: repository)
+//
+//    DailyMeasureStartView()
+//        .environmentObject(vm)
+//}

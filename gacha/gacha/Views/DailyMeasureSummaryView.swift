@@ -23,19 +23,17 @@ struct DailyMeasureSummaryView: View {
                 VStack(alignment: .leading, spacing: 9) {
                     HStack {
                         Spacer()
-                        Button {
+
+                        ButtonComponent(
+                            background: Color("Primary300"),
+                            systemImageName: "chart.xyaxis.line",
+                            weight: .semibold,
+                            color: Color("White")
+                        ) {
                             showHistorySheet = true
-                        } label: {
-                            ZStack {
-                                Circle()
-                                    .fill(Color("Primary300"))
-                                    .frame(width: 44, height: 44)
-                                Image(systemName: "chart.xyaxis.line")
-                                    .frame(width: 44, height: 44)
-                                    .foregroundStyle(Color("White"))
-                            }
                         }
                     }
+                    
 
                     Text("오늘의 측정")
                         .font(.displayLargeBold)
@@ -52,16 +50,13 @@ struct DailyMeasureSummaryView: View {
                 }
                 .frame(height: geo.size.height * 0.45)
 
-                Button {
+                Spacer()
+
+                CapsuleButtonComponent(
+                    title: "다시 측정하기",
+                    style: .primary
+                ) {
                     showingAlert = true
-                } label: {
-                    Text("다시 측정하기")
-                        .font(.displayHeadlineSemibold)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .foregroundStyle(Color("White"))
-                        .background(Color("Primary500"))
-                        .cornerRadius(25)
                 }
                 .alert(isPresented: $showingAlert) {
                     Alert(
@@ -80,7 +75,7 @@ struct DailyMeasureSummaryView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .background(Color("BackgroundBase"))
+            .appBackground()
 
             .sheet(isPresented: $showHistorySheet) {
                 ProgressHistoryView()
