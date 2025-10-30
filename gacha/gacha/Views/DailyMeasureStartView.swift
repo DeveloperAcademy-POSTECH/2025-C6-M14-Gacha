@@ -18,7 +18,7 @@ struct DailyMeasureStartView: View {
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: 0) {
-                // 상단 영역
+                // MARK: - 상단 영역
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Spacer()
@@ -45,7 +45,7 @@ struct DailyMeasureStartView: View {
 
                 Spacer()
 
-                // 중간 영역
+                // MARK: - 중간 영역
                 VStack(spacing: 16) {
                     VStack {
                         Image("extension_person")
