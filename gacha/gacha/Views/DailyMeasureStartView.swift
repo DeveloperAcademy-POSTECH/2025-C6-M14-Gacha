@@ -19,7 +19,7 @@ struct DailyMeasureStartView: View {
         GeometryReader { geo in
             VStack(spacing: 0) {
                 // 상단 영역
-                VStack(alignment: .leading, spacing: 9) {
+                VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Spacer()
 
@@ -34,31 +34,37 @@ struct DailyMeasureStartView: View {
 
                     }
 
-                    Text("오늘의 측정")
-                        .font(.displayLargeBold)
-                    Text("일일 기록을 측정합니다.")
-                        .font(.roundedTitle3Medium)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(Strings.DailyStart.title)
+                            .font(.displayLargeBold)
+                        Text(Strings.DailyStart.description)
+                            .font(.roundedTitle3Medium)
+                    }
+                }
+                .padding(.horizontal, 16)
+
+                Spacer()
+
+                // 중간 영역
+                VStack(spacing: 16) {
+                    VStack {
+                        Image("extension_person")
+                            .resizable()
+                            .scaledToFit()
+                            .tabViewStyle(.page(indexDisplayMode: .never))
+                            .frame(width: 175, height: 175)
+                        Text(Strings.DailyStart.instruction)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.vertical, 32)
                 }
                 .padding(.horizontal, 20)
-                .frame(height: geo.size.height * 0.25)
+                .background(.white)
+                .cornerRadius(24)
+                .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 2)
+                .frame(maxWidth: .infinity)
 
-                // 중간 영역 (캐러셀 + 인디케이터)
-                VStack(spacing: 10) {
-                    TabView(selection: $selection) {
-                        ForEach(Array(items.enumerated()), id: \.offset) {
-                            index,
-                            imageName in
-                            Image(imageName)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 353, height: 300)
-                                .tag(index)
-                        }
-                    }
-                    .tabViewStyle(.page(indexDisplayMode: .never))
-                    .frame(height: 280)
-                }
-                .frame(height: geo.size.height * 0.45)
+                Spacer()
 
                 Spacer()
                 
@@ -68,6 +74,9 @@ struct DailyMeasureStartView: View {
                 ) {
                     vm.navigationPath.append(MeasureFlowStep.extensionMeasure)
                 }
+                .glassEffect(.regular.interactive(), in: .capsule)
+                .padding(.horizontal, 40)
+
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .appBackground()
