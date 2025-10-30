@@ -56,7 +56,6 @@ final class MeasureViewModel: ObservableObject {
     }
 
     func checkTodayRecord() async {
-        let record: MeasuredRecord? = nil
         isLoading = true
         defer { isLoading = false }
 
@@ -66,11 +65,12 @@ final class MeasureViewModel: ObservableObject {
             if hasTodayRecord {
                 currentRecord = await loadLatestRecord()
             }
+            print("📅 오늘의 기록: \(currentRecord?.measuredDate.description ?? "없음")")
+
         } catch {
             print("❌ 기록 확인 실패: \(error)")
             hasTodayRecord = false
         }
-        print("📅 오늘의 기록: \(record?.measuredDate.description ?? "없음")")
     }
 
     func startMeasuring() {
@@ -288,6 +288,27 @@ final class MeasureViewModel: ObservableObject {
             errorMessage = "최근 레코드 로드 실패: \(error.localizedDescription)"
             print("❌ \(errorMessage ?? "")")
             return nil
+        }
+    }
+    
+    // MARK: - 어제 레코드 불러오기
+    func loadYesterdayRecord() async {
+        isLoading = true
+        defer { isLoading = false }
+
+        do {
+            let records = try await repository.loadRecords()
+            let record = records.dropFirst().first
+            previousRecord = record
+
+            if let record = previousRecord {
+                print("📝 어제 레코드 로드: Extension \(record.measuredDate)°")
+            } else {
+                print("⚠️ 저장된 레코드가 없습니다")
+            }
+        } catch {
+            errorMessage = "어제 레코드 로드 실패: \(error.localizedDescription)"
+            print("❌ \(errorMessage ?? "")")
         }
     }
 

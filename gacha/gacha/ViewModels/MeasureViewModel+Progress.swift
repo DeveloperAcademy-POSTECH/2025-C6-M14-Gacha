@@ -18,9 +18,18 @@ extension MeasureViewModel {
     // 가장 최근 기록(어제) 불러오기
     func loadPreviousRecord() async {
         previousRecord = await self.loadLatestRecord()
+        print("이전기록: \(previousRecord?.measuredDate.description ?? "없음")")
+    }
+    
+    // 오늘 기록을 currentRecord로 불러오기
+    func loadTodayRecord() async {
+        currentRecord = await self.loadLatestRecord()
+        print("이전기록: \(previousRecord?.measuredDate.description ?? "없음")")
     }
 
     func calculateRecordChange() {
+        print("🥹", currentRecord?.measuredDate.description ?? "없음")
+        print("🥹", previousRecord?.measuredDate.description ?? "없음")
         guard let current = currentRecord,
             let previous = previousRecord
         else {
