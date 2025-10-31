@@ -78,9 +78,11 @@ struct FlexionMeasureView: View {
                                     .frame(width: 300)
                                 // 텍스트
                                 Text(Strings.Flexion.instruction)
+                                    .font(.displayCalloutMedium)
                                     .multilineTextAlignment(.center)
                             }
                         }
+                        .clipShape(Circle())
 
                         // 진행률 원
                         ZStack {

@@ -54,8 +54,11 @@ struct ExtensionMeasureView: View {
                                     .frame(width: 300)
                                 // 텍스트
                                 Text(Strings.Extension.instruction)
+                                    .font(.displayCalloutMedium)
                                     .multilineTextAlignment(.center)
                             }
+                            .frame(width: 300, height: 300)
+                            .clipShape(Circle())
                         }
 
                         // 진행률 원
