@@ -24,7 +24,7 @@ struct ProgressHistoryView: View {
 
                         // MARK: - 무릎 가동범위 추이
                         VStack(alignment: .leading, spacing: 16) {
-                            Text("무릎 가동범위 추이")
+                            Text(Strings.History.romTitle)
                                 .font(.displayTitle3Bold)
                             
                             VStack(alignment: .leading) {
@@ -51,7 +51,7 @@ struct ProgressHistoryView: View {
 
                         // MARK: - 통증 수준 추이
                         VStack(alignment: .leading, spacing: 16) {
-                            Text("통증 수준 추이")
+                            Text(Strings.History.painTitle)
                                 .font(.displayTitle3Bold)
                             
                             VStack(alignment: .leading) {
@@ -95,7 +95,7 @@ struct ProgressHistoryView: View {
                 .padding(.trailing, 16)
             }
         }
-        .navigationTitle("기록")
+        .navigationTitle(Strings.History.title)
         .navigationBarTitleDisplayMode(.inline)
         .task {
             await vm.loadRecentRecords()
@@ -107,9 +107,9 @@ struct ProgressHistoryView: View {
     private var romChart: some View {
         Chart(vm.recentRecords) { record in
             BarMark(
-                x: .value("날짜", record.measuredDate, unit: .day),
-                yStart: .value("최소", record.flexionAngle ?? 0),
-                yEnd: .value("최대", record.extensionAngle),
+                x: .value("date", record.measuredDate, unit: .day),
+                yStart: .value("min", record.flexionAngle ?? 0),
+                yEnd: .value("max", record.extensionAngle),
                 width: .fixed(6)
             )
             .foregroundStyle(
@@ -174,7 +174,7 @@ struct ProgressHistoryView: View {
             })
         {
             VStack(alignment: .center, spacing: 4) {
-                Text(Strings.History.romTitle)
+                Text(Strings.Card.kneeROM)
                     .font(.displayCaption1Semibold)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                     
@@ -208,15 +208,15 @@ struct ProgressHistoryView: View {
     private var painChart: some View {
         Chart(vm.recentRecords) { record in
             LineMark(
-                x: .value("날짜", record.measuredDate, unit: .day),
-                y: .value("통증", record.painLevel ?? 0)
+                x: .value("date", record.measuredDate, unit: .day),
+                y: .value("pain", record.painLevel ?? 0)
             )
             .foregroundStyle(Color("GraphSecondary"))
             .interpolationMethod(.catmullRom)
 
             PointMark(
-                x: .value("날짜", record.measuredDate, unit: .day),
-                y: .value("통증", record.painLevel ?? 0)
+                x: .value("date", record.measuredDate, unit: .day),
+                y: .value("pain", record.painLevel ?? 0)
             )
             .foregroundStyle(Color("GraphSecondary"))
             .symbolSize(60)
@@ -262,7 +262,7 @@ struct ProgressHistoryView: View {
             })
         {
             VStack(alignment: .leading, spacing: 4) {
-                Text("통증 수준(VAS)")
+                Text(Strings.Card.painLevel)
                     .font(.displayCaption1Semibold)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
 

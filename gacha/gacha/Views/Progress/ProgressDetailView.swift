@@ -90,10 +90,6 @@ struct ProgressDetailView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(vm.feedbackMessage)
                     .font(.body)
-
-                Text(vm.guidanceText)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             }
 
             

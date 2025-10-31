@@ -150,10 +150,6 @@ struct DailyMeasureSummaryView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(vm.feedbackMessage)
                     .font(.body)
-
-                Text(vm.guidanceText)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             }
 
             // 측정값 그리드
@@ -172,7 +168,7 @@ struct DailyMeasureSummaryView: View {
             // 좌측: 펴진 각도, 무릎 가동범위
             VStack(alignment: .leading, spacing: 16) {
                 measurementItem(
-                    title: "펴진 각도",
+                    title: Strings.Card.extensionAngle,
                     value: vm.formatAngle(vm.currentRecord?.extensionAngle),
                     changeValue: vm.hasComparison
                         ? Int(vm.changeResult?.extenRomDiff ?? 0) : 0,
@@ -180,7 +176,7 @@ struct DailyMeasureSummaryView: View {
                 )
 
                 measurementItem(
-                    title: "무릎 가동범위",
+                    title: Strings.Card.kneeROM,
                     value: vm.formatAngle(vm.currentRecord?.ROM),
                     changeValue: vm.hasComparison
                         ? Int(vm.changeResult?.romDiff ?? 0) : 0,
@@ -192,7 +188,7 @@ struct DailyMeasureSummaryView: View {
             // 우측: 굽혀진 각도, 통증 수준
             VStack(alignment: .leading, spacing: 16) {
                 measurementItem(
-                    title: "굽혀진 각도",
+                    title: Strings.Card.flexionAngle,
                     value: vm.formatAngle(vm.currentRecord?.flexionAngle),
                     changeValue: vm.hasComparison
                         ? Int(vm.changeResult?.flexRomDiff ?? 0) : 0,
@@ -200,7 +196,7 @@ struct DailyMeasureSummaryView: View {
                 )
 
                 measurementItem(
-                    title: "통증 수준",
+                    title: Strings.Card.painLevel,
                     value: vm.formatPainLevel(vm.currentRecord?.painLevel),
                     changeValue: vm.hasComparison
                         ? (vm.changeResult?.painDiff ?? 0) : 0,
