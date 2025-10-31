@@ -20,7 +20,7 @@ extension MeasureViewModel {
         previousRecord = await self.loadLatestRecord()
         print("이전기록: \(previousRecord?.measuredDate.description ?? "없음")")
     }
-    
+
     // 오늘 기록을 currentRecord로 불러오기
     func loadTodayRecord() async {
         currentRecord = await self.loadLatestRecord()
@@ -50,17 +50,14 @@ extension MeasureViewModel {
 
     // MARK: - Message Generation
 
-    var questionText: String {
-        if hasComparison {
-            return "산책해 보시는건 어떤가요?"
-        } else {
-            return "첫 측정을 완료했어요!"
+    var cardTitle: String {
+        // 첫 측정인 경우
+        if !hasComparison {
+            return Strings.Progress.FirstTake.title
         }
-    }
 
-    var feedbackMessage: String {  // 추후 디벨롭 필요
         guard let result = changeResult else {
-            return "오늘의 측정 결과가 기록되었습니다."
+            return Strings.Progress.FirstTake.title
         }
 
         // ROM 변화 기준으로 메시지 생성
@@ -68,44 +65,158 @@ extension MeasureViewModel {
         let extenState = result.extenRomDiffState
         let painState = result.painDiffState
 
-        // 통증이 심각하게 증가한 경우
-        if case .visitRecommended = painState {
-            return "통증이 많이 증가했어요. 😰\n병원 방문을 권장드립니다."
+        // 상태 확인을 위한 boolean 변수들
+        let isFlexBetter = if case .better = flexState { true } else { false }
+        let isFlexWarning = if case .warning = flexState { true } else { false }
+        let isFlexNormal = if case .normal = flexState { true } else { false }
+
+        let isExtenBetter = if case .better = extenState { true } else { false }
+        let isExtenWarning = if case .warning = extenState { true } else { false }
+        let isExtenNormal = if case .normal = extenState { true } else { false }
+
+        let isPainBetter = if case .better = painState { true } else { false }
+        let isPainWarning = if case .warning = painState { true } else { false }
+        let isPainNormal = if case .normal = painState { true } else { false }
+        let isPainVisitRecommended = if case .visitRecommended = painState { true } else { false }
+
+        // 1. 통증이 심각하게 증가 (병원 방문 권장)
+        if isPainVisitRecommended {
+            return Strings.Progress.PainWarning.title
         }
 
-        // ROM 호전 + 통증 감소
-        if case .better = extenState, case .better = flexState,
-            case .better = painState
-        {
-            return "모든 지표가 좋아졌어요! 😊\n이대로 꾸준히 운동하세요."
+        // 2. ROM 둘 다 호전 + 통증 호전 또는 정상
+        if isFlexBetter && isExtenBetter && (isPainBetter || isPainNormal) {
+            return Strings.Progress.Excellent.title
         }
 
-        // ROM 호전
-        if case .better = extenState {
-            return "지난번보다 가동범위가 늘어났어요! 👍\n꾸준한 운동이 효과를 보이고 있습니다."
+        // 3. ROM 하나만 호전 + 통증 호전 또는 정상
+        if (isFlexBetter || isExtenBetter) && (isPainBetter || isPainNormal) {
+            return Strings.Progress.Good.title
         }
 
-        // ROM 악화
-        if case .warning = extenState {
-            return
-                "지난번보다 수치가 살짝 줄었지만,\n여전히 형상 범위예요. 😊\n몸의 컨디션에 따라 조금씩 달라질 수 있어요."
+        // 4. ROM 호전되었지만 통증 증가
+        if (isFlexBetter || isExtenBetter) && isPainWarning {
+            return Strings.Progress.PainCaution.title
         }
 
-        // 통증 증가
-        if case .warning = painState {
-            return "통증이 조금 증가했어요. 😣\n무리하지 마시고 천천히 진행하세요."
+        // 5. ROM 둘 다 악화 + 통증 무관
+        if isFlexWarning && isExtenWarning {
+            return Strings.Progress.Warning.title
         }
 
-        // 기본 메시지
-        return "오늘도 측정을 완료했어요. 😊\n꾸준한 기록이 회복에 도움이 됩니다."
+        // 6. ROM 하나 악화 + 통증 정상/호전
+        if (isFlexWarning || isExtenWarning) && (isPainNormal || isPainBetter) {
+            return Strings.Progress.Caution.title
+        }
+
+        // 7. ROM 하나 악화 + 통증 증가
+        if (isFlexWarning || isExtenWarning) && isPainWarning {
+            return Strings.Progress.Warning.title
+        }
+
+        // 8. ROM 둘 다 정상 + 통증 호전
+        if isFlexNormal && isExtenNormal && isPainBetter {
+            return Strings.Progress.PainNormal.title
+        }
+
+        // 9. ROM 둘 다 정상 + 통증 정상
+        if isFlexNormal && isExtenNormal && isPainNormal {
+            return Strings.Progress.Same.title
+        }
+
+        // 10. 기타 (통증 증가 + ROM 정상)
+        if isPainWarning {
+            return Strings.Progress.PainCaution.title
+        }
+
+        // 11. 기본값
+        return Strings.Progress.Normal.title
     }
+        
+    
 
-    var guidanceText: String {
-        if hasComparison {
-            return "몸의 컨디션에 따라 조금씩 달라질 수 있어요."
-        } else {
-            return "다음 측정부터 비교 결과를 확인할 수 있어요."
+    var feedbackMessage: String {
+        // 첫 측정인 경우
+        if !hasComparison {
+            return Strings.Progress.FirstTake.description
         }
+
+        guard let result = changeResult else {
+            return Strings.Progress.FirstTake.description
+        }
+
+        // ROM 변화 기준으로 메시지 생성
+        let flexState = result.flexRomDiffState
+        let extenState = result.extenRomDiffState
+        let painState = result.painDiffState
+
+        // 상태 확인을 위한 boolean 변수들
+        let isFlexBetter = if case .better = flexState { true } else { false }
+        let isFlexWarning = if case .warning = flexState { true } else { false }
+        let isFlexNormal = if case .normal = flexState { true } else { false }
+
+        let isExtenBetter = if case .better = extenState { true } else { false }
+        let isExtenWarning = if case .warning = extenState { true } else { false }
+        let isExtenNormal = if case .normal = extenState { true } else { false }
+
+        let isPainBetter = if case .better = painState { true } else { false }
+        let isPainWarning = if case .warning = painState { true } else { false }
+        let isPainNormal = if case .normal = painState { true } else { false }
+        let isPainVisitRecommended = if case .visitRecommended = painState { true } else { false }
+
+        // 1. 통증이 심각하게 증가 (병원 방문 권장)
+        if isPainVisitRecommended {
+            return Strings.Progress.PainWarning.description
+        }
+
+        // 2. ROM 둘 다 호전 + 통증 호전 또는 정상
+        if isFlexBetter && isExtenBetter && (isPainBetter || isPainNormal) {
+            return Strings.Progress.Excellent.description
+        }
+
+        // 3. ROM 하나만 호전 + 통증 호전 또는 정상
+        if (isFlexBetter || isExtenBetter) && (isPainBetter || isPainNormal) {
+            return Strings.Progress.Good.description
+        }
+
+        // 4. ROM 호전되었지만 통증 증가
+        if (isFlexBetter || isExtenBetter) && isPainWarning {
+            return Strings.Progress.PainCaution.description
+        }
+
+        // 5. ROM 둘 다 악화 + 통증 무관
+        if isFlexWarning && isExtenWarning {
+            return Strings.Progress.Warning.description
+        }
+
+        // 6. ROM 하나 악화 + 통증 정상/호전
+        if (isFlexWarning || isExtenWarning) && (isPainNormal || isPainBetter) {
+            return Strings.Progress.Caution.description + "\n" + Strings.Progress.Caution.emphasis
+            
+        }
+
+        // 7. ROM 하나 악화 + 통증 증가
+        if (isFlexWarning || isExtenWarning) && isPainWarning {
+            return Strings.Progress.Warning.description + "\n" + Strings.Progress.Warning.emphasis
+        }
+
+        // 8. ROM 둘 다 정상 + 통증 호전
+        if isFlexNormal && isExtenNormal && isPainBetter {
+            return Strings.Progress.PainNormal.description
+        }
+
+        // 9. ROM 둘 다 정상 + 통증 정상
+        if isFlexNormal && isExtenNormal && isPainNormal {
+            return Strings.Progress.Same.description
+        }
+
+        // 10. 기타 (통증 증가 + ROM 정상)
+        if isPainWarning {
+            return Strings.Progress.PainCaution.description + "\n" + Strings.Progress.PainCaution.emphasis
+        }
+
+        // 11. 기본값
+        return Strings.Progress.Normal.description
     }
 
     //     MARK: - Formatting
@@ -118,15 +229,6 @@ extension MeasureViewModel {
         guard let level = level else { return "0" }
         return "\(level)"
     }
-
-//    func formatChange(_ change: Int) -> String {
-//        let absChange = abs(change)
-//        if absChange < 1 {
-//            return String(format: "%.1f", absChange)
-//        } else {
-//            return "\(Int(absChange))"
-//        }
-//    }
 
     func changeColor(for change: Int, isPositiveGood: Bool) -> Color {
         if abs(change) < 1 {
