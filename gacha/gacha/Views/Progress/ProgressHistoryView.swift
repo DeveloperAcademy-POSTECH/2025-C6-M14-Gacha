@@ -174,7 +174,7 @@ struct ProgressHistoryView: View {
             })
         {
             VStack(alignment: .center, spacing: 4) {
-                Text("무릎 가동범위")
+                Text(Strings.History.romTitle)
                     .font(.displayCaption1Semibold)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                     

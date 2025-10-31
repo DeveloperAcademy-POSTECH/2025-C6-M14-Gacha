@@ -64,14 +64,14 @@ struct DailyMeasureSummaryView: View {
                             title: Text(Strings.Alert.Remeasure.title),
                             message: Text(Strings.Alert.Remeasure.message),
                             primaryButton: .destructive(
-                                Text("네"),
+                                Text(Strings.Common.yes),
                                 action: {
                                     vm.navigationPath.append(
                                         MeasureFlowStep.extensionMeasure
                                     )
                                 }
                             ),
-                            secondaryButton: .cancel(Text("아니요"))
+                            secondaryButton: .cancel(Text(Strings.Common.no))
                         )
                     }
                 }
@@ -102,7 +102,7 @@ struct DailyMeasureSummaryView: View {
     // MARK: - SubView
     private var resultCardWithMeasurements: some View {
         VStack(alignment: .leading, spacing: 24) {
-            Text(vm.questionText)
+            Text(vm.cardTitle)
                 .font(.title3)
                 .fontWeight(.semibold)
 

@@ -42,7 +42,7 @@ struct FlexionMeasureView: View {
                                         Strings.Alert.QuitExtension.message
                                     ),
                                     primaryButton: .destructive(
-                                        Text("네"),
+                                        Text(Strings.Common.yes),
                                         action: {
                                             vm.clearCurrentRecord()
                                             vm.navigationPath.removeLast(
@@ -50,7 +50,7 @@ struct FlexionMeasureView: View {
                                             )
                                         }
                                     ),
-                                    secondaryButton: .cancel(Text("아니요"))
+                                    secondaryButton: .cancel(Text(Strings.Common.no))
                                 )
                             }
                             Spacer()
@@ -167,14 +167,14 @@ struct FlexionMeasureView: View {
                                 Strings.Alert.SkipFlexion.message
                             ),
                             primaryButton: .destructive(
-                                Text("네"),
+                                Text(Strings.Common.yes),
                                 action: {
                                     vm.navigationPath.append(
                                         MeasureFlowStep.painLevel
                                     )
                                 }
                             ),
-                            secondaryButton: .cancel(Text("아니요"))
+                            secondaryButton: .cancel(Text(Strings.Common.no))
                         )
                     }
                 }

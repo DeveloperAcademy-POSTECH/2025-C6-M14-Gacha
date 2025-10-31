@@ -68,12 +68,11 @@ struct DailyMeasureStartView: View {
                 
                 // MARK: - 측정 버튼
                 CapsuleButtonComponent(
-                    title: "측정시작하기",
+                    title: Strings.DailyStart.button,
                     style: .primary
                 ) {
                     vm.navigationPath.append(MeasureFlowStep.extensionMeasure)
                 }
-                .glassEffect(.regular.interactive(), in: .capsule)
                 .padding(.horizontal, 40)
 
             }

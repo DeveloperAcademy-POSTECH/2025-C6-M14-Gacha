@@ -40,7 +40,7 @@ struct PainLevelView: View {
                     .frame(height: 250)
 
                 CapsuleButtonComponent(
-                    title: "확인",
+                    title: Strings.Common.confirm,
                     style: .primary
                 ) {
                     Task {

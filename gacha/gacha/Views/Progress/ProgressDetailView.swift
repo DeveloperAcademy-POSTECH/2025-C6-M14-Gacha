@@ -18,7 +18,7 @@ struct ProgressDetailView: View {
         } else {
             VStack(spacing: 24) {
                 // 헤더
-                Text("측정 결과")
+                Text(Strings.Progress.title)
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -48,7 +48,7 @@ struct ProgressDetailView: View {
     // MARK: - SubView
     private var resultCardWithMeasurements: some View {
         VStack(alignment: .leading, spacing: 24) {
-            Text(vm.questionText)
+            Text(vm.cardTitle)
                 .font(.title3)
                 .fontWeight(.semibold)
 
@@ -112,7 +112,7 @@ struct ProgressDetailView: View {
             // 좌측: 펴진 각도, 무릎 가동범위
             VStack(alignment: .leading, spacing: 16) {
                 measurementItem(
-                    title: "펴진 각도",
+                    title: Strings.Card.extensionAngle,
                     value: vm.formatAngle(vm.currentRecord?.extensionAngle),
                     changeValue: vm.hasComparison
                         ? Int(vm.changeResult?.extenRomDiff ?? 0) : 0,
@@ -120,7 +120,7 @@ struct ProgressDetailView: View {
                 )
 
                 measurementItem(
-                    title: "무릎 가동범위",
+                    title: Strings.Card.kneeROM,
                     value: vm.formatAngle(vm.currentRecord?.ROM),
                     changeValue: vm.hasComparison
                         ? Int(vm.changeResult?.romDiff ?? 0) : 0,
@@ -132,7 +132,7 @@ struct ProgressDetailView: View {
             // 우측: 굽혀진 각도, 통증 수준
             VStack(alignment: .leading, spacing: 16) {
                 measurementItem(
-                    title: "굽혀진 각도",
+                    title: Strings.Card.flexionAngle,
                     value: vm.formatAngle(vm.currentRecord?.flexionAngle),
                     changeValue: vm.hasComparison
                         ? Int(vm.changeResult?.flexRomDiff ?? 0) : 0,
@@ -140,7 +140,7 @@ struct ProgressDetailView: View {
                 )
 
                 measurementItem(
-                    title: "통증 수준",
+                    title: Strings.Card.painLevel,
                     value: vm.formatPainLevel(vm.currentRecord?.painLevel),
                     changeValue: vm.hasComparison
                         ? (vm.changeResult?.painDiff ?? 0) : 0,
@@ -194,7 +194,7 @@ struct ProgressDetailView: View {
     private var buttonStack: some View {
         VStack(spacing: 12) {
             CapsuleButtonComponent(
-                title: "다시 측정하기",
+                title: Strings.Common.retake,
                 style: .secondary
             ) {
                 vm.navigationPath.removeLast(vm.navigationPath.count-1)
@@ -202,7 +202,7 @@ struct ProgressDetailView: View {
             .frame(width: 315, height: 50)
 
             CapsuleButtonComponent(
-                title: "확인",
+                title: Strings.Common.confirm,
                 style: .primary
             ) {
                 Task {
