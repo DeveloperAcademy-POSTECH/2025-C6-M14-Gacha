@@ -21,10 +21,8 @@ struct ProgressDetailView: View {
                 // MARK: - 상단 영역
 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(Strings.Summary.title)
+                    Text(Strings.Progress.title)
                         .font(.displayLargeBold)
-                    Text(Strings.Summary.description)
-                        .font(.displayTitle3Medium)
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 48)
@@ -94,8 +92,12 @@ struct ProgressDetailView: View {
             .frame(maxWidth: .infinity, alignment: .center)
 
             VStack(alignment: .leading, spacing: 8) {
+                let _ = print(vm.feedbackMessage)
                 Text(vm.feedbackMessage)
-                    .font(.body)
+                    .font(.displayBodyMedium)
+                    .multilineTextAlignment(.leading)  // 줄바꿈 정렬 방식 지정 (선택)
+                    .lineLimit(3)  // 최대 3줄까지 표시
+                    .fixedSize(horizontal: false, vertical: true)  // 줄바꿈 강제 활성화
             }
 
             // 측정값 그리드

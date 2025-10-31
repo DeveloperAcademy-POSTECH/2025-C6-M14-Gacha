@@ -166,7 +166,7 @@ extension MeasureViewModel {
 
         // 1. 통증이 심각하게 증가 (병원 방문 권장)
         if isPainVisitRecommended {
-            return Strings.Progress.PainWarning.description
+            return "\(Strings.Progress.PainWarning.description)\n\(Strings.Progress.PainWarning.emphasis)"
         }
 
         // 2. ROM 둘 다 호전 + 통증 호전 또는 정상
@@ -181,23 +181,23 @@ extension MeasureViewModel {
 
         // 4. ROM 호전되었지만 통증 증가
         if (isFlexBetter || isExtenBetter) && isPainWarning {
-            return Strings.Progress.PainCaution.description
+            return "\(Strings.Progress.PainCaution.description)\n\(Strings.Progress.PainCaution.emphasis)"
         }
 
         // 5. ROM 둘 다 악화 + 통증 무관
         if isFlexWarning && isExtenWarning {
-            return Strings.Progress.Warning.description
+            return "\(Strings.Progress.Warning.description)\n\(Strings.Progress.Warning.emphasis)"
         }
 
         // 6. ROM 하나 악화 + 통증 정상/호전
         if (isFlexWarning || isExtenWarning) && (isPainNormal || isPainBetter) {
-            return Strings.Progress.Caution.description + "\n" + Strings.Progress.Caution.emphasis
+            return "\(Strings.Progress.Caution.description)\n\(Strings.Progress.Caution.emphasis)"
             
         }
 
         // 7. ROM 하나 악화 + 통증 증가
         if (isFlexWarning || isExtenWarning) && isPainWarning {
-            return Strings.Progress.Warning.description + "\n" + Strings.Progress.Warning.emphasis
+            return "\(Strings.Progress.Warning.description)\n\(Strings.Progress.Warning.emphasis)"
         }
 
         // 8. ROM 둘 다 정상 + 통증 호전
@@ -212,7 +212,7 @@ extension MeasureViewModel {
 
         // 10. 기타 (통증 증가 + ROM 정상)
         if isPainWarning {
-            return Strings.Progress.PainCaution.description + "\n" + Strings.Progress.PainCaution.emphasis
+            return "\(Strings.Progress.PainCaution.description)\n\(Strings.Progress.PainCaution.emphasis)"
         }
 
         // 11. 기본값
