@@ -31,7 +31,7 @@ struct FlexionMeasureView: View {
                                 weight: .semibold,
                                 color: Color("White")
                             ) {
-                                vm.navigationPath.removeLast(vm.navigationPath.count)
+                                showingCancelAlert = true
                             }
                             .alert(isPresented: $showingCancelAlert) {
                                 Alert(
@@ -42,7 +42,7 @@ struct FlexionMeasureView: View {
                                         Strings.Alert.QuitExtension.message
                                     ),
                                     primaryButton: .destructive(
-                                        Text("네"),
+                                        Text(Strings.Common.yes),
                                         action: {
                                             vm.clearCurrentRecord()
                                             vm.navigationPath.removeLast(
@@ -50,7 +50,7 @@ struct FlexionMeasureView: View {
                                             )
                                         }
                                     ),
-                                    secondaryButton: .cancel(Text("아니요"))
+                                    secondaryButton: .cancel(Text(Strings.Common.no))
                                 )
                             }
                             Spacer()
@@ -78,9 +78,11 @@ struct FlexionMeasureView: View {
                                     .frame(width: 300)
                                 // 텍스트
                                 Text(Strings.Flexion.instruction)
+                                    .font(.displayCalloutMedium)
                                     .multilineTextAlignment(.center)
                             }
                         }
+                        .clipShape(Circle())
 
                         // 진행률 원
                         ZStack {
@@ -165,14 +167,14 @@ struct FlexionMeasureView: View {
                                 Strings.Alert.SkipFlexion.message
                             ),
                             primaryButton: .destructive(
-                                Text("네"),
+                                Text(Strings.Common.yes),
                                 action: {
                                     vm.navigationPath.append(
                                         MeasureFlowStep.painLevel
                                     )
                                 }
                             ),
-                            secondaryButton: .cancel(Text("아니요"))
+                            secondaryButton: .cancel(Text(Strings.Common.no))
                         )
                     }
                 }

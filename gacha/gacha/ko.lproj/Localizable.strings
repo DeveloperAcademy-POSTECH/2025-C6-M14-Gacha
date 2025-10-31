@@ -10,8 +10,8 @@
 
 "common.confirm" = "확인";
 "common.yes" = "네";
-"common.no" = "아니요";
-"common.continue" = "아니요";
+"common.no" = "아니오";
+"common.continue" = "아니오";
 "common.back_to_start" = "네";
 "common.skip" = "네";
 "common.retake" = "다시 측정하기";
@@ -40,7 +40,7 @@
 "alert.skip_flexion.title" = "무릎 굽힘 측정을 건너뛰시겠어요?";
 "alert.skip_flexion.message" = "무릎 펴짐 각도만 기록되고, 바로 통증 기록으로 이동해요";
 "alert.remeasure.title" = "다시 측정하시겠어요?";
-"alert.remeasure.message" = "새로 측정한 내용이 오늘의 기록으로\n업데이트되어 저장돼요";
+"alert.remeasure.message" = "새로 측정한 내용이 오늘의 기록으로 업데이트되어 저장돼요.";
 
 /* MeasureDoneView */
 "measure_done.title" = "측정이 완료되었어요!";
@@ -73,7 +73,7 @@
 "progress.same.title" = "천천히 좋아지고 있어요";
 "progress.same.description" = "눈에 띄는 변화는 없지만 잘 유지하고 있어요.\n꾸준함이 회복의 핵심이에요.";
 "progress.normal.title" = "가벼운 변화가 있어요";
-"progress.normal.description" = "무릎의 움직임이 달라졌지만 괜찮아요.\n회복 과정에서는 이런 변화가 자연스러워요.";
+"progress.normal.description" = "무릎의 움직임이 약간 달라졌지만 괜찮아요.\n회복 과정에서는 이런 변화가 자연스러워요.";
 "progress.caution.title" = "오늘은 움직임이 살짝 줄었어요";
 "progress.caution.description" = "무릎이 조금 뻣뻣할 수 있어요.";
 "progress.caution.emphasis" = "충분히 쉬고 다시 시도해 보세요.";
@@ -98,7 +98,10 @@
 /* ProgressHistoryView */
 "history.title" = "변화 보기";
 "history.rom_title" = "무릎 움직임 변화";
+"history.average" = "평균";
 "history.pain_title" = "통증 변화";
+"history.pain_min" = "최소";
+"history.pain_max" = "최대";
 
 /* DailyMeasureSummaryView */
 "summary.title" = "오늘의 기록";

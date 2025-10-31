@@ -83,10 +83,10 @@ class ProgressHistoryViewModel: ObservableObject {
     func formatDateRange(startDate: Date, endDate: Date) -> String{
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "yyyy년 M월 d일"
+        formatter.dateFormat = "yyyy/M/d"
 
         let start = formatter.string(from: startDate)
-        formatter.dateFormat = "d일"
+        formatter.dateFormat = "d"
         let end = formatter.string(from: endDate)
 
         return "\(start)~\(end)"
