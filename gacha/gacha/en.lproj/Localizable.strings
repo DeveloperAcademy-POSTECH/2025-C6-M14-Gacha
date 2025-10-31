@@ -21,17 +21,17 @@
 /* DailyMeasureStartView */
 "daily_start.title" = "Knee Range of Motion";
 "daily_start.description" = "Let's check how much your knee can move";
-"daily_start.instruction" = "Please Sit on a flat surface and \nmove your leg comfortably";
+"daily_start.instruction" = "Please Sit on a flat surface,\nmove your leg comfortably";
 "daily_start.button" = "Start Measurement";
 
 /* ExtensionMeasureView */
-"extension.instruction" = "Sit with your leg fully extended and place your iPhone on your thigh";
-"extension.instruction_emphasis" = "Press and hold the button to measure";
+"extension.instruction" = "Sit with your leg fully extended,\nplace phone on your thigh";
+"extension.instruction_emphasis" = "Hold the button to measure";
 "extension.measuring" = "Measuring knee extension angle";
 
 /* FlexionMeasureView */
-"flexion.instruction" = "Keep your heel on the floor and bend your leg as much as you can";
-"flexion.instruction_emphasis" = "Press and hold the button to measure";
+"flexion.instruction" = "Keep your heel on the floor,\nbend your leg fully";
+"flexion.instruction_emphasis" = "Hold the button to measure";
 "flexion.measuring" = "Measuring knee flexion angle";
 "flexion.skip_button" = "Does it hurt a lot?";
 
@@ -41,7 +41,7 @@
 "alert.skip_flexion.title" = "Skip the Knee Flexion Measurement?";
 "alert.skip_flexion.message" = "Only the knee extension angle will be saved";
 "alert.remeasure.title" = "Measure Again?";
-"alert.remeasure.message" = "TToday's record will be replaced with the new one";
+"alert.remeasure.message" = "Today's record will be replaced with the new one";
 
 /* MeasureDoneView */
 "measure_done.title" = "Measurement Complete!";
@@ -49,7 +49,7 @@
 
 /* PainLevelView */
 "pain.title" = "Record Pain Level";
-"pain.description" = "Please select the level of pain you felt /nduring the measurement";
+"pain.description" = "Please select the level of pain you felt during the measurement";
 "pain.button" = "View Results";
 
 /* Pain Levels 0-10 (6 categories) */
@@ -59,7 +59,7 @@
 "pain.level.3" = "Moderate pain";
 "pain.level.4" = "Quite painful";
 "pain.level.5" = "Strong pain";
-"pain.level.6" = "Very strong pain";
+"pain.level.6" = "Intense pain";
 "pain.level.7" = "Severe pain";
 "pain.level.8" = "Hard to bear";
 "pain.level.9" = "Unberable";
