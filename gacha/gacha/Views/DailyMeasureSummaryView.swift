@@ -149,7 +149,10 @@ struct DailyMeasureSummaryView: View {
 
             VStack(alignment: .leading, spacing: 8) {
                 Text(vm.feedbackMessage)
-                    .font(.body)
+                    .font(.displayBodyMedium)
+                    .multilineTextAlignment(.leading)  // 줄바꿈 정렬 방식 지정 (선택)
+                    .lineLimit(3)  // 최대 3줄까지 표시
+                    .fixedSize(horizontal: false, vertical: true)  // 줄바꿈 강제 활성화
             }
 
             // 측정값 그리드
