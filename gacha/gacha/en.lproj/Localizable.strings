@@ -20,36 +20,36 @@
 
 /* DailyMeasureStartView */
 "daily_start.title" = "Knee Range of Motion";
-"daily_start.description" = "Let's check how much your knee can move.";
-"daily_start.instruction" = "Please sit on a flat surface where you can comfortably extend and bend your leg";
+"daily_start.description" = "Let's check how much your knee can move";
+"daily_start.instruction" = "Please Sit on a flat surface and \nmove your leg comfortably";
 "daily_start.button" = "Start Measurement";
 
 /* ExtensionMeasureView */
-"extension.instruction" = "Sit with your leg fully extended and place your iPhone on your thigh.";
-"extension.instruction_emphasis" = "Press and hold the button to start measuring.";
-"extension.measuring" = "Measuring knee extension angle.";
+"extension.instruction" = "Sit with your leg fully extended and place your iPhone on your thigh";
+"extension.instruction_emphasis" = "Press and hold the button to measure";
+"extension.measuring" = "Measuring knee extension angle";
 
 /* FlexionMeasureView */
-"flexion.instruction" = "Keep your heel on the floor and bend your leg as much as you can.";
-"flexion.instruction_emphasis" = "Press and hold the button to start measuring.";
-"flexion.measuring" = "Measuring knee flexion angle.";
+"flexion.instruction" = "Keep your heel on the floor and bend your leg as much as you can";
+"flexion.instruction_emphasis" = "Press and hold the button to measure";
+"flexion.measuring" = "Measuring knee flexion angle";
 "flexion.skip_button" = "Does it hurt a lot?";
 
 /* Alerts */
-"alert.quit_extension.title" = "Cancel the Knee Extension Measurement?";
-"alert.quit_extension.message" = "You'll return to the start screen.";
+"alert.quit_extension.title" = "Cancel the Knee Movement Measurement?";
+"alert.quit_extension.message" = "You'll return to the start screen";
 "alert.skip_flexion.title" = "Skip the Knee Flexion Measurement?";
-"alert.skip_flexion.message" = "Only the knee extension angle will be saved, and you'll proceed to pain recording.";
+"alert.skip_flexion.message" = "Only the knee extension angle will be saved";
 "alert.remeasure.title" = "Measure Again?";
-"alert.remeasure.message" = "The new measurement will be updated and replace today's record.";
+"alert.remeasure.message" = "TToday's record will be replaced with the new one";
 
 /* MeasureDoneView */
 "measure_done.title" = "Measurement Complete!";
-"measure_done.subtitle" = "Now, let's record your pain level.";
+"measure_done.subtitle" = "Now, let's record your pain level";
 
 /* PainLevelView */
 "pain.title" = "Record Pain Level";
-"pain.description" = "Please select the level of pain you felt during the measurement.";
+"pain.description" = "Please select the level of pain you felt /nduring the measurement";
 "pain.button" = "View Results";
 
 /* Pain Levels 0-10 (6 categories) */

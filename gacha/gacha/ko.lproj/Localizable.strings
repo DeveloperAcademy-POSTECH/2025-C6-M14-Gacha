@@ -10,8 +10,8 @@
 
 "common.confirm" = "확인";
 "common.yes" = "네";
-"common.no" = "아니오";
-"common.continue" = "아니오";
+"common.no" = "아니요";
+"common.continue" = "아니요";
 "common.back_to_start" = "네";
 "common.skip" = "네";
 "common.retake" = "다시 측정하기";
@@ -19,28 +19,28 @@
 
 /* DailyMeasureStartView */
 "daily_start.title" = "무릎 움직임 범위 측정";
-"daily_start.description" = "무릎이 얼마나 움직이는지 확인해 보세요.";
-"daily_start.instruction" = "다리를 편하게 펴고 굽힐 수 있는 \n평평한 곳에 앉아 주세요.";
+"daily_start.description" = "무릎이 얼마나 움직이는지 확인해 보세요";
+"daily_start.instruction" = "다리를 편하게 펴고 굽힐 수 있는 \n평평한 곳에 앉아 주세요";
 "daily_start.button" = "측정 시작하기";
 
 /* ExtensionMeasureView */
-"extension.instruction" = "다리를 편 상태로 앉아 \niPhone을 허벅지 위에 올려 주세요.";
+"extension.instruction" = "다리를 편 상태로 앉아 \niPhone을 허벅지 위에 올려 주세요";
 "extension.instruction_emphasis" = "버튼을 길게 누르면 측정이 시작돼요";
 "extension.measuring" = "무릎 펴짐 각도를 측정 중이에요";
 
 /* FlexionMeasureView */
-"flexion.instruction" = "발꿈치를 바닥에 붙인 채 \n가능한 만큼 다리를 굽혀 주세요.";
+"flexion.instruction" = "발꿈치를 바닥에 붙인 채 \n가능한 만큼 다리를 굽혀 주세요";
 "flexion.instruction_emphasis" = "버튼을 길게 누르면 측정이 시작돼요";
 "flexion.measuring" = "무릎 굽힘 각도를 측정 중이에요";
 "flexion.skip_button" = "통증이 심하신가요?";
 
 /* Alerts */
-"alert.quit_extension.title" = "무릎 펴짐 측정을 취소하시겠어요?";
-"alert.quit_extension.message" = "처음 화면으로 되돌아가요.";
+"alert.quit_extension.title" = "무릎 움직임 측정을 취소하시겠어요?";
+"alert.quit_extension.message" = "처음 화면으로 되돌아가요";
 "alert.skip_flexion.title" = "무릎 굽힘 측정을 건너뛰시겠어요?";
-"alert.skip_flexion.message" = "무릎 펴짐 각도만 기록되고, 바로 통증 기록으로 이동해요.";
+"alert.skip_flexion.message" = "무릎 펴짐 각도만 기록되고, 바로 통증 기록으로 이동해요";
 "alert.remeasure.title" = "다시 측정하시겠어요?";
-"alert.remeasure.message" = "새로 측정한 내용이 오늘의 기록으로 \n업데이트되어 저장돼요.";
+"alert.remeasure.message" = "새로 측정한 내용이 오늘의 기록으로 \n업데이트되어 저장돼요";
 
 /* MeasureDoneView */
 "measure_done.title" = "측정이 완료되었어요!";
@@ -48,7 +48,7 @@
 
 /* PainLevelView */
 "pain.title" = "통증 기록";
-"pain.description" = "측정 중 느낀 통증 정도를 선택해 주세요.";
+"pain.description" = "측정 중 느낀 통증 정도를 선택해 주세요";
 "pain.button" = "결과 보기";
 
 /* Pain Levels 0-10 (11 categories) */
@@ -59,33 +59,33 @@
 "pain.level.4" = "꽤 아파요";
 "pain.level.5" = "많이 아파요";
 "pain.level.6" = "아주 아파요";
-"pain.level.7" = "엄청 아파요";
+"pain.level.7" = "메우 아파요";
 "pain.level.8" = "참기 힘들어요";
 "pain.level.9" = "참을 수 없어요";
 "pain.level.10" = "견딜 수 없어요";
 
 /* ProgressDetailView */
 "progress.title" = "오늘의 기록";
-"progress.excellent.title" = "움직임이 좋아졌어요.";
+"progress.excellent.title" = "움직임이 좋아졌어요";
 "progress.excellent.description" = "무릎이 더 자연스럽게 펴지고 굽혀졌어요.\n꾸준한 재활이 큰 힘이 되고 있어요.";
-"progress.good.title" = "잘 회복되고 있어요.";
+"progress.good.title" = "잘 회복되고 있어요";
 "progress.good.description" = "무릎 움직임이 편해지고 있어요.\n지금처럼 천천히 계속해 보세요.";
-"progress.same.title" = "천천히 좋아지고 있어요.";
+"progress.same.title" = "천천히 좋아지고 있어요";
 "progress.same.description" = "눈에 띄는 변화는 없지만 잘 유지하고 있어요.\n꾸준함이 회복의 핵심이에요.";
-"progress.normal.title" = "가벼운 변화가 있어요.";
+"progress.normal.title" = "가벼운 변화가 있어요";
 "progress.normal.description" = "무릎의 움직임이 달라졌지만 괜찮아요.\n회복 과정에서는 이런 변화가 자연스러워요.";
-"progress.caution.title" = "오늘은 움직임이 살짝 줄었어요.";
+"progress.caution.title" = "오늘은 움직임이 살짝 줄었어요";
 "progress.caution.description" = "무릎이 조금 뻣뻣할 수 있어요.";
 "progress.caution.emphasis" = "충분히 쉬고 다시 시도해 보세요.";
-"progress.warning.title" = "움직이기 어려운 상태예요.";
+"progress.warning.title" = "움직이기 어려운 상태예요";
 "progress.warning.description" = "무릎이 잘 펴지거나 굽혀지지 않으세요?";
 "progress.warning.emphasis" = "전문가와 상의해 보세요.";
-"progress.pain_normal.title" = "통증이 느껴졌어요.";
+"progress.pain_normal.title" = "통증이 느껴졌어요";
 "progress.pain_normal.description" = "회복 과정에서 나타날 수 있는 자연스러운 반응이에요.\n 오늘은 잠시 쉬어도 괜찮아요.";
-"progress.pain_caution.title" = "통증이 심해졌어요.";
+"progress.pain_caution.title" = "통증이 심해졌어요";
 "progress.pain_caution.description" = "최근 무릎에 부담이 있었던 것 같아요.";
 "progress.pain_caution.emphasis" = "오늘은 쉬면서 몸의 상태를 살펴보세요.";
-"progress.pain_warning.title" = "통증이 계속되고 있어요.";
+"progress.pain_warning.title" = "통증이 계속되고 있어요";
 "progress.pain_warning.description" = "통증이 이어질 땐 전문가의 확인이 필요해요.";
 "progress.pain_warning.emphasis" = "가까운 병원을 방문해 보세요.";
 "progress.first_take.title" = "첫 기록을 남기셨네요!";
