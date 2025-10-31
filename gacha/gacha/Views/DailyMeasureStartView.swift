@@ -73,7 +73,6 @@ struct DailyMeasureStartView: View {
                 ) {
                     vm.navigationPath.append(MeasureFlowStep.extensionMeasure)
                 }
-                .glassEffect(.regular.interactive(), in: .capsule)
                 .padding(.horizontal, 40)
 
             }
