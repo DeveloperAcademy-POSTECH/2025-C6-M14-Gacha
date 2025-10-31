@@ -111,7 +111,10 @@
 /* ProgressHistoryView */
 "history.title" = "View My Progress";
 "history.rom_title" = "Knee Range of Motion Changes";
+"history.average" = "Average";
 "history.pain_title" = "Pain Level Changes";
+"history.pain_min" = "Min";
+"history.pain_max" = "Max";
 
 /* DailyMeasureSummaryView */
 "summary.title" = "Today's Record";

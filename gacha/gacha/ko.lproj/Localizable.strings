@@ -98,7 +98,10 @@
 /* ProgressHistoryView */
 "history.title" = "변화 보기";
 "history.rom_title" = "무릎 움직임 변화";
+"history.average" = "평균";
 "history.pain_title" = "통증 변화";
+"history.pain_min" = "최소";
+"history.pain_max" = "최대";
 
 /* DailyMeasureSummaryView */
 "summary.title" = "오늘의 기록";

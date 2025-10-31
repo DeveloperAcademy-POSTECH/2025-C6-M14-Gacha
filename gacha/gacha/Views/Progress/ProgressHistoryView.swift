@@ -30,7 +30,7 @@ struct ProgressHistoryView: View {
                             VStack(alignment: .leading) {
 
                                     VStack(alignment: .leading, spacing: 4) {
-                                        Text("평균")
+                                        Text(Strings.History.average)
                                             .font(.displayCaption1Semibold)
                                             .foregroundColor(Color("Gray500"))
                                         Text("\(vm.romAverage)°")
@@ -56,7 +56,7 @@ struct ProgressHistoryView: View {
                             
                             VStack(alignment: .leading) {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("최소~최대")
+                                    Text(Strings.History.painMin + "~" + Strings.History.painMax)
                                         .font(.displayCaption1Semibold)
                                         .foregroundColor(Color("Gray500"))
 

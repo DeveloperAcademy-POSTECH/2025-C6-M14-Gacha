@@ -10,30 +10,36 @@ import SwiftUI
 
 struct ProgressDetailView: View {
     @EnvironmentObject var vm: MeasureViewModel
+    @State var showingRetakeAlert = false
 
     // MARK: - Body
     var body: some View {
         if vm.isLoading {
             Text("Loading...")
         } else {
-            VStack(spacing: 24) {
-                // 헤더
-                Text(Strings.Progress.title)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 16)
-                    .padding(.top, 111)
+            VStack(alignment:.leading, spacing: 24) {
+                // MARK: - 상단 영역
+
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(Strings.Summary.title)
+                        .font(.displayLargeBold)
+                    Text(Strings.Summary.description)
+                        .font(.displayTitle3Medium)
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 48)
+                
+                Spacer()
 
                 // 결과 카드 (측정값 포함)
                 resultCardWithMeasurements
+                    .padding(.horizontal, 24)
 
                 Spacer()
 
                 // 버튼들
                 buttonStack
-                    .padding(.horizontal, 39)
-                    .padding(.bottom, 40)
+                    .padding(.horizontal, 40)
             }
             .appBackground()
             .onAppear {
@@ -52,7 +58,6 @@ struct ProgressDetailView: View {
                 .font(.title3)
                 .fontWeight(.semibold)
 
-
             // 일러스트 영역 (모크 데이터 - 추후 이미지 에셋으로 교체 예정)
             HStack(spacing: 40) {
                 VStack {
@@ -61,20 +66,22 @@ struct ProgressDetailView: View {
                         .scaledToFill()
                         .frame(width: 115, height: 115)
                         .overlay(alignment: .topTrailing) {
-                            Text(vm.formatAngle(vm.currentRecord?.extensionAngle))
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .padding(.top, 8)
-                                .padding(.trailing, 8)
+                            Text(
+                                vm.formatAngle(vm.currentRecord?.extensionAngle)
+                            )
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.top, 8)
+                            .padding(.trailing, 8)
                         }
                 }
-                
+
                 VStack(spacing: 8) {
                     Image("FlexionBody")
                         .resizable()
                         .scaledToFill()
                         .frame(width: 115, height: 115)
-                         .overlay(alignment: .topTrailing) {
+                        .overlay(alignment: .topTrailing) {
                             Text(vm.formatAngle(vm.currentRecord?.flexionAngle))
                                 .font(.title2)
                                 .fontWeight(.bold)
@@ -82,17 +89,15 @@ struct ProgressDetailView: View {
                                 .padding(.trailing, 8)
                         }
                 }
-                
+
             }
             .frame(maxWidth: .infinity, alignment: .center)
-
 
             VStack(alignment: .leading, spacing: 8) {
                 Text(vm.feedbackMessage)
                     .font(.body)
             }
 
-            
             // 측정값 그리드
             measurementGrid
         }
@@ -163,14 +168,14 @@ struct ProgressDetailView: View {
                 Text(value)
                     .font(.displayBodySemibold)
 
-
                 // 변화 값
                 if changeValue != 0 {
                     HStack(spacing: 2) {
                         Image(
                             systemName: changeValue > 0
                                 ? "arrowtriangle.up.fill"
-                                : changeValue < 0 ? "arrowtriangle.down.fill" : "minus"
+                                : changeValue < 0
+                                    ? "arrowtriangle.down.fill" : "minus"
                         )
                         .font(.caption2)
                         Text("\(changeValue)°")
@@ -188,14 +193,34 @@ struct ProgressDetailView: View {
     }
 
     private var buttonStack: some View {
+
         VStack(spacing: 12) {
             CapsuleButtonComponent(
                 title: Strings.Common.retake,
                 style: .secondary
             ) {
-                vm.navigationPath.removeLast(vm.navigationPath.count-1)
+                showingRetakeAlert = true
             }
             .frame(width: 315, height: 50)
+            .alert(isPresented: $showingRetakeAlert) {
+                Alert(
+                    title: Text(
+                        Strings.Alert.Remeasure.title
+                    ),
+                    message: Text(
+                        Strings.Alert.Remeasure.message
+                    ),
+                    primaryButton: .destructive(
+                        Text(Strings.Common.yes),
+                        action: {
+                            vm.navigationPath.removeLast(
+                                vm.navigationPath.count - 1
+                            )
+                        }
+                    ),
+                    secondaryButton: .cancel(Text(Strings.Common.no))
+                )
+            }
 
             CapsuleButtonComponent(
                 title: Strings.Common.confirm,

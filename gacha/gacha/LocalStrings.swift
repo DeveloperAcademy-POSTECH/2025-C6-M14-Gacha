@@ -288,8 +288,17 @@ enum Strings {
         static var romTitle: String {
             NSLocalizedString("history.rom_title", comment: "")
         }
+        static var average: String {
+            NSLocalizedString("history.average", comment: "")
+        }
         static var painTitle: String {
             NSLocalizedString("history.pain_title", comment: "")
+        }
+        static var painMin: String {
+            NSLocalizedString("history.pain_min", comment: "")
+        }
+        static var painMax: String {
+            NSLocalizedString("history.pain_max", comment: "")
         }
     }
     
