@@ -30,13 +30,23 @@ class ProgressHistoryViewModel: ObservableObject {
     }
     
     var dateRangeText: String {
+        guard !recentRecords.isEmpty else { return "" }
+        
+        // 데이터가 1개인 경우
+        if recentRecords.count == 1,
+           let singleDate = recentRecords.first?.measuredDate {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy/M/d"
+            return formatter.string(from: singleDate)
+        }
+        
+        // 데이터가 2개 이상인 경우
         guard let startDate = recentRecords.first?.measuredDate,
-            let endDate = recentRecords.last?.measuredDate
+              let endDate = recentRecords.last?.measuredDate
         else {
             return ""
         }
-        let formattedDate = formatDateRange(startDate: startDate, endDate: endDate)
-        return formattedDate
+        return formatDateRange(startDate: startDate, endDate: endDate)
     }
 
     var painMin: Int {
@@ -51,6 +61,22 @@ class ProgressHistoryViewModel: ObservableObject {
             return 0
         }
         return max
+    }
+    
+    var painLevelLabel: String {
+        if recentRecords.count == 1 {
+            return Strings.Card.painLevel
+        } else {
+            return Strings.History.painMin + "~" + Strings.History.painMax
+        }
+    }
+    
+    var painLevelValue: String {
+        if recentRecords.count == 1 {
+            return "\(painMin)"
+        } else {
+            return "\(painMin)~\(painMax)"
+        }
     }
 
     // MARK: - Helper Methods
