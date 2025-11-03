@@ -56,11 +56,11 @@ struct ProgressHistoryView: View {
                             
                             VStack(alignment: .leading) {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(Strings.History.painMin + "~" + Strings.History.painMax)
+                                    Text(vm.painLevelLabel)
                                         .font(.displayCaption1Semibold)
                                         .foregroundColor(Color("Gray500"))
 
-                                    Text("\(vm.painMin)~\(vm.painMax)")
+                                    Text(vm.painLevelValue)
                                         .font(.displayTitle1Bold)
                                 }
                                 
