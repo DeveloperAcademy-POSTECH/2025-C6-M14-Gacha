@@ -48,12 +48,6 @@ final class MeasureViewModel: ObservableObject {
         self.measureManager = MotionMeasureManager()
     }
 
-    func printAllRecords() async {
-        let records = try! await repository.loadRecords()
-        for record in records {
-            print("📝 \(record.measuredDate)")
-        }
-    }
 
     func checkTodayRecord() async {
         isLoading = true
@@ -61,14 +55,14 @@ final class MeasureViewModel: ObservableObject {
 
         do {
             hasTodayRecord = try await repository.hasTodayRecord
-            print("📅 오늘의 기록 여부: \(hasTodayRecord)")
+            print("오늘의 기록 여부: \(hasTodayRecord)")
             if hasTodayRecord {
                 currentRecord = await loadLatestRecord()
             }
-            print("📅 오늘의 기록: \(currentRecord?.measuredDate.description ?? "없음")")
+            print("오늘의 기록: \(currentRecord?.measuredDate.description ?? "없음")")
 
         } catch {
-            print("❌ 기록 확인 실패: \(error)")
+            print("기록 확인 실패: \(error)")
             hasTodayRecord = false
         }
     }
@@ -80,7 +74,7 @@ final class MeasureViewModel: ObservableObject {
     //MARK: - 터치 시작을 감지
     func startRecording() {
         guard recordingTimer == nil else {
-            print("🚫 이미 녹화 중입니다.")
+            print("이미 녹화 중입니다.")
             return
         }
 
@@ -123,7 +117,7 @@ final class MeasureViewModel: ObservableObject {
                 }
             }
         }
-        print("🎬 녹화 시작")
+        print("녹화 시작")
     }
 
     //MARK: - 기록 종료
@@ -144,7 +138,7 @@ final class MeasureViewModel: ObservableObject {
 
         measureManager.stopRecording()
 
-        print("❌ 녹화 취소")
+        print("녹화 취소")
     }
 
     //MARK: - 3초 감지 완료
@@ -167,7 +161,7 @@ final class MeasureViewModel: ObservableObject {
             measuredRom = calculateKneeAngle(angle: angle)  // 무릎 각도 변환
         }
 
-        //MARK: ⚠️ 데이터에 저장하는 flow 필요
+        //MARK: 데이터에 저장하는 flow 필요
         Task {
             switch kneeType {
             case .flexionRom:
@@ -199,7 +193,7 @@ final class MeasureViewModel: ObservableObject {
     func finishFlexion(angle: Double) {
         guard let record = currentRecord else {
             errorMessage = "현재 레코드가 없습니다. Extension을 먼저 측정하세요."
-            print("⚠️ \(errorMessage ?? "")")
+            print("\(errorMessage ?? "")")
             return
         }
 
