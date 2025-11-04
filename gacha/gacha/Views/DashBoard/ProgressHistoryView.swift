@@ -43,7 +43,7 @@ struct ProgressHistoryView: View {
                                     
                             }
                             .padding(16)
-                            .background(Color.white)
+                            .background(Color("White"))
                             .cornerRadius(24)
                         }
                 
@@ -71,7 +71,7 @@ struct ProgressHistoryView: View {
                                 painChart
                             }
                             .padding(16)
-                            .background(Color.white)
+                            .background(Color("White"))
                             .cornerRadius(24)
                         }
                     }

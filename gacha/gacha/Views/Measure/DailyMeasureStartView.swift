@@ -59,9 +59,9 @@ struct DailyMeasureStartView: View {
                     .padding(.vertical, 32)
                 }
                 .frame(maxWidth: .infinity)
-                .background(.white)
+                .background(Color("White"))
                 .cornerRadius(24)
-                .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 2)
+                .shadow(color: Color("Gray300").opacity(0.15), radius: 2, x: 0, y: 2)
                 .padding(.horizontal, 20)
 
                 Spacer()
