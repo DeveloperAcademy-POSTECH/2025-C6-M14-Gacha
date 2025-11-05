@@ -108,8 +108,7 @@ struct ProgressHistoryView: View {
         Chart(vm.recentRecords) { record in
             BarMark(
                 x: .value("date", record.measuredDate, unit: .day),
-                yStart: .value("min", record.flexionAngle ?? 0),
-                yEnd: .value("max", record.extensionAngle),
+                y: .value("flexion", record.flexionAngle ?? 0),
                 width: .fixed(6)
             )
             .foregroundStyle(
@@ -174,21 +173,14 @@ struct ProgressHistoryView: View {
             })
         {
             VStack(alignment: .center, spacing: 4) {
-                Text(Strings.Card.kneeROM)
+                Text(Strings.Card.flexionAngle)
                     .font(.displayCaption1Semibold)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                     
 
-                HStack {
-                    
-                    Text("\(Int(selectedRecord.extensionAngle))°~")
-                        .font(.displayTitle2Semibold)
-                    
-                    Text("\(Int(selectedRecord.flexionAngle ?? 0))°")
-                        .font(.displayTitle2Semibold)
-                    
-                }
-                .frame(maxWidth: .infinity, alignment: .topLeading)
+                Text("\(Int(selectedRecord.flexionAngle ?? 0))°")
+                    .font(.displayTitle2Semibold)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
                 
 
 

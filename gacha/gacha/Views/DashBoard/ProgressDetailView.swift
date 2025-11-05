@@ -56,38 +56,21 @@ struct ProgressDetailView: View {
                 .font(.title3)
                 .fontWeight(.semibold)
 
-            // 일러스트 영역 (모크 데이터 - 추후 이미지 에셋으로 교체 예정)
-            HStack(spacing: 40) {
-                VStack {
-                    Image("ExtensionBody")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 115, height: 115)
-                        .overlay(alignment: .topTrailing) {
-                            Text(
-                                vm.formatAngle(vm.currentRecord?.extensionAngle)
-                            )
-                            .font(.title2)
+            // 일러스트 영역 - Flexion 각도별 이미지
+            VStack(spacing: 8) {
+                Image(vm.flexionImageName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 150, height: 150)
+                    .transition(.opacity)
+                    .animation(.easeInOut(duration: 0.3), value: vm.flexionImageName)
+                    .overlay(alignment: .topTrailing) {
+                        Text(vm.formatAngle(vm.currentRecord?.flexionAngle))
+                            .font(.title)
                             .fontWeight(.bold)
                             .padding(.top, 8)
                             .padding(.trailing, 8)
-                        }
-                }
-
-                VStack(spacing: 8) {
-                    Image("FlexionBody")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 115, height: 115)
-                        .overlay(alignment: .topTrailing) {
-                            Text(vm.formatAngle(vm.currentRecord?.flexionAngle))
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .padding(.top, 8)
-                                .padding(.trailing, 8)
-                        }
-                }
-
+                    }
             }
             .frame(maxWidth: .infinity, alignment: .center)
 
@@ -112,14 +95,14 @@ struct ProgressDetailView: View {
 
     private var measurementGrid: some View {
         HStack(spacing: 16) {
-            // 좌측: 펴진 각도, 무릎 가동범위
+            // 좌측: 굽혀진 각도, 무릎 가동범위
             VStack(alignment: .leading, spacing: 16) {
                 measurementItem(
-                    title: Strings.Card.extensionAngle,
-                    value: vm.formatAngle(vm.currentRecord?.extensionAngle),
+                    title: Strings.Card.flexionAngle,
+                    value: vm.formatAngle(vm.currentRecord?.flexionAngle),
                     changeValue: vm.hasComparison
-                        ? Int(vm.changeResult?.extenRomDiff ?? 0) : 0,
-                    isPositiveGood: false
+                        ? Int(vm.changeResult?.flexRomDiff ?? 0) : 0,
+                    isPositiveGood: true
                 )
 
                 measurementItem(
@@ -132,16 +115,8 @@ struct ProgressDetailView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            // 우측: 굽혀진 각도, 통증 수준
+            // 우측: 통증 수준
             VStack(alignment: .leading, spacing: 16) {
-                measurementItem(
-                    title: Strings.Card.flexionAngle,
-                    value: vm.formatAngle(vm.currentRecord?.flexionAngle),
-                    changeValue: vm.hasComparison
-                        ? Int(vm.changeResult?.flexRomDiff ?? 0) : 0,
-                    isPositiveGood: true
-                )
-
                 measurementItem(
                     title: Strings.Card.painLevel,
                     value: vm.formatPainLevel(vm.currentRecord?.painLevel),
@@ -215,9 +190,15 @@ struct ProgressDetailView: View {
                     primaryButton: .destructive(
                         Text(Strings.Common.yes),
                         action: {
-                            vm.navigationPath.removeLast(
-                                vm.navigationPath.count - 1
-                            )
+                            // 새 측정 준비
+                            vm.prepareForNewMeasurement()
+                            
+                            // 자동 시작 플래그 설정
+                            vm.shouldAutoStartMeasure = true
+                            
+                            // 새로운 NavigationPath로 교체
+                            vm.navigationPath = NavigationPath()
+                            vm.navigationPath.append(MeasureFlowStep.flexionMeasure)
                         }
                     ),
                     secondaryButton: .cancel(Text(Strings.Common.no))

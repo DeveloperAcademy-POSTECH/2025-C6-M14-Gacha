@@ -12,94 +12,63 @@ struct FlexionMeasureView: View {
     @EnvironmentObject var vm: MeasureViewModel
 
     @State private var showingCancelAlert = false
-    @State private var showingSkipAlert = false
-    @State private var selection = 0
-
-    let items = ["FlexionLeg"]
 
     var body: some View {
-        GeometryReader { geo in
-            ZStack {
-                VStack(spacing: 0) {
-                    // MARK: - 상단 영역
-                    if vm.recordingProgress == 0 {
-
-                        HStack {
-                            ButtonComponent(
-                                background: Color("Primary300"),
-                                systemImageName: "chevron.left",
-                                weight: .semibold,
-                                color: Color("White")
-                            ) {
-                                showingCancelAlert = true
-                            }
-                            .alert(isPresented: $showingCancelAlert) {
-                                Alert(
-                                    title: Text(
-                                        Strings.Alert.QuitExtension.title
-                                    ),
-                                    message: Text(
-                                        Strings.Alert.QuitExtension.message
-                                    ),
-                                    primaryButton: .destructive(
-                                        Text(Strings.Common.yes),
-                                        action: {
-                                            vm.clearCurrentRecord()
-                                            vm.navigationPath.removeLast(
-                                                vm.navigationPath.count
-                                            )
-                                        }
-                                    ),
-                                    secondaryButton: .cancel(Text(Strings.Common.no))
-                                )
-                            }
-                            Spacer()
-                        }
-                        .padding(.horizontal, 16)
-
-                        // MARK: - 인디케이터
-                        IndicatorComponent(currentStep: vm.kneeType)
-                            .padding(.top, 24)
+        ZStack {
+            VStack(spacing: 0) {
+                // MARK: - 상단 뒤로가기 버튼
+                HStack {
+                    ButtonComponent(
+                        background: Color("Primary300"),
+                        systemImageName: "chevron.left",
+                        weight: .semibold,
+                        color: Color("White")
+                    ) {
+                        showingCancelAlert = true
                     }
-
-                    // MARK: - 측정 영역
+                    .alert(isPresented: $showingCancelAlert) {
+                        Alert(
+                            title: Text(Strings.Alert.QuitMeasure.title),
+                            message: Text(Strings.Alert.QuitMeasure.message),
+                            primaryButton: .destructive(
+                                Text(Strings.Common.yes),
+                                action: {
+                                    vm.cancelFlexionMeasure()
+                                    vm.clearCurrentRecord()
+                                    vm.navigationPath.removeLast(vm.navigationPath.count)
+                                }
+                            ),
+                            secondaryButton: .cancel(Text(Strings.Common.no))
+                        )
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+                
+                Spacer()
+                
+                // MARK: - 측정 영역
+                VStack(spacing: 40) {
+                    // 이미지 + 프로그레스 바
                     ZStack {
-                        // 300x300 이미지 원
-                        ZStack {
+                        // 배경 원 (흰색 테두리) - 항상 표시
+                        Circle()
+                            .stroke(.white, lineWidth: 27)
+                            .frame(width: 327, height: 327)
+                            .shadow(
+                                color: Color("Gray300").opacity(0.15),
+                                radius: 2,
+                                x: 0,
+                                y: 2
+                            )
+                        
+                        // 진행률 원 - 안정화 중일 때만 표시
+                        if vm.measurementState == .stabilizing {
                             Circle()
-                                .fill(.white)
-                                .stroke(.gray100, lineWidth: 1)
-                                .frame(width: 300, height: 300)
-
-                            VStack(spacing: 16) {
-                                Image("flexion_leg")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 300)
-                                // 텍스트
-                                Text(Strings.Flexion.instruction)
-                                    .font(.displayCalloutMedium)
-                                    .multilineTextAlignment(.center)
-                            }
-                        }
-                        .clipShape(Circle())
-
-                        // 진행률 원
-                        ZStack {
-                            Circle()
-                                .stroke(.white, lineWidth: 27)
-                                .frame(width: 327, height: 327)
-                                .shadow(
-                                    color: .black.opacity(0.15),
-                                    radius: 2,
-                                    x: 0,
-                                    y: 2
-                                )
-
-                            Circle()
-                                .trim(from: 0, to: vm.recordingProgress)
+                                .trim(from: 0, to: vm.stabilizingProgress)
                                 .stroke(
-                                    .primary700,
+                                    Color("Primary700"),
                                     style: StrokeStyle(
                                         lineWidth: 27,
                                         lineCap: .round
@@ -109,85 +78,115 @@ struct FlexionMeasureView: View {
                                 .rotationEffect(.degrees(-90))
                                 .animation(
                                     .linear(duration: 0.1),
-                                    value: vm.recordingProgress
+                                    value: vm.stabilizingProgress
                                 )
                                 .shadow(
-                                    color: .black.opacity(0.15),
+                                    color: Color("Gray300").opacity(0.15),
                                     radius: 2,
                                     x: 0,
                                     y: 2
                                 )
                         }
-                        .contentShape(Circle())
-
-                    }
-                    .padding(.top, vm.recordingProgress > 0 ? 160 : 48)
-                    .gesture(
-                        DragGesture(minimumDistance: 0)
-                            .onChanged { _ in
-                                if vm.recordingProgress == 0 {
-                                    vm.startRecording()
-                                }
-                            }
-                            .onEnded { _ in
-                                if !vm.isFinished {
-                                    vm.stopRecording()
-                                }
-                            }
-                    )
-
-                    //MARK: - Text
-                    Text(
-                        vm.recordingProgress > 0
-                            ? Strings.Flexion.measuring
-                            : Strings.Flexion.instructionEmphasis
-                    )
-                    .font(.roundedTitle2Bold)
-                    .padding(.top, 40)
-                    
-
-                    //MARK: - 건너뛰기
-                    Button(
-                        action: {
-                            showingSkipAlert = true
-                        },
-                        label: {
-                            Text(Strings.Flexion.skipButton)
-                                .font(.displayCalloutSemibold)
-                                .foregroundColor(.gray500)
+                        
+                        // 내부 이미지 영역
+                        ZStack {
+                            Circle()
+                                .fill(.white)
+                                .stroke(.gray100, lineWidth: 1)
+                                .frame(width: 300, height: 300)
+                            
+                            Image("flexion_leg")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 300)
                         }
-                    )
-                    .padding(.top, 12)
-                    .alert(isPresented: $showingSkipAlert) {
-                        Alert(
-                            title: Text(
-                                Strings.Alert.SkipFlexion.title
-                            ),
-                            message: Text(
-                                Strings.Alert.SkipFlexion.message
-                            ),
-                            primaryButton: .destructive(
-                                Text(Strings.Common.yes),
-                                action: {
-                                    vm.navigationPath.append(
-                                        MeasureFlowStep.painLevel
-                                    )
-                                }
-                            ),
-                            secondaryButton: .cancel(Text(Strings.Common.no))
-                        )
+                        .clipShape(Circle())
+                    }
+                    .contentShape(Circle())
+                    
+                    // 상태별 텍스트
+                    VStack(spacing: 12) {
+                        Text(statusText)
+                            .font(.roundedTitle2Bold)
+                            .multilineTextAlignment(.center)
+                        
+                        
+                    }
+                    
+                    // 측정 시작/취소 버튼
+                    if !vm.isMeasuring {
+                        Button(action: {
+                            vm.startFlexionMeasure()
+                        }) {
+                            Text("측정 시작하기")
+                                .font(.displayBodyBold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 56)
+                                .background(Color("Primary500"))
+                                .cornerRadius(12)
+                        }
+                        .padding(.horizontal, 16)
+                    } else {
+                        Button(action: {
+                            vm.cancelFlexionMeasure()
+                        }) {
+                            Text("측정 취소")
+                                .font(.displayBodyBold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 56)
+                                .background(Color("Gray500"))
+                                .cornerRadius(12)
+                        }
+                        .padding(.horizontal, 16)
                     }
                 }
-                .frame(
-                    maxWidth: .infinity,
-                    maxHeight: .infinity,
-                    alignment: .top
-                )
-                .appBackground()
+                
+                Spacer()
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .appBackground()
         }
         .onAppear {
             vm.kneeType = .flexionRom
+            vm.startSensor()
+            
+            // 자동 시작 플래그 확인
+            if vm.shouldAutoStartMeasure {
+                vm.shouldAutoStartMeasure = false  // 플래그 리셋
+                
+                // 0.5초 후 자동 시작 (화면 전환 애니메이션 대기)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                    if vm.measurementState == .idle {  // idle 상태일 때만
+                        vm.startFlexionMeasure()
+//                    }
+                }
+            }
+            else{
+                print("shouldAutoStartMeasure false임")
+            }
+        }
+        .onDisappear {
+            if vm.isMeasuring {
+                vm.cancelFlexionMeasure()
+            }
+            vm.stopSensor()
+        }
+    }
+    
+    private var statusText: String {
+        switch vm.measurementState {
+        case .idle:
+            return "무릎을 굽혀주세요"
+        case .started:
+            return "움직임을 시작하세요"
+        case .moving:
+            return "최대한 굽혀주세요"
+        case .stabilizing:
+            return "자세를 유지하세요"
+        case .completed:
+            return "측정 완료!"
         }
     }
 }

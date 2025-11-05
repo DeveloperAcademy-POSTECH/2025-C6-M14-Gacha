@@ -7,13 +7,16 @@
 
 import SwiftData
 import SwiftUI
+import UIKit
+import AVKit
+import AVFoundation
 
-struct DailyMeasureStartView: View {
+struct DailyMeasureStartView2: View {
     @EnvironmentObject var vm: MeasureViewModel
-
+    
+    @State private var isPlaying = true
     @State private var selection = 0
     @State private var showHistorySheet = false
-    let items = ["ExtensionLeg", "HoldGesture"]  // 임시 데이터
 
     var body: some View {
         GeometryReader { geo in
@@ -48,30 +51,28 @@ struct DailyMeasureStartView: View {
                 // MARK: - 중간 영역
                 VStack(spacing: 16) {
                     VStack {
-                        Image("extension_person")
-                            .resizable()
-                            .scaledToFit()
-                            .tabViewStyle(.page(indexDisplayMode: .never))
+                        LoopingVideoPlayer(videoName: "guideVideo", isPlaying: $isPlaying)
                             .frame(width: 175, height: 175)
-                        Text(Strings.DailyStart.instruction)
+                            .cornerRadius(12)
+                        Text("측정 시작하기를 누르면 최대한 다리를 굽히고, 2초동안 자세를 유지해주세요.")
                             .multilineTextAlignment(.center)
                     }
                     .padding(.vertical, 32)
                 }
                 .frame(maxWidth: .infinity)
-                .background(Color("White"))
+                .background(.white)
                 .cornerRadius(24)
-                .shadow(color: Color("Gray300").opacity(0.15), radius: 2, x: 0, y: 2)
+                .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 2)
                 .padding(.horizontal, 20)
 
                 Spacer()
-                
+
                 // MARK: - 측정 버튼
                 CapsuleButtonComponent(
                     title: Strings.DailyStart.button,
                     style: .primary
                 ) {
-                    vm.navigationPath.append(MeasureFlowStep.extensionMeasure)
+                    vm.navigationPath.append(MeasureFlowStep.flexionMeasure)
                 }
                 .padding(.horizontal, 40)
 
@@ -84,6 +85,54 @@ struct DailyMeasureStartView: View {
                     .presentationDetents([.large])
                     .presentationDragIndicator(.hidden)
             }
+        }
+    }
+}
+
+struct LoopingVideoPlayer: UIViewControllerRepresentable {
+    let videoName: String
+    @Binding var isPlaying: Bool
+
+    func makeUIViewController(context: Context) -> AVPlayerViewController {
+        let controller = AVPlayerViewController()
+        controller.showsPlaybackControls = false
+        controller.videoGravity = .resizeAspect
+        controller.view.backgroundColor = .white
+
+        guard let path = Bundle.main.path(forResource: videoName, ofType: "mp4") else {
+            return controller
+        }
+
+        let player = AVPlayer(url: URL(fileURLWithPath: path))
+        player.isMuted = true
+        controller.player = player
+
+        // 반복 재생 설정
+        NotificationCenter.default.addObserver(
+            forName: .AVPlayerItemDidPlayToEndTime,
+            object: player.currentItem,
+            queue: .main
+        ) { _ in
+            player.seek(to: .zero)
+            if self.isPlaying {
+                player.rate = 0.75
+            }
+        }
+
+        if isPlaying {
+            player.rate = 0.75
+        }
+
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
+        guard let player = uiViewController.player else { return }
+
+        if isPlaying {
+            player.rate = 0.6
+        } else {
+            player.pause()
         }
     }
 }
@@ -103,6 +152,6 @@ struct DailyMeasureStartView: View {
     // 3. ViewModel 생성
     let vm = MeasureViewModel(repository: repository)
 
-    DailyMeasureStartView()
+    DailyMeasureStartView2()
         .environmentObject(vm)
 }
