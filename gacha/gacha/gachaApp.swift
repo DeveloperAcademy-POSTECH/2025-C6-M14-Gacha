@@ -24,6 +24,7 @@ struct gachaApp: App {
     var body: some Scene {
         WindowGroup {
             MeasureFlowViewWrapper()
+                .preferredColorScheme(.light)
         }
         .modelContainer(modelContainer)
     }              

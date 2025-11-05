@@ -73,6 +73,7 @@ struct DailyMeasureStartView2: View {
                     style: .primary
                 ) {
                     vm.shouldAutoStartMeasure = true  // 자동 시작 플래그 설정
+
                     vm.navigationPath.append(MeasureFlowStep.flexionMeasure)
                 }
                 .padding(.horizontal, 40)

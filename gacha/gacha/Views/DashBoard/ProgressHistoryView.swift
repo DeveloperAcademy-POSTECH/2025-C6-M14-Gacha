@@ -175,24 +175,27 @@ struct ProgressHistoryView: View {
             VStack(alignment: .center, spacing: 4) {
                 Text(Strings.Card.flexionAngle)
                     .font(.displayCaption1Semibold)
+                    .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                     
 
                 Text("\(Int(selectedRecord.flexionAngle ?? 0))°")
                     .font(.displayTitle2Semibold)
+                    .foregroundStyle(Color("Gray900"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                 
 
 
                 Text(vm.formatDate(selectedRecord.measuredDate))
                     .font(.displayCaption1Semibold)
+                    .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                     
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
             .frame(width: 125, alignment: .center)
-            .background(.thinMaterial)
+            .background(Color("Gray100"))
             .clipShape(RoundedRectangle(cornerRadius: 8))
         }
     }
@@ -256,22 +259,25 @@ struct ProgressHistoryView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(Strings.Card.painLevel)
                     .font(.displayCaption1Semibold)
+                    .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
 
                 Text("\(selectedRecord.painLevel ?? 0)")
                 .font(.displayTitle2Semibold)
+                    .foregroundStyle(Color("Gray900"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
 
 
                 Text(vm.formatDate(selectedRecord.measuredDate))
                     .font(.displayCaption1Semibold)
+                    .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
 
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
             .frame(width: 120, alignment: .center)
-            .background(.thinMaterial)
+            .background(Color("Gray100"))
             .clipShape(RoundedRectangle(cornerRadius: 8))
         }
     }
