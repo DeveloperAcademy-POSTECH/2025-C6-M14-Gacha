@@ -17,22 +17,12 @@ final class MeasureViewModel: ObservableObject {
     private var measureManager: MeasureManager
     private var audioPlayer: AVAudioPlayer?
 
-    // 햅틱 생성기 추가
-    private let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-    private var lastHapticProgress: Double = 0.0
-
     @Published var kneeType: KneeMotionType = .extensionRom
     @Published var measuredRom: Double = 0.0
 
-    @Published var isFinished: Bool = false
     @Published var hasTodayRecord: Bool = false
 
     @Published var navigationPath = NavigationPath()
-
-    private var recordingTimer: Timer?
-    private var recordingStartTime: Date?
-    @Published var recordingProgress: Double = 0.0
-    private let recordingDurationThreshold: TimeInterval = 1.5
 
     @Published var currentRecord: MeasuredRecord? = nil
     @Published var allRecords: [MeasuredRecord] = []
@@ -42,6 +32,30 @@ final class MeasureViewModel: ObservableObject {
     // MARK: - Progress Properties
     @Published var previousRecord: MeasuredRecord?
     @Published var changeResult: ChangeResult?
+    
+    // MARK: - 새로운 측정 관련 프로퍼티
+    @Published var isMeasuring: Bool = false
+    @Published var measurementState: MeasurementState = .idle
+    @Published var detectedMaxAngle: Double = 0.0
+    @Published var shouldAutoStartMeasure: Bool = false  // 자동 시작 플래그
+    @Published var stabilizingProgress: Double = 0.0  // 안정화 진행률 (0.0~1.0)
+    private var stableAngleTimer: Timer?
+    private var lastStableAngle: Double = 0.0
+    private var stableStartTime: Date?
+    private let stableDurationThreshold: TimeInterval = 1.7  // 1.7초
+    private let stableAngleThreshold: Double = 3.0  // ±3도
+    
+    // MARK: - 햅틱 피드백 관련
+    private let hapticMilestones: Set<Int> = [25, 50, 75, 100]
+    private var triggeredMilestones: Set<Int> = []
+    
+    enum MeasurementState {
+        case idle           // 대기
+        case started        // 측정 시작됨
+        case moving         // 움직임 감지
+        case stabilizing    // 안정화 중
+        case completed      // 완료
+    }
 
     init(repository: RecordRepository) {
         self.repository = repository
@@ -67,145 +81,214 @@ final class MeasureViewModel: ObservableObject {
         }
     }
 
-    func startMeasuring() {
+    // MARK: - 센서 제어
+    func startSensor() {
         measureManager.startMeasuring()
+        print("🔵 센서 시작")
     }
-
-    //MARK: - 터치 시작을 감지
-    func startRecording() {
-        guard recordingTimer == nil else {
-            print("이미 녹화 중입니다.")
+    
+    func stopSensor() {
+        measureManager.stopMeasuring()
+        print("⚫ 센서 중지")
+    }
+    
+    // MARK: - 굴곡 측정 시작
+    func startFlexionMeasure() {
+        guard !isMeasuring else {
+            print("⚠️ 이미 측정 중입니다.")
             return
         }
-
-        // 초기화
-        isFinished = false
+        
+        isMeasuring = true
+        measurementState = .started
+        detectedMaxAngle = 0.0
+        lastStableAngle = 0.0
+        stableStartTime = nil
         measureManager.startRecording()
-        recordingStartTime = Date.now
-        recordingProgress = 0.0
-
-        recordingTimer = Timer.scheduledTimer(
+        
+        // 안정 각도 감지 타이머 시작
+        stableAngleTimer = Timer.scheduledTimer(
             withTimeInterval: 0.1,
             repeats: true
         ) { [weak self] _ in
-            guard let self = self,
-                let startTime = self.recordingStartTime
-            else { return }
-
-            let elapsed = Date().timeIntervalSince(startTime)
-            let newProgress = min(
-                1.0,
-                elapsed / self.recordingDurationThreshold
-            )
-
-            // 진행률 10% 단위로 햅틱
-            let milestones = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
-            for milestone in milestones {
-                if self.recordingProgress < milestone
-                    && newProgress >= milestone
-                {
-                    self.impactFeedback.impactOccurred()
-                }
-            }
-
-            self.recordingProgress = newProgress
-
-            if elapsed >= self.recordingDurationThreshold {
-                self.isFinished = true
-                Task {
-                    await self.finishRecording()
-                }
-            }
+            self?.checkAngleStability()
         }
-        print("녹화 시작")
+        
+        print("🏁 굴곡 측정 시작")
     }
-
-    //MARK: - 기록 종료
-    func stopRecording() {
-        if isFinished {
-            finishRecording()
+    
+    // MARK: - 각도 안정성 체크
+    private func checkAngleStability() {
+        let currentAngle = measureManager.currentAngle * 2  // ROM 계산
+        
+        // 최대 각도 업데이트
+        if currentAngle > detectedMaxAngle {
+            detectedMaxAngle = currentAngle
+        }
+        
+        // 각도 상승 감지 (5도 이상 변화)
+        if measurementState == .started && abs(currentAngle) > 5.0 {
+            measurementState = .moving
+            print("🏃 움직임 감지됨")
+        }
+        
+        // 움직임이 감지된 후에만 안정화 체크
+        guard measurementState == .moving || measurementState == .stabilizing else {
+            return
+        }
+        
+        // 각도 안정 여부 확인
+        let angleDiff = abs(currentAngle - lastStableAngle)
+        
+        if angleDiff <= stableAngleThreshold {
+            // 각도가 안정적임
+            if measurementState == .moving {
+                measurementState = .stabilizing
+                stableStartTime = Date()
+                stabilizingProgress = 0.0
+                triggeredMilestones = []
+                
+                // 안정화 시작 햅틱
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
+                print("⏱️ 안정화 시작")
+            }
+            
+            // 안정화 진행률 계산
+            if let startTime = stableStartTime {
+                let elapsed = Date().timeIntervalSince(startTime)
+                stabilizingProgress = min(elapsed / stableDurationThreshold, 1.0)
+                
+                // 마일스톤 햅틱 (25%, 50%, 75%, 100%)
+                let currentPercent = Int(stabilizingProgress * 100)
+                for milestone in hapticMilestones {
+                    if currentPercent >= milestone && !triggeredMilestones.contains(milestone) {
+                        triggeredMilestones.insert(milestone)
+                        
+                        if milestone == 100 {
+                            // 100%는 completeFlexionMeasure()에서 처리
+                            break
+                        } else {
+                            UINotificationFeedbackGenerator().notificationOccurred(.success)
+                            print("📳 햅틱: \(milestone)%")
+                        }
+                    }
+                }
+                
+                // 1.7초 동안 안정 유지 시 측정 완료
+                if elapsed >= stableDurationThreshold {
+                    completeFlexionMeasure()
+                }
+            }
         } else {
-            cancelRecording()
-        }
-    }
-
-    //MARK: - 터치 중단
-    func cancelRecording() {
-        recordingTimer?.invalidate()
-        recordingTimer = nil
-        recordingStartTime = nil
-        recordingProgress = 0.0
-
-        measureManager.stopRecording()
-
-        print("녹화 취소")
-    }
-
-    //MARK: - 3초 감지 완료
-    func finishRecording() {
-        isLoading = true
-        defer { isLoading = false }  // 현재 함수가 끝날 때 자동으로 실행
-
-        recordingTimer?.invalidate()
-        recordingTimer = nil
-        recordingProgress = 0.0
-
-        measureManager.stopRecording()
-
-        // 완료 시 햅틱 + 사운드 재생
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
-        AudioServicesPlaySystemSound(1109)  // Alert
-
-        // 분석 - 최빈값으로 ROM 계산
-        if let angle = mode(of: measureManager.recordedAngles) {
-            measuredRom = calculateKneeAngle(angle: angle)  // 무릎 각도 변환
-        }
-
-        //MARK: 데이터에 저장하는 flow 필요
-        Task {
-            switch kneeType {
-            case .flexionRom:
-                finishFlexion(angle: measuredRom)
-            case .extensionRom:
-                finishExtension(angle: measuredRom)
+            // 각도가 변화함 - 다시 움직임 상태로
+            if measurementState == .stabilizing {
+                measurementState = .moving
+                stableStartTime = nil
+                stabilizingProgress = 0.0
+                triggeredMilestones = []
+                print("🔄 움직임 재개")
             }
         }
-
-        recordingStartTime = nil
+        
+        lastStableAngle = currentAngle
     }
-
-    func stopMeasuring() {
-        measureManager.stopMeasuring()
+    
+    // MARK: - 측정 완료
+    private func completeFlexionMeasure() {
+        guard isMeasuring else { return }
+        
+        stableAngleTimer?.invalidate()
+        stableAngleTimer = nil
+        measureManager.stopRecording()
+        
+        isMeasuring = false
+        measurementState = .completed
+        
+        // 최빈값 계산 (옵션 B: 최대값 근처만 사용)
+        let finalAngle = calculateFlexionROM()
+        measuredRom = finalAngle
+        
+        // 완료 햅틱 + 사운드
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        AudioServicesPlaySystemSound(1109)
+        
+        print("✅ 굴곡 측정 완료: \(finalAngle)°")
+        
+        // 결과 저장
+        finishFlexion(angle: finalAngle)
     }
-
-    func finishExtension(angle: Double) {
-        isLoading = true
-        defer { isLoading = false }  // 현재 함수가 끝날 때 자동으로 실행
-
-        let record = MeasuredRecord(extensionAngle: angle)
-        currentRecord = record
-        print("Extionsion: \(record.extensionAngle)")
-
-        navigationPath.append(MeasureFlowStep.extensionCheck)
+    
+    // MARK: - 최빈값 계산 (옵션 B)
+    private func calculateFlexionROM() -> Double {
+        let angles = measureManager.recordedAngles.map { $0 * 2 }  // ROM 변환
+        
+        guard !angles.isEmpty else {
+            return detectedMaxAngle
+        }
+        
+        // 최대값 찾기
+        let maxAngle = angles.max() ?? 0
+        
+        // 최대값 ±5도 이내 데이터만 필터링
+        let nearMaxAngles = angles.filter { abs($0 - maxAngle) <= 5.0 }
+        
+        // 필터링된 데이터의 최빈값 계산
+        if let modeValue = mode(of: nearMaxAngles.map { Int($0) }) {
+            return Double(modeValue)
+        }
+        
+        // 최빈값 계산 실패 시 최대값 반환
+        return maxAngle
+    }
+    
+    // MARK: - 측정 취소
+    func cancelFlexionMeasure() {
+        stableAngleTimer?.invalidate()
+        stableAngleTimer = nil
+        measureManager.stopRecording()
+        
+        isMeasuring = false
+        measurementState = .idle
+        detectedMaxAngle = 0.0
+        triggeredMilestones = []
+        measureManager.recordedAngles.removeAll()
+        
+        print("❌ 측정 취소됨")
+    }
+    
+    // MARK: - 재측정 준비
+    func prepareForNewMeasurement() {
+        // 이전 측정 상태 초기화
+        measurementState = .idle
+        isMeasuring = false
+        detectedMaxAngle = 0.0
+        lastStableAngle = 0.0
+        stableStartTime = nil
+        stabilizingProgress = 0.0
+        triggeredMilestones = []
+        
+        // 타이머 정리
+        stableAngleTimer?.invalidate()
+        stableAngleTimer = nil
+        
+        // 기록된 각도 데이터 정리
+        measureManager.recordedAngles.removeAll()
+        
+        print("🔄 [MeasureViewModel] 새 측정 준비 완료")
     }
 
     // MARK: - Flexion 측정 완료 시
     func finishFlexion(angle: Double) {
-        guard let record = currentRecord else {
-            errorMessage = "현재 레코드가 없습니다. Extension을 먼저 측정하세요."
-            print("\(errorMessage ?? "")")
-            return
-        }
-
         isLoading = true
-        defer { isLoading = false }  // 현재 함수가 끝날 때 자동으로 실행
+        defer { isLoading = false }
 
-        let measurementSeconds = calculateMeasurementSeconds(
-            from: record.measuredDate
-        )
-
+        // 신전 각도는 0으로 설정, 굴곡 각도만 측정
+        let record = MeasuredRecord(extensionAngle: 0.0)
         record.flexionAngle = angle
-        record.measuredSeconds = measurementSeconds
+        record.measuredSeconds = 0  // 측정 시간은 자동 계산됨
+        
+        currentRecord = record
+        print("✅ Flexion: \(record.flexionAngle)°")
 
         navigationPath.append(MeasureFlowStep.flexionCheck)
     }

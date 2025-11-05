@@ -23,9 +23,22 @@
 		3C8FDB4F2EA5DC3000369473 /* gacha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gacha.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		793C7C342EBAE2000051F11D /* Exceptions for "gacha" folder in "gacha" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3C8FDB4E2EA5DC3000369473 /* gacha */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3C8FDB512EA5DC3000369473 /* gacha */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				793C7C342EBAE2000051F11D /* Exceptions for "gacha" folder in "gacha" target */,
+			);
 			path = gacha;
 			sourceTree = "<group>";
 		};

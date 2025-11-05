@@ -106,7 +106,7 @@ struct ArcSlider: View {
                     endAngle: .degrees(160 + (value / 10) * 220)
                 )
                 .stroke(
-                    Color(.primary900),
+                    Color(Color.red),
                     style: StrokeStyle(lineWidth: 40, lineCap: .round)
                 )
                 .animation(.easeInOut(duration: 0.2), value: value)

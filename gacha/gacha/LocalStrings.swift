@@ -68,19 +68,6 @@ enum Strings {
         }
     }
     
-    // MARK: - ExtensionMeasureView
-    enum Extension {
-        static var instruction: String {
-            NSLocalizedString("extension.instruction", comment: "")
-        }
-        static var instructionEmphasis: String {
-            NSLocalizedString("extension.instruction_emphasis", comment: "")
-        }
-        static var measuring: String {
-            NSLocalizedString("extension.measuring", comment: "")
-        }
-    }
-    
     // MARK: - FlexionMeasureView
     enum Flexion {
         static var instruction: String {
@@ -99,7 +86,7 @@ enum Strings {
     
     // MARK: - Alerts
     enum Alert {
-        enum QuitExtension {
+        enum QuitMeasure {
             static var title: String {
                 NSLocalizedString("alert.quit_extension.title", comment: "")
             }
@@ -266,9 +253,6 @@ enum Strings {
     
     // MARK: - Card
     enum Card {
-        static var extensionAngle: String {
-            NSLocalizedString("card.extension_angle", comment: "")
-        }
         static var flexionAngle: String {
             NSLocalizedString("card.flexion_angle", comment: "")
         }

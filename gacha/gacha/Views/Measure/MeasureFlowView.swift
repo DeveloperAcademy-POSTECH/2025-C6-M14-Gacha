@@ -48,11 +48,7 @@ struct MeasureFlowView: View {
         .onAppear {
             Task {
                 await measureVM.checkTodayRecord()
-                measureVM.startMeasuring()
             }
-        }
-        .onDisappear {
-            measureVM.stopMeasuring()
         }
         .environmentObject(measureVM)
         .environmentObject(historyVM)
@@ -68,7 +64,7 @@ struct MeasureFlowView: View {
             if measureVM.hasTodayRecord {
                 DailyMeasureSummaryView()
             } else {
-                DailyMeasureStartView()
+                DailyMeasureStartView2()
             }
         }
     }
@@ -78,14 +74,6 @@ struct MeasureFlowView: View {
         switch step {
         case .home:
             homeView()
-
-        case .extensionMeasure:
-            ExtensionMeasureView()
-                .navigationBarBackButtonHidden(true)
-
-        case .extensionCheck:
-            MeasureCheckedView()
-                .navigationBarHidden(true)
 
         case .flexionMeasure:
             FlexionMeasureView()
