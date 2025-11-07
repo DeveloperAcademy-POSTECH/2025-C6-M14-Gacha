@@ -23,11 +23,6 @@
 "daily_start.instruction" = "다리를 편하게 펴고 굽힐 수 있는\n평평한 곳에 앉아 주세요";
 "daily_start.button" = "측정 시작하기";
 
-/* ExtensionMeasureView */
-"extension.instruction" = "다리를 편 상태로 앉아\niPhone을 허벅지 위에 올려 주세요";
-"extension.instruction_emphasis" = "버튼을 길게 누르면 측정이 시작돼요";
-"extension.measuring" = "무릎 펴짐 각도를 측정 중이에요";
-
 /* FlexionMeasureView */
 "flexion.instruction" = "발꿈치를 바닥에 붙인 채\n가능한 만큼 다리를 굽혀 주세요";
 "flexion.instruction_emphasis" = "버튼을 길게 누르면 측정이 시작돼요";
@@ -35,7 +30,7 @@
 "flexion.skip_button" = "통증이 심하신가요?";
 
 /* Alerts */
-"alert.quit_extension.title" = "무릎 움직임 측정을 취소하시겠어요?";
+"alert.quit_extension.title" = "무릎 굽힘 측정을 취소하시겠어요?";
 "alert.quit_extension.message" = "처음 화면으로 되돌아가요";
 "alert.skip_flexion.title" = "무릎 굽힘 측정을 건너뛰시겠어요?";
 "alert.skip_flexion.message" = "무릎 펴짐 각도만 기록되고, 바로 통증 기록으로 이동해요";
@@ -90,7 +85,6 @@
 "progress.pain_warning.emphasis" = "가까운 병원을 방문해 보세요.";
 "progress.first_take.title" = "첫 기록을 남기셨네요!";
 "progress.first_take.description" = "오늘의 기록이 회복을 향한 첫 발자국이에요.\n앞으로도 꾸준히 함께해요.";
-"card.extension_angle" = "펴짐 각도";
 "card.flexion_angle" = "굽힘 각도";
 "card.knee_ROM" = "무릎 움직임 범위";
 "card.pain_level" = "통증 단계";

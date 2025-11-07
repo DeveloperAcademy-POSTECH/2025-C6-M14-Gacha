@@ -12,7 +12,6 @@ struct DailyMeasureSummaryView: View {
     @EnvironmentObject var vm: MeasureViewModel
 
     @State private var showingAlert = false
-    @State private var showHistorySheet = false
 
     var body: some View {
         GeometryReader { geo in
@@ -23,20 +22,6 @@ struct DailyMeasureSummaryView: View {
                 VStack(spacing: 0) {
                     // MARK: - 상단 영역
                     VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Spacer()
-
-                            ButtonComponent(
-                                background: Color("Primary300"),
-                                systemImageName: "chart.xyaxis.line",
-                                weight: .semibold,
-                                color: Color("White")
-                            ) {
-                                showHistorySheet = true
-                            }
-
-                        }
-
                         VStack(alignment: .leading, spacing: 8) {
                             Text(Strings.Summary.title)
                                 .font(.displayLargeBold)
@@ -83,12 +68,6 @@ struct DailyMeasureSummaryView: View {
                     alignment: .top
                 )
                 .appBackground()
-
-                .sheet(isPresented: $showHistorySheet) {
-                    ProgressHistoryView()
-                        .presentationDetents([.large])
-                        .presentationDragIndicator(.hidden)
-                }
             }
         }
         .onAppear {

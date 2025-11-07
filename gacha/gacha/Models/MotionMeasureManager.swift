@@ -12,7 +12,6 @@ import UIKit
 
 enum KneeMotionType: String {
     case flexionRom = "굴곡"
-    case extensionRom = "신전"
 }
 
 // MARK: - MeasureManager Protocol

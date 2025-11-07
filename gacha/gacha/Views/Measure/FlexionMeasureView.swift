@@ -11,42 +11,11 @@ import SwiftUI
 struct FlexionMeasureView: View {
     @EnvironmentObject var vm: MeasureViewModel
 
-    @State private var showingCancelAlert = false
-
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                // MARK: - 상단 뒤로가기 버튼
-                HStack {
-                    ButtonComponent(
-                        background: Color("Primary300"),
-                        systemImageName: "chevron.left",
-                        weight: .semibold,
-                        color: Color("White")
-                    ) {
-                        showingCancelAlert = true
-                    }
-                    .alert(isPresented: $showingCancelAlert) {
-                        Alert(
-                            title: Text(Strings.Alert.QuitMeasure.title),
-                            message: Text(Strings.Alert.QuitMeasure.message),
-                            primaryButton: .destructive(
-                                Text(Strings.Common.yes),
-                                action: {
-                                    vm.cancelFlexionMeasure()
-                                    vm.clearCurrentRecord()
-                                    vm.navigationPath.removeLast(vm.navigationPath.count)
-                                }
-                            ),
-                            secondaryButton: .cancel(Text(Strings.Common.no))
-                        )
-                    }
-                    Spacer()
-                }
-                .padding(.horizontal, 16)
-                .padding(.top, 16)
-                
                 Spacer()
+                    .frame(height: 60)
                 
                 // MARK: - 측정 영역
                 VStack(spacing: 40) {
@@ -149,7 +118,6 @@ struct FlexionMeasureView: View {
             .appBackground()
         }
         .onAppear {
-            vm.kneeType = .flexionRom
             vm.startSensor()
             
             // 자동 시작 플래그 확인

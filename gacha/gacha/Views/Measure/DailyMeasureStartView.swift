@@ -16,27 +16,12 @@ struct DailyMeasureStartView2: View {
     
     @State private var isPlaying = true
     @State private var selection = 0
-    @State private var showHistorySheet = false
 
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: 0) {
                 // MARK: - 상단 영역
                 VStack(alignment: .leading, spacing: 8) {
-                    HStack {
-                        Spacer()
-
-                        ButtonComponent(
-                            background: Color("Primary300"),
-                            systemImageName: "chart.xyaxis.line",
-                            weight: .semibold,
-                            color: Color("White")
-                        ) {
-                            showHistorySheet = true
-                        }
-
-                    }
-
                     VStack(alignment: .leading, spacing: 8) {
                         Text(Strings.DailyStart.title)
                             .font(.displayLargeBold)
@@ -73,7 +58,6 @@ struct DailyMeasureStartView2: View {
                     style: .primary
                 ) {
                     vm.shouldAutoStartMeasure = true  // 자동 시작 플래그 설정
-
                     vm.navigationPath.append(MeasureFlowStep.flexionMeasure)
                 }
                 .padding(.horizontal, 40)
@@ -81,12 +65,6 @@ struct DailyMeasureStartView2: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .appBackground()
-
-            .sheet(isPresented: $showHistorySheet) {
-                ProgressHistoryView()
-                    .presentationDetents([.large])
-                    .presentationDragIndicator(.hidden)
-            }
         }
     }
 }

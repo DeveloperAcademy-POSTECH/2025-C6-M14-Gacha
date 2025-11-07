@@ -80,19 +80,6 @@ struct ProgressHistoryView: View {
                     .padding(.bottom, 20)
                 }
                 .appBackground()
-
-                // MARK: - Close Button
-
-                ButtonComponent(
-                    background: Color("Primary900"),
-                    systemImageName: "xmark",
-                    weight: .bold,
-                    color: Color("White")
-                ) {
-                    dismiss()
-                }
-                .padding(.top, 8)
-                .padding(.trailing, 16)
             }
         }
         .navigationTitle(Strings.History.title)

@@ -17,7 +17,6 @@ final class MeasureViewModel: ObservableObject {
     private var measureManager: MeasureManager
     private var audioPlayer: AVAudioPlayer?
 
-    @Published var kneeType: KneeMotionType = .extensionRom
     @Published var measuredRom: Double = 0.0
 
     @Published var hasTodayRecord: Bool = false
@@ -282,8 +281,8 @@ final class MeasureViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
 
-        // 신전 각도는 0으로 설정, 굴곡 각도만 측정
-        let record = MeasuredRecord(extensionAngle: 0.0)
+        // 굴곡 각도만 측정
+        let record = MeasuredRecord()
         record.flexionAngle = angle
         record.measuredSeconds = 0  // 측정 시간은 자동 계산됨
         
@@ -355,7 +354,7 @@ final class MeasureViewModel: ObservableObject {
             let record = try await repository.loadLatestRecord()
 
             if let record = record {
-                print("📝 최근 레코드 로드: Extension \(record.extensionAngle)°")
+                print("📝 최근 레코드 로드: Flexion \(record.flexionAngle ?? 0)°")
             } else {
                 print("⚠️ 저장된 레코드가 없습니다")
             }
@@ -379,7 +378,7 @@ final class MeasureViewModel: ObservableObject {
             previousRecord = record
 
             if let record = previousRecord {
-                print("📝 어제 레코드 로드: Extension \(record.measuredDate)°")
+                print("📝 어제 레코드 로드: \(record.measuredDate)")
             } else {
                 print("⚠️ 저장된 레코드가 없습니다")
             }

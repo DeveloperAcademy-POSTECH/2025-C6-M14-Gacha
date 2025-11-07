@@ -24,11 +24,6 @@
 "daily_start.instruction" = "Please Sit on a flat surface,\nmove your leg comfortably";
 "daily_start.button" = "Start Measurement";
 
-/* ExtensionMeasureView */
-"extension.instruction" = "Sit with your leg fully extended,\nplace phone on your thigh";
-"extension.instruction_emphasis" = "Hold the button to measure";
-"extension.measuring" = "Measuring knee extension angle";
-
 /* FlexionMeasureView */
 "flexion.instruction" = "Keep your heel on the floor,\nbend your leg fully";
 "flexion.instruction_emphasis" = "Hold the button to measure";
@@ -36,7 +31,7 @@
 "flexion.skip_button" = "Does it hurt a lot?";
 
 /* Alerts */
-"alert.quit_extension.title" = "Cancel the Knee Movement Measurement?";
+"alert.quit_extension.title" = "Cancel the Knee Flexion Measurement?";
 "alert.quit_extension.message" = "You'll return to the start screen";
 "alert.skip_flexion.title" = "Skip the Knee Flexion Measurement?";
 "alert.skip_flexion.message" = "Only the knee extension angle will be saved";
@@ -103,7 +98,6 @@
 "progress.first_take.description" = "Today is the first step.\nKeep going consistently.";
 
 //MARK: Add card variable name
-"card.extension_angle" = "Extension Angle";
 "card.flexion_angle" = "Flexion Angle";
 "card.knee_ROM" = "Knee Range of Motion";
 "card.pain_level" = "Pain Level";
