@@ -115,7 +115,7 @@ struct FlexionMeasureView: View {
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .appBackground()
+             
         }
         .onAppear {
             vm.startSensor()

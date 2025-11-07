@@ -18,10 +18,13 @@
 "common.back_home" = "처음으로 가기";
 
 /* DailyMeasureStartView */
-"daily_start.title" = "무릎 움직임 범위 측정";
+"daily_start.title" = "측정";
 "daily_start.description" = "무릎이 얼마나 움직이는지 확인해 보세요";
-"daily_start.instruction" = "다리를 편하게 펴고 굽힐 수 있는\n평평한 곳에 앉아 주세요";
-"daily_start.button" = "측정 시작하기";
+"daily_start.instruction_page1" = "벽에 등을 대고, 평평한 곳에 앉아주세요";
+"daily_start.instruction_page2" = "최대한 다리를 굽히고, 2초동안 자세를 유지해주세요!";
+"daily_start.button_next" = "다음";
+"daily_start.button_measure" = "측정하기";
+"daily_start.button_pain_only" = "통증수치만 입력하기";
 
 /* FlexionMeasureView */
 "flexion.instruction" = "발꿈치를 바닥에 붙인 채\n가능한 만큼 다리를 굽혀 주세요";

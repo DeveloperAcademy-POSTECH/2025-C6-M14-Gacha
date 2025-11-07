@@ -25,7 +25,7 @@ struct DailyMeasureDoneView: View {
             maxWidth: .infinity,
             maxHeight: .infinity,
         )
-        .appBackground()
+         
         .task {
             // 1.5초 후 다음 단계로
             try? await Task.sleep(nanoseconds: 1_500_000_000)

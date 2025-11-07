@@ -60,11 +60,20 @@ enum Strings {
         static var description: String {
             NSLocalizedString("daily_start.description", comment: "")
         }
-        static var instruction: String {
-            NSLocalizedString("daily_start.instruction", comment: "")
+        static var instructionPage1: String {
+            NSLocalizedString("daily_start.instruction_page1", comment: "")
         }
-        static var button: String {
-            NSLocalizedString("daily_start.button", comment: "")
+        static var instructionPage2: String {
+            NSLocalizedString("daily_start.instruction_page2", comment: "")
+        }
+        static var buttonNext: String {
+            NSLocalizedString("daily_start.button_next", comment: "")
+        }
+        static var buttonMeasure: String {
+            NSLocalizedString("daily_start.button_measure", comment: "")
+        }
+        static var buttonPainOnly: String {
+            NSLocalizedString("daily_start.button_pain_only", comment: "")
         }
     }
     

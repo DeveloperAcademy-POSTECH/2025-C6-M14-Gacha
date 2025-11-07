@@ -19,10 +19,13 @@
 "common.back_home" = "Back to Start";
 
 /* DailyMeasureStartView */
-"daily_start.title" = "Knee Range of Motion";
+"daily_start.title" = "Measure";
 "daily_start.description" = "Let's check how much your knee can move";
-"daily_start.instruction" = "Please Sit on a flat surface,\nmove your leg comfortably";
-"daily_start.button" = "Start Measurement";
+"daily_start.instruction_page1" = "Lean your back against the wall, sit on a flat surface";
+"daily_start.instruction_page2" = "Bend your leg as much as possible, hold the position for 2 seconds!";
+"daily_start.button_next" = "Next";
+"daily_start.button_measure" = "Measure";
+"daily_start.button_pain_only" = "Enter Pain Level Only";
 
 /* FlexionMeasureView */
 "flexion.instruction" = "Keep your heel on the floor,\nbend your leg fully";

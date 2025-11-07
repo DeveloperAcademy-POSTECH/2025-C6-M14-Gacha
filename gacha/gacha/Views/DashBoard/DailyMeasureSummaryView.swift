@@ -67,7 +67,7 @@ struct DailyMeasureSummaryView: View {
                     maxHeight: .infinity,
                     alignment: .top
                 )
-                .appBackground()
+                 
             }
         }
         .onAppear {

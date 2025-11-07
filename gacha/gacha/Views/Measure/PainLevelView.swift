@@ -54,7 +54,7 @@ struct PainLevelView: View {
                 .padding(.horizontal, 40)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .appBackground()
+             
 
         }
     }

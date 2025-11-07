@@ -20,6 +20,7 @@ struct MeasureFlowViewWrapper: View {
 struct MeasureFlowView: View {
     @StateObject private var measureVM: MeasureViewModel
     @StateObject private var historyVM: ProgressHistoryViewModel
+    @State private var selectedTab: TabBarItem = .measure
 
     init(modelContext: ModelContext) {
         let repository = SwiftDataRecordRepository(modelContext: modelContext)
@@ -31,11 +32,18 @@ struct MeasureFlowView: View {
 
     var body: some View {
         NavigationStack(path: $measureVM.navigationPath) {
-            // 루트 화면: DailyMeasureStartView
-            homeView()
-                .navigationDestination(for: MeasureFlowStep.self) { step in
-                    viewForStep(step)
+            ZStack(alignment: .bottom) {
+                // 메인 콘텐츠
+                tabContentView()
+                    .navigationDestination(for: MeasureFlowStep.self) { step in
+                        viewForStep(step)
+                    }
+                
+                // TabBar (메인 화면일 때만 표시)
+                if measureVM.navigationPath.isEmpty {
+                    TabBarComponent(selectedTab: $selectedTab)
                 }
+            }
         }
         .onChange(of: measureVM.navigationPath.count) { oldValue, newValue in
             // 홈으로 돌아왔을 때 (path가 비었을 때)
@@ -52,7 +60,29 @@ struct MeasureFlowView: View {
         }
         .environmentObject(measureVM)
         .environmentObject(historyVM)
-
+    }
+    
+    // MARK: - Tab Content View
+    @ViewBuilder
+    private func tabContentView() -> some View {
+        switch selectedTab {
+        case .calendar:
+            // TODO: 캘린더 뷰 추가 예정
+            Text("캘린더 뷰 (추가 예정)")
+                .font(.displayLargeBold)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                 
+                
+        case .measure:
+            homeView()
+            
+        case .summary:
+            // TODO: 요약 뷰 추가 예정
+            Text("요약 뷰 (추가 예정)")
+                .font(.displayLargeBold)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                 
+        }
     }
 
     // MARK: - View Builder
@@ -61,11 +91,8 @@ struct MeasureFlowView: View {
         if measureVM.isLoading {
             Text("Loading...")
         } else {
-            if measureVM.hasTodayRecord {
-                DailyMeasureSummaryView()
-            } else {
-                DailyMeasureStartView2()
-            }
+            MeasureView()
+                .padding(.bottom, 80)  // TabBar 높이만큼 여백
         }
     }
 

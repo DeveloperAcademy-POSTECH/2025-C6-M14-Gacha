@@ -37,13 +37,15 @@ struct CapsuleButtonComponent: View {
     
     // 스타일
     enum ButtonStyle {
-        case primary    // Primary500 배경, White 텍스트
+        case primary    // Primary900 배경, White 텍스트
         case secondary  // Gray100 배경, Gray900 텍스트
+        case light      // Primary300 배경, Gray900 텍스트
         
         var backgroundColor: Color {
             switch self {
-            case .primary: return Color(.primary900)
-            case .secondary: return Color(.gray100)
+            case .primary: return Color("Primary900")
+            case .secondary: return Color("Gray100")
+            case .light: return Color("Primary300")
             }
         }
         
@@ -51,6 +53,7 @@ struct CapsuleButtonComponent: View {
             switch self {
             case .primary: return Color("White")
             case .secondary: return Color("Gray900")
+            case .light: return Color("Gray900")
             }
         }
     }
@@ -60,6 +63,12 @@ struct CapsuleButtonComponent: View {
     // 활성화 여부
     var isEnabled: Bool = true
     
+    // 커스터마이징 가능한 크기 옵션
+    var width: CGFloat? = nil  // nil이면 기본값 313
+    var height: CGFloat? = nil  // nil이면 기본값 50
+    var fontSize: CGFloat? = nil  // nil이면 기본값 17
+    var cornerRadius: CGFloat? = nil  // nil이면 Capsule, 값이 있으면 RoundedRectangle
+    
     // 액션
     var action: () -> Void
     
@@ -68,11 +77,11 @@ struct CapsuleButtonComponent: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.system(size: fontSize ?? 17, weight: .semibold))
                 .foregroundStyle(style.foregroundColor)
-                .frame(width: 313, height: 50)
+                .frame(width: width ?? 313, height: height ?? 50)
                 .background(style.backgroundColor)
-                .clipShape(Capsule())
+                .cornerRadius(cornerRadius ?? (height ?? 50) / 2)  // cornerRadius가 있으면 사용, 없으면 Capsule 효과
         }
         .disabled(!isEnabled)
         .opacity(isEnabled ? 1.0 : 0.5)
