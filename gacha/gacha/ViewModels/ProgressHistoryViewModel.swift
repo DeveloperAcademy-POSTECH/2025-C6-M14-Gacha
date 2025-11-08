@@ -1,5 +1,5 @@
 //
-//  ProgressHistoryViewModel.swift
+//  HistoryViewModel.swift
 //  gacha
 //
 //  Created by Oh Seojin on 10/29/25.
@@ -9,7 +9,7 @@ import Combine
 import SwiftData
 import SwiftUI
 
-class ProgressHistoryViewModel: ObservableObject {
+class HistoryViewModel: ObservableObject {
     private var repository: RecordRepository
 
     @Published var recentRecords: [MeasuredRecord] = []

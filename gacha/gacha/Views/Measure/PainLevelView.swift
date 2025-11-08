@@ -49,7 +49,7 @@ struct PainLevelView: View {
                         }
                         await vm.finishPainLevel(level: Int(value))
                     }
-                    vm.navigationPath.append(MeasureFlowStep.result)
+                    vm.navigationPath.append(MeasureFlowStep.summary)
                 }
                 .padding(.horizontal, 40)
             }
@@ -83,33 +83,63 @@ struct ArcSlider: View {
     @State private var lastIntValue: Int = 5
 
     private let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+    
+    private let totalSegments = 10
+    private let startAngle: Double = 160
+    private let totalAngle: Double = 220
+    private let segmentAngle: Double = 22  // 220 / 10
 
     var body: some View {
         GeometryReader { geo in
             let size = geo.size
             let center = CGPoint(x: size.width / 2, y: size.height / 2)
+            let radius = size.width / 3
+            let arcCenter = CGPoint(x: size.width / 2, y: size.height / 2)
 
             ZStack {
-                // 배경 원호
-                ArcShape(
-                    startAngle: .degrees(160),
-                    endAngle: .degrees(20)
-                )
-                .stroke(
-                    Color(.gray300),
-                    style: StrokeStyle(lineWidth: 40, lineCap: .round)
-                )
-
-                // 채워진 원호 (value 0→160°, value 10→380°/20°)
-                ArcShape(
-                    startAngle: .degrees(160),
-                    endAngle: .degrees(160 + (value / 10) * 220)
-                )
-                .stroke(
-                    Color(Color.red),
-                    style: StrokeStyle(lineWidth: 40, lineCap: .round)
-                )
-                .animation(.easeInOut(duration: 0.2), value: value)
+                // MARK: - 배경 세그먼트들 (10개)
+                ForEach(0..<totalSegments, id: \.self) { index in
+                    SegmentedArcShape(
+                        segmentIndex: index,
+                        totalSegments: totalSegments,
+                        startAngle: .degrees(startAngle),
+                        segmentAngle: segmentAngle,
+                        center: arcCenter,
+                        radius: radius
+                    )
+                    .stroke(
+                        Color("Gray300"),
+                        style: StrokeStyle(lineWidth: 40, lineCap: .round)
+                    )
+                }
+                
+                // MARK: - 채워진 세그먼트들 (value에 따라)
+                ForEach(0..<Int(value), id: \.self) { index in
+                    SegmentedArcShape(
+                        segmentIndex: index,
+                        totalSegments: totalSegments,
+                        startAngle: .degrees(startAngle),
+                        segmentAngle: segmentAngle,
+                        center: arcCenter,
+                        radius: radius
+                    )
+                    .stroke(
+                        Color.red,
+                        style: StrokeStyle(lineWidth: 40, lineCap: .round)
+                    )
+                    .animation(.easeInOut(duration: 0.2), value: value)
+                }
+                
+                // MARK: - 구분선 (11개: 0~10 위치) - 세그먼트 위에 표시
+                ForEach(0...totalSegments, id: \.self) { index in
+                    DividerLineShape(
+                        angle: startAngle + Double(index) * segmentAngle,
+                        center: arcCenter,
+                        radius: radius,
+                        lineLength: 40
+                    )
+                    .stroke(Color("Gray700"), lineWidth: 1.5)
+                }
 
                 // 핸들 원 — Arc 경로를 따라 움직임
                 Circle()
@@ -199,6 +229,62 @@ struct ArcSlider: View {
         let x = center.x + radius * cos(angle.radians)
         let y = center.y + radius * sin(angle.radians)
         return CGPoint(x: x, y: y)
+    }
+}
+
+// MARK: - 세그먼트 원호 Shape
+struct SegmentedArcShape: Shape {
+    let segmentIndex: Int
+    let totalSegments: Int
+    let startAngle: Angle
+    let segmentAngle: Double
+    let center: CGPoint
+    let radius: CGFloat
+    
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        let segmentStartAngle = startAngle.degrees + Double(segmentIndex) * segmentAngle
+        let segmentEndAngle = segmentStartAngle + segmentAngle
+        
+        path.addArc(
+            center: center,
+            radius: radius,
+            startAngle: .degrees(segmentStartAngle),
+            endAngle: .degrees(segmentEndAngle),
+            clockwise: false
+        )
+        
+        return path
+    }
+}
+
+// MARK: - 구분선 Shape
+struct DividerLineShape: Shape {
+    let angle: Double
+    let center: CGPoint
+    let radius: CGFloat
+    let lineLength: CGFloat
+    
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        let angleRadians = angle * .pi / 180
+        
+        // 원호의 안쪽 끝점
+        let innerRadius = radius - lineLength / 2
+        let innerX = center.x + innerRadius * cos(angleRadians)
+        let innerY = center.y + innerRadius * sin(angleRadians)
+        
+        // 원호의 바깥쪽 끝점
+        let outerRadius = radius + lineLength / 2
+        let outerX = center.x + outerRadius * cos(angleRadians)
+        let outerY = center.y + outerRadius * sin(angleRadians)
+        
+        path.move(to: CGPoint(x: innerX, y: innerY))
+        path.addLine(to: CGPoint(x: outerX, y: outerY))
+        
+        return path
     }
 }
 

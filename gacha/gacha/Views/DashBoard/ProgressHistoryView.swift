@@ -1,5 +1,5 @@
 //
-//  ProgressHistoryView.swift
+//  HistoryView.swift
 //  gacha
 //
 //  Created by 차원준 on 10/26/25.
@@ -9,9 +9,9 @@ import Charts
 import SwiftData
 import SwiftUI
 
-struct ProgressHistoryView: View {
+struct HistoryView: View {
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject var vm: ProgressHistoryViewModel
+    @EnvironmentObject var vm: HistoryViewModel
 
     // MARK: - Body
     var body: some View {

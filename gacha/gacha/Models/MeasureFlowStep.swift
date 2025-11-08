@@ -12,6 +12,5 @@ enum MeasureFlowStep: Hashable {
     case flexionMeasure  // FlexionMeasureView
     case flexionCheck  // DailyMeasureDoneView (측정 완료)
     case painLevel  // PainLevelView
-    case result  // ProgressDetailView
-    case summary  // DailyMeasureSummaryView (측정 완료)
+    case summary  // MeasureView_After (측정 완료)
 }

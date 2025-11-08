@@ -19,7 +19,7 @@ struct MeasureFlowViewWrapper: View {
 
 struct MeasureFlowView: View {
     @StateObject private var measureVM: MeasureViewModel
-    @StateObject private var historyVM: ProgressHistoryViewModel
+    @StateObject private var historyVM: HistoryViewModel
     @State private var selectedTab: TabBarItem = .measure
 
     init(modelContext: ModelContext) {
@@ -27,7 +27,7 @@ struct MeasureFlowView: View {
         _measureVM = StateObject(
             wrappedValue: MeasureViewModel(repository: repository)
         )
-        _historyVM = StateObject(wrappedValue: ProgressHistoryViewModel(repository: repository))
+        _historyVM = StateObject(wrappedValue: HistoryViewModel(repository: repository))
     }
 
     var body: some View {
@@ -114,12 +114,9 @@ struct MeasureFlowView: View {
             PainLevelView()
                 .navigationBarHidden(true)
 
-        case .result:
-            ProgressDetailView()
-                .navigationBarHidden(true)
 
         case .summary:
-            DailyMeasureSummaryView()
+            MeasureView_After()
                 .navigationBarHidden(true)
         }
     }

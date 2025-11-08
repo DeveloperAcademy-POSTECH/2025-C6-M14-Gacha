@@ -105,7 +105,7 @@
 "card.knee_ROM" = "Knee Range of Motion";
 "card.pain_level" = "Pain Level";
 
-/* ProgressHistoryView */
+/* HistoryView */
 "history.title" = "View My Progress";
 "history.rom_title" = "Knee Range of Motion Changes";
 "history.average" = "Average";

@@ -273,7 +273,7 @@ enum Strings {
         }
     }
     
-    // MARK: - ProgressHistoryView
+    // MARK: - HistoryView
     enum History {
         static var title: String {
             NSLocalizedString("history.title", comment: "")
@@ -295,7 +295,7 @@ enum Strings {
         }
     }
     
-    // MARK: - DailyMeasureSummaryView
+    // MARK: - MeasureView_After
     enum Summary {
         static var title: String {
             NSLocalizedString("summary.title", comment: "")

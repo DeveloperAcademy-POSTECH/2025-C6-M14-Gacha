@@ -92,7 +92,7 @@
 "card.knee_ROM" = "무릎 움직임 범위";
 "card.pain_level" = "통증 단계";
 
-/* ProgressHistoryView */
+/* HistoryView */
 "history.title" = "변화 보기";
 "history.rom_title" = "무릎 움직임 변화";
 "history.average" = "평균";
