@@ -5,17 +5,13 @@
 //  Created by Oh Seojin on 10/26/25.
 //
 
-import AVFoundation
-import AudioToolbox
 import Combine
 import SwiftData
 import SwiftUI
-import UIKit
 
 final class MeasureViewModel: ObservableObject {
     private var repository: RecordRepository
     private var measureManager: MeasureManager
-    private var audioPlayer: AVAudioPlayer?
 
     @Published var measuredRom: Double = 0.0
 
@@ -44,9 +40,24 @@ final class MeasureViewModel: ObservableObject {
     private let stableDurationThreshold: TimeInterval = 1.7  // 1.7초
     private let stableAngleThreshold: Double = 3.0  // ±3도
     
-    // MARK: - 햅틱 피드백 관련
-    private let hapticMilestones: Set<Int> = [25, 50, 75, 100]
-    private var triggeredMilestones: Set<Int> = []
+    // MARK: - 전체 측정 진행률 (0.0~1.0)
+    var overallProgress: Double {
+        guard isMeasuring || measurementState == .completed else { return 0.0 }
+        
+        switch measurementState {
+        case .idle:
+            return 0.0
+        case .started:
+            return 0.1  // 시작
+        case .moving:
+            return 0.3  // 움직임 감지
+        case .stabilizing:
+            // 0.3에서 1.0까지 (stabilizingProgress 기반)
+            return 0.3 + (stabilizingProgress * 0.7)
+        case .completed:
+            return 1.0
+        }
+    }
     
     enum MeasurementState {
         case idle           // 대기
@@ -145,10 +156,6 @@ final class MeasureViewModel: ObservableObject {
                 measurementState = .stabilizing
                 stableStartTime = Date()
                 stabilizingProgress = 0.0
-                triggeredMilestones = []
-                
-                // 안정화 시작 햅틱
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
                 print("⏱️ 안정화 시작")
             }
             
@@ -157,21 +164,6 @@ final class MeasureViewModel: ObservableObject {
                 let elapsed = Date().timeIntervalSince(startTime)
                 stabilizingProgress = min(elapsed / stableDurationThreshold, 1.0)
                 
-                // 마일스톤 햅틱 (25%, 50%, 75%, 100%)
-                let currentPercent = Int(stabilizingProgress * 100)
-                for milestone in hapticMilestones {
-                    if currentPercent >= milestone && !triggeredMilestones.contains(milestone) {
-                        triggeredMilestones.insert(milestone)
-                        
-                        if milestone == 100 {
-                            // 100%는 completeFlexionMeasure()에서 처리
-                            break
-                        } else {
-                            UINotificationFeedbackGenerator().notificationOccurred(.success)
-                            print("📳 햅틱: \(milestone)%")
-                        }
-                    }
-                }
                 
                 // 1.7초 동안 안정 유지 시 측정 완료
                 if elapsed >= stableDurationThreshold {
@@ -184,7 +176,6 @@ final class MeasureViewModel: ObservableObject {
                 measurementState = .moving
                 stableStartTime = nil
                 stabilizingProgress = 0.0
-                triggeredMilestones = []
                 print("🔄 움직임 재개")
             }
         }
@@ -206,10 +197,6 @@ final class MeasureViewModel: ObservableObject {
         // 최빈값 계산 (옵션 B: 최대값 근처만 사용)
         let finalAngle = calculateFlexionROM()
         measuredRom = finalAngle
-        
-        // 완료 햅틱 + 사운드
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
-        AudioServicesPlaySystemSound(1109)
         
         print("✅ 굴곡 측정 완료: \(finalAngle)°")
         
@@ -249,7 +236,7 @@ final class MeasureViewModel: ObservableObject {
         isMeasuring = false
         measurementState = .idle
         detectedMaxAngle = 0.0
-        triggeredMilestones = []
+        
         measureManager.recordedAngles.removeAll()
         
         print("❌ 측정 취소됨")
@@ -264,7 +251,7 @@ final class MeasureViewModel: ObservableObject {
         lastStableAngle = 0.0
         stableStartTime = nil
         stabilizingProgress = 0.0
-        triggeredMilestones = []
+        
         
         // 타이머 정리
         stableAngleTimer?.invalidate()
