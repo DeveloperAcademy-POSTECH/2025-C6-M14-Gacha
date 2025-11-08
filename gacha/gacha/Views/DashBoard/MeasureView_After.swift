@@ -21,54 +21,56 @@ struct MeasureView_After: View {
             } else {
                 VStack(spacing: 0) {
                     // MARK: - 상단 영역
-                    HStack{
+                    HStack {
                         Text(Strings.Summary.title)
                             .font(.displayLargeBold)
                         Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 54)
-
+                    
                     Spacer()
-
+                    
                     // MARK: - 중간 영역: 측정 결과 카드
                     resultCard
                         .padding(.horizontal, 20)
-
+                    
                     Spacer()
-
-                    // MARK: - 하단 버튼 영역
-                    CapsuleButtonComponent(
-                        title: Strings.Summary.button,
-                        style: .primary
-                    ) {
-                        showingAlert = true
+                    
+                    // MARK: - 하단 버튼 영역 (MeasureView와 동일한 구조)
+                    VStack(spacing: 16) {
+                        CapsuleButtonComponent(
+                            title: Strings.Summary.button,
+                            style: .primary,
+                            width: 361,
+                            height: 54,
+                            fontSize: 20,
+                            cornerRadius: 100
+                        ) {
+                            showingAlert = true
+                        }
+                        .alert(isPresented: $showingAlert) {
+                            Alert(
+                                title: Text(Strings.Alert.Remeasure.title),
+                                message: Text(Strings.Alert.Remeasure.message),
+                                primaryButton: .destructive(
+                                    Text(Strings.Common.yes),
+                                    action: {
+                                        vm.prepareForNewMeasurement()  // 새 측정 준비
+                                        vm.shouldAutoStartMeasure = true  // 자동 시작 플래그
+                                        vm.navigationPath.append(
+                                            MeasureFlowStep.flexionMeasure
+                                        )
+                                    }
+                                ),
+                                secondaryButton: .cancel(Text(Strings.Common.no))
+                            )
+                        }
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 24)
-                    .alert(isPresented: $showingAlert) {
-                        Alert(
-                            title: Text(Strings.Alert.Remeasure.title),
-                            message: Text(Strings.Alert.Remeasure.message),
-                            primaryButton: .destructive(
-                                Text(Strings.Common.yes),
-                                action: {
-                                    vm.prepareForNewMeasurement()  // 새 측정 준비
-                                    vm.shouldAutoStartMeasure = true  // 자동 시작 플래그
-                                    vm.navigationPath.append(
-                                        MeasureFlowStep.flexionMeasure
-                                    )
-                                }
-                            ),
-                            secondaryButton: .cancel(Text(Strings.Common.no))
-                        )
-                    }
+                    .frame(height: 92)  // MeasureView와 동일한 버튼 영역 높이
+                    .padding(.bottom, 34)  // MeasureView와 동일한 하단 패딩
                 }
-                .frame(
-                    maxWidth: .infinity,
-                    maxHeight: .infinity,
-                    alignment: .top
-                )
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .onAppear {
@@ -99,12 +101,9 @@ struct MeasureView_After: View {
             feedbackBox
                 .padding(.horizontal, 10)  // 주의: 10px!
                 .padding(.top, 6)
-            
-            Spacer()  // 남은 공간 채움
-            
-            // 4. 버튼 영역은 상위 VStack에 있음
+                .padding(.bottom, 24)  // 하단 여백 추가
         }
-        .frame(width: 361, height: 606)
+        .frame(width: 361)  // 너비만 고정, 높이는 내용에 맞게 자동 조정
         .background(Color("White"))
         .cornerRadius(15)
     }

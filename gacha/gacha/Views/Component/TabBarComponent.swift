@@ -50,8 +50,7 @@ struct TabBarComponent: View {
                 }
             }
         }
-        .frame(height: 80)
-        .background(Color("White"))
+        .frame(height: 83)
         .overlay(
             Rectangle()
                 .frame(height: 0.5)

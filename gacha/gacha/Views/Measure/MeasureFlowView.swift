@@ -44,6 +44,8 @@ struct MeasureFlowView: View {
                     TabBarComponent(selectedTab: $selectedTab)
                 }
             }
+            .ignoresSafeArea(edges: .bottom)
+
         }
         .onChange(of: measureVM.navigationPath.count) { oldValue, newValue in
             // 홈으로 돌아왔을 때 (path가 비었을 때)
@@ -77,10 +79,7 @@ struct MeasureFlowView: View {
             homeView()
             
         case .summary:
-            // TODO: 요약 뷰 추가 예정
-            Text("요약 뷰 (추가 예정)")
-                .font(.displayLargeBold)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            summaryView()
                  
         }
     }
@@ -90,10 +89,23 @@ struct MeasureFlowView: View {
     private func homeView() -> some View {
         if measureVM.isLoading {
             Text("Loading...")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else if measureVM.hasTodayRecord {
+            // 오늘 측정을 한 상태: MeasureView_After 표시
+            MeasureView_After()
+                .padding(.bottom, 80)  // TabBar 높이만큼 여백
         } else {
+            // 오늘 측정을 안한 상태: MeasureView 표시
             MeasureView()
                 .padding(.bottom, 80)  // TabBar 높이만큼 여백
         }
+    }
+    
+    @ViewBuilder
+    private func summaryView() -> some View {
+        HistoryView()
+            .padding(.bottom, 80)  // TabBar 높이만큼 여백
+            .toolbar(.hidden, for: .navigationBar)  // 탭 뷰에서는 네비게이션 바 숨김
     }
 
     @ViewBuilder
