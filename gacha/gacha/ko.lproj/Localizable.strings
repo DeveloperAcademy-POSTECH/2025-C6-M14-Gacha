@@ -49,18 +49,18 @@
 "pain.description" = "측정 중 느낀 통증 정도를 선택해 주세요";
 "pain.button" = "결과 보기";
 
-/* Pain Levels 0-10 (11 categories) */
+/* Pain Levels 0-10 */
 "pain.level.0" = "아프지 않아요";
-"pain.level.1" = "살짝 아파요";
-"pain.level.2" = "조금 아파요";
-"pain.level.3" = "아파요";
-"pain.level.4" = "꽤 아파요";
-"pain.level.5" = "많이 아파요";
-"pain.level.6" = "아주 아파요";
-"pain.level.7" = "매우 아파요";
-"pain.level.8" = "참기 힘들어요";
-"pain.level.9" = "참을 수 없어요";
-"pain.level.10" = "견딜 수 없어요";
+"pain.level.1" = "무릎이 살짝 불편한 정도예요";
+"pain.level.2" = "무릎이 조금 뻐근해요";
+"pain.level.3" = "무릎이 불편하지만 참을만해요";
+"pain.level.4" = "무릎이 움직이면 신경 쓰여요";
+"pain.level.5" = "무릎이 아파서 집중이 잘 안 돼요";
+"pain.level.6" = "아파서 무릎을 완전히 펴거나 굽힐 수 없어요";
+"pain.level.7" = "무릎을 움직이기 힘들 정도로 아파요";
+"pain.level.8" = "무릎이 심하게 아파요";
+"pain.level.9" = "무릎이 아파서 참기 힘들어요";
+"pain.level.10" = "무릎이 상상할 수 없을만큼 아파요";
 
 /* ProgressDetailView */
 "progress.title" = "오늘의 기록";
