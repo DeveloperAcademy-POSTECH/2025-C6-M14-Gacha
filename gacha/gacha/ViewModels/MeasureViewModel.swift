@@ -293,6 +293,21 @@ final class MeasureViewModel: ObservableObject {
 
         isLoading = false
     }
+    
+    // MARK: - 통증 레벨만 입력 시 (각도 없이)
+    func finishPainLevelOnly(level: Int) async {
+        isLoading = true
+        defer { isLoading = false }
+        
+        // 각도 없이 통증 레벨만 있는 새 레코드 생성
+        let record = MeasuredRecord()
+        record.flexionAngle = nil  // 각도 없음
+        record.painLevel = level
+        record.measuredSeconds = 0
+        
+        currentRecord = record
+        print("✅ 통증 레벨만 저장: \(level)")
+    }
 
     // MARK: - 측정 정보를 저장 시
     func saveCurrentRecord() async {

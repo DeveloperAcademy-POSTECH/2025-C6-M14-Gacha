@@ -190,7 +190,7 @@ extension MeasureViewModel {
 
     //     MARK: - Formatting
     func formatAngle(_ angle: Double?) -> String {
-        guard let angle = angle else { return "0°" }
+        guard let angle = angle else { return "-" }
         return "\(Int(angle))°"
     }
 

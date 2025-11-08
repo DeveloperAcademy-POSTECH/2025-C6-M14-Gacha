@@ -94,7 +94,15 @@ struct PainLevelView: View {
                         if vm.hasTodayRecord {
                             await vm.deleteTodayRecords()
                         }
-                        await vm.finishPainLevel(level: Int(value))
+                        
+                        // currentRecord가 있으면 기존 레코드에 통증 레벨 추가 (측정 후)
+                        // 없으면 통증 레벨만 있는 새 레코드 생성 (통증만 입력)
+                        if vm.currentRecord != nil {
+                            await vm.finishPainLevel(level: Int(value))
+                        } else {
+                            await vm.finishPainLevelOnly(level: Int(value))
+                        }
+                        
                         await vm.saveCurrentRecord()  // 레코드 저장
                         await vm.checkTodayRecord()   // 상태 업데이트 (hasTodayRecord = true)
                         // 네비게이션 스택을 모두 비워서 메인 화면으로 돌아가기
@@ -136,9 +144,9 @@ struct ArcSlider: View {
     private let impactFeedback = UIImpactFeedbackGenerator(style: .light)
 
     private let totalSegments = 10  // 10개 칸
-    private let startAngle: Double = 160
-    private let totalAngle: Double = 220
-    private let segmentAngle: Double = 220.0 / 10.0  // 22도
+    private let startAngle: Double = 160  // 원호 시작 각도
+    private let totalAngle: Double = 220  // 원호 총 각도
+    private let segmentAngle: Double = 220.0 / 10.0  // 각 칸의 각도 (정확히 22도, 220/10)
 
     var body: some View {
         GeometryReader { geo in
@@ -148,7 +156,8 @@ struct ArcSlider: View {
             let arcCenter = CGPoint(x: size.width / 2, y: size.height / 2)
 
             ZStack {
-                // MARK: - 배경 세그먼트들 (10개)
+                // MARK: - 배경 세그먼트들 (정확히 10개)
+                // 원호를 정확히 10등분한 세그먼트
                 ForEach(0..<totalSegments, id: \.self) { index in
                     SegmentedArcShape(
                         segmentIndex: index,
@@ -160,11 +169,11 @@ struct ArcSlider: View {
                     )
                     .stroke(
                         Color("Gray300"),
-                        style: StrokeStyle(lineWidth: 40, lineCap: .round)
+                        style: StrokeStyle(lineWidth: 40, lineCap: .butt, lineJoin: .miter)
                     )
                 }
                 
-                // MARK: - 채워진 세그먼트들 (value에 따라)
+                // MARK: - 채워진 세그먼트들 (value에 따라, 정확히 10개 중에서)
                 // value 0 → 0개 칸, value 1 → 1개 칸, ..., value 10 → 10개 칸 모두 채움
                 let filledSegments = min(Int(value), totalSegments)
                 ForEach(0..<filledSegments, id: \.self) { index in
@@ -178,15 +187,24 @@ struct ArcSlider: View {
                     )
                     .stroke(
                         Color.red,
-                        style: StrokeStyle(lineWidth: 40, lineCap: .round)
+                        style: StrokeStyle(lineWidth: 40, lineCap: .butt, lineJoin: .miter)
                     )
                     .animation(.easeInOut(duration: 0.2), value: value)
                 }
                 
-                // MARK: - 구분선 (11개: 0~10 위치, 10개의 세그먼트 구분) - 세그먼트 위에 표시
+                // MARK: - 구분선 (11개: 각 칸의 경계에 정확히 배치)
+                // 원호를 정확히 1/10로 나눈 구분선
+                // 구분선 0: startAngle (160°)
+                // 구분선 1: startAngle + segmentAngle (182°)
+                // 구분선 2: startAngle + 2*segmentAngle (204°)
+                // ...
+                // 구분선 10: startAngle + 10*segmentAngle (380° = 20°)
                 ForEach(0...totalSegments, id: \.self) { index in
+                    // 각 구분선의 각도 = 시작각도 + (인덱스 * 칸당각도)
+                    // 정확히 원호를 10등분한 위치
+                    let dividerAngle = startAngle + (Double(index) * segmentAngle)
                     DividerLineShape(
-                        angle: startAngle + Double(index) * segmentAngle,
+                        angle: dividerAngle,
                         center: arcCenter,
                         radius: radius,
                         lineLength: 40
@@ -244,31 +262,14 @@ struct ArcSlider: View {
                             return
                         }
                         
-                        // 각도를 칸 인덱스로 변환 (10개 칸에 11단계 매핑)
+                        // 각도를 칸 인덱스로 변환 (한 칸 = 하나의 value)
                         // 칸 n의 범위: [n * segmentAngle, (n + 1) * segmentAngle)
-                        // 각 칸의 중앙에 스냅하도록 조정
-                        let segmentIndex = Int((normalizedDegrees + segmentAngle / 2) / segmentAngle)
+                        // 드래그한 칸의 인덱스가 바로 value가 됨
+                        let segmentIndex = Int(normalizedDegrees / segmentAngle)
                         
-                        // segmentIndex를 value 0~10으로 매핑
-                        // 칸 0 → value 0~1, 칸 1 → value 1~2, ..., 칸 9 → value 9~10
-                        // 각 칸의 중앙에 스냅: 칸 n의 중앙 → value = n + 0.5
-                        // 하지만 정수로 스냅하려면: 칸 n의 중앙 → value = n 또는 n+1
-                        // 더 자연스럽게: 칸 n의 전반부 → value = n, 후반부 → value = n+1
-                        let mappedValue: Double
-                        if segmentIndex < totalSegments {
-                            // 칸 내부 위치에 따라 value 결정
-                            let positionInSegment = (normalizedDegrees - Double(segmentIndex) * segmentAngle) / segmentAngle
-                            if positionInSegment < 0.5 {
-                                // 칸의 전반부 → value = segmentIndex
-                                mappedValue = Double(segmentIndex)
-                            } else {
-                                // 칸의 후반부 → value = segmentIndex + 1
-                                mappedValue = Double(min(segmentIndex + 1, 10))
-                            }
-                        } else {
-                            // 마지막 칸을 넘어섬 → value = 10
-                            mappedValue = 10
-                        }
+                        // 칸 인덱스를 value로 직접 매핑
+                        // 칸 0 → value = 0, 칸 1 → value = 1, ..., 칸 10 → value = 10
+                        let mappedValue = Double(min(segmentIndex, 10))
                         
                         value = min(max(mappedValue, 0), 10)
                         
