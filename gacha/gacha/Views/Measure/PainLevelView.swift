@@ -12,22 +12,68 @@ struct PainLevelView: View {
     @EnvironmentObject var vm: MeasureViewModel
 
     @State private var value: Double = 5.0  // 0~10 범위
+    @State private var showingAlert = false
+
 
     var body: some View {
         GeometryReader { geo in
             VStack(alignment: .center, spacing: 0) {
-                // MARK: - 상단 영역
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(Strings.Pain.title)
-                        .font(.displayLargeBold)
-                    Text(Strings.Pain.description)
-                        .font(.displayTitle3Medium)
+                // MARK: - 네비게이션 바
+                HStack {
+                    Button(action: {
+                        showingAlert = true
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 16, weight: .medium))
+                            Text("취소")
+                                .font(.system(size: 17, weight: .regular))
+                        }
+                        .foregroundStyle(Color("Primary500"))
+                    }
+                    .alert(isPresented: $showingAlert) {
+                        Alert(
+                            title: Text(Strings.Alert.Remeasure.title), //무릎 움직임 측정을 취소하겠어요?
+                            message: Text(Strings.Alert.Remeasure.message), //측정된 기록이 저장되지 않고 처음 화면으로 되돌아가요
+                            primaryButton: .destructive(
+                                Text(Strings.Common.yes),
+                                action: {
+                                    // MeasureView로 이동 (측정 취소)
+                                    vm.cancelFlexionMeasure()
+                                    vm.navigationPath.removeLast()
+
+                                }
+                            ),
+                            secondaryButton: .cancel(Text(Strings.Common.no))
+                        )
+                    }
+                    
+                    Spacer()
+                    
+                    Text("ROM 측정")
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundStyle(Color("Gray900"))
+
+                    Spacer()
+                    
+                    Button(action: {
+                    }) {
+                        Text("취소")
+                    }
+                    .disabled(true)
+                    .opacity(0)
+                    
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 16)
-                .padding(.top, 52)
+                .padding(.horizontal, 16)
+                .padding(.top, 8)
+                .frame(height: 44)
 
                 Spacer()
+                
+                
+                Text(Strings.Pain.level(Int(value)))
+                    .font(.displayTitle1Bold)
+                    .foregroundStyle(Color("Gray700"))
 
                 // MARK: - 이모지
                 Text(painEmoji(for: Int(value)))
@@ -197,10 +243,6 @@ struct ArcSlider: View {
                     Text("\(Int(value))")
                         .font(.system(size: 40, weight: .bold))
                         .foregroundStyle(Color("Gray900"))
-
-                    Text(levelDescription(for: value))
-                        .font(.displayTitle1Bold)
-                        .foregroundStyle(Color("Gray700"))
 
                 }
                 .position(
