@@ -147,6 +147,39 @@ struct ArcSlider: View {
     private let startAngle: Double = 160  // 원호 시작 각도
     private let totalAngle: Double = 220  // 원호 총 각도
     private let segmentAngle: Double = 220.0 / 10.0  // 각 칸의 각도 (정확히 22도, 220/10)
+    
+    // MARK: - 세그먼트별 색상 반환
+    /// 세그먼트 인덱스에 따른 배경색 반환
+    /// 기본 배경은 모두 회색 (채워지지 않은 세그먼트)
+    private func segmentColor(for index: Int) -> Color {
+        // 모든 배경 세그먼트는 회색
+        return Color("Gray300")
+    }
+    
+    // MARK: - 세그먼트별 채워진 색상 반환
+    /// 세그먼트 인덱스에 따른 채워진 색상 반환 (Index 폴더의 색상 사용)
+    /// - 인덱스 0~3: Index/1 색상
+    /// - 인덱스 4~6: Index/4 색상
+    /// - 인덱스 7~9: Index/7 색상 (단, value가 10이고 인덱스가 9일 때는 Index/10)
+    private func filledSegmentColor(for index: Int, value: Double) -> Color {
+        switch index {
+        case 0...2:
+            return Color("1")
+        case 3...5:
+            return Color("4")
+        case 6...8:
+            return Color("7")
+        case 9:
+            // value가 10일 때만 Index/10 사용
+            if value >= 10 {
+                return Color("10")
+            } else {
+                return Color("7")
+            }
+        default:
+            return Color("Gray500")
+        }
+    }
 
     var body: some View {
         GeometryReader { geo in
@@ -156,8 +189,9 @@ struct ArcSlider: View {
             let arcCenter = CGPoint(x: size.width / 2, y: size.height / 2)
 
             ZStack {
-                // MARK: - 배경 세그먼트들 (정확히 10개)
+                // MARK: - 배경 세그먼트들 (정확히 10개, 모두 회색)
                 // 원호를 정확히 10등분한 세그먼트
+                // 기본 배경은 모두 회색 (채워지지 않은 세그먼트)
                 ForEach(0..<totalSegments, id: \.self) { index in
                     SegmentedArcShape(
                         segmentIndex: index,
@@ -175,6 +209,10 @@ struct ArcSlider: View {
                 
                 // MARK: - 채워진 세그먼트들 (value에 따라, 정확히 10개 중에서)
                 // value 0 → 0개 칸, value 1 → 1개 칸, ..., value 10 → 10개 칸 모두 채움
+                // 각 세그먼트는 해당 인덱스에 맞는 색상으로 채워짐
+                // - 인덱스 0~3: Index/1 색상
+                // - 인덱스 4~6: Index/4 색상
+                // - 인덱스 7~9: Index/7 색상 (단, value가 10이고 인덱스가 9일 때는 Index/10)
                 let filledSegments = min(Int(value), totalSegments)
                 ForEach(0..<filledSegments, id: \.self) { index in
                     SegmentedArcShape(
@@ -186,7 +224,7 @@ struct ArcSlider: View {
                         radius: radius
                     )
                     .stroke(
-                        Color.red,
+                        filledSegmentColor(for: index, value: value),
                         style: StrokeStyle(lineWidth: 40, lineCap: .butt, lineJoin: .miter)
                     )
                     .animation(.easeInOut(duration: 0.2), value: value)
