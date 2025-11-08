@@ -1,4 +1,3 @@
-//
 //  PainLevelView.swift
 //  gacha
 //
@@ -76,8 +75,10 @@ struct PainLevelView: View {
                     .foregroundStyle(Color("Gray700"))
 
                 // MARK: - 이모지
-                Text(painEmoji(for: Int(value)))
-                    .font(.system(size: 136))
+                Image(painImageName(for: Int(value)))
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 136, height: 136)
 
                 Spacer()
 
@@ -94,8 +95,12 @@ struct PainLevelView: View {
                             await vm.deleteTodayRecords()
                         }
                         await vm.finishPainLevel(level: Int(value))
+                        await vm.saveCurrentRecord()  // 레코드 저장
+                        await vm.checkTodayRecord()   // 상태 업데이트 (hasTodayRecord = true)
+                        // 네비게이션 스택을 모두 비워서 메인 화면으로 돌아가기
+                        // 메인 화면에서 hasTodayRecord를 체크하여 MeasureView_After를 표시
+                        vm.navigationPath = NavigationPath()
                     }
-                    vm.navigationPath.append(MeasureFlowStep.summary)
                 }
                 .padding(.horizontal, 40)
             }
@@ -105,20 +110,20 @@ struct PainLevelView: View {
         }
     }
 
-    private func painEmoji(for value: Int) -> String {
+    private func painImageName(for value: Int) -> String {
         switch value {
-        case 0: return "😁"  // 완전히 편안함
-        case 1: return "🙂"  // 약간의 이완
-        case 2: return "😊"  // 거의 통증 없음
-        case 3: return "😐"  // 약간 불편함
-        case 4: return "😕"  // 가벼운 통증
-        case 5: return "🙁"  // 눈에 띄는 통증
-        case 6: return "😣"  // 꽤 아픔
-        case 7: return "😖"  // 심한 통증
-        case 8: return "😫"  // 매우 아픔
-        case 9: return "😩"  // 극심한 통증
-        case 10: return "😭"  // 견딜 수 없는 통증
-        default: return "😕"
+        case 0:
+            return "level0"
+        case 1...3:
+            return "level1"
+        case 4...6:
+            return "level4"
+        case 7...9:
+            return "level7"
+        case 10:
+            return "level10"
+        default:
+            return "level1"
         }
     }
 
@@ -129,11 +134,11 @@ struct ArcSlider: View {
     @State private var lastIntValue: Int = 5
 
     private let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-    
-    private let totalSegments = 10
+
+    private let totalSegments = 10  // 10개 칸
     private let startAngle: Double = 160
     private let totalAngle: Double = 220
-    private let segmentAngle: Double = 22  // 220 / 10
+    private let segmentAngle: Double = 220.0 / 10.0  // 22도
 
     var body: some View {
         GeometryReader { geo in
@@ -160,7 +165,9 @@ struct ArcSlider: View {
                 }
                 
                 // MARK: - 채워진 세그먼트들 (value에 따라)
-                ForEach(0..<Int(value), id: \.self) { index in
+                // value 0 → 0개 칸, value 1 → 1개 칸, ..., value 10 → 10개 칸 모두 채움
+                let filledSegments = min(Int(value), totalSegments)
+                ForEach(0..<filledSegments, id: \.self) { index in
                     SegmentedArcShape(
                         segmentIndex: index,
                         totalSegments: totalSegments,
@@ -176,7 +183,7 @@ struct ArcSlider: View {
                     .animation(.easeInOut(duration: 0.2), value: value)
                 }
                 
-                // MARK: - 구분선 (11개: 0~10 위치) - 세그먼트 위에 표시
+                // MARK: - 구분선 (11개: 0~10 위치, 10개의 세그먼트 구분) - 세그먼트 위에 표시
                 ForEach(0...totalSegments, id: \.self) { index in
                     DividerLineShape(
                         angle: startAngle + Double(index) * segmentAngle,
@@ -187,69 +194,98 @@ struct ArcSlider: View {
                     .stroke(Color("Gray700"), lineWidth: 1.5)
                 }
 
-                // 핸들 원 — Arc 경로를 따라 움직임
-                Circle()
-                    .fill(Color("White"))
-                    .frame(width: 40, height: 40)
-                    .shadow(radius: 3)
-                    .position(circlePosition(for: value, in: geo.size))
-                    .gesture(
-                        DragGesture(minimumDistance: 0)
-                            .onChanged { drag in
-                                let vector = CGVector(
-                                    dx: drag.location.x - center.x,
-                                    dy: drag.location.y - center.y
-                                )
-                                let angle = atan2(vector.dy, vector.dx)
-                                let degrees = angle * 180 / .pi
-                                
-                                // 원호 범위: 160° ~ 20° (반시계방향, 총 220°)
-                                var mappedValue: Double = 0
-                                
-                                if degrees >= 160 {
-                                    // 160° ~ 180° 범위 (시작 부분)
-                                    mappedValue = (degrees - 160) / 220 * 10
-                                } else if degrees <= 20 {
-                                    // -180° ~ 20° 범위 (끝 부분)
-                                    mappedValue = (200 + degrees) / 220 * 10
-                                } else {
-                                    // 21° ~ 159° 범위 (원호 밖): 가까운 끝점으로
-                                    if degrees < 90 {
-                                        mappedValue = 10  // 20도 쪽 (끝점)
-                                    } else {
-                                        mappedValue = 0  // 160도 쪽 (시작점)
-                                    }
-                                }
-                                
-                                value = min(max(mappedValue, 0), 10)
-                                
-                                let newIntValue = Int(round(value))
-                                if newIntValue != lastIntValue {
-                                                impactFeedback.impactOccurred()
-                                                lastIntValue = newIntValue
-                                            }
-                            }
-                            .onEnded { _ in
-                                // 드래그가 끝났을 때, value를 가장 가까운 정수로 스냅
-                                let roundedValue = Double(Int(round(value)))
-                                withAnimation(.spring()) {
-                                    value = roundedValue
-                                }
-                            }
-                    )
-
                 // 중앙 텍스트 (값 + 상태)
                 VStack(spacing: 16) {
                     Text("\(Int(value))")
                         .font(.system(size: 40, weight: .bold))
                         .foregroundStyle(Color("Gray900"))
-
                 }
                 .position(
                     x: size.width / 2,
                     y: size.height / 2
                 )
             }
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { drag in
+                        let vector = CGVector(
+                            dx: drag.location.x - center.x,
+                            dy: drag.location.y - center.y
+                        )
+                        let angle = atan2(vector.dy, vector.dx)
+                        var degrees = angle * 180 / .pi
+                        
+                        // 각도를 0~360 범위로 정규화
+                        if degrees < 0 {
+                            degrees += 360
+                        }
+                        
+                        // 원호 범위: 160° ~ 380° (360°+20° = 0°+20°)
+                        // 각도를 원호 내부의 상대 각도로 변환
+                        let normalizedDegrees: Double
+                        if degrees >= 160 && degrees <= 360 {
+                            // 160° ~ 360° 범위
+                            normalizedDegrees = degrees - 160
+                        } else if degrees >= 0 && degrees <= 20 {
+                            // 0° ~ 20° 범위 (360° ~ 380°와 동일)
+                            normalizedDegrees = degrees + 200  // 360 - 160 = 200
+                        } else {
+                            // 원호 밖: 가장 가까운 끝점으로 스냅
+                            if degrees < 90 {
+                                value = 10  // 20도 쪽 (끝점)
+                            } else {
+                                value = 0  // 160도 쪽 (시작점)
+                            }
+                            let newIntValue = Int(value)
+                            if newIntValue != lastIntValue {
+                                impactFeedback.impactOccurred()
+                                lastIntValue = newIntValue
+                            }
+                            return
+                        }
+                        
+                        // 각도를 칸 인덱스로 변환 (10개 칸에 11단계 매핑)
+                        // 칸 n의 범위: [n * segmentAngle, (n + 1) * segmentAngle)
+                        // 각 칸의 중앙에 스냅하도록 조정
+                        let segmentIndex = Int((normalizedDegrees + segmentAngle / 2) / segmentAngle)
+                        
+                        // segmentIndex를 value 0~10으로 매핑
+                        // 칸 0 → value 0~1, 칸 1 → value 1~2, ..., 칸 9 → value 9~10
+                        // 각 칸의 중앙에 스냅: 칸 n의 중앙 → value = n + 0.5
+                        // 하지만 정수로 스냅하려면: 칸 n의 중앙 → value = n 또는 n+1
+                        // 더 자연스럽게: 칸 n의 전반부 → value = n, 후반부 → value = n+1
+                        let mappedValue: Double
+                        if segmentIndex < totalSegments {
+                            // 칸 내부 위치에 따라 value 결정
+                            let positionInSegment = (normalizedDegrees - Double(segmentIndex) * segmentAngle) / segmentAngle
+                            if positionInSegment < 0.5 {
+                                // 칸의 전반부 → value = segmentIndex
+                                mappedValue = Double(segmentIndex)
+                            } else {
+                                // 칸의 후반부 → value = segmentIndex + 1
+                                mappedValue = Double(min(segmentIndex + 1, 10))
+                            }
+                        } else {
+                            // 마지막 칸을 넘어섬 → value = 10
+                            mappedValue = 10
+                        }
+                        
+                        value = min(max(mappedValue, 0), 10)
+                        
+                        let newIntValue = Int(round(value))
+                        if newIntValue != lastIntValue {
+                            impactFeedback.impactOccurred()
+                            lastIntValue = newIntValue
+                        }
+                    }
+                    .onEnded { _ in
+                        // 드래그가 끝났을 때, value를 가장 가까운 정수로 스냅
+                        let roundedValue = Double(Int(round(value)))
+                        withAnimation(.spring()) {
+                            value = roundedValue
+                        }
+                    }
+            )
             .onChange(of: value) { oldValue, newValue in
                 let newIntValue = Int(round(newValue))
             }
@@ -259,18 +295,6 @@ struct ArcSlider: View {
 
     private func levelDescription(for value: Double) -> String {
         return Strings.Pain.level(Int(value))
-    }
-
-    // 반원 경로상의 좌표 계산
-    private func circlePosition(for value: Double, in size: CGSize) -> CGPoint {
-        let radius = size.width / 3
-        let center = CGPoint(x: size.width / 2, y: size.height / 2)
-
-        // value 0 → 160°, value 10 → 20° (380°)
-        let angle = Angle(degrees: 160 + (value / 10) * 220)
-        let x = center.x + radius * cos(angle.radians)
-        let y = center.y + radius * sin(angle.radians)
-        return CGPoint(x: x, y: y)
     }
 }
 
