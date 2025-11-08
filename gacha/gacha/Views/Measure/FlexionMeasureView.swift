@@ -13,126 +13,103 @@ struct FlexionMeasureView: View {
 
     var body: some View {
         ZStack {
-            VStack(spacing: 0) {
-                Spacer()
-                    .frame(height: 60)
-                
-                // MARK: - 측정 영역
-                VStack(spacing: 40) {
-                    // 이미지 + 프로그레스 바
-                    ZStack {
-                        // 배경 원 (흰색 테두리) - 항상 표시
-                        Circle()
-                            .stroke(.white, lineWidth: 27)
-                            .frame(width: 327, height: 327)
-                            .shadow(
-                                color: Color("Gray300").opacity(0.15),
-                                radius: 2,
-                                x: 0,
-                                y: 2
-                            )
-                        
-                        // 진행률 원 - 안정화 중일 때만 표시
-                        if vm.measurementState == .stabilizing {
-                            Circle()
-                                .trim(from: 0, to: vm.stabilizingProgress)
-                                .stroke(
-                                    Color("Primary700"),
-                                    style: StrokeStyle(
-                                        lineWidth: 27,
-                                        lineCap: .round
-                                    )
-                                )
-                                .frame(width: 327, height: 327)
-                                .rotationEffect(.degrees(-90))
-                                .animation(
-                                    .linear(duration: 0.1),
-                                    value: vm.stabilizingProgress
-                                )
-                                .shadow(
-                                    color: Color("Gray300").opacity(0.15),
-                                    radius: 2,
-                                    x: 0,
-                                    y: 2
-                                )
-                        }
-                        
-                        // 내부 이미지 영역
-                        ZStack {
-                            Circle()
-                                .fill(.white)
-                                .stroke(.gray100, lineWidth: 1)
-                                .frame(width: 300, height: 300)
-                            
-                            Image("flexion_leg")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 300)
-                        }
-                        .clipShape(Circle())
-                    }
-                    .contentShape(Circle())
-                    
-                    // 상태별 텍스트
-                    VStack(spacing: 12) {
-                        Text(statusText)
-                            .font(.roundedTitle2Bold)
-                            .multilineTextAlignment(.center)
-                        
-                        
-                    }
-                    
-                    // 측정 시작/취소 버튼
-                    if !vm.isMeasuring {
-                        Button(action: {
-                            vm.startFlexionMeasure()
-                        }) {
-                            Text("측정 시작하기")
-                                .font(.displayBodyBold)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 56)
-                                .background(Color("Primary500"))
-                                .cornerRadius(12)
-                        }
-                        .padding(.horizontal, 16)
-                    } else {
-                        Button(action: {
-                            vm.cancelFlexionMeasure()
-                        }) {
-                            Text("측정 취소")
-                                .font(.displayBodyBold)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 56)
-                                .background(Color("Gray500"))
-                                .cornerRadius(12)
-                        }
-                        .padding(.horizontal, 16)
-                    }
+            // MARK: - 배경 (흰색)
+            Color("White")
+                .ignoresSafeArea()
+            
+            // MARK: - 물이 차오르는 애니메이션 (측정 중일 때만)
+            if vm.isMeasuring || vm.measurementState == .completed {
+                ZStack {
+                    // 하단 고정, 상단이 위로 커지는 채움 (레이아웃은 고정, 렌더만 스케일)
+                    Rectangle()
+                        .fill(progressGradient)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .scaleEffect(y: max(0.001, vm.overallProgress), anchor: .bottom)
+                        .animation(.easeOut(duration: 0.2), value: vm.measurementState)
+                        .animation(.easeOut(duration: 0.2), value: vm.stabilizingProgress)
                 }
-                
-                Spacer()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea()
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-             
+            
+            // MARK: - 메인 콘텐츠
+            GeometryReader { geometry in
+                VStack(spacing: 0) {
+                    // MARK: - 네비게이션 바
+                    HStack {
+                        Button(action: {
+                            // MeasureView로 이동 (측정 취소)
+                            if vm.isMeasuring {
+                                vm.cancelFlexionMeasure()
+                            }
+                            vm.navigationPath.removeLast()
+                        }) {
+                            HStack(spacing: 4) {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 16, weight: .medium))
+                                Text("취소")
+                                    .font(.system(size: 17, weight: .regular))
+                            }
+                            .foregroundStyle(Color("Primary500"))
+                        }
+                        
+                        Spacer()
+                        
+                        Text("ROM 측정")
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundStyle(Color("Gray900"))
+
+                        Spacer()
+                        
+                        Button(action: {
+                        }) {
+                            Text("취소")
+                        }
+                        .disabled(true)
+                        .opacity(0)
+                        
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
+                    .frame(height: 44)
+                    .zIndex(2)  // 물 위에 표시
+                    
+                    Spacer()
+                    
+                    // MARK: - 일러스트 영역
+                    ZStack {
+                        Image("flexion_leg")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 300, height: 300)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .zIndex(2)  // 물 위에 표시
+                    
+                    Spacer()
+                    
+                    // MARK: - 하단 텍스트 (항상 검은색, 완료 시 "측정 완료")
+                    Text(vm.measurementState == .completed ? "측정 완료" : "측정 중...")
+                        .font(.system(size: 20, weight: .medium))
+                        .foregroundStyle(Color("Gray900"))
+                        .padding(.bottom, 100)
+                        .zIndex(2)  // 물 위에 표시
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
         }
+        .navigationBarHidden(true)
         .onAppear {
             vm.startSensor()
             
             // 자동 시작 플래그 확인
             if vm.shouldAutoStartMeasure {
-                vm.shouldAutoStartMeasure = false  // 플래그 리셋
+                vm.shouldAutoStartMeasure = false
                 
-                // 0.5초 후 자동 시작 (화면 전환 애니메이션 대기)
+                // 0.5초 후 자동 시작
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                    if vm.measurementState == .idle {  // idle 상태일 때만
-                        vm.startFlexionMeasure()
-//                    }
+                    vm.startFlexionMeasure()
                 }
-            }
-            else{
-                print("shouldAutoStartMeasure false임")
             }
         }
         .onDisappear {
@@ -143,19 +120,44 @@ struct FlexionMeasureView: View {
         }
     }
     
-    private var statusText: String {
-        switch vm.measurementState {
-        case .idle:
-            return "무릎을 굽혀주세요"
-        case .started:
-            return "움직임을 시작하세요"
-        case .moving:
-            return "최대한 굽혀주세요"
-        case .stabilizing:
-            return "자세를 유지하세요"
-        case .completed:
-            return "측정 완료!"
+    // MARK: - 진행률에 따른 그라데이션 색상
+    private var progressGradient: LinearGradient {
+        let progress = vm.overallProgress * 100  // 0~100으로 변환
+        let colors: [Color]
+        
+        switch progress {
+        case 0..<20:
+            colors = [
+                Color("Green200"),
+                Color("Green200").opacity(0.9)
+            ]
+        case 20..<40:
+            colors = [
+                Color("Green300"),
+                Color("Green300").opacity(0.9)
+            ]
+        case 40..<60:
+            colors = [
+                Color("Green400"),
+                Color("Green400").opacity(0.9)
+            ]
+        case 60..<80:
+            colors = [
+                Color("Green500"),
+                Color("Green500").opacity(0.9)
+            ]
+        default:  // 80~100
+            colors = [
+                Color("Green700"),
+                Color("Green700").opacity(0.9)
+            ]
         }
+        
+        return LinearGradient(
+            colors: colors,
+            startPoint: .bottom,
+            endPoint: .top
+        )
     }
 }
 
