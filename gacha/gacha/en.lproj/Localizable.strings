@@ -57,11 +57,11 @@
 "pain.description" = "t your pain level";
 
 /* Pain Categories */
-"pain.level.0" = "No pain";
-"pain.level.1to3" = "Mild pain";
-"pain.level.4to6" = "Moderate pain";
-"pain.level.7to9" = "Severe pain";
-"pain.level.10" = "Excruciating pain";
+"pain.category.0" = "No pain";
+"pain.category.1to3" = "Mild pain";
+"pain.category.4to6" = "Moderate pain";
+"pain.category.7to9" = "Severe pain";
+"pain.category.10" = "Excruciating pain";
 
 /* Pain Levels 0-10 (11 categories) */
 "pain.level.0" = "No pain";
@@ -123,8 +123,6 @@
 "history.rom_subheadline_better" = "It has improved by (nnn)° over the past (ddd) days!";
 "history.rom_subheadline_same" = "It has been maintained over the past (ddd) days.";
 "history.rom_subheadline_worse" = "It has decreased by (nnn)° over the past (ddd) days.";
-"history.rom_subheadline_under2" = "Measurement: (n) days\n\nChanges can be seen starting from the 3rd day of measurement."
-
 "history.pain_headline" = "Pain Level";
 "history.pain_subheadline_better" = "Pain erased by nn levels since the start!";
 "history.pain_subheadline_same" = "Pain level has remained steady";

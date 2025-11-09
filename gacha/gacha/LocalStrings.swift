@@ -121,6 +121,15 @@ enum Strings {
                 NSLocalizedString("alert.remeasure.message", comment: "")
             }
         }
+        
+        enum CancelPain {
+            static var title: String {
+                NSLocalizedString("alert.cancel_pain.headline", comment: "")
+            }
+            static var message: String {
+                NSLocalizedString("alert.cancel_pain.message", comment: "")
+            }
+        }
     }
     
     // MARK: - MeasureDoneView
