@@ -32,15 +32,22 @@ struct PainLevel: View {
                     }
                     .alert(isPresented: $showingAlert) {
                         Alert(
-                            title: Text(Strings.Alert.Remeasure.title), //무릎 움직임 측정을 취소하겠어요?
-                            message: Text(Strings.Alert.Remeasure.message), //측정된 기록이 저장되지 않고 처음 화면으로 되돌아가요
+                            title: Text(Strings.Alert.CancelPain.title),
+                            message: Text(Strings.Alert.CancelPain.message),
                             primaryButton: .destructive(
                                 Text(Strings.Common.yes),
                                 action: {
-                                    // MainView로 이동 (측정 취소)
-                                    vm.cancelFlexionMeasure()
-                                    vm.navigationPath.removeLast()
-
+                                    // MainViewBefore로 이동 (측정 취소)
+                                    vm.prepareForNewMeasurement()  // 측정 상태 초기화
+                                    vm.clearCurrentRecord()        // 현재 레코드 클리어
+                                    Task {
+                                        // 오늘 기록이 있다면 삭제 (이미 저장된 기록이 있을 수 있음)
+                                        await vm.deleteTodayRecords()
+                                        // 상태 업데이트 (hasTodayRecord = false)
+                                        await vm.checkTodayRecord()
+                                    }
+                                    // 네비게이션 스택 전체 비우기
+                                    vm.navigationPath = NavigationPath()
                                 }
                             ),
                             secondaryButton: .cancel(Text(Strings.Common.no))
