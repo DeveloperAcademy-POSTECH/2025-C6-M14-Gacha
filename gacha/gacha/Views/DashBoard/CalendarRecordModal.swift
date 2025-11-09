@@ -10,26 +10,27 @@ import SwiftUI
 struct CalendarRecordModal: View {
     let record: MeasuredRecord
     @Binding var isPresented: Bool
-    
+
     // MARK: - Body
-    
+
     var body: some View {
         VStack(spacing: 0) {
-            
+
             Text(formatDate(record.measuredDate))
-                .font(.displayBodyMedium)
+                .font(.displayBodySemibold)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
-                .padding(33)
-            
+                .frame(height: 44)
+
             // Modal 내용
             resultCard
-                .padding(.horizontal, 20)
+                .padding(.top, 22)
+                .padding(.horizontal, 32)
         }
         .presentationDetents([.medium])
         .presentationDragIndicator(.visible)
     }
-    
+
     /// MARK: - SubView
     /// 측정 결과 카드
     private var resultCard: some View {
@@ -38,16 +39,16 @@ struct CalendarRecordModal: View {
             statisticsSection
                 .padding(.horizontal, 20)
                 .padding(.bottom, 12)
-            
+
             // 2. 일러스트 영역 (240px)
             illustrationSection
                 .padding(.horizontal, 20)
-                .padding(.bottom, 24)
         }
-        .frame(height: 460)
+        .padding(.vertical, 20)
         .background(Color("White"))
+        .cornerRadius(24)
     }
-    
+
     /// 통계 섹션
     private var statisticsSection: some View {
         HStack(spacing: 16) {
@@ -59,9 +60,9 @@ struct CalendarRecordModal: View {
                 Text(formatAngle(record.flexionAngle))
                     .font(.displayTitle2Bold)
             }
-            
+
             Spacer()
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 Text("통증 정도")
                     .font(.displayCalloutBold)
@@ -69,12 +70,12 @@ struct CalendarRecordModal: View {
                 Text("\(record.painLevel ?? 0)")
                     .font(.displayTitle2Bold)
             }
-            
+
             Spacer()
         }
         .frame(height: 54)
     }
-    
+
     /// 일러스트 영역
     private var illustrationSection: some View {
         ZStack {
@@ -84,33 +85,32 @@ struct CalendarRecordModal: View {
                 .frame(width: 320, height: 240)
             Text(formatAngle(record.flexionAngle))
                 .font(.displayCalloutBold)
-                .offset(x: 70, y:-20)
+                .offset(x: 70, y: -20)
         }
         .frame(height: 240)
     }
-    
-    
+
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko_KR")
         formatter.dateFormat = "yyyy년 M월 d일"
         return formatter.string(from: date)
     }
-    
+
     // MARK: - Helper Methods
-    
+
     private func formatAngle(_ angle: Double?) -> String {
         guard let angle = angle else {
             return "-"
         }
         return "\(Int(angle))°"
     }
-    
+
     private var flexionImageName: String {
         guard let angle = record.flexionAngle else {
             return "result45"  // 기본값
         }
-        
+
         switch angle {
         case ...60:
             return "result45"
@@ -133,13 +133,16 @@ struct CalendarRecordModal: View {
 #Preview {
     struct PreviewWrapper: View {
         @State private var isPresented = true
-        let record = MeasuredRecord(flexionAngle: 110, measuredSeconds: 10, painLevel: 3)
-        
+        let record = MeasuredRecord(
+            flexionAngle: 110,
+            measuredSeconds: 10,
+            painLevel: 3
+        )
+
         var body: some View {
             CalendarRecordModal(record: record, isPresented: $isPresented)
         }
     }
-    
+
     return PreviewWrapper()
 }
-
