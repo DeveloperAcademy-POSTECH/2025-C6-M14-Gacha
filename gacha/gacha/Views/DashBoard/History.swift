@@ -84,6 +84,8 @@ struct History: View {
                  
             }
         }
+        .background(Color("BackgoundSecondary"))
+
         .task {
             await vm.loadRecentRecords()
         }
