@@ -98,7 +98,7 @@
 "progress.same_mildpain.headline" = "무리하지 말고 가볍게 관리해요";
 "progress.same_mildpain.description" = "컨디션에 따라 달라질 수 있어요.\n조금은 쉬어가도 돼요.\n회복은 천천히 와요.";
 "progress.same_moderatepain.headline" = "전문가에게 상담하세요";
-"progress.same_moderatepain.description" = "움직임은 비슷하지만 통증이 있네요.\n변화가 느려지고 있어요.\n상태를 점검할 필요가 있어요.";
+"progress.same_moderatepain.description" = "움직임은 비슷하지만 통증이 있네요.\n변화가 느려지고 있어요.\n회복을 조절할 때에요.";
 "progress.same_severepain.headline" = "전문가의 도움을 받으세요";
 "progress.same_severepain.description" = "움직임 변화는 없고 통증이 이어지네요.\n전문가에게 정확히 확인해 보세요.\n원인을 초기에 잡는 게 좋아요.";
 "progress.same_excruciatingpain.headline" = "빨리 진료를 받으세요";
@@ -106,7 +106,7 @@
 "progress.worse_nopain.headlne" = "움직임이 살짝 줄었어요";
 "progress.worse_nopain.description" = "통증은 없지만 관절이 조금 뻣뻣하네요.\n가볍게 움직이며 풀어주세요.\n무리하지 않는 게 좋아요.";
 "progress.worse_mildpain.headline" = "몸이 피로한 날이에요";
-"progress.worse_mildpain.description" = "움직임 범위가 줄었네요.\n오늘은 충분히 쉬어요.\n내일 다시 확인해 보세요.";
+"progress.worse_mildpain.description" = "가동범위가 줄었네요.\n오늘은 충분히 쉬어요.\n내일 다시 확인해 보세요.";
 "progress.worse_moderatepain.headline" = "전문가의 조언을 받으세요";
 "progress.worse_moderatepain.description" = "움직임이 줄고 통증이 있네요.\n회복 흐름이 느려졌어요.\n전문가의 조언이 필요한 때에요";
 "progress.worse_severepain.headline" = "전문가의 진료가 필요해요";
@@ -118,10 +118,9 @@
 "history.title_large" = "요약";
 
 "history.rom_headline" = "무릎 굽힘 범위";
-"history.rom_subheadline_better" = "지난 (ddd)일간 무릎 굽힘 범위가 (nnn)도 늘어났어요!";
-"history.rom_subheadline_same" = "지난 (ddd)일간 무릎 굽힘 범위가 유지되고 있어요";
-"history.rom_subheadline_worse" = "지난 (ddd)일간 무릎 굽힘 범위가 (nnn)도 줄었어요";
-"history.rom_subheadline_under2" = "측정일수: (n)일\n\n3일째 측정부터 변화를 확인할 수 있어요"
+"history.rom_subheadline_better" = "지난 ddd일간 무릎 굽힘 범위가 nnn도 늘어났어요!";
+"history.rom_subheadline_same" = "지난 ddd일간 무릎 굽힘 범위가 유지되고 있어요";
+"history.rom_subheadline_worse" = "지난 ddd일간 무릎 굽힘 범위가 nnn도 줄었어요";
 
 "history.pain_headline" = "통증 정도";
 "history.pain_subheadline_better" = "처음에 비해 통증이 nn단계 줄었어요!";
@@ -131,15 +130,15 @@
 "history.pain_subheadline_1record" = "처음 기록을\n남기셨군요.\n\n회복을 향한 첫걸음을\nAnggle이 응원해요!";
 
 "history.rom_title" = "무릎 굽힘 범위";
-"history.rom_semibold15_better" = "이 기간 최대였던 (nnn)°보다 (nnn)° 더 움직일 수 있어요";
-"history.rom_semibold15_same" = "이 기간 최대였던 (nnn)°와 같아요";
-"history.rom_semibold15_worse" = "이 기간 최대였던 (nnn)°보다 (nnn)° 덜 움직여요";
+"history.rom_semibold15_better" = "이 기간 최대였던 nnn°보다 nnn° 더 움직일 수 있어요";
+"history.rom_semibold15_same" = "이 기간 최대였던 nnn°와 같아요";
+"history.rom_semibold15_worse" = "이 기간 최대였던 nnn°보다 nnn° 덜 움직여요";
 "history.semibold15_norecord" = "첫 측정을 완료해 주세요";
 
 "history.pain_title" = "통증 정도";
-"history.pain_semibold15_better" = "이 기간 가장 낮았던  (nn)보다 (n)단계 덜 아파졌어요";
-"history.pain_semibold15_same" = "이기간 가장 낮았던 (nn)단계의 통증과 같아요";
-"history.pain_semibold15_worse" = "이 기간 가장 낮았던 (nn)보다 (n)단계 더 아파졌어요";
+"history.pain_semibold15_better" = "이 기간 가장 낮았던  nn보다 n단계 덜 아파졌어요";
+"history.pain_semibold15_same" = "이기간 가장 낮았던 nn단계의 통증과 같아요";
+"history.pain_semibold15_worse" = "이 기간 가장 낮았던 nn보다 n단계 더 아파졌어요";
 "history.pain_semibold15_norecord" = "첫 기록을 남겨 주세요";
 
 

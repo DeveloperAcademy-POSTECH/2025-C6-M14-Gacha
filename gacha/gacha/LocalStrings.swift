@@ -60,15 +60,24 @@ enum Strings {
         static var description: String {
             NSLocalizedString("daily_start.description", comment: "")
         }
-        static var instruction: String {
-            NSLocalizedString("daily_start.instruction", comment: "")
+        static var instructionPage1: String {
+            NSLocalizedString("daily_start.instruction_page1", comment: "")
         }
-        static var button: String {
-            NSLocalizedString("daily_start.button", comment: "")
+        static var instructionPage2: String {
+            NSLocalizedString("daily_start.instruction_page2", comment: "")
+        }
+        static var buttonNext: String {
+            NSLocalizedString("daily_start.button_next", comment: "")
+        }
+        static var buttonMeasure: String {
+            NSLocalizedString("daily_start.button_measure", comment: "")
+        }
+        static var buttonPainOnly: String {
+            NSLocalizedString("daily_start.button_pain_only", comment: "")
         }
     }
     
-    // MARK: - FlexionMeasureView
+    // MARK: - FlexionMeasure
     enum Flexion {
         static var instruction: String {
             NSLocalizedString("flexion.instruction", comment: "")
@@ -124,7 +133,7 @@ enum Strings {
         }
     }
     
-    // MARK: - PainLevelView
+    // MARK: - PainLevel
     enum Pain {
         static var title: String {
             NSLocalizedString("pain.title", comment: "")
@@ -264,7 +273,7 @@ enum Strings {
         }
     }
     
-    // MARK: - ProgressHistoryView
+    // MARK: - History
     enum History {
         static var title: String {
             NSLocalizedString("history.title", comment: "")
@@ -286,7 +295,7 @@ enum Strings {
         }
     }
     
-    // MARK: - DailyMeasureSummaryView
+    // MARK: - MainViewAfter
     enum Summary {
         static var title: String {
             NSLocalizedString("summary.title", comment: "")

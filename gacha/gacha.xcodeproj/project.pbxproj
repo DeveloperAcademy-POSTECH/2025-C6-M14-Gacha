@@ -113,7 +113,7 @@
 				};
 			};
 			buildConfigurationList = 3C8FDB4A2EA5DC3000369473 /* Build configuration list for PBXProject "gacha" */;
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
