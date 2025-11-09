@@ -156,25 +156,22 @@ struct PainLevel: View {
         }
     }
     
-//    private func painLevelTitle(for index: Int) -> String {
-//        switch index {
-//        case 0...2:
-//            return Color("1")
-//        case 3...5:
-//            return Color("4")
-//        case 6...8:
-//            return Color("7")
-//        case 9:
-//            // value가 10일 때만 Index/10 사용
-//            if value >= 10 {
-//                return Color("10")
-//            } else {
-//                return Color("7")
-//            }
-//        default:
-//            return Color("Gray300")
-//        }
-//    }
+    private func painLevelTitle(for index: Int) -> String {
+        switch index {
+        case 0:
+            return Strings.PainCategory.none
+        case 1...3:
+            return Strings.PainCategory.mild
+        case 4...6:
+            return Strings.PainCategory.moderate
+        case 7...9:
+            return Strings.PainCategory.severe
+        case 10:
+            return Strings.PainCategory.extreme
+        default:
+            return Strings.PainCategory.mild
+        }
+    }
 
 }
 
