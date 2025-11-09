@@ -70,7 +70,6 @@ struct MainViewBefore: View {
                         style: .primary,
                         width: 361,
                         height: 54,
-                        fontSize: 20,
                         cornerRadius: 100
                     ) {
                         vm.shouldAutoStartMeasure = true
@@ -83,8 +82,8 @@ struct MainViewBefore: View {
                     vm.navigationPath.append(MeasureFlowStep.painLevel)
                 }) {
                     Text(Strings.DailyStart.buttonPainOnly)
-                        .font(.system(size: 16, weight: .regular))
-                        .foregroundStyle(Color("Gray500"))
+                        .font(.displayBodyRegular)
+                        .foregroundStyle(.gray500)
                         .underline()
                 }
             }
@@ -99,15 +98,16 @@ struct MainViewBefore: View {
     
     private var instructionTextPage1: some View {
         Group {
-            Text("벽에 등을 대고, ")
+            Text("벽에 ")
+                .font(.displayTitle3Bold)
+                .foregroundStyle(.blue700)  // 강조 색상
+            + Text("측정할 다리의 ")
                 .font(.displayTitle3Regular)
-                .foregroundStyle(Color("Primary900"))  // 강조 색상
-            + Text("평평한 곳")
+            + Text("발끝을 대고\n")
+                .font(.displayTitle3Bold)
+                .foregroundStyle(.blue700)
+            + Text("다리를 최대한 굽혀 앉아주세요")
                 .font(.displayTitle3Regular)
-                .foregroundStyle(Color("Primary900"))  // 강조 색상
-            + Text("에 앉아주세요")
-                .font(.displayTitle3Regular)
-                .foregroundStyle(Color("Gray900"))
         }
         .multilineTextAlignment(.center)
         .frame(height: 56)
@@ -115,18 +115,13 @@ struct MainViewBefore: View {
     
     private var instructionTextPage2: some View {
         Group {
-            Text("최대한 다리를 굽히고,")
+            Text("기기의 옆면을 정강이뼈 위")
+                .font(.displayTitle3Bold)
+                .foregroundStyle(.blue700)  // 강조 색상
+            + Text("에 대고 ")
                 .font(.displayTitle3Regular)
-                .foregroundStyle(Color("Primary500"))  // 강조 색상
-            + Text("\n2초동안 ")
+            + Text("고정해 주세요.")
                 .font(.displayTitle3Regular)
-                .foregroundStyle(Color("Gray900"))
-            + Text("자세를 유지")
-                .font(.displayTitle3Regular)
-                .foregroundStyle(Color("Primary500"))  // 강조 색상
-            + Text("해주세요!")
-                .font(.displayTitle3Regular)
-                .foregroundStyle(Color("Gray900"))
         }
         .multilineTextAlignment(.center)
         .frame(height: 56)
