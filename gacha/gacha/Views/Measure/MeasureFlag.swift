@@ -16,12 +16,14 @@ struct MeasureFlag: View {
     @State private var currentLoadingIndex: Int = 1
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 60) {
             LoadingImage
-            Text(Strings.MeasureDone.title)
-                .font(.displayTitle2Bold)
-            Text(Strings.MeasureDone.subtitle)
-                .font(.displayTitle3Regular)
+            VStack(spacing: 12) {
+                Text(Strings.MeasureDone.title)
+                    .font(.displayTitle2Bold)
+                Text(Strings.MeasureDone.subtitle)
+                    .font(.displayTitle3Regular)
+            }
         }
         .frame(
             maxWidth: .infinity,

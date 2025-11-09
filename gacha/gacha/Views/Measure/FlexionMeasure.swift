@@ -48,26 +48,17 @@ struct FlexionMeasure: View {
                                 Image(systemName: "chevron.left")
                                     .font(.displayCalloutRegular)
                                 Text("취소")
-                                    .font(.system(size: 17, weight: .regular))
+                                    .font(.displayBodyRegular)
                             }
-                            .foregroundStyle(Color("Primary500"))
+                            .foregroundStyle(.blue800)
                         }
                         
                         Spacer()
                         
                         Text("ROM 측정")
                             .font(.displayBodySemibold)
-                            .foregroundStyle(Color("Gray900"))
 
                         Spacer()
-                        
-                        Button(action: {
-                        }) {
-                            Text("취소")
-                        }
-                        .disabled(true)
-                        .opacity(0)
-                        
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
