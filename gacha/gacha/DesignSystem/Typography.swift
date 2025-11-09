@@ -37,10 +37,10 @@ extension Font {
     static let displayTitle1Regular = Font.system(size: 28, weight: .regular)
 
     // Title2 (22pt)
-    static let displayTitle2Bold = Font.system(size: 22, weight: .bold)
-    static let displayTitle2Semibold = Font.system(size: 22, weight: .semibold)
-    static let displayTitle2Medium = Font.system(size: 22, weight: .medium)
-    static let displayTitle2Regular = Font.system(size: 22, weight: .regular)
+    static let displayTitle2Bold = Font.system(size: 24, weight: .bold)
+    static let displayTitle2Semibold = Font.system(size: 24, weight: .semibold)
+    static let displayTitle2Medium = Font.system(size: 24, weight: .medium)
+    static let displayTitle2Regular = Font.system(size: 24, weight: .regular)
 
     // Title3 (20pt)
     static let displayTitle3Bold = Font.system(size: 20, weight: .bold)
@@ -96,10 +96,10 @@ extension Font {
     static let roundedTitle1Regular = Font.system(size: 28, weight: .regular, design: .rounded)
 
     // Title2 (22pt)
-    static let roundedTitle2Bold = Font.system(size: 22, weight: .bold, design: .rounded)
-    static let roundedTitle2Semibold = Font.system(size: 22, weight: .semibold, design: .rounded)
-    static let roundedTitle2Medium = Font.system(size: 22, weight: .medium, design: .rounded)
-    static let roundedTitle2Regular = Font.system(size: 22, weight: .regular, design: .rounded)
+    static let roundedTitle2Bold = Font.system(size: 24, weight: .bold, design: .rounded)
+    static let roundedTitle2Semibold = Font.system(size: 24, weight: .semibold, design: .rounded)
+    static let roundedTitle2Medium = Font.system(size: 24, weight: .medium, design: .rounded)
+    static let roundedTitle2Regular = Font.system(size: 24, weight: .regular, design: .rounded)
 
     // Title3 (20pt)
     static let roundedTitle3Bold = Font.system(size: 20, weight: .bold, design: .rounded)

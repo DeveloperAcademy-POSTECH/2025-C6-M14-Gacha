@@ -118,7 +118,7 @@ struct MonthCalendarView: View {
     
     private var monthHeader: some View {
         Text(monthYearString)
-            .font(.system(size: 34, weight: .bold))
+            .font(.displayLargeBold)
             .foregroundStyle(Color("Gray900"))
             .padding(.bottom, 20)
             .padding(.top, isFirstMonth ? 0 : 24)
@@ -150,7 +150,7 @@ struct MonthCalendarView: View {
             HStack(spacing: 0) {
                 ForEach(["일", "월", "화", "수", "목", "금", "토"], id: \.self) { weekday in
                     Text(weekday)
-                        .font(.system(size: 13, weight: .regular))
+                        .font(.roundedFootnoteRegular)
                         .foregroundStyle(Color("Gray500"))
                         .frame(maxWidth: .infinity)
                 }
@@ -197,7 +197,7 @@ struct MonthCalendarView: View {
                 // 측정 기록 표시 점
                 if calendarVM.hasRecord(for: date) {
                     Circle()
-                        .fill(Color("Primary500"))
+                        .fill(Color("Blue700"))
                         .frame(width: 4, height: 4)
                 } else {
                     Circle()

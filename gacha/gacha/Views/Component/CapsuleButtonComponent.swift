@@ -43,9 +43,9 @@ struct CapsuleButtonComponent: View {
         
         var backgroundColor: Color {
             switch self {
-            case .primary: return Color("Primary900")
-            case .secondary: return Color("Gray100")
-            case .light: return Color("Primary300")
+            case .primary: return Color(.blue800)
+            case .secondary: return Color(.blue300)
+            case .light: return Color(.gray400)
             }
         }
         
@@ -77,7 +77,7 @@ struct CapsuleButtonComponent: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: fontSize ?? 17, weight: .semibold))
+                .font(.displayTitle3Regular)
                 .foregroundStyle(style.foregroundColor)
                 .frame(width: width ?? 313, height: height ?? 50)
                 .background(style.backgroundColor)

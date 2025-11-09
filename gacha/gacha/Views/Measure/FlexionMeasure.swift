@@ -46,18 +46,17 @@ struct FlexionMeasure: View {
                         }) {
                             HStack(spacing: 4) {
                                 Image(systemName: "chevron.left")
-                                    .font(.system(size: 16, weight: .medium))
+                                    .font(.displayCalloutRegular)
                                 Text("취소")
-                                    .font(.system(size: 17, weight: .regular))
+                                    .font(.displayBodyRegular)
                             }
-                            .foregroundStyle(Color("Primary500"))
+                            .foregroundStyle(.blue800)
                         }
                         
                         Spacer()
                         
                         Text("ROM 측정")
-                            .font(.system(size: 17, weight: .semibold))
-                            .foregroundStyle(Color("Gray900"))
+                            .font(.displayBodySemibold)
 
                         Spacer()
                         
@@ -67,7 +66,6 @@ struct FlexionMeasure: View {
                         }
                         .disabled(true)
                         .opacity(0)
-                        
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
@@ -90,7 +88,7 @@ struct FlexionMeasure: View {
                     
                     // MARK: - 하단 텍스트 (항상 검은색, 완료 시 "측정 완료")
                     Text(vm.measurementState == .completed ? "측정 완료" : "측정 중...")
-                        .font(.system(size: 20, weight: .medium))
+                        .font(.displayTitle3Regular)
                         .foregroundStyle(Color("Gray900"))
                         .padding(.bottom, 100)
                         .zIndex(2)  // 물 위에 표시
