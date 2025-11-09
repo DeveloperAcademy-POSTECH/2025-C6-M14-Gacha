@@ -45,7 +45,7 @@ struct CapsuleButtonComponent: View {
             switch self {
             case .primary: return Color(.blue800)
             case .secondary: return Color(.blue300)
-            case .light: return Color(.blue300)
+            case .light: return Color(.gray400)
             }
         }
         

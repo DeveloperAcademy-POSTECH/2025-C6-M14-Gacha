@@ -41,7 +41,7 @@ struct MainViewAfter: View {
                     VStack(spacing: 16) {
                         CapsuleButtonComponent(
                             title: Strings.Summary.button,
-                            style: .primary,
+                            style: .light,
                             width: 361,
                             height: 54,
                             fontSize: 20,
@@ -89,23 +89,20 @@ struct MainViewAfter: View {
         VStack(spacing: 0) {
             // 1. 통계 섹션 (54px)
             statisticsSection
-                .padding(.top, 24)
                 .padding(.horizontal, 20)
+                .padding(.bottom, 12)
             
             // 2. 일러스트 영역 (240px)
             illustrationSection
-                .padding(.top, 22)
                 .padding(.horizontal, 20)
+                .padding(.bottom, 24)
             
             // 3. 피드백 박스 (auto)
             feedbackBox
-                .padding(.horizontal, 10)  // 주의: 10px!
                 .padding(.top, 6)
-                .padding(.bottom, 24)  // 하단 여백 추가
         }
-        .frame(width: 361)  // 너비만 고정, 높이는 내용에 맞게 자동 조정
+        .frame(height: 460)
         .background(Color("White"))
-        .cornerRadius(15)
     }
     
     /// 통계 섹션
@@ -114,22 +111,20 @@ struct MainViewAfter: View {
             // TODO: 통계 데이터 표시
             VStack(alignment: .leading, spacing: 4) {
                 Text("굴곡 각도")
-                    .font(.caption)
-                    .foregroundColor(Color("Gray700"))
+                    .font(.displayCalloutBold)
+                    .foregroundColor(.blue700)
                 Text(vm.formatAngle(vm.currentRecord?.flexionAngle))
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(.displayTitle2Bold)
             }
             
             Spacer()
             
             VStack(alignment: .leading, spacing: 4) {
-                Text("통증 레벨")
-                    .font(.caption)
-                    .foregroundColor(Color("Gray700"))
+                Text("통증 정도")
+                    .font(.displayCalloutBold)
+                    .foregroundColor(.blue700)
                 Text("\(vm.currentRecord?.painLevel ?? 0)")
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(.displayTitle2Bold)
             }
             
             Spacer()
@@ -154,17 +149,17 @@ struct MainViewAfter: View {
     /// 피드백 박스
     private var feedbackBox: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(vm.cardTitle)
+            Text("vm.cardTitle")
                 .font(.displayTitle2Bold)
-                .foregroundColor(.primary100)
+                .foregroundColor(.blue700)
             Text(vm.feedbackMessage)
-                .font(.displayBodyMedium)
+                .font(.displayBodyRegular)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
-        .background(Color("Gray100"))
+        .background(.blue100)
         .cornerRadius(12)
     }
 
