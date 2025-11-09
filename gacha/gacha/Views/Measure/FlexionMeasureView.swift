@@ -38,7 +38,7 @@ struct FlexionMeasureView: View {
                     // MARK: - 네비게이션 바
                     HStack {
                         Button(action: {
-                            // MeasureView로 이동 (측정 취소)
+                            // MainView로 이동 (측정 취소)
                             if vm.isMeasuring {
                                 vm.cancelFlexionMeasure()
                             }

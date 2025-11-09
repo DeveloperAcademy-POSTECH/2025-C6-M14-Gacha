@@ -276,7 +276,7 @@ final class MeasureViewModel: ObservableObject {
         currentRecord = record
         print("✅ Flexion: \(record.flexionAngle)°")
 
-        navigationPath.append(MeasureFlowStep.flexionCheck)
+        navigationPath.append(MeasureFlowStep.painLevel)
     }
 
     // MARK: - PainLevel 측정 완료 시

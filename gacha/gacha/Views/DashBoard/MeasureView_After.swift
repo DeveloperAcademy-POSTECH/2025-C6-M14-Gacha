@@ -37,7 +37,7 @@ struct MeasureView_After: View {
                     
                     Spacer()
                     
-                    // MARK: - 하단 버튼 영역 (MeasureView와 동일한 구조)
+                    // MARK: - 하단 버튼 영역 (MainView와 동일한 구조)
                     VStack(spacing: 16) {
                         CapsuleButtonComponent(
                             title: Strings.Summary.button,
@@ -59,7 +59,7 @@ struct MeasureView_After: View {
                                         vm.prepareForNewMeasurement()  // 새 측정 준비
                                         vm.shouldAutoStartMeasure = true  // 자동 시작 플래그
                                         vm.navigationPath.append(
-                                            MeasureFlowStep.flexionMeasure
+                                            MeasureFlowStep.flexionCheck
                                         )
                                     }
                                 ),
@@ -67,8 +67,8 @@ struct MeasureView_After: View {
                             )
                         }
                     }
-                    .frame(height: 92)  // MeasureView와 동일한 버튼 영역 높이
-                    .padding(.bottom, 34)  // MeasureView와 동일한 하단 패딩
+                    .frame(height: 92)  // MainView와 동일한 버튼 영역 높이
+                    .padding(.bottom, 34)  // MainView와 동일한 하단 패딩
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }

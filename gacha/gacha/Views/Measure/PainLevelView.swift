@@ -37,7 +37,7 @@ struct PainLevelView: View {
                             primaryButton: .destructive(
                                 Text(Strings.Common.yes),
                                 action: {
-                                    // MeasureView로 이동 (측정 취소)
+                                    // MainView로 이동 (측정 취소)
                                     vm.cancelFlexionMeasure()
                                     vm.navigationPath.removeLast()
 

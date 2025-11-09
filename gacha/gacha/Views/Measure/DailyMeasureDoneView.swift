@@ -32,7 +32,7 @@ struct DailyMeasureDoneView: View {
 
             // Task가 취소되지 않았을 때만 실행
             if !Task.isCancelled {
-                vm.navigationPath.append(MeasureFlowStep.painLevel)
+                vm.navigationPath.append(MeasureFlowStep.flexionCheck)
             }
         }
     }

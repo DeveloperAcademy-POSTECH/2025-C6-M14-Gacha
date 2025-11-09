@@ -1,5 +1,5 @@
 //
-//  MeasureView.swift
+//  MainView.swift
 //  gacha
 //
 //  Created by 차원준 on 10/28/25.
@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct MeasureView: View {
+struct MainView: View {
     @EnvironmentObject var vm: MeasureViewModel
     
     @State private var currentPage = 0  // 0: 첫 화면, 1: 두 번째 화면
@@ -28,17 +28,16 @@ struct MeasureView: View {
             
             // MARK: - 중앙 콘텐츠 영역
             VStack(spacing: 40) {
-                // 일러스트 placeholder (300x240)
-                Rectangle()
-                    .fill(Color("Gray100"))
-                    .frame(width: 300, height: 240)
-                    .cornerRadius(12)
-                
                 // 안내 문구 영역
                 if currentPage == 0 {
+                    Image("Before1")
+                        .frame(width: 300, height: 300)
                     // 첫 번째 화면 안내 문구
                     instructionTextPage1
                 } else {
+                    
+                    Image("Before2")
+                        .frame(width: 300, height: 300)
                     // 두 번째 화면 안내 문구
                     instructionTextPage2
                 }
@@ -149,6 +148,7 @@ struct MeasureView: View {
     // 3. ViewModel 생성
     let vm = MeasureViewModel(repository: repository)
 
-    MeasureView()
+    MainView()
         .environmentObject(vm)
 }
+

@@ -20,6 +20,7 @@ struct MeasureFlowViewWrapper: View {
 struct MeasureFlowView: View {
     @StateObject private var measureVM: MeasureViewModel
     @StateObject private var historyVM: HistoryViewModel
+    @StateObject private var calendarVM: CalendarViewModel
     @State private var selectedTab: TabBarItem = .measure
 
     init(modelContext: ModelContext) {
@@ -28,6 +29,7 @@ struct MeasureFlowView: View {
             wrappedValue: MeasureViewModel(repository: repository)
         )
         _historyVM = StateObject(wrappedValue: HistoryViewModel(repository: repository))
+        _calendarVM = StateObject(wrappedValue: CalendarViewModel(repository: repository))
     }
 
     var body: some View {
@@ -55,13 +57,23 @@ struct MeasureFlowView: View {
                 }
             }
         }
+        .onChange(of: selectedTab) { oldValue, newValue in
+            // 캘린더 탭으로 전환할 때 데이터 새로고침
+            if newValue == .calendar {
+                Task {
+                    await calendarVM.loadMeasuredDates()
+                }
+            }
+        }
         .onAppear {
             Task {
                 await measureVM.checkTodayRecord()
+                await calendarVM.loadMeasuredDates()
             }
         }
         .environmentObject(measureVM)
         .environmentObject(historyVM)
+        .environmentObject(calendarVM)
     }
     
     // MARK: - Tab Content View
@@ -69,11 +81,7 @@ struct MeasureFlowView: View {
     private func tabContentView() -> some View {
         switch selectedTab {
         case .calendar:
-            // TODO: 캘린더 뷰 추가 예정
-            Text("캘린더 뷰 (추가 예정)")
-                .font(.displayLargeBold)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                 
+            calendarView()
                 
         case .measure:
             homeView()
@@ -86,6 +94,11 @@ struct MeasureFlowView: View {
 
     // MARK: - View Builder
     @ViewBuilder
+    private func calendarView() -> some View {
+        CalendarView()
+    }
+    
+    @ViewBuilder
     private func homeView() -> some View {
         if measureVM.isLoading {
             Text("Loading...")
@@ -95,8 +108,8 @@ struct MeasureFlowView: View {
             MeasureView_After()
                 .padding(.bottom, 80)  // TabBar 높이만큼 여백
         } else {
-            // 오늘 측정을 안한 상태: MeasureView 표시
-            MeasureView()
+            // 오늘 측정을 안한 상태: MainView 표시
+            MainView()
                 .padding(.bottom, 80)  // TabBar 높이만큼 여백
         }
     }
@@ -115,11 +128,11 @@ struct MeasureFlowView: View {
             homeView()
 
         case .flexionMeasure:
-            FlexionMeasureView()
+            DailyMeasureDoneView()
                 .navigationBarBackButtonHidden(true)
 
         case .flexionCheck:
-            DailyMeasureDoneView()
+            FlexionMeasureView()
                 .navigationBarHidden(true)
             
         case .painLevel:
