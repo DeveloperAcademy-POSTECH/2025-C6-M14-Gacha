@@ -76,10 +76,9 @@ struct FlexionMeasure: View {
                     
                     // MARK: - 일러스트 영역
                     ZStack {
-                        Image("Measure")
+                        Image("flexionPosture")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 300, height: 300)
                     }
                     .frame(maxWidth: .infinity)
                     .zIndex(2)  // 물 위에 표시

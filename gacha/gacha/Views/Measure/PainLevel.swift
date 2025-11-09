@@ -148,6 +148,26 @@ struct PainLevel: View {
             return "painlevel1"
         }
     }
+    
+//    private func painLevelTitle(for index: Int) -> String {
+//        switch index {
+//        case 0...2:
+//            return Color("1")
+//        case 3...5:
+//            return Color("4")
+//        case 6...8:
+//            return Color("7")
+//        case 9:
+//            // value가 10일 때만 Index/10 사용
+//            if value >= 10 {
+//                return Color("10")
+//            } else {
+//                return Color("7")
+//            }
+//        default:
+//            return Color("Gray300")
+//        }
+//    }
 
 }
 
@@ -241,7 +261,7 @@ struct ArcSlider: View {
                         filledSegmentColor(for: index, value: value),
                         style: StrokeStyle(lineWidth: 40, lineCap: .butt, lineJoin: .miter)
                     )
-                    .animation(.easeInOut(duration: 0.2), value: value)
+//                    .animation(.easeInOut(duration: 0.2), value: value)
                 }
                 
                 // MARK: - 구분선 (11개: 각 칸의 경계에 정확히 배치)
