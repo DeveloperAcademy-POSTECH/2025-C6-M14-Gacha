@@ -47,7 +47,7 @@ struct FlexionMeasure: View {
                             HStack(spacing: 4) {
                                 Image(systemName: "chevron.left")
                                     .font(.displayCalloutRegular)
-                                Text("취소")
+                                Text(Strings.Common.cancel)
                                     .font(.displayBodyRegular)
                             }
                             .foregroundStyle(.blue800)
@@ -55,14 +55,14 @@ struct FlexionMeasure: View {
                         
                         Spacer()
                         
-                        Text("ROM 측정")
+                        Text(Strings.Measure.title)
                             .font(.displayBodySemibold)
 
                         Spacer()
                         
                         Button(action: {
                         }) {
-                            Text("취소")
+                            Text(Strings.Common.cancel)
                         }
                         .disabled(true)
                         .opacity(0)
@@ -87,7 +87,7 @@ struct FlexionMeasure: View {
                     Spacer()
                     
                     // MARK: - 하단 텍스트 (항상 검은색, 완료 시 "측정 완료")
-                    Text(vm.measurementState == .completed ? "측정 완료" : "측정 중...")
+                    Text(vm.measurementState == .completed ? Strings.Flexion.measured : Strings.Flexion.measuring)
                         .font(.displayTitle3Regular)
                         .foregroundStyle(Color("Gray900"))
                         .padding(.bottom, 100)

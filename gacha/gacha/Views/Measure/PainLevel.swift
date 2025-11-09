@@ -25,17 +25,17 @@ struct PainLevel: View {
                         HStack(spacing: 4) {
                             Image(systemName: "chevron.left")
                                 .font(.displayCalloutMedium)
-                            Text("취소")
+                            Text(Strings.Common.cancel)
                                 .font(.displayBodySemibold)
                         }
                         .foregroundStyle(.blue800)
                     }
                     .alert(isPresented: $showingAlert) {
                         Alert(
-                            title: Text(Strings.Alert.Remeasure.title), //무릎 움직임 측정을 취소하겠어요?
-                            message: Text(Strings.Alert.Remeasure.message), //측정된 기록이 저장되지 않고 처음 화면으로 되돌아가요
+                            title: Text(Strings.Alert.cancelPainHeadline), //무릎 움직임 측정을 취소하겠어요?
+                            message: Text(Strings.Alert.cancelPainMessage), //측정된 기록이 저장되지 않고 처음 화면으로 되돌아가요
                             primaryButton: .destructive(
-                                Text(Strings.common.yes),
+                                Text(Strings.Common.yes),
                                 action: {
                                     // MainView로 이동 (측정 취소)
                                     vm.cancelFlexionMeasure()
@@ -43,20 +43,20 @@ struct PainLevel: View {
 
                                 }
                             ),
-                            secondaryButton: .cancel(Text(Strings.common.no))
+                            secondaryButton: .cancel(Text(Strings.Common.no))
                         )
                     }
                     
                     Spacer()
                     
-                    Text("ROM 측정")
+                    Text(Strings.Pain.title)
                         .font(.displayBodySemibold)
 
                     Spacer()
                     
                     Button(action: {
                     }) {
-                        Text("취소")
+                        Text(Strings.Common.cancel)
                     }
                     .disabled(true)
                     .opacity(0)
@@ -94,7 +94,7 @@ struct PainLevel: View {
                 VStack (spacing: 16) {
                     ArcSlider(value: $value)
                         .frame(height: 100)
-                    Text("통증 정도를 선택해 주세요")
+                    Text(Strings.Pain.description)
                 }
                 
                 Spacer()
