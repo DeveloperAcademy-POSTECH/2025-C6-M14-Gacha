@@ -57,11 +57,11 @@
 "pain.description" = "t your pain level";
 
 /* Pain Categories */
-"pain.category.0" = "No pain";
+"pain.category.0to0" = "No pain";
 "pain.category.1to3" = "Mild pain";
 "pain.category.4to6" = "Moderate pain";
 "pain.category.7to9" = "Severe pain";
-"pain.category.10" = "Excruciating pain";
+"pain.category.10to10" = "Excruciating pain";
 
 /* Pain Levels 0-10 (11 categories) */
 "pain.level.0" = "No pain";
