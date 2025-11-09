@@ -24,11 +24,11 @@ struct PainLevel: View {
                     }) {
                         HStack(spacing: 4) {
                             Image(systemName: "chevron.left")
-                                .font(.system(size: 16, weight: .medium))
+                                .font(.displayCalloutMedium)
                             Text("취소")
-                                .font(.system(size: 17, weight: .regular))
+                                .font(.displayBodySemibold)
                         }
-                        .foregroundStyle(Color("Primary500"))
+                        .foregroundStyle(.blue800)
                     }
                     .alert(isPresented: $showingAlert) {
                         Alert(
@@ -50,8 +50,7 @@ struct PainLevel: View {
                     Spacer()
                     
                     Text("ROM 측정")
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundStyle(Color("Gray900"))
+                        .font(.displayBodySemibold)
 
                     Spacer()
                     
@@ -69,22 +68,36 @@ struct PainLevel: View {
 
                 Spacer()
                 
-                
-                Text(Strings.Pain.level(Int(value)))
-                    .font(.displayTitle1Bold)
-                    .foregroundStyle(Color("Gray700"))
 
                 // MARK: - 이모지
-                Image(painImageName(for: Int(value)))
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 136, height: 136)
-
+                VStack (spacing: 16) {
+                    Image(painImageName(for: Int(value)))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 136, height: 136)
+                    
+                    VStack (spacing: 8) {
+                        Text(Strings.Pain.level(Int(value)))
+                            .font(.displayTitle1Bold)
+                            .foregroundStyle(Color("Gray700"))
+                        Text(Strings.Pain.level(Int(value)))
+                            .font(.displayBodyRegular)
+                            .foregroundStyle(Color("Gray700"))
+                            .frame(height: 44)
+                    }
+                }
+                .padding(.bottom, 40)
+                
                 Spacer()
 
                 // MARK: - 반원형 슬라이더
-                ArcSlider(value: $value)
-                    .frame(height: 250)
+                VStack (spacing: 16) {
+                    ArcSlider(value: $value)
+                        .frame(height: 100)
+                    Text("통증 정도를 선택해 주세요")
+                }
+                
+                Spacer()
 
                 CapsuleButtonComponent(
                     title: Strings.Common.confirm,
@@ -111,6 +124,7 @@ struct PainLevel: View {
                     }
                 }
                 .padding(.horizontal, 40)
+                .padding(.bottom, 40)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
              
@@ -121,17 +135,17 @@ struct PainLevel: View {
     private func painImageName(for value: Int) -> String {
         switch value {
         case 0:
-            return "level0"
+            return "painlevel0"
         case 1...3:
-            return "level1"
+            return "painlevel1"
         case 4...6:
-            return "level4"
+            return "painlevel4"
         case 7...9:
-            return "level7"
+            return "painlevel7"
         case 10:
-            return "level10"
+            return "painlevel10"
         default:
-            return "level1"
+            return "painlevel1"
         }
     }
 
@@ -177,7 +191,7 @@ struct ArcSlider: View {
                 return Color("7")
             }
         default:
-            return Color("Gray500")
+            return Color("Gray300")
         }
     }
 

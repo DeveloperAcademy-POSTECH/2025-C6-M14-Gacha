@@ -7,7 +7,6 @@
  */
 
 /* Common */
-"common.confirm" = "Confirm";
 "common.yes" = "Yes";
 "common.no" = "No";
 "common.continue" = "No";
@@ -41,14 +40,15 @@
 "alert.remeasure.title" = "Measure Again?";
 "alert.remeasure.message" = "Today's record will be replaced with the new one";
 
-/* MeasureDoneView */
-"measure_done.title" = "Measurement Complete!";
-"measure_done.subtitle" = "Now, let's record your pain level";
+/* FlexionMeasureView - 측정중 */
+"flexion.measuring_semibold24" = "Measuring";
+
+/* FlexionMeasureView - 측정완료 */
+"flexion.measured_semibold24" = "Completed";
 
 /* PainLevelView */
-"pain.title" = "Record Pain Level";
-"pain.description" = "Please select the level of pain you felt during the measurement";
-"pain.button" = "View Results";
+"pain.title" = "Record pain Level";
+"pain.description" = "t your pain level";
 
 /* Pain Levels 0-10 */
 "pain.level.0" = "No pain";

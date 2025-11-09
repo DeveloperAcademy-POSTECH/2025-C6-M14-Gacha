@@ -37,13 +37,13 @@ struct TabBarComponent: View {
                 }) {
                     VStack(spacing: 4) {
                         Image(systemName: tab.systemImageName)
-                            .font(.system(size: 24))
+                            .font(.displayTitle3Bold)
                         Text(tab.rawValue)
-                            .font(.system(size: 12, weight: .regular))
+                            .font(.displayCaption1Regular)
                     }
                     .foregroundStyle(
                         selectedTab == tab
-                            ? Color("Primary500")  // 활성 색상
+                            ? Color("Blue800")  // 활성 색상
                             : Color("Gray500")  // 비활성 색상
                     )
                     .frame(maxWidth: .infinity)

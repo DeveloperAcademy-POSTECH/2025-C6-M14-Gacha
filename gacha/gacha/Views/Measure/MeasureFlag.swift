@@ -13,28 +13,46 @@ struct MeasureFlag: View {
 
     @State private var scale: CGFloat = 0.5
     @State private var opacity: Double = 0
+    @State private var currentLoadingIndex: Int = 1
 
     var body: some View {
-        VStack(spacing: 16) {
-            Text(Strings.MeasureDone.title)
-                .font(.displayTitle1Bold)
-            Text(Strings.MeasureDone.subtitle)
-                .font(.displayBodyMedium)
+        VStack(spacing: 60) {
+            LoadingImage
+            VStack(spacing: 12) {
+                Text(Strings.MeasureDone.title)
+                    .font(.displayTitle2Bold)
+                Text(Strings.MeasureDone.subtitle)
+                    .font(.displayTitle3Regular)
+            }
         }
         .frame(
             maxWidth: .infinity,
             maxHeight: .infinity,
         )
-         
+
         .task {
-            // 1.5초 후 다음 단계로
-            try? await Task.sleep(nanoseconds: 1_500_000_000)
+            // 1.5초 동안 Loading 이미지 변경 (1 -> 5)
+            for index in 1...5 {
+                currentLoadingIndex = index
+                try? await Task.sleep(nanoseconds: 300_000_000) // 0.3초씩 (총 1.5초)
+
+                if Task.isCancelled {
+                    return
+                }
+            }
 
             // Task가 취소되지 않았을 때만 실행
             if !Task.isCancelled {
                 vm.navigationPath.append(MeasureFlowStep.flexionCheck)
             }
         }
+    }
+
+    private var LoadingImage: some View {
+        Image("Loading\(currentLoadingIndex)")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 100, height: 100)
     }
 }
 
