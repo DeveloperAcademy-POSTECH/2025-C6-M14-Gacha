@@ -49,7 +49,10 @@ struct History: View {
                             
                             VStack(alignment: .leading) {
 
-                                Text("무릎 굽힘 정도 설명")
+                                Text(Strings.History.romHeadline)
+                                Text(vm.dateRangeText)
+                                    .font(.displayCaption1Semibold)
+                                    .foregroundColor(Color("Gray500"))
                                 romChart
                                     
                             }
@@ -173,7 +176,7 @@ struct History: View {
            selectedIndex >= 0 && selectedIndex < vm.recentRecords.count {
             let selectedRecord = vm.recentRecords[selectedIndex]
             VStack(alignment: .center, spacing: 4) {
-                Text(Strings.Card.flexionAngle)
+                Text(Strings.History.romHeadline)
                     .font(.displayCaption1Semibold)
                     .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -270,7 +273,7 @@ struct History: View {
            selectedIndex >= 0 && selectedIndex < vm.recentRecords.count {
             let selectedRecord = vm.recentRecords[selectedIndex]
             VStack(alignment: .leading, spacing: 4) {
-                Text(Strings.Card.painLevel)
+                Text(Strings.History.painTitle)
                     .font(.displayCaption1Semibold)
                     .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)

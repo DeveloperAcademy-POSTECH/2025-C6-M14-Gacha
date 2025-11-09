@@ -6,120 +6,85 @@
 //
 
 /*
-//MARK: 사용방법
-
-// 기존
-Text("오늘의 측정")
-    .font(.system(size: 34, weight: .bold))
-Text("다시 측정할 경우 기존 기록은 정리됩니다.")
-    .font(.system(size: 15, weight: .medium))
-
-// 변경 후
-Text(Strings.Summary.title)
-    .font(.system(size: 34, weight: .bold))
-Text(Strings.Summary.description)
-    .font(.system(size: 15, weight: .medium))
-*/
+ //MARK: 사용방법
+ 
+ // 기존
+ Text("오늘의 측정")
+ .font(.system(size: 34, weight: .bold))
+ Text("다시 측정할 경우 기존 기록은 정리됩니다.")
+ .font(.system(size: 15, weight: .medium))
+ 
+ // 변경 후
+ Text(Strings.Summary.title)
+ .font(.system(size: 34, weight: .bold))
+ Text(Strings.Summary.description)
+ .font(.system(size: 15, weight: .medium))
+ */
 
 import Foundation
 
 enum Strings {
     // MARK: - Common
     enum Common {
-        static var confirm: String {
-            NSLocalizedString("common.confirm", comment: "")
-        }
         static var yes: String {
             NSLocalizedString("common.yes", comment: "")
         }
         static var no: String {
             NSLocalizedString("common.no", comment: "")
         }
-        static var continueText: String {
-            NSLocalizedString("common.continue", comment: "")
-        }
-        static var backToStart: String {
-            NSLocalizedString("common.back_to_start", comment: "")
-        }
-        static var skip: String {
-            NSLocalizedString("common.skip", comment: "")
-        }
         static var retake: String {
             NSLocalizedString("common.retake", comment: "")
         }
-        static var backHome: String {
-            NSLocalizedString("common.back_home", comment: "")
+        static var cancel: String {
+            NSLocalizedString("common.cancel", comment: "")
         }
     }
     
-    // MARK: - DailyMeasureStartView
-    enum DailyStart {
-        static var title: String {
-            NSLocalizedString("daily_start.title", comment: "")
+    // MARK: - Button
+    enum Button {
+        static var next: String {
+            NSLocalizedString("button.next", comment: "")
         }
-        static var description: String {
-            NSLocalizedString("daily_start.description", comment: "")
+        static var measure: String {
+            NSLocalizedString("button.measure", comment: "")
         }
-        static var instructionPage1: String {
-            NSLocalizedString("daily_start.instruction_page1", comment: "")
-        }
-        static var instructionPage2: String {
-            NSLocalizedString("daily_start.instruction_page2", comment: "")
-        }
-        static var buttonNext: String {
-            NSLocalizedString("daily_start.button_next", comment: "")
-        }
-        static var buttonMeasure: String {
-            NSLocalizedString("daily_start.button_measure", comment: "")
-        }
-        static var buttonPainOnly: String {
-            NSLocalizedString("daily_start.button_pain_only", comment: "")
+        static var save: String {
+            NSLocalizedString("button.save", comment: "")
         }
     }
     
-    // MARK: - FlexionMeasure
-    enum Flexion {
-        static var instruction: String {
-            NSLocalizedString("flexion.instruction", comment: "")
+    // MARK: - Tabbar
+    enum Tabbar {
+        static var calendar: String {
+            NSLocalizedString("tabbar.calendar", comment: "")
         }
-        static var instructionEmphasis: String {
-            NSLocalizedString("flexion.instruction_emphasis", comment: "")
+        static var measure: String {
+            NSLocalizedString("tabbar.measure", comment: "")
         }
-        static var measuring: String {
-            NSLocalizedString("flexion.measuring", comment: "")
-        }
-        static var skipButton: String {
-            NSLocalizedString("flexion.skip_button", comment: "")
+        static var summary: String {
+            NSLocalizedString("tabbar.summary", comment: "")
         }
     }
     
     // MARK: - Alerts
     enum Alert {
-        enum QuitMeasure {
-            static var title: String {
-                NSLocalizedString("alert.quit_extension.title", comment: "")
-            }
-            static var message: String {
-                NSLocalizedString("alert.quit_extension.message", comment: "")
-            }
+        static var cancelFlexionHeadline: String {
+            NSLocalizedString("alert.cancel_flexion.headline", comment: "")
         }
-        
-        enum SkipFlexion {
-            static var title: String {
-                NSLocalizedString("alert.skip_flexion.title", comment: "")
-            }
-            static var message: String {
-                NSLocalizedString("alert.skip_flexion.message", comment: "")
-            }
+        static var quitExtensionMessage: String {
+            NSLocalizedString("alert.quit_extension.message", comment: "")
         }
-        
-        enum Remeasure {
-            static var title: String {
-                NSLocalizedString("alert.remeasure.title", comment: "")
-            }
-            static var message: String {
-                NSLocalizedString("alert.remeasure.message", comment: "")
-            }
+        static var cancelPainHeadline: String {
+            NSLocalizedString("alert.cancel_pain.headline", comment: "")
+        }
+        static var cancelPainMessage: String {
+            NSLocalizedString("alert.cancel_pain.message", comment: "")
+        }
+        static var remeasureHeadline: String {
+            NSLocalizedString("alert.remeasure.headline", comment: "")
+        }
+        static var remeasureMessage: String {
+            NSLocalizedString("alert.remeasure.message", comment: "")
         }
         
         enum CancelPain {
@@ -132,17 +97,49 @@ enum Strings {
         }
     }
     
-    // MARK: - MeasureDoneView
-    enum MeasureDone {
-        static var title: String {
-            NSLocalizedString("measure_done.title", comment: "")
+    // MARK: - Main (Before)
+    enum DailyStart {
+        static var titleLarge: String {
+            NSLocalizedString("daily_start.title_large", comment: "")
         }
-        static var subtitle: String {
-            NSLocalizedString("measure_done.subtitle", comment: "")
+        static var instruction: String {
+            NSLocalizedString("daily_start.instruction", comment: "")
+        }
+        static var instruction2: String {
+            NSLocalizedString("daily_start.instruction2", comment: "")
+        }
+        static var enterPainOnly: String {
+            NSLocalizedString("enter.pain_only", comment: "")
         }
     }
     
-    // MARK: - PainLevel
+    // MARK: - MeasureView (Loading)
+    enum Measure {
+        static var title: String {
+            NSLocalizedString("measure.title", comment: "")
+        }
+        static var loadingBold: String {
+            NSLocalizedString("flexion.loading.instruction_bold24", comment: "")
+        }
+        static var loadingInstruction: String {
+            NSLocalizedString("flexion.loading.instruction", comment: "")
+        }
+    }
+    
+    // MARK: - FlexionMeasureView
+    enum Flexion {
+        static var instruction: String {
+            NSLocalizedString("flexion.instruction_semibold24", comment: "")
+        }
+        static var measuring: String {
+            NSLocalizedString("flexion.measuring_semibold24", comment: "")
+        }
+        static var measured: String {
+            NSLocalizedString("flexion.measured_semibold24", comment: "")
+        }
+    }
+    
+    // MARK: - Pain Level View
     enum Pain {
         static var title: String {
             NSLocalizedString("pain.title", comment: "")
@@ -150,170 +147,235 @@ enum Strings {
         static var description: String {
             NSLocalizedString("pain.description", comment: "")
         }
-        static var button: String {
-            NSLocalizedString("pain.button", comment: "")
+    }
+    
+    // MARK: - Pain Categories
+    enum PainCategory {
+        static var none: String {
+            NSLocalizedString("pain.category.0", comment: "")
         }
-        
-        /// 통증 레벨 0-10
-        static func level(_ value: Int) -> String {
-            NSLocalizedString("pain.level.\(value)", comment: "")
+        static var mild: String {
+            NSLocalizedString("pain.category.1to3", comment: "")
+        }
+        static var moderate: String {
+            NSLocalizedString("pain.category.4to6", comment: "")
+        }
+        static var severe: String {
+            NSLocalizedString("pain.category.7to9", comment: "")
+        }
+        static var extreme: String {
+            NSLocalizedString("pain.category.10", comment: "")
         }
     }
     
-    // MARK: - ProgressDetailView
+    // MARK: - Pain Levels
+    enum PainLevel {
+        static var level0: String { NSLocalizedString("pain.level.0", comment: "") }
+        static var level1: String { NSLocalizedString("pain.level.1", comment: "") }
+        static var level2: String { NSLocalizedString("pain.level.2", comment: "") }
+        static var level3: String { NSLocalizedString("pain.level.3", comment: "") }
+        static var level4: String { NSLocalizedString("pain.level.4", comment: "") }
+        static var level5: String { NSLocalizedString("pain.level.5", comment: "") }
+        static var level6: String { NSLocalizedString("pain.level.6", comment: "") }
+        static var level7: String { NSLocalizedString("pain.level.7", comment: "") }
+        static var level8: String { NSLocalizedString("pain.level.8", comment: "") }
+        static var level9: String { NSLocalizedString("pain.level.9", comment: "") }
+        static var level10: String { NSLocalizedString("pain.level.10", comment: "") }
+    }
+    
+    // MARK: - Progress (After Measure)
     enum Progress {
-        static var title: String {
-            NSLocalizedString("progress.title", comment: "")
+        static var titleLarge: String {
+            NSLocalizedString("progress.title_large", comment: "")
         }
         
-        enum Excellent {
-            static var title: String {
-                NSLocalizedString("progress.excellent.title", comment: "")
-            }
-            static var description: String {
-                NSLocalizedString("progress.excellent.description", comment: "")
-            }
-        }
-        
-        enum Good {
-            static var title: String {
-                NSLocalizedString("progress.good.title", comment: "")
-            }
-            static var description: String {
-                NSLocalizedString("progress.good.description", comment: "")
-            }
-        }
-        
-        enum Same {
-            static var title: String {
-                NSLocalizedString("progress.same.title", comment: "")
-            }
-            static var description: String {
-                NSLocalizedString("progress.same.description", comment: "")
-            }
-        }
-        
-        enum Normal {
-            static var title: String {
-                NSLocalizedString("progress.normal.title", comment: "")
-            }
-            static var description: String {
-                NSLocalizedString("progress.normal.description", comment: "")
-            }
-        }
-        
-        enum Caution {
-            static var title: String {
-                NSLocalizedString("progress.caution.title", comment: "")
-            }
-            static var description: String {
-                NSLocalizedString("progress.caution.description", comment: "")
-            }
-            static var emphasis: String {
-                NSLocalizedString("progress.caution.emphasis", comment: "")
-            }
-        }
-        
-        enum Warning {
-            static var title: String {
-                NSLocalizedString("progress.warning.title", comment: "")
-            }
-            static var description: String {
-                NSLocalizedString("progress.warning.description", comment: "")
-            }
-            static var emphasis: String {
-                NSLocalizedString("progress.warning.emphasis", comment: "")
-            }
-        }
-        
-        enum PainNormal {
-            static var title: String {
-                NSLocalizedString("progress.pain_normal.title", comment: "")
-            }
-            static var description: String {
-                NSLocalizedString("progress.pain_normal.description", comment: "")
-            }
-        }
-        
-        enum PainCaution {
-            static var title: String {
-                NSLocalizedString("progress.pain_caution.title", comment: "")
-            }
-            static var description: String {
-                NSLocalizedString("progress.pain_caution.description", comment: "")
-            }
-            static var emphasis: String {
-                NSLocalizedString("progress.pain_caution.emphasis", comment: "")
-            }
-        }
-        
-        enum PainWarning {
-            static var title: String {
-                NSLocalizedString("progress.pain_warning.title", comment: "")
-            }
-            static var description: String {
-                NSLocalizedString("progress.pain_warning.description", comment: "")
-            }
-            static var emphasis: String {
-                NSLocalizedString("progress.pain_warning.emphasis", comment: "")
-            }
-        }
-        
-        enum FirstTake {
-            static var title: String {
-                NSLocalizedString("progress.first_take.title", comment: "")
-            }
-            static var description: String {
-                NSLocalizedString("progress.first_take.description", comment: "")
-            }
-        }
-    }
-    
-    // MARK: - Card
-    enum Card {
         static var flexionAngle: String {
             NSLocalizedString("card.flexion_angle", comment: "")
-        }
-        static var kneeROM: String {
-            NSLocalizedString("card.knee_ROM", comment: "")
         }
         static var painLevel: String {
             NSLocalizedString("card.pain_level", comment: "")
         }
+        
+        static var firstTakeHeadline: String {
+            NSLocalizedString("progress.first_take.headline", comment: "")
+        }
+        static var firstTakeDescription: String {
+            NSLocalizedString("progress.first_take.description", comment: "")
+        }
+        
+        static var betterNoPainHeadline: String {
+            NSLocalizedString("progress.better_nopain.headline", comment: "")
+        }
+        static var betterNoPainDescription: String {
+            NSLocalizedString("progress.better_nopain.description", comment: "")
+        }
+        
+        static var betterMildPainHeadline: String {
+            NSLocalizedString("progress.better_mildpain.headline", comment: "")
+        }
+        static var betterMildPainDescription: String {
+            NSLocalizedString("progress.better_mildpain.description", comment: "")
+        }
+        
+        static var betterModeratePainHeadline: String {
+            NSLocalizedString("progress.better_moderatepain.headline", comment: "")
+        }
+        static var betterModeratePainDescription: String {
+            NSLocalizedString("progress.better_moderatepain.description", comment: "")
+        }
+        
+        static var betterSeverePainHeadline: String {
+            NSLocalizedString("progress.better_severepain.headline", comment: "")
+        }
+        static var betterSeverePainDescription: String {
+            NSLocalizedString("progress.better_severepain.description", comment: "")
+        }
+        
+        static var betterExcruciatingPainHeadline: String {
+            NSLocalizedString("progress.better_excruciatingpain.headline", comment: "")
+        }
+        static var betterExcruciatingPainDescription: String {
+            NSLocalizedString("progress.better_excruciatingpain.description", comment: "")
+        }
+        
+        static var sameNoPainHeadline: String {
+            NSLocalizedString("progress.same_nopain.headline", comment: "")
+        }
+        static var sameNoPainDescription: String {
+            NSLocalizedString("progress.same_nopain.description", comment: "")
+        }
+        
+        static var sameMildPainHeadline: String {
+            NSLocalizedString("progress.same_mildpain.headline", comment: "")
+        }
+        static var sameMildPainDescription: String {
+            NSLocalizedString("progress.same_mildpain.description", comment: "")
+        }
+        
+        static var sameModeratePainHeadline: String {
+            NSLocalizedString("progress.same_moderatepain.headline", comment: "")
+        }
+        static var sameModeratePainDescription: String {
+            NSLocalizedString("progress.same_moderatepain.description", comment: "")
+        }
+        
+        static var sameSeverePainHeadline: String {
+            NSLocalizedString("progress.same_severepain.headline", comment: "")
+        }
+        static var sameSeverePainDescription: String {
+            NSLocalizedString("progress.same_severepain.description", comment: "")
+        }
+        
+        static var sameExcruciatingPainHeadline: String {
+            NSLocalizedString("progress.same_excruciatingpain.headline", comment: "")
+        }
+        static var sameExcruciatingPainDescription: String {
+            NSLocalizedString("progress.same_excruciatingpain.description", comment: "")
+        }
+        
+        static var worseNoPainHeadline: String {
+            NSLocalizedString("progress.worse_nopain.headline", comment: "")
+        }
+        static var worseNoPainDescription: String {
+            NSLocalizedString("progress.worse_nopain.description", comment: "")
+        }
+        
+        static var worseMildPainHeadline: String {
+            NSLocalizedString("progress.worse_mildpain.headline", comment: "")
+        }
+        static var worseMildPainDescription: String {
+            NSLocalizedString("progress.worse_mildpain.description", comment: "")
+        }
+        
+        static var worseModeratePainHeadline: String {
+            NSLocalizedString("progress.worse_moderatepain.headline", comment: "")
+        }
+        static var worseModeratePainDescription: String {
+            NSLocalizedString("progress.worse_moderatepain.description", comment: "")
+        }
+        
+        static var worseSeverePainHeadline: String {
+            NSLocalizedString("progress.worse_severepain.headline", comment: "")
+        }
+        static var worseSeverePainDescription: String {
+            NSLocalizedString("progress.worse_severepain.description", comment: "")
+        }
+        
+        static var worseExcruciatingPainHeadline: String {
+            NSLocalizedString("progress.worse_excruciatingpain.headline", comment: "")
+        }
+        static var worseExcruciatingPainDescription: String {
+            NSLocalizedString("progress.worse_excruciatingpain.description", comment: "")
+        }
     }
     
-    // MARK: - History
+    // MARK: - HistoryView
     enum History {
-        static var title: String {
-            NSLocalizedString("history.title", comment: "")
+        static var titleLarge: String {
+            NSLocalizedString("history.title_large", comment: "")
         }
+        static var romHeadline: String {
+            NSLocalizedString("history.rom_headline", comment: "")
+        }
+        static var romSubBetter: String {
+            NSLocalizedString("history.rom_subheadline_better", comment: "")
+        }
+        static var romSubSame: String {
+            NSLocalizedString("history.rom_subheadline_same", comment: "")
+        }
+        static var romSubWorse: String {
+            NSLocalizedString("history.rom_subheadline_worse", comment: "")
+        }
+        
+        static var painHeadline: String {
+            NSLocalizedString("history.pain_headline", comment: "")
+        }
+        static var painSubBetter: String {
+            NSLocalizedString("history.pain_subheadline_better", comment: "")
+        }
+        static var painSubSame: String {
+            NSLocalizedString("history.pain_subheadline_same", comment: "")
+        }
+        static var painSubWorse: String {
+            NSLocalizedString("history.pain_subheadline_worse", comment: "")
+        }
+        static var painSubNoRecord: String {
+            NSLocalizedString("history.pain_subheadline_norecord", comment: "")
+        }
+        static var painSubOneRecord: String {
+            NSLocalizedString("history.pain_subheadline_1record", comment: "")
+        }
+        
         static var romTitle: String {
             NSLocalizedString("history.rom_title", comment: "")
         }
-        static var average: String {
-            NSLocalizedString("history.average", comment: "")
+        static var romBetter: String {
+            NSLocalizedString("history.rom_semibold15_better", comment: "")
         }
+        static var romSame: String {
+            NSLocalizedString("history.rom_semibold15_same", comment: "")
+        }
+        static var romWorse: String {
+            NSLocalizedString("history.rom_semibold15_worse", comment: "")
+        }
+        static var romNoRecord: String {
+            NSLocalizedString("history.semibold15_norecord", comment: "")
+        }
+        
         static var painTitle: String {
             NSLocalizedString("history.pain_title", comment: "")
         }
-        static var painMin: String {
-            NSLocalizedString("history.pain_min", comment: "")
+        static var painBetter: String {
+            NSLocalizedString("history.pain_semibold15_better", comment: "")
         }
-        static var painMax: String {
-            NSLocalizedString("history.pain_max", comment: "")
+        static var painSame: String {
+            NSLocalizedString("history.pain_semibold15_same", comment: "")
         }
-    }
-    
-    // MARK: - MainViewAfter
-    enum Summary {
-        static var title: String {
-            NSLocalizedString("summary.title", comment: "")
+        static var painWorse: String {
+            NSLocalizedString("history.pain_semibold15_worse", comment: "")
         }
-        static var description: String {
-            NSLocalizedString("summary.description", comment: "")
-        }
-        static var button: String {
-            NSLocalizedString("summary.button", comment: "")
+        static var painNoRecord: String {
+            NSLocalizedString("history.pain_semibold15_norecord", comment: "")
         }
     }
 }

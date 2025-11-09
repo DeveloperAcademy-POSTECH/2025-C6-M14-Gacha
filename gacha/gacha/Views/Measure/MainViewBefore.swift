@@ -17,7 +17,7 @@ struct MainViewBefore: View {
         VStack(spacing: 0) {
             // MARK: - Navigation Bar
             HStack {
-                Text(Strings.DailyStart.title)
+                Text(Strings.DailyStart.titleLarge)
                     .font(.displayLargeBold)
                 Spacer()
             }
@@ -56,8 +56,8 @@ struct MainViewBefore: View {
                 if currentPage == 0 {
                     // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
                     CapsuleButtonComponent(
-                        title: Strings.DailyStart.buttonNext,
-                        style: .secondary,
+                        title: Strings.Button.next,
+                        style: .light,
                         width: 361,
                         height: 54,
                         fontSize: 20,
@@ -70,7 +70,7 @@ struct MainViewBefore: View {
                 } else {
                     // 두 번째 화면: "측정하기" 버튼 (primary style, 100px cornerRadius)
                     CapsuleButtonComponent(
-                        title: Strings.DailyStart.buttonMeasure,
+                        title: Strings.Button.measure,
                         style: .primary,
                         width: 361,
                         height: 54,
@@ -85,7 +85,7 @@ struct MainViewBefore: View {
                 Button(action: {
                     vm.navigationPath.append(MeasureFlowStep.painLevel)
                 }) {
-                    Text(Strings.DailyStart.buttonPainOnly)
+                    Text(Strings.DailyStart.enterPainOnly)
                         .font(.displayBodyRegular)
                         .foregroundStyle(.gray500)
                         .underline()
@@ -105,15 +105,7 @@ struct MainViewBefore: View {
     
     private var instructionTextPage1: some View {
         Group {
-            Text("벽에 ")
-                .font(.displayTitle3Bold)
-                .foregroundStyle(.blue700)  // 강조 색상
-            + Text("측정할 다리의 ")
-                .font(.displayTitle3Regular)
-            + Text("발끝을 대고\n")
-                .font(.displayTitle3Bold)
-                .foregroundStyle(.blue700)
-            + Text("다리를 최대한 굽혀 앉아주세요")
+            Text(Strings.DailyStart.instruction)
                 .font(.displayTitle3Regular)
         }
         .multilineTextAlignment(.center)
@@ -122,12 +114,7 @@ struct MainViewBefore: View {
     
     private var instructionTextPage2: some View {
         Group {
-            Text("기기의 옆면을 정강이뼈 위")
-                .font(.displayTitle3Bold)
-                .foregroundStyle(.blue700)  // 강조 색상
-            + Text("에 대고 ")
-                .font(.displayTitle3Regular)
-            + Text("고정해 주세요.")
+            Text(Strings.DailyStart.instruction2)
                 .font(.displayTitle3Regular)
         }
         .multilineTextAlignment(.center)

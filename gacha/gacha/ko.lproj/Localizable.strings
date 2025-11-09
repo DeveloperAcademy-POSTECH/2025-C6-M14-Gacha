@@ -10,7 +10,7 @@
 "common.yes" = "네";
 "common.no" = "아니요";
 "common.retake" = "다시 측정하기";
-"commom.cancel" = "취소";
+"common.cancel" = "취소";
 
 /* Button */
 "button.next" = "다음";
@@ -23,7 +23,7 @@
 "tabbar.summary" = "요약";
 
 /* Alerts */
-"alert.cancel_flexion.headline" = "무릎 굽힘 측정을  취소하시겠어요?";
+"alert.cancel_flexion.headline" = "무릎 굽힘 측정을 취소하시겠어요?";
 "alert.quit_extension.message" = "처음 화면으로 되돌아가요";
 "alert.cancel_pain.headline" = "통증 기록을 취소하시겠어요?";
 "alert.cancel_pain.message" = "무릎 굽힘 각도만 기록되고, 처음 화면으로 되돌아가요";
@@ -85,7 +85,7 @@
 "progress.first_take.headline" = "첫 기록을 남기셨네요!";
 "progress.first_take.description" = "오늘의 기록이 회복을 향한 첫 발자국이에요.\n앞으로도 꾸준히 함께해요.";
 
-"progress.better_nopain.headlne" = "잘 회복되고 있어요";
+"progress.better_nopain.headline" = "잘 회복되고 있어요";
 "progress.better_nopain.description" = "움직임이 부드러워졌어요.\n통증도 없고 회복이 잘되고 있어요.\n이대로 꾸준히 이어가요.";
 "progress.better_mildpain.headline" = "좋은 변화가 보여요";
 "progress.better_mildpain.description" = "조금 뻐근할 수 있지만 괜찮아요.\n지금처럼 천천히 해요.\n무리하지 않는 게 중요해요.";
@@ -95,7 +95,7 @@
 "progress.better_severepain.description" = "움직임은 괜찮지만 통증이 심하네요.\n회복 중 약간 무리가 있어요.\n회복 속도를 조절할 필요가 있어요.";
 "progress.better_excruciatingpain.headline" = "병원 진료를 받으세요";
 "progress.better_excruciatingpain.description" = "지금은 통증 관리가 더 중요해요.\n빨리 전문가에게 치료를 받으세요.\n충분한 휴식이 필요해요.";
-"progress.same_nopain.headlne" = "안정적인 상태예요";
+"progress.same_nopain.headline" = "안정적인 상태예요";
 "progress.same_nopain.description" = "변화는 없지만 나쁘지 않아요.\n꾸준히 유지하는 것도 좋아요.\n조금씩 다음 단계로 나아가요.";
 "progress.same_mildpain.headline" = "무리하지 말고 가볍게 관리해요";
 "progress.same_mildpain.description" = "컨디션에 따라 달라질 수 있어요.\n조금은 쉬어가도 돼요.\n회복은 천천히 와요.";

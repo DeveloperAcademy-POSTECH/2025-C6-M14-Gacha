@@ -22,7 +22,7 @@ struct MainViewAfter: View {
                 VStack(spacing: 0) {
                     // MARK: - 상단 영역
                     HStack {
-                        Text(Strings.Summary.title)
+                        Text(Strings.Progress.titleLarge)
                             .font(.displayLargeBold)
                         Spacer()
                     }
@@ -40,7 +40,7 @@ struct MainViewAfter: View {
                     // MARK: - 하단 버튼 영역 (MainViewBefore와 동일한 구조)
                     VStack(spacing: 16) {
                         CapsuleButtonComponent(
-                            title: Strings.Summary.button,
+                            title: Strings.Common.retake,
                             style: .light,
                             width: 361,
                             height: 54,
@@ -51,8 +51,8 @@ struct MainViewAfter: View {
                         }
                         .alert(isPresented: $showingAlert) {
                             Alert(
-                                title: Text(Strings.Alert.Remeasure.title),
-                                message: Text(Strings.Alert.Remeasure.message),
+                                title: Text(Strings.Alert.remeasureHeadline),
+                                message: Text(Strings.Alert.remeasureMessage),
                                 primaryButton: .destructive(
                                     Text(Strings.Common.yes),
                                     action: {
@@ -152,7 +152,7 @@ struct MainViewAfter: View {
             Text("vm.cardTitle")
                 .font(.displayTitle2Bold)
                 .foregroundColor(.blue700)
-            Text(vm.feedbackMessage)
+            Text("vm.feedbackMessage")
                 .font(.displayBodyRegular)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
