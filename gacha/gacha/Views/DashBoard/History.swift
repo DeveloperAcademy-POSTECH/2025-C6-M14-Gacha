@@ -48,11 +48,6 @@ struct History: View {
                                 .id("romChart")
                             
                             VStack(alignment: .leading) {
-
-                                Text(Strings.History.romHeadline)
-                                Text(vm.dateRangeText)
-                                    .font(.displayCaption1Semibold)
-                                    .foregroundColor(Color("Gray500"))
                                 romChart
                                     
                             }
@@ -70,8 +65,6 @@ struct History: View {
                                 .id("painChart")
                             
                             VStack(alignment: .leading) {
-                                Text("통증 정도 설명")
-
                                 painChart
                             }
                             .padding(16)
