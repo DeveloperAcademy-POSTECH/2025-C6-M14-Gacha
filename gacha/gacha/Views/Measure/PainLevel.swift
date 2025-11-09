@@ -37,10 +37,17 @@ struct PainLevel: View {
                             primaryButton: .destructive(
                                 Text(Strings.Common.yes),
                                 action: {
-                                    // MainView로 이동 (측정 취소)
-                                    vm.cancelFlexionMeasure()
-                                    vm.navigationPath.removeLast()
-
+                                    // MainViewBefore로 이동 (측정 취소)
+                                    vm.prepareForNewMeasurement()  // 측정 상태 초기화
+                                    vm.clearCurrentRecord()        // 현재 레코드 클리어
+                                    Task {
+                                        // 오늘 기록이 있다면 삭제 (이미 저장된 기록이 있을 수 있음)
+                                        await vm.deleteTodayRecords()
+                                        // 상태 업데이트 (hasTodayRecord = false)
+                                        await vm.checkTodayRecord()
+                                    }
+                                    // 네비게이션 스택 전체 비우기
+                                    vm.navigationPath = NavigationPath()
                                 }
                             ),
                             secondaryButton: .cancel(Text(Strings.Common.no))
@@ -148,6 +155,26 @@ struct PainLevel: View {
             return "painlevel1"
         }
     }
+    
+//    private func painLevelTitle(for index: Int) -> String {
+//        switch index {
+//        case 0...2:
+//            return Color("1")
+//        case 3...5:
+//            return Color("4")
+//        case 6...8:
+//            return Color("7")
+//        case 9:
+//            // value가 10일 때만 Index/10 사용
+//            if value >= 10 {
+//                return Color("10")
+//            } else {
+//                return Color("7")
+//            }
+//        default:
+//            return Color("Gray300")
+//        }
+//    }
 
 }
 
@@ -241,7 +268,7 @@ struct ArcSlider: View {
                         filledSegmentColor(for: index, value: value),
                         style: StrokeStyle(lineWidth: 40, lineCap: .butt, lineJoin: .miter)
                     )
-                    .animation(.easeInOut(duration: 0.2), value: value)
+//                    .animation(.easeInOut(duration: 0.2), value: value)
                 }
                 
                 // MARK: - 구분선 (11개: 각 칸의 경계에 정확히 배치)

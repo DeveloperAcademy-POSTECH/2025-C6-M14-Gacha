@@ -30,13 +30,17 @@ struct MainViewBefore: View {
             VStack(spacing: 40) {
                 // 안내 문구 영역
                 if currentPage == 0 {
-                    Image("Before1")
+                    Image("before1")
+                        .resizable()
+                        .scaledToFit()
                         .frame(width: 300, height: 300)
                     // 첫 번째 화면 안내 문구
                     instructionTextPage1
                 } else {
                     
-                    Image("Before2")
+                    Image("before2")
+                        .resizable()
+                        .scaledToFit()
                         .frame(width: 300, height: 300)
                     // 두 번째 화면 안내 문구
                     instructionTextPage2
@@ -91,7 +95,10 @@ struct MainViewBefore: View {
             .padding(.bottom, 34)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-         
+        .onAppear {
+            // 화면이 나타날 때마다 첫 번째 화면으로 초기화
+            currentPage = 0
+        }
     }
     
     // MARK: - Instruction Text Views
