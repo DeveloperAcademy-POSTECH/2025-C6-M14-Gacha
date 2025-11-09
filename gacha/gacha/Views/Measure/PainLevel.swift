@@ -35,7 +35,7 @@ struct PainLevel: View {
                             title: Text(Strings.Alert.Remeasure.title), //무릎 움직임 측정을 취소하겠어요?
                             message: Text(Strings.Alert.Remeasure.message), //측정된 기록이 저장되지 않고 처음 화면으로 되돌아가요
                             primaryButton: .destructive(
-                                Text(Strings.Common.yes),
+                                Text(Strings.common.yes),
                                 action: {
                                     // MainView로 이동 (측정 취소)
                                     vm.cancelFlexionMeasure()
@@ -43,7 +43,7 @@ struct PainLevel: View {
 
                                 }
                             ),
-                            secondaryButton: .cancel(Text(Strings.Common.no))
+                            secondaryButton: .cancel(Text(Strings.common.no))
                         )
                     }
                     

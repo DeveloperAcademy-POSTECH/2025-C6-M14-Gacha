@@ -54,7 +54,7 @@ struct MainViewAfter: View {
                                 title: Text(Strings.Alert.Remeasure.title),
                                 message: Text(Strings.Alert.Remeasure.message),
                                 primaryButton: .destructive(
-                                    Text(Strings.Common.yes),
+                                    Text(Strings.common.yes),
                                     action: {
                                         vm.prepareForNewMeasurement()  // 새 측정 준비
                                         vm.shouldAutoStartMeasure = true  // 자동 시작 플래그
@@ -63,7 +63,7 @@ struct MainViewAfter: View {
                                         )
                                     }
                                 ),
-                                secondaryButton: .cancel(Text(Strings.Common.no))
+                                secondaryButton: .cancel(Text(Strings.common.no))
                             )
                         }
                     }
