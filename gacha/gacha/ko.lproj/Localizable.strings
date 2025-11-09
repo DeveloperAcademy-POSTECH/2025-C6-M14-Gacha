@@ -57,11 +57,11 @@
 "pain.description" = "통증 정도를 선택해 주세요";
 
 /* Pain Categories */
-"pain.category.0to0" = "통증 없음";
+"pain.category.0" = "통증 없음";
 "pain.category.1to3" = "약한 통증";
 "pain.category.4to6" = "중간 통증";
 "pain.category.7to9" = "심한 통증";
-"pain.category.10to10" = "아주 심한 통증";
+"pain.category.10" = "아주 심한 통증";
 
 /* Pain Levels 0-10 (11 categories) */
 "pain.level.0" = "아프지 않아요";
