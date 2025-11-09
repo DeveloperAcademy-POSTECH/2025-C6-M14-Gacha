@@ -1,5 +1,5 @@
 //
-//  HistoryView.swift
+//  History.swift
 //  gacha
 //
 //  Created by 차원준 on 10/26/25.
@@ -9,7 +9,7 @@ import Charts
 import SwiftData
 import SwiftUI
 
-struct HistoryView: View {
+struct History: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var vm: HistoryViewModel
 
@@ -82,6 +82,7 @@ struct HistoryView: View {
                  
             }
         }
+        .background(Color("BackgoundSecondary"))
         .navigationTitle(Strings.History.title)
         .navigationBarTitleDisplayMode(.inline)
         .task {

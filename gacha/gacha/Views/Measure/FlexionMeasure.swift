@@ -1,5 +1,5 @@
 //
-//  FlextionMeasureView.swift
+//  FlexionMeasure.swift
 //  gacha
 //
 //  Created by 차원준 on 10/26/25.
@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct FlexionMeasureView: View {
+struct FlexionMeasure: View {
     @EnvironmentObject var vm: MeasureViewModel
 
     var body: some View {
@@ -78,7 +78,7 @@ struct FlexionMeasureView: View {
                     
                     // MARK: - 일러스트 영역
                     ZStack {
-                        Image("flexion_leg")
+                        Image("Measure")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 300, height: 300)
@@ -171,6 +171,6 @@ struct FlexionMeasureView: View {
     )
     let viewModel = MeasureViewModel(repository: repository)
 
-    return FlexionMeasureView()
+    return FlexionMeasure()
         .environmentObject(viewModel)
 }

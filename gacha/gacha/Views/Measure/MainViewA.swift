@@ -1,5 +1,5 @@
 //
-//  MainView.swift
+//  MainViewA.swift
 //  gacha
 //
 //  Created by 차원준 on 10/28/25.
@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct MainView: View {
+struct MainViewA: View {
     @EnvironmentObject var vm: MeasureViewModel
     
     @State private var currentPage = 0  // 0: 첫 화면, 1: 두 번째 화면
@@ -148,7 +148,7 @@ struct MainView: View {
     // 3. ViewModel 생성
     let vm = MeasureViewModel(repository: repository)
 
-    MainView()
+    MainViewA()
         .environmentObject(vm)
 }
 

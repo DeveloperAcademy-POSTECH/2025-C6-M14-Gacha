@@ -1,4 +1,4 @@
-//  PainLevelView.swift
+//  PainLevel.swift
 //  gacha
 //
 //  Created by 차원준 on 10/26/25.
@@ -7,7 +7,7 @@
 import SwiftData
 import SwiftUI
 
-struct PainLevelView: View {
+struct PainLevel: View {
     @EnvironmentObject var vm: MeasureViewModel
 
     @State private var value: Double = 5.0  // 0~10 범위
@@ -106,7 +106,7 @@ struct PainLevelView: View {
                         await vm.saveCurrentRecord()  // 레코드 저장
                         await vm.checkTodayRecord()   // 상태 업데이트 (hasTodayRecord = true)
                         // 네비게이션 스택을 모두 비워서 메인 화면으로 돌아가기
-                        // 메인 화면에서 hasTodayRecord를 체크하여 MeasureView_After를 표시
+                        // 메인 화면에서 hasTodayRecord를 체크하여 MainViewB를 표시
                         vm.navigationPath = NavigationPath()
                     }
                 }
@@ -420,6 +420,6 @@ struct ArcShape: Shape {
     )
     let viewModel = MeasureViewModel(repository: repository)
 
-    return PainLevelView()
+    return PainLevel()
         .environmentObject(viewModel)
 }

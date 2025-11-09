@@ -77,7 +77,7 @@ enum Strings {
         }
     }
     
-    // MARK: - FlexionMeasureView
+    // MARK: - FlexionMeasure
     enum Flexion {
         static var instruction: String {
             NSLocalizedString("flexion.instruction", comment: "")
@@ -133,7 +133,7 @@ enum Strings {
         }
     }
     
-    // MARK: - PainLevelView
+    // MARK: - PainLevel
     enum Pain {
         static var title: String {
             NSLocalizedString("pain.title", comment: "")
@@ -273,7 +273,7 @@ enum Strings {
         }
     }
     
-    // MARK: - HistoryView
+    // MARK: - History
     enum History {
         static var title: String {
             NSLocalizedString("history.title", comment: "")
@@ -295,7 +295,7 @@ enum Strings {
         }
     }
     
-    // MARK: - MeasureView_After
+    // MARK: - MainViewB
     enum Summary {
         static var title: String {
             NSLocalizedString("summary.title", comment: "")
