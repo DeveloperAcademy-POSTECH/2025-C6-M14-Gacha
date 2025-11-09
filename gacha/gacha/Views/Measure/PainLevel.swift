@@ -25,15 +25,15 @@ struct PainLevel: View {
                         HStack(spacing: 4) {
                             Image(systemName: "chevron.left")
                                 .font(.displayCalloutMedium)
-                            Text("취소")
+                            Text(Strings.Common.cancel)
                                 .font(.displayBodySemibold)
                         }
                         .foregroundStyle(.blue800)
                     }
                     .alert(isPresented: $showingAlert) {
                         Alert(
-                            title: Text(Strings.Alert.CancelPain.title),
-                            message: Text(Strings.Alert.CancelPain.message),
+                            title: Text(Strings.Alert.cancelPainHeadline), //무릎 움직임 측정을 취소하겠어요?
+                            message: Text(Strings.Alert.cancelPainMessage), //측정된 기록이 저장되지 않고 처음 화면으로 되돌아가요
                             primaryButton: .destructive(
                                 Text(Strings.Common.yes),
                                 action: {
@@ -56,14 +56,14 @@ struct PainLevel: View {
                     
                     Spacer()
                     
-                    Text("ROM 측정")
+                    Text(Strings.Pain.title)
                         .font(.displayBodySemibold)
 
                     Spacer()
                     
                     Button(action: {
                     }) {
-                        Text("취소")
+                        Text(Strings.Common.cancel)
                     }
                     .disabled(true)
                     .opacity(0)
@@ -82,15 +82,15 @@ struct PainLevel: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 136, height: 136)
-                    
+                    //원준띠니얌~
                     VStack (spacing: 8) {
-                        Text(Strings.Pain.level(Int(value)))
-                            .font(.displayTitle1Bold)
-                            .foregroundStyle(Color("Gray700"))
-                        Text(Strings.Pain.level(Int(value)))
-                            .font(.displayBodyRegular)
-                            .foregroundStyle(Color("Gray700"))
-                            .frame(height: 44)
+//                        Text(Strings.PainCategory.(Int(value)))
+//                            .font(.displayTitle1Bold)
+//                            .foregroundStyle(Color("Gray700"))
+//                        Text(Strings.PainLevel.level(Int(value)))
+//                            .font(.displayBodyRegular)
+//                            .foregroundStyle(Color("Gray700"))
+//                            .frame(height: 44)
                     }
                 }
                 .padding(.bottom, 40)
@@ -101,13 +101,13 @@ struct PainLevel: View {
                 VStack (spacing: 16) {
                     ArcSlider(value: $value)
                         .frame(height: 100)
-                    Text("통증 정도를 선택해 주세요")
+                    Text(Strings.Pain.description)
                 }
                 
                 Spacer()
 
                 CapsuleButtonComponent(
-                    title: Strings.Common.confirm,
+                    title: Strings.Button.save,
                     style: .primary
                 ) {
                     Task {
@@ -373,9 +373,10 @@ struct ArcSlider: View {
         }
     }
 
-    private func levelDescription(for value: Double) -> String {
-        return Strings.Pain.level(Int(value))
-    }
+//    private func levelDescription(for value: Double) -> String {
+//        //원준띠니얌~
+//        //return Strings.Pain.level(Int(value))
+//    }
 }
 
 // MARK: - 세그먼트 원호 Shape

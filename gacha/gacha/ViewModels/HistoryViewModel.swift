@@ -65,22 +65,6 @@ class HistoryViewModel: ObservableObject {
         return max
     }
     
-    var painLevelLabel: String {
-        if recentRecords.count == 1 {
-            return Strings.Card.painLevel
-        } else {
-            return Strings.History.painMin + "~" + Strings.History.painMax
-        }
-    }
-    
-    var painLevelValue: String {
-        if recentRecords.count == 1 {
-            return "\(painMin)"
-        } else {
-            return "\(painMin)~\(painMax)"
-        }
-    }
-    
     // MARK: - Summary Cards Data
     
     /// 첫 번째 (가장 오래된) 기록의 ROM

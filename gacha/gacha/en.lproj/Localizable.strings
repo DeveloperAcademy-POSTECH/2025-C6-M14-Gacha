@@ -10,7 +10,7 @@
 "common.yes" = "Yes";
 "common.no" = "No";
 "common.retake" = "Retake Measurement";
-"commom.cancel" = "Cancel";
+"common.cancel" = "Cancel";
 
 /* Button */
 "button.next" = "Next";
@@ -85,7 +85,7 @@
 "progress.first_take.headline" = "First Record Made!";
 "progress.first_take.description" = "Today is the first step.\nKeep going consistently.";
 
-"progress.better_nopain.headlne" = "Movement Improved!";
+"progress.better_nopain.headline" = "Movement Improved!";
 "progress.better_nopain.description" = "Your movement is smoother, pain-free, and recovery is going well.\nKeep it up consistently.";
 "progress.better_mildpain.headline" = "Recovering Well!";
 "progress.better_mildpain.description" = "It may feel a bit stiff, but that's okay. Move slowly and avoid overdoing it.";
@@ -95,7 +95,7 @@
 "progress.better_severepain.description" = "Movement is fine, but pain is severe. Recovery is a bit strained, and you need to adjust the pace.";
 "progress.better_excruciatingpain.headline" = "See a medical specialist";
 "progress.better_excruciatingpain.description" = "Pain management is more important now. Get treatment from a specialist quickly and take enough rest.";
-"progress.same_nopain.headlne" = "You’re in a stable condition";
+"progress.same_nopain.headline" = "You’re in a stable condition";
 "progress.same_nopain.description" = "No change, but not bad. Maintaining steadily is good. Progress little by little.";
 "progress.same_mildpain.headline" = "Take it easy, manage gently";
 "progress.same_mildpain.description" = "Recovery may vary with your condition. Take some rest, and progress slowly.";
