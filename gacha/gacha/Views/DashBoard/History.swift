@@ -88,8 +88,6 @@ struct History: View {
             }
         }
         .background(Color("BackgoundSecondary"))
-        .navigationTitle(Strings.History.title)
-        .navigationBarTitleDisplayMode(.inline)
         .task {
             await vm.loadRecentRecords()
         }
@@ -177,7 +175,7 @@ struct History: View {
            selectedIndex >= 0 && selectedIndex < vm.recentRecords.count {
             let selectedRecord = vm.recentRecords[selectedIndex]
             VStack(alignment: .center, spacing: 4) {
-                Text(Strings.Card.flexionAngle)
+                Text(Strings.History.romHeadline)
                     .font(.displayCaption1Semibold)
                     .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -274,7 +272,7 @@ struct History: View {
            selectedIndex >= 0 && selectedIndex < vm.recentRecords.count {
             let selectedRecord = vm.recentRecords[selectedIndex]
             VStack(alignment: .leading, spacing: 4) {
-                Text(Strings.Card.painLevel)
+                Text(Strings.History.painTitle)
                     .font(.displayCaption1Semibold)
                     .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)

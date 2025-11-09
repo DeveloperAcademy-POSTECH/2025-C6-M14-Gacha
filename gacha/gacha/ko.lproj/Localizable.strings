@@ -23,7 +23,7 @@
 "tabbar.summary" = "요약";
 
 /* Alerts */
-"alert.cancel_flexion.headline" = "무릎 굽힘 측정을  취소하시겠어요?";
+"alert.cancel_flexion.headline" = "무릎 굽힘 측정을 취소하시겠어요?";
 "alert.quit_extension.message" = "처음 화면으로 되돌아가요";
 "alert.cancel_pain.headline" = "통증 기록을 취소하시겠어요?";
 "alert.cancel_pain.message" = "무릎 굽힘 각도만 기록되고, 처음 화면으로 되돌아가요";
