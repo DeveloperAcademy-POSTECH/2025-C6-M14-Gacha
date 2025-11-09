@@ -59,6 +59,13 @@ struct FlexionMeasure: View {
                             .font(.displayBodySemibold)
 
                         Spacer()
+                        
+                        Button(action: {
+                        }) {
+                            Text("취소")
+                        }
+                        .disabled(true)
+                        .opacity(0)
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
