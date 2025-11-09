@@ -10,13 +10,14 @@ import SwiftUI
 
 struct FlexionMeasure: View {
     @EnvironmentObject var vm: MeasureViewModel
+    @State private var showingAlert = false
 
     var body: some View {
         ZStack {
             // MARK: - 배경 (흰색)
             Color("White")
                 .ignoresSafeArea()
-            
+
             // MARK: - 물이 차오르는 애니메이션 (측정 중일 때만)
             if vm.isMeasuring || vm.measurementState == .completed {
                 ZStack {
@@ -24,9 +25,18 @@ struct FlexionMeasure: View {
                     Rectangle()
                         .fill(progressGradient)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .scaleEffect(y: max(0.001, vm.overallProgress), anchor: .bottom)
-                        .animation(.easeOut(duration: 0.2), value: vm.measurementState)
-                        .animation(.easeOut(duration: 0.2), value: vm.stabilizingProgress)
+                        .scaleEffect(
+                            y: max(0.001, vm.overallProgress),
+                            anchor: .bottom
+                        )
+                        .animation(
+                            .easeOut(duration: 0.2),
+                            value: vm.measurementState
+                        )
+                        .animation(
+                            .easeOut(duration: 0.2),
+                            value: vm.stabilizingProgress
+                        )
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
@@ -38,11 +48,7 @@ struct FlexionMeasure: View {
                     // MARK: - 네비게이션 바
                     HStack {
                         Button(action: {
-                            // MainViewBefore로 이동 (측정 취소)
-                            if vm.isMeasuring {
-                                vm.cancelFlexionMeasure()
-                            }
-                            vm.navigationPath = NavigationPath()
+                            showingAlert = true
                         }) {
                             HStack(spacing: 4) {
                                 Image(systemName: "chevron.left")
@@ -52,9 +58,38 @@ struct FlexionMeasure: View {
                             }
                             .foregroundStyle(.blue800)
                         }
-                        
+                        .alert(isPresented: $showingAlert) {
+                            Alert(
+                                title: Text(Strings.Alert.CancelPain.title),
+                                message: Text(Strings.Alert.CancelPain.message),
+                                primaryButton: .destructive(
+                                    Text(Strings.Common.yes),
+                                    action: {
+                                        vm.prepareForNewMeasurement()  // 측정 상태 초기화
+                                        vm.clearCurrentRecord()  // 현재 레코드 클리어
+
+                                        Task {
+                                            if vm.isMeasuring {
+                                                vm.cancelFlexionMeasure()
+                                            }
+                                            // 오늘 기록이 있다면 삭제 (이미 저장된 기록이 있을 수 있음)
+                                            await vm.deleteTodayRecords()
+                                            // 상태 업데이트 (hasTodayRecord = false)
+                                            await vm.checkTodayRecord()
+                                            // 네비게이션 스택 전체 비우기
+
+                                            vm.navigationPath = NavigationPath()
+                                        }
+                                    }
+                                ),
+                                secondaryButton: .cancel(
+                                    Text(Strings.Common.no)
+                                )
+                            )
+                        }
+
                         Spacer()
-                        
+
                         Text("ROM 측정")
                             .font(.displayBodySemibold)
 
@@ -76,10 +111,9 @@ struct FlexionMeasure: View {
                     
                     // MARK: - 일러스트 영역
                     ZStack {
-                        Image("Measure")
+                        Image("flexionPosture")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 300, height: 300)
                     }
                     .frame(maxWidth: .infinity)
                     .zIndex(2)  // 물 위에 표시

@@ -31,12 +31,16 @@ struct MainViewBefore: View {
                 // 안내 문구 영역
                 if currentPage == 0 {
                     Image("Before1")
+                        .resizable()
+                        .scaledToFit()
                         .frame(width: 300, height: 300)
                     // 첫 번째 화면 안내 문구
                     instructionTextPage1
                 } else {
                     
                     Image("Before2")
+                        .resizable()
+                        .scaledToFit()
                         .frame(width: 300, height: 300)
                     // 두 번째 화면 안내 문구
                     instructionTextPage2
@@ -53,7 +57,7 @@ struct MainViewBefore: View {
                     // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
                     CapsuleButtonComponent(
                         title: Strings.DailyStart.buttonNext,
-                        style: .light,
+                        style: .secondary,
                         width: 361,
                         height: 54,
                         fontSize: 20,
