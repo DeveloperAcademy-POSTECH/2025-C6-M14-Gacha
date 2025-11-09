@@ -166,6 +166,24 @@ enum Strings {
         static var extreme: String {
             NSLocalizedString("pain.category.10", comment: "")
         }
+
+        /// 통증 수준 값에 따른 카테고리 문자열 반환
+        static func category(for level: Int) -> String {
+            switch level {
+            case 0:
+                return none
+            case 1...3:
+                return mild
+            case 4...6:
+                return moderate
+            case 7...9:
+                return severe
+            case 10:
+                return extreme
+            default:
+                return none
+            }
+        }
     }
     
     // MARK: - Pain Levels
@@ -181,6 +199,24 @@ enum Strings {
         static var level8: String { NSLocalizedString("pain.level.8", comment: "") }
         static var level9: String { NSLocalizedString("pain.level.9", comment: "") }
         static var level10: String { NSLocalizedString("pain.level.10", comment: "") }
+
+        /// 통증 수준 값에 따른 설명 문자열 반환
+        static func level(for value: Int) -> String {
+            switch value {
+            case 0: return level0
+            case 1: return level1
+            case 2: return level2
+            case 3: return level3
+            case 4: return level4
+            case 5: return level5
+            case 6: return level6
+            case 7: return level7
+            case 8: return level8
+            case 9: return level9
+            case 10: return level10
+            default: return level0
+            }
+        }
     }
     
     // MARK: - Progress (After Measure)
