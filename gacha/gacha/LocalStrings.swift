@@ -97,6 +97,9 @@ enum Strings {
             static var message: String {
                 NSLocalizedString("alert.cancel_pain.message", comment: "")
             }
+            static var messageFromHome: String {
+                NSLocalizedString("alert.cancel_pain_from_home.message", comment: "")
+            }
         }
     }
     

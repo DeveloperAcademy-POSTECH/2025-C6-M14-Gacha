@@ -77,13 +77,15 @@ struct MainViewBefore: View {
                         cornerRadius: 100
                     ) {
                         vm.shouldAutoStartMeasure = true
-                        vm.navigationPath.append(MeasureFlowStep.flexionMeasure)
+                        // 홈에서 FlexionMeasure로 이동하는 경우 소스 기록
+                        vm.navigate(to: MeasureFlowStep.flexionMeasure, from: NavigationSource.home)
                     }
                 }
                 
                 // 보조 링크: "고통수치만 입력하기" (16px, 밑줄, Gray500)
                 Button(action: {
-                    vm.navigationPath.append(MeasureFlowStep.painLevel)
+                    // 홈에서 직접 PainLevel로 이동하는 경우 소스 기록
+                    vm.navigate(to: MeasureFlowStep.painLevel, from: NavigationSource.home)
                 }) {
                     Text(Strings.DailyStart.enterPainOnly)
                         .font(.displayBodyRegular)

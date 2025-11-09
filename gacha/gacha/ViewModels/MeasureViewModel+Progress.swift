@@ -234,7 +234,7 @@ extension MeasureViewModel {
     }
 
     func formatPainLevel(_ level: Int?) -> String {
-        guard let level = level else { return "0" }
+        guard let level = level else { return "-" }
         return "\(level)"
     }
 

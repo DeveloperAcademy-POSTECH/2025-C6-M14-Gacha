@@ -123,7 +123,7 @@ struct MainViewAfter: View {
                 Text(Strings.Progress.painLevel)
                     .font(.displayCalloutBold)
                     .foregroundColor(.blue700)
-                Text("\(vm.currentRecord?.painLevel ?? 0)")
+                Text(vm.formatPainLevel(vm.currentRecord?.painLevel))
                     .font(.displayTitle2Bold)
             }
             

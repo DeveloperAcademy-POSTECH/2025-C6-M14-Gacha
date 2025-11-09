@@ -12,6 +12,23 @@ struct PainLevel: View {
     @State private var value: Double = 5.0  // 0~10 범위
     @State private var showingAlert = false
 
+    // 이전 화면이 홈인지 확인하는 computed property
+    private var isFromHome: Bool {
+        // navigationSource에서 현재 단계(.painLevel)의 소스를 확인
+        if let source = vm.getNavigationSource(for: .painLevel) {
+            return source == .home
+        }
+        // 소스가 기록되지 않은 경우 기본값 (안전하게 측정 화면에서 온 것으로 간주)
+        return false
+    }
+    
+    // Alert 메시지 분기
+    private var alertMessage: String {
+        isFromHome 
+            ? Strings.Alert.CancelPain.messageFromHome 
+            : Strings.Alert.CancelPain.message
+    }
+
     var body: some View {
         GeometryReader { geo in
             VStack(alignment: .center, spacing: 0) {
@@ -31,21 +48,38 @@ struct PainLevel: View {
                     .alert(isPresented: $showingAlert) {
                         Alert(
                             title: Text(Strings.Alert.CancelPain.title),
-                            message: Text(Strings.Alert.CancelPain.message),
+                            message: Text(alertMessage),  // 분기된 메시지 사용
                             primaryButton: .destructive(
                                 Text(Strings.Common.yes),
                                 action: {
-                                    // MainViewBefore로 이동 (측정 취소)
-                                    vm.prepareForNewMeasurement()  // 측정 상태 초기화
-                                    vm.clearCurrentRecord()        // 현재 레코드 클리어
                                     Task {
-                                        // 오늘 기록이 있다면 삭제 (이미 저장된 기록이 있을 수 있음)
-                                        await vm.deleteTodayRecords()
-                                        // 상태 업데이트 (hasTodayRecord = false)
-                                        await vm.checkTodayRecord()
+                                        if isFromHome {
+                                            // 홈에서 바로 온 경우: 아무것도 저장하지 않고 취소
+                                            vm.prepareForNewMeasurement()  // 측정 상태 초기화
+                                            vm.clearCurrentRecord()        // 현재 레코드 클리어
+                                            await vm.deleteTodayRecords()  // 오늘 기록 삭제
+                                            await vm.checkTodayRecord()    // 상태 업데이트
+                                        } else {
+                                            // 측정 후 온 경우: 각도만 저장 (통증 레벨은 저장하지 않음)
+                                            if let record = vm.currentRecord, record.flexionAngle != nil {
+                                                // 통증 레벨을 nil로 명시적으로 설정하여 각도만 저장되도록 보장
+                                                record.painLevel = nil
+                                                
+                                                // 각도만 저장 (통증 레벨 없음)
+                                                await vm.saveCurrentRecord()
+                                                print("✅ 각도만 저장됨: \(record.flexionAngle ?? 0)°")
+                                            } else {
+                                                // 각도가 없는 경우 레코드만 클리어
+                                                vm.clearCurrentRecord()
+                                            }
+                                            vm.prepareForNewMeasurement()  // 측정 상태 초기화
+                                            await vm.checkTodayRecord()    // 상태 업데이트
+                                        }
+                                        // 네비게이션 스택 전체 비우기
+                                        await MainActor.run {
+                                            vm.navigationPath = NavigationPath()
+                                        }
                                     }
-                                    // 네비게이션 스택 전체 비우기
-                                    vm.navigationPath = NavigationPath()
                                 }
                             ),
                             secondaryButton: .cancel(Text(Strings.Common.no))
