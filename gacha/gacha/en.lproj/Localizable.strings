@@ -123,6 +123,7 @@
 "history.rom_subheadline_better" = "It has improved by (nnn)° over the past (ddd) days!";
 "history.rom_subheadline_same" = "It has been maintained over the past (ddd) days.";
 "history.rom_subheadline_worse" = "It has decreased by (nnn)° over the past (ddd) days.";
+
 "history.pain_headline" = "Pain Level";
 "history.pain_subheadline_better" = "Pain erased by nn levels since the start!";
 "history.pain_subheadline_same" = "Pain level has remained steady";
