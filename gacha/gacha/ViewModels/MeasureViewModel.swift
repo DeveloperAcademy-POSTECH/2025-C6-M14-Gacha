@@ -39,6 +39,7 @@ final class MeasureViewModel: ObservableObject {
     private var stableStartTime: Date?
     private let stableDurationThreshold: TimeInterval = 1.7  // 1.7초
     private let stableAngleThreshold: Double = 3.0  // ±3도
+    private var lastHapticProgressLevel: Int = 0  // 마지막 햅틱 발생 레벨 (0, 1, 2...)
     
     // MARK: - 전체 측정 진행률 (0.0~1.0)
     var overallProgress: Double {
@@ -114,6 +115,7 @@ final class MeasureViewModel: ObservableObject {
         detectedMaxAngle = 0.0
         lastStableAngle = 0.0
         stableStartTime = nil
+        lastHapticProgressLevel = 0
         measureManager.startRecording()
         
         // 안정 각도 감지 타이머 시작
@@ -130,12 +132,22 @@ final class MeasureViewModel: ObservableObject {
     // MARK: - 각도 안정성 체크
     private func checkAngleStability() {
         let currentAngle = measureManager.currentAngle * 2  // ROM 계산
-        
+
         // 최대 각도 업데이트
         if currentAngle > detectedMaxAngle {
             detectedMaxAngle = currentAngle
         }
-        
+
+        // 진행률 기반 햅틱 (10%마다)
+        let progress = overallProgress
+        let currentLevel = Int(progress * 10)  // 0, 1, 2, 3... (10%, 20%, 30%...)
+
+        if currentLevel > lastHapticProgressLevel && currentLevel < 10 {
+            lastHapticProgressLevel = currentLevel
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            print("📳 진행률 햅틱: \(currentLevel * 10)%")
+        }
+
         // 각도 상승 감지 (5도 이상 변화)
         if measurementState == .started && abs(currentAngle) > 5.0 {
             measurementState = .moving
@@ -186,22 +198,50 @@ final class MeasureViewModel: ObservableObject {
     // MARK: - 측정 완료
     private func completeFlexionMeasure() {
         guard isMeasuring else { return }
-        
+
         stableAngleTimer?.invalidate()
         stableAngleTimer = nil
         measureManager.stopRecording()
-        
+
         isMeasuring = false
         measurementState = .completed
-        
+
         // 최빈값 계산 (옵션 B: 최대값 근처만 사용)
         let finalAngle = calculateFlexionROM()
         measuredRom = finalAngle
-        
+
         print("✅ 굴곡 측정 완료: \(finalAngle)°")
-        
-        // 결과 저장
-        finishFlexion(angle: finalAngle)
+
+        // 강한 햅틱 0.5초 동안 울림
+        let heavyGenerator = UIImpactFeedbackGenerator(style: .heavy)
+        let notificationGenerator = UINotificationFeedbackGenerator()
+
+        heavyGenerator.prepare()
+        notificationGenerator.prepare()
+
+        // 즉시 강한 햅틱
+        heavyGenerator.impactOccurred(intensity: 1.0)
+        notificationGenerator.notificationOccurred(.success)
+
+        // 0.15초 후
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            heavyGenerator.impactOccurred(intensity: 1.0)
+        }
+
+        // 0.3초 후
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            heavyGenerator.impactOccurred(intensity: 1.0)
+        }
+
+        // 0.5초 후
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            notificationGenerator.notificationOccurred(.success)
+        }
+
+        // 1초 후 다음 화면으로 이동
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.finishFlexion(angle: finalAngle)
+        }
     }
     
     // MARK: - 최빈값 계산 (옵션 B)
