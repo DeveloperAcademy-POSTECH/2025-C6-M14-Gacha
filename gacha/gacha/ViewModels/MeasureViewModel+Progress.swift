@@ -50,143 +50,143 @@ extension MeasureViewModel {
 
     // MARK: - Message Generation
 
-    var cardTitle: String {
-        // 첫 측정인 경우
-        if !hasComparison {
-            return Strings.Progress.FirstTake.title
-        }
-
-        guard let result = changeResult else {
-            return Strings.Progress.FirstTake.title
-        }
-
-        // ROM 변화 기준으로 메시지 생성 (Flexion 중심)
-        let flexState = result.flexRomDiffState
-        let painState = result.painDiffState
-
-        // 상태 확인을 위한 boolean 변수들
-        let isFlexBetter = if case .better = flexState { true } else { false }
-        let isFlexWarning = if case .warning = flexState { true } else { false }
-        let isFlexNormal = if case .normal = flexState { true } else { false }
-
-        let isPainBetter = if case .better = painState { true } else { false }
-        let isPainWarning = if case .warning = painState { true } else { false }
-        let isPainNormal = if case .normal = painState { true } else { false }
-        let isPainVisitRecommended = if case .visitRecommended = painState { true } else { false }
-
-        // 1. 통증이 심각하게 증가 (병원 방문 권장)
-        if isPainVisitRecommended {
-            return Strings.Progress.PainWarning.title
-        }
-
-        // 2. ROM 호전 + 통증 호전 또는 정상
-        if isFlexBetter && (isPainBetter || isPainNormal) {
-            return Strings.Progress.Excellent.title
-        }
-
-        // 3. ROM 호전되었지만 통증 증가
-        if isFlexBetter && isPainWarning {
-            return Strings.Progress.PainCaution.title
-        }
-
-        // 4. ROM 악화 + 통증 정상/호전
-        if isFlexWarning && (isPainNormal || isPainBetter) {
-            return Strings.Progress.Caution.title
-        }
-
-        // 5. ROM 악화 + 통증 증가
-        if isFlexWarning && isPainWarning {
-            return Strings.Progress.Warning.title
-        }
-
-        // 6. ROM 정상 + 통증 호전
-        if isFlexNormal && isPainBetter {
-            return Strings.Progress.PainNormal.title
-        }
-
-        // 7. ROM 정상 + 통증 정상
-        if isFlexNormal && isPainNormal {
-            return Strings.Progress.Same.title
-        }
-
-        // 8. 기타 (통증 증가 + ROM 정상)
-        if isPainWarning {
-            return Strings.Progress.PainCaution.title
-        }
-
-        // 9. 기본값
-        return Strings.Progress.Normal.title
-    }
+//    var cardTitle: String {
+//        // 첫 측정인 경우
+//        if !hasComparison {
+//            return Strings.Progress.FirstTake.title
+//        }
+//
+//        guard let result = changeResult else {
+//            return Strings.Progress.FirstTake.title
+//        }
+//
+//        // ROM 변화 기준으로 메시지 생성 (Flexion 중심)
+//        let flexState = result.flexRomDiffState
+//        let painState = result.painDiffState
+//
+//        // 상태 확인을 위한 boolean 변수들
+//        let isFlexBetter = if case .better = flexState { true } else { false }
+//        let isFlexWarning = if case .warning = flexState { true } else { false }
+//        let isFlexNormal = if case .normal = flexState { true } else { false }
+//
+//        let isPainBetter = if case .better = painState { true } else { false }
+//        let isPainWarning = if case .warning = painState { true } else { false }
+//        let isPainNormal = if case .normal = painState { true } else { false }
+//        let isPainVisitRecommended = if case .visitRecommended = painState { true } else { false }
+//
+//        // 1. 통증이 심각하게 증가 (병원 방문 권장)
+//        if isPainVisitRecommended {
+//            return Strings.Progress.PainWarning.title
+//        }
+//
+//        // 2. ROM 호전 + 통증 호전 또는 정상
+//        if isFlexBetter && (isPainBetter || isPainNormal) {
+//            return Strings.Progress.Excellent.title
+//        }
+//
+//        // 3. ROM 호전되었지만 통증 증가
+//        if isFlexBetter && isPainWarning {
+//            return Strings.Progress.PainCaution.title
+//        }
+//
+//        // 4. ROM 악화 + 통증 정상/호전
+//        if isFlexWarning && (isPainNormal || isPainBetter) {
+//            return Strings.Progress.Caution.title
+//        }
+//
+//        // 5. ROM 악화 + 통증 증가
+//        if isFlexWarning && isPainWarning {
+//            return Strings.Progress.Warning.title
+//        }
+//
+//        // 6. ROM 정상 + 통증 호전
+//        if isFlexNormal && isPainBetter {
+//            return Strings.Progress.PainNormal.title
+//        }
+//
+//        // 7. ROM 정상 + 통증 정상
+//        if isFlexNormal && isPainNormal {
+//            return Strings.Progress.Same.title
+//        }
+//
+//        // 8. 기타 (통증 증가 + ROM 정상)
+//        if isPainWarning {
+//            return Strings.Progress.PainCaution.title
+//        }
+//
+//        // 9. 기본값
+//        return Strings.Progress.Normal.title
+//    }
         
     
 
-    var feedbackMessage: String {
-        // 첫 측정인 경우
-        if !hasComparison {
-            return Strings.Progress.FirstTake.description
-        }
-
-        guard let result = changeResult else {
-            return Strings.Progress.FirstTake.description
-        }
-
-        // ROM 변화 기준으로 메시지 생성 (Flexion 중심)
-        let flexState = result.flexRomDiffState
-        let painState = result.painDiffState
-
-        // 상태 확인을 위한 boolean 변수들
-        let isFlexBetter = if case .better = flexState { true } else { false }
-        let isFlexWarning = if case .warning = flexState { true } else { false }
-        let isFlexNormal = if case .normal = flexState { true } else { false }
-
-        let isPainBetter = if case .better = painState { true } else { false }
-        let isPainWarning = if case .warning = painState { true } else { false }
-        let isPainNormal = if case .normal = painState { true } else { false }
-        let isPainVisitRecommended = if case .visitRecommended = painState { true } else { false }
-
-        // 1. 통증이 심각하게 증가 (병원 방문 권장)
-        if isPainVisitRecommended {
-            return "\(Strings.Progress.PainWarning.description)\n\(Strings.Progress.PainWarning.emphasis)"
-        }
-
-        // 2. ROM 호전 + 통증 호전 또는 정상
-        if isFlexBetter && (isPainBetter || isPainNormal) {
-            return Strings.Progress.Excellent.description
-        }
-
-        // 3. ROM 호전되었지만 통증 증가
-        if isFlexBetter && isPainWarning {
-            return "\(Strings.Progress.PainCaution.description)\n\(Strings.Progress.PainCaution.emphasis)"
-        }
-
-        // 4. ROM 악화 + 통증 정상/호전
-        if isFlexWarning && (isPainNormal || isPainBetter) {
-            return "\(Strings.Progress.Caution.description)\n\(Strings.Progress.Caution.emphasis)"
-        }
-
-        // 5. ROM 악화 + 통증 증가
-        if isFlexWarning && isPainWarning {
-            return "\(Strings.Progress.Warning.description)\n\(Strings.Progress.Warning.emphasis)"
-        }
-
-        // 6. ROM 정상 + 통증 호전
-        if isFlexNormal && isPainBetter {
-            return Strings.Progress.PainNormal.description
-        }
-
-        // 7. ROM 정상 + 통증 정상
-        if isFlexNormal && isPainNormal {
-            return Strings.Progress.Same.description
-        }
-
-        // 8. 기타 (통증 증가 + ROM 정상)
-        if isPainWarning {
-            return "\(Strings.Progress.PainCaution.description)\n\(Strings.Progress.PainCaution.emphasis)"
-        }
-
-        // 9. 기본값
-        return Strings.Progress.Normal.description
-    }
+//    var feedbackMessage: String {
+//        // 첫 측정인 경우
+//        if !hasComparison {
+//            return Strings.Progress.FirstTake.description
+//        }
+//
+//        guard let result = changeResult else {
+//            return Strings.Progress.FirstTake.description
+//        }
+//
+//        // ROM 변화 기준으로 메시지 생성 (Flexion 중심)
+//        let flexState = result.flexRomDiffState
+//        let painState = result.painDiffState
+//
+//        // 상태 확인을 위한 boolean 변수들
+//        let isFlexBetter = if case .better = flexState { true } else { false }
+//        let isFlexWarning = if case .warning = flexState { true } else { false }
+//        let isFlexNormal = if case .normal = flexState { true } else { false }
+//
+//        let isPainBetter = if case .better = painState { true } else { false }
+//        let isPainWarning = if case .warning = painState { true } else { false }
+//        let isPainNormal = if case .normal = painState { true } else { false }
+//        let isPainVisitRecommended = if case .visitRecommended = painState { true } else { false }
+//
+//        // 1. 통증이 심각하게 증가 (병원 방문 권장)
+//        if isPainVisitRecommended {
+//            return "\(Strings.Progress.PainWarning.description)\n\(Strings.Progress.PainWarning.emphasis)"
+//        }
+//
+//        // 2. ROM 호전 + 통증 호전 또는 정상
+//        if isFlexBetter && (isPainBetter || isPainNormal) {
+//            return Strings.Progress.Excellent.description
+//        }
+//
+//        // 3. ROM 호전되었지만 통증 증가
+//        if isFlexBetter && isPainWarning {
+//            return "\(Strings.Progress.PainCaution.description)\n\(Strings.Progress.PainCaution.emphasis)"
+//        }
+//
+//        // 4. ROM 악화 + 통증 정상/호전
+//        if isFlexWarning && (isPainNormal || isPainBetter) {
+//            return "\(Strings.Progress.Caution.description)\n\(Strings.Progress.Caution.emphasis)"
+//        }
+//
+//        // 5. ROM 악화 + 통증 증가
+//        if isFlexWarning && isPainWarning {
+//            return "\(Strings.Progress.Warning.description)\n\(Strings.Progress.Warning.emphasis)"
+//        }
+//
+//        // 6. ROM 정상 + 통증 호전
+//        if isFlexNormal && isPainBetter {
+//            return Strings.Progress.PainNormal.description
+//        }
+//
+//        // 7. ROM 정상 + 통증 정상
+//        if isFlexNormal && isPainNormal {
+//            return Strings.Progress.Same.description
+//        }
+//
+//        // 8. 기타 (통증 증가 + ROM 정상)
+//        if isPainWarning {
+//            return "\(Strings.Progress.PainCaution.description)\n\(Strings.Progress.PainCaution.emphasis)"
+//        }
+//
+//        // 9. 기본값
+//        return Strings.Progress.Normal.description
+//    }
 
     //     MARK: - Formatting
     func formatAngle(_ angle: Double?) -> String {

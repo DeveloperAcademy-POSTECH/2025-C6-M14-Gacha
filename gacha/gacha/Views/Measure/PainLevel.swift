@@ -84,13 +84,13 @@ struct PainLevel: View {
                         .frame(width: 136, height: 136)
                     //원준띠니얌~
                     VStack (spacing: 8) {
-                        Text(Strings.PainCategory.(Int(value)))
-                            .font(.displayTitle1Bold)
-                            .foregroundStyle(Color("Gray700"))
-                        Text(Strings.PainLevel.level(Int(value)))
-                            .font(.displayBodyRegular)
-                            .foregroundStyle(Color("Gray700"))
-                            .frame(height: 44)
+//                        Text(Strings.PainCategory.(Int(value)))
+//                            .font(.displayTitle1Bold)
+//                            .foregroundStyle(Color("Gray700"))
+//                        Text(Strings.PainLevel.level(Int(value)))
+//                            .font(.displayBodyRegular)
+//                            .foregroundStyle(Color("Gray700"))
+//                            .frame(height: 44)
                     }
                 }
                 .padding(.bottom, 40)
@@ -107,7 +107,7 @@ struct PainLevel: View {
                 Spacer()
 
                 CapsuleButtonComponent(
-                    title: Strings.Common.confirm,
+                    title: Strings.Button.save,
                     style: .primary
                 ) {
                     Task {
@@ -373,9 +373,10 @@ struct ArcSlider: View {
         }
     }
 
-    private func levelDescription(for value: Double) -> String {
-        return Strings.Pain.level(Int(value))
-    }
+//    private func levelDescription(for value: Double) -> String {
+//        //원준띠니얌~
+//        //return Strings.Pain.level(Int(value))
+//    }
 }
 
 // MARK: - 세그먼트 원호 Shape
