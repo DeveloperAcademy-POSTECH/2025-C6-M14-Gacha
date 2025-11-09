@@ -106,7 +106,7 @@ struct History: View {
                 )
                 .foregroundStyle(
                     LinearGradient(
-                        colors: [Color("Blue600"), Color("Blue400")],
+                        colors: [Color("Blue500"), Color("Blue400")],
                         startPoint: .top,
                         endPoint: .bottom
                     )

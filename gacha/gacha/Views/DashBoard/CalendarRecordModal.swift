@@ -30,50 +30,44 @@ struct CalendarRecordModal: View {
         .presentationDragIndicator(.visible)
     }
     
-    // MARK: - Result Card
-    
+    /// MARK: - SubView
+    /// 측정 결과 카드
     private var resultCard: some View {
         VStack(spacing: 0) {
             // 1. 통계 섹션 (54px)
             statisticsSection
-                .padding(.top, 24)
                 .padding(.horizontal, 20)
-                .border(Color.red)
+                .padding(.bottom, 12)
             
             // 2. 일러스트 영역 (240px)
             illustrationSection
-                .padding(.top, 22)
                 .padding(.horizontal, 20)
-                .border(Color.red)
-            
+                .padding(.bottom, 24)
         }
-        .frame(width: 361)  // 너비만 고정, 높이는 내용에 맞게 자동 조정
+        .frame(height: 460)
         .background(Color("White"))
-        .cornerRadius(15)
     }
     
-    // MARK: - Statistics Section
-    
+    /// 통계 섹션
     private var statisticsSection: some View {
         HStack(spacing: 16) {
+            // TODO: 통계 데이터 표시
             VStack(alignment: .leading, spacing: 4) {
                 Text("굴곡 각도")
-                    .font(.caption)
-                    .foregroundColor(Color("Gray700"))
+                    .font(.displayCalloutBold)
+                    .foregroundColor(.blue700)
                 Text(formatAngle(record.flexionAngle))
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(.displayTitle2Bold)
             }
             
             Spacer()
             
             VStack(alignment: .leading, spacing: 4) {
-                Text("통증 레벨")
-                    .font(.caption)
-                    .foregroundColor(Color("Gray700"))
+                Text("통증 정도")
+                    .font(.displayCalloutBold)
+                    .foregroundColor(.blue700)
                 Text("\(record.painLevel ?? 0)")
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(.displayTitle2Bold)
             }
             
             Spacer()
@@ -81,27 +75,19 @@ struct CalendarRecordModal: View {
         .frame(height: 54)
     }
     
-    // MARK: - Illustration Section
-    
+    /// 일러스트 영역
     private var illustrationSection: some View {
-        VStack(spacing: 8) {
-            if let angle = record.flexionAngle {
-                Image("angle/\(flexionImageName)")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 240, height: 240)
-            } else {
-                // 각도가 없는 경우 기본 이미지
-                Image("angle/70")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 240, height: 240)
-            }
+        ZStack {
+            Image(flexionImageName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 320, height: 240)
+            Text(formatAngle(record.flexionAngle))
+                .font(.displayCalloutBold)
+                .offset(x: 70, y:-20)
         }
-        .padding(.horizontal,24)
-        .padding(.bottom,20)
+        .frame(height: 240)
     }
-    
     
     
     private func formatDate(_ date: Date) -> String {
@@ -122,24 +108,24 @@ struct CalendarRecordModal: View {
     
     private var flexionImageName: String {
         guard let angle = record.flexionAngle else {
-            return "70"
+            return "result45"  // 기본값
         }
         
         switch angle {
-        case ...70:
-            return "70"
-        case 70..<80:
-            return "80"
-        case 80..<90:
-            return "90"
-        case 90..<100:
-            return "100"
-        case 100..<110:
-            return "110"
-        case 110..<120:
-            return "120"
-        default:  // 120 이상
-            return "130"
+        case ...60:
+            return "result45"
+        case 60..<75:
+            return "result60"
+        case 75..<90:
+            return "result75"
+        case 90..<105:
+            return "result90"
+        case 105..<120:
+            return "result105"
+        case 120..<135:
+            return "result120"
+        default:  // 135 이상
+            return "result135"
         }
     }
 }
