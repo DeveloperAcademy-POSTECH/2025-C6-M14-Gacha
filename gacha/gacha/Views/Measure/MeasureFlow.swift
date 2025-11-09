@@ -14,14 +14,6 @@ struct MeasureFlowWrapper: View {
 
     var body: some View {
         MeasureFlow(modelContext: modelContext)
-            .task {
-                // 샘플 데이터 생성 (기존 데이터가 없을 때만)
-                do {
-                    try await SampleDataGenerator.generateSampleRecords(context: modelContext)
-                } catch {
-                    print("❌ 샘플 데이터 생성 실패: \(error)")
-                }
-            }
     }
 }
 
