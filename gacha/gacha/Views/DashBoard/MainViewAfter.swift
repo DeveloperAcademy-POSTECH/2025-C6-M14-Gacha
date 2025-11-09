@@ -139,13 +139,14 @@ struct MainViewAfter: View {
     
     /// 일러스트 영역
     private var illustrationSection: some View {
-        VStack(spacing: 8) {
+        ZStack {
             Image(vm.flexionImageName)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 240, height: 240)
-                .transition(.opacity)
-                .animation(.easeInOut(duration: 0.3), value: vm.flexionImageName)
+                .frame(width: 320, height: 240)
+            Text(vm.formatAngle(vm.currentRecord?.flexionAngle))
+                .font(.displayCalloutBold)
+                .offset(x: 70, y:-20)
         }
         .frame(height: 240)
     }
@@ -153,6 +154,9 @@ struct MainViewAfter: View {
     /// 피드백 박스
     private var feedbackBox: some View {
         VStack(alignment: .leading, spacing: 8) {
+            Text(vm.cardTitle)
+                .font(.displayTitle2Bold)
+                .foregroundColor(.primary100)
             Text(vm.feedbackMessage)
                 .font(.displayBodyMedium)
                 .multilineTextAlignment(.leading)
