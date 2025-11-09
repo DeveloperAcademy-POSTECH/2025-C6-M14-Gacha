@@ -1,5 +1,5 @@
 //
-//  MeasureCheckedView.swift
+//  MeasureFlag.swift
 //  gacha
 //
 //  Created by 차원준 on 10/28/25.
@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct DailyMeasureDoneView: View {
+struct MeasureFlag: View {
     @EnvironmentObject var vm: MeasureViewModel
 
     @State private var scale: CGFloat = 0.5
@@ -49,6 +49,7 @@ struct DailyMeasureDoneView: View {
     )
     let viewModel = MeasureViewModel(repository: repository)
 
-    DailyMeasureDoneView()
+    MeasureFlag()
         .environmentObject(viewModel)
 }
+

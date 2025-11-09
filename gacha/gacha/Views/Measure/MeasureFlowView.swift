@@ -128,7 +128,7 @@ struct MeasureFlowView: View {
             homeView()
 
         case .flexionMeasure:
-            DailyMeasureDoneView()
+            MeasureFlag()
                 .navigationBarBackButtonHidden(true)
 
         case .flexionCheck:

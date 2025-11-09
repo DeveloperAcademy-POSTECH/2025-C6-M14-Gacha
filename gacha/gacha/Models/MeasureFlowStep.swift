@@ -10,7 +10,7 @@ import Foundation
 enum MeasureFlowStep: Hashable {
     case home  // DailyMeasureStartView (홈 화면)
     case flexionMeasure  // FlexionMeasureView
-    case flexionCheck  // DailyMeasureDoneView (측정 완료)
+    case flexionCheck  // MeasureFlag (측정 완료)
     case painLevel  // PainLevelView
     case summary  // MeasureView_After (측정 완료)
 }
