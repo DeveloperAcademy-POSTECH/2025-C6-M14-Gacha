@@ -92,8 +92,9 @@ struct CalendarRecordModal: View {
 
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "yyyy년 M월 d일"
+        formatter.locale = Locale.current
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
         return formatter.string(from: date)
     }
 

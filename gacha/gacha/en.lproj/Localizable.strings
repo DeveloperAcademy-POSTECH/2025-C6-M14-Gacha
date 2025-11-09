@@ -28,7 +28,7 @@
 "alert.quit_extension.message" = "Return to home";
 "alert.cancel_pain.headline" = "Cancel pain record?";
 "alert.cancel_pain.message" = "Only knee flexion angle \nwill be recorded";
-"alert.remeasure.headline" = "Measure Again??";
+"alert.remeasure.headline" = "Measure Again?";
 "alert.remeasure.message" = "The new data will be updated and saved as today’s record";
 
 /* MeasureView(Before) - 1/2 */
@@ -88,35 +88,35 @@
 "progress.first_take.description" = "Today is the first step.\nKeep going consistently.";
 
 "progress.better_nopain.headline" = "Movement Improved!";
-"progress.better_nopain.description" = "Your movement is smoother, pain-free, and recovery is going well.\nKeep it up consistently.";
+"progress.better_nopain.description" = "Movement improved. Recovery is going well.";
 "progress.better_mildpain.headline" = "Recovering Well!";
-"progress.better_mildpain.description" = "It may feel a bit stiff, but that's okay. Move slowly and avoid overdoing it.";
+"progress.better_mildpain.description" = "Slight stiffness is normal. Move slowly.";
 "progress.better_moderatepain.headline" = "Check with a specialist";
-"progress.better_moderatepain.description" = "Your movement has improved, but there’s still some pain. Check the cause with a medical specialist.";
+"progress.better_moderatepain.description" = "Movement improved but pain remains. Consult a specialist.";
 "progress.better_severepain.headline" = "You need a medical help";
-"progress.better_severepain.description" = "Movement is fine, but pain is severe. Recovery is a bit strained, and you need to adjust the pace.";
+"progress.better_severepain.description" = "Movement is fine but pain is severe. Adjust recovery pace.";
 "progress.better_excruciatingpain.headline" = "See a medical specialist";
-"progress.better_excruciatingpain.description" = "Pain management is more important now. Get treatment from a specialist quickly and take enough rest.";
-"progress.same_nopain.headline" = "You’re in a stable condition";
-"progress.same_nopain.description" = "No change, but not bad. Maintaining steadily is good. Progress little by little.";
+"progress.better_excruciatingpain.description" = "Pain management is priority. Get treatment and rest.";
+"progress.same_nopain.headline" = "You're in a stable condition";
+"progress.same_nopain.description" = "No change. Maintaining steadily is good.";
 "progress.same_mildpain.headline" = "Take it easy, manage gently";
-"progress.same_mildpain.description" = "Recovery may vary with your condition. Take some rest, and progress slowly.";
+"progress.same_mildpain.description" = "Recovery may vary. Take rest and progress slowly.";
 "progress.same_moderatepain.headline" = "Consult a medical specialist";
-"progress.same_moderatepain.description" = "Movement is similar, but there’s pain. Progress is slowing, and it’s time to adjust recovery plan.";
+"progress.same_moderatepain.description" = "Movement similar but pain continues. Time to adjust plan.";
 "progress.same_severepain.headline" = "Seek help from a specialist";
-"progress.same_severepain.description" = "No change in movement, and pain continues. Have a medical specialist check it to identify the cause early.";
+"progress.same_severepain.description" = "No movement change, pain continues. Consult a specialist.";
 "progress.same_excruciatingpain.headline" = "See a specialist promptly";
-"progress.same_excruciatingpain.description" = "Pain is severe. Don’t delay - see a medical specialist. Quick action is the first step to recovery.";
+"progress.same_excruciatingpain.description" = "Pain is severe. See a specialist promptly.";
 "progress.worse_nopain.headline" = "Movement reduced slightly";
-"progress.worse_nopain.description" = "No pain, but the joint feels a bit stiff. Move gently to loosen it, and avoid overexertion.";
+"progress.worse_nopain.description" = "No pain but joint feels stiff. Move gently.";
 "progress.worse_mildpain.headline" = "Maybe your body feels tired";
-"progress.worse_mildpain.description" = "Range of flexion has decreased. Rest well today and check again tomorrow.";
+"progress.worse_mildpain.description" = "Flexion range decreased. Rest well today.";
 "progress.worse_moderatepain.headline" = "Get advice from a specialist";
-"progress.worse_moderatepain.description" = "Movement has decreased and there’s pain. Recovery is slowing. Consult a specialist.";
+"progress.worse_moderatepain.description" = "Movement decreased with pain. Consult a specialist.";
 "progress.worse_severepain.headline" = "Medical consult needed";
-"progress.worse_severepain.description" = "Movement has decreased and pain is severe. Condition is worsening; revise your recovery plan.";
+"progress.worse_severepain.description" = "Movement decreased, pain severe. Revise recovery plan.";
 "progress.worse_excruciatingpain.headline" = "Get treatment immediately";
-"progress.worse_excruciatingpain.description" = "Movement is difficult and pain is severe. Don’t delay—see a medical specialist. Treatment is the top priority.";
+"progress.worse_excruciatingpain.description" = "Movement difficult, pain severe. See a specialist immediately.";
 
 /* HistoryView */
 "history.title_large" = "Summary";
