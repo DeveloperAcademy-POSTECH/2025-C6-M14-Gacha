@@ -28,8 +28,9 @@
 "alert.quit_extension.message" = "Return to home";
 "alert.cancel_pain.headline" = "Cancel pain record?";
 "alert.cancel_pain.message" = "Only knee flexion angle \nwill be recorded";
+"alert.cancel_pain_from_home.message" = "Return to home";
 "alert.remeasure.headline" = "Measure Again?";
-"alert.remeasure.message" = "The new data will be updated and saved as today’s record";
+"alert.remeasure.message" = "The new data will be updated and saved as today's record";
 
 /* MeasureView(Before) - 1/2 */
 "daily_start.title_large" = "Measure";

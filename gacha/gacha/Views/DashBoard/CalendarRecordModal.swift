@@ -67,7 +67,7 @@ struct CalendarRecordModal: View {
                 Text(Strings.Progress.painLevel)
                     .font(.displayCalloutBold)
                     .foregroundColor(.blue700)
-                Text("\(record.painLevel ?? 0)")
+                Text(formatPainLevelForDisplay(record.painLevel))
                     .font(.displayTitle2Bold)
             }
 
@@ -105,6 +105,11 @@ struct CalendarRecordModal: View {
             return "-"
         }
         return "\(Int(angle))°"
+    }
+    
+    private func formatPainLevelForDisplay(_ level: Int?) -> String {
+        guard let level = level else { return "-" }
+        return "\(level)"
     }
 
     private var flexionImageName: String {

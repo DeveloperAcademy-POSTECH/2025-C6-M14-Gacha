@@ -60,8 +60,8 @@ struct FlexionMeasure: View {
                         }
                         .alert(isPresented: $showingAlert) {
                             Alert(
-                                title: Text(Strings.Alert.CancelPain.title),
-                                message: Text(Strings.Alert.CancelPain.message),
+                                title: Text(Strings.Alert.cancelFlexionHeadline),
+                                message: Text(Strings.Alert.quitExtensionMessage),
                                 primaryButton: .destructive(
                                     Text(Strings.Common.yes),
                                     action: {

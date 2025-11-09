@@ -271,7 +271,7 @@ struct History: View {
                     .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
 
-                Text("\(selectedRecord.painLevel ?? 0)")
+                Text(formatPainLevel(selectedRecord.painLevel))
                 .font(.displayTitle2Semibold)
                     .foregroundStyle(Color("Gray900"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -441,6 +441,12 @@ struct History: View {
         .frame(width: 173, height: 173)
         .background(Color.white)
         .cornerRadius(15)
+    }
+    
+    // MARK: - Helper Methods
+    private func formatPainLevel(_ level: Int?) -> String {
+        guard let level = level else { return "-" }
+        return "\(level)"
     }
 }
 

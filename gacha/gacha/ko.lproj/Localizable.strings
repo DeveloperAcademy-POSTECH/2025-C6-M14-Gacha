@@ -28,6 +28,7 @@
 "alert.quit_extension.message" = "처음 화면으로 되돌아가요";
 "alert.cancel_pain.headline" = "통증 기록을 취소하시겠어요?";
 "alert.cancel_pain.message" = "무릎 굽힘 각도만 기록되고, 처음 화면으로 되돌아가요";
+"alert.cancel_pain_from_home.message" = "처음 화면으로 되돌아가요";
 "alert.remeasure.headline" = "다시 측정하시겠어요?";
 "alert.remeasure.message" = "새로 측정한 내용이 오늘의 기록으로 업데이트되어 저장돼요.";
 

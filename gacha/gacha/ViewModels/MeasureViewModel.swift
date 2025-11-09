@@ -24,6 +24,11 @@ final class MeasureViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String? = nil
 
+    // MARK: - Navigation Source Tracking
+    /// 현재 화면으로 진입한 소스를 추적
+    /// 예: PainLevel 화면에서 이전 화면이 홈인지 측정 화면인지 확인
+    @Published var navigationSource: [MeasureFlowStep: NavigationSource] = [:]
+
     // MARK: - Progress Properties
     @Published var previousRecord: MeasuredRecord?
     @Published var changeResult: ChangeResult?
@@ -300,7 +305,37 @@ final class MeasureViewModel: ObservableObject {
         // 기록된 각도 데이터 정리
         measureManager.recordedAngles.removeAll()
         
+        // 네비게이션 소스도 초기화
+        clearAllNavigationSources()
+        
         print("🔄 [MeasureViewModel] 새 측정 준비 완료")
+    }
+    
+    // MARK: - Navigation Source Management
+    /// 특정 단계로의 네비게이션 소스 가져오기
+    func getNavigationSource(for step: MeasureFlowStep) -> NavigationSource? {
+        return navigationSource[step]
+    }
+    
+    /// 네비게이션 소스 설정
+    func setNavigationSource(for step: MeasureFlowStep, source: NavigationSource) {
+        navigationSource[step] = source
+    }
+    
+    /// 네비게이션 소스 초기화
+    func clearNavigationSource(for step: MeasureFlowStep) {
+        navigationSource.removeValue(forKey: step)
+    }
+    
+    /// 네비게이션 소스 전체 초기화
+    func clearAllNavigationSources() {
+        navigationSource.removeAll()
+    }
+    
+    /// 소스를 기록하며 네비게이션
+    func navigate(to step: MeasureFlowStep, from source: NavigationSource) {
+        setNavigationSource(for: step, source: source)
+        navigationPath.append(step)
     }
 
     // MARK: - Flexion 측정 완료 시
@@ -316,7 +351,8 @@ final class MeasureViewModel: ObservableObject {
         currentRecord = record
         print("✅ Flexion: \(record.flexionAngle)°")
 
-        navigationPath.append(MeasureFlowStep.painLevel)
+        // 소스를 기록하며 네비게이션 (측정 화면에서 PainLevel로 이동)
+        navigate(to: MeasureFlowStep.painLevel, from: NavigationSource.flexionMeasure)
     }
 
     // MARK: - PainLevel 측정 완료 시
