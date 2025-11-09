@@ -1,5 +1,5 @@
 //
-//  MainViewB.swift
+//  MainViewAfter.swift
 //  gacha
 //
 //  Created by 차원준 on 10/28/25.
@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct MainViewB: View {
+struct MainViewAfter: View {
     @EnvironmentObject var vm: MeasureViewModel
 
     @State private var showingAlert = false
@@ -37,7 +37,7 @@ struct MainViewB: View {
                     
                     Spacer()
                     
-                    // MARK: - 하단 버튼 영역 (MainViewA와 동일한 구조)
+                    // MARK: - 하단 버튼 영역 (MainViewBefore와 동일한 구조)
                     VStack(spacing: 16) {
                         CapsuleButtonComponent(
                             title: Strings.Summary.button,
@@ -67,8 +67,8 @@ struct MainViewB: View {
                             )
                         }
                     }
-                    .frame(height: 92)  // MainViewA와 동일한 버튼 영역 높이
-                    .padding(.bottom, 34)  // MainViewA와 동일한 하단 패딩
+                    .frame(height: 92)  // MainViewBefore와 동일한 버튼 영역 높이
+                    .padding(.bottom, 34)  // MainViewBefore와 동일한 하단 패딩
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
@@ -177,7 +177,8 @@ struct MainViewB: View {
     )
     let viewModel = MeasureViewModel(repository: repository)
 
-    return MainViewB()
+    return MainViewAfter()
         .environmentObject(viewModel)
 }
+
 

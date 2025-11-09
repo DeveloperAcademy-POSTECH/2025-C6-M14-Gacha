@@ -107,12 +107,12 @@ struct MeasureFlow: View {
             Text("Loading...")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if measureVM.hasTodayRecord {
-            // 오늘 측정을 한 상태: MainViewB 표시
-            MainViewB()
+            // 오늘 측정을 한 상태: MainViewAfter 표시
+            MainViewAfter()
                 .padding(.bottom, 80)  // TabBar 높이만큼 여백
         } else {
-            // 오늘 측정을 안한 상태: MainViewA 표시
-            MainViewA()
+            // 오늘 측정을 안한 상태: MainViewBefore 표시
+            MainViewBefore()
                 .padding(.bottom, 80)  // TabBar 높이만큼 여백
         }
     }
@@ -144,7 +144,7 @@ struct MeasureFlow: View {
 
 
         case .summary:
-            MainViewB()
+            MainViewAfter()
                 .navigationBarHidden(true)
         }
     }

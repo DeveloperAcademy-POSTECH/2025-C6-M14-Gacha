@@ -295,7 +295,7 @@ enum Strings {
         }
     }
     
-    // MARK: - MainViewB
+    // MARK: - MainViewAfter
     enum Summary {
         static var title: String {
             NSLocalizedString("summary.title", comment: "")
