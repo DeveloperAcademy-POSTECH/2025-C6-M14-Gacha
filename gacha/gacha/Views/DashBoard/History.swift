@@ -24,7 +24,7 @@ struct History: View {
                         VStack(spacing: 32) {
                         
                         HStack {
-                            Text("요약")
+                            Text(Strings.History.titleLarge)
                                 .font(.displayLargeBold)
                             Spacer()
                         }
@@ -300,7 +300,7 @@ struct History: View {
 
                 // 헤더
                 HStack {
-                    Text("무릎 굽힘 범위")
+                    Text(Strings.History.romTitle)
                         .font(.displayBodyBold)
                         .foregroundColor(Color("Blue700"))
                     Spacer()
@@ -367,7 +367,7 @@ struct History: View {
             VStack(alignment: .leading, spacing: 12) {
             // 헤더
             HStack {
-                Text("통증 정도")
+                Text(Strings.History.painTitle)
                     .font(.displayBodyBold)
                     .foregroundColor(Color("Blue700"))
                 Spacer()

@@ -38,6 +38,9 @@ enum Strings {
         static var cancel: String {
             NSLocalizedString("common.cancel", comment: "")
         }
+        static var confirm: String {
+            NSLocalizedString("common.confirm", comment: "")
+        }
     }
     
     // MARK: - Button
@@ -146,6 +149,9 @@ enum Strings {
         }
         static var description: String {
             NSLocalizedString("pain.description", comment: "")
+        }
+        static var romMeasure: String {
+            NSLocalizedString("pain.rom_measure", comment: "")
         }
     }
     
@@ -412,6 +418,23 @@ enum Strings {
         }
         static var painNoRecord: String {
             NSLocalizedString("history.pain_semibold15_norecord", comment: "")
+        }
+        
+        // MARK: - History Summary Card Changes
+        static func romChangeIncreased(days: Int, degrees: Int) -> String {
+            String(format: NSLocalizedString("history.rom_change_increased", comment: ""), days, degrees)
+        }
+        
+        static func romChangeDecreased(days: Int, degrees: Int) -> String {
+            String(format: NSLocalizedString("history.rom_change_decreased", comment: ""), days, degrees)
+        }
+        
+        static func painChangeDecreased(levels: Int) -> String {
+            String(format: NSLocalizedString("history.pain_change_decreased", comment: ""), levels)
+        }
+        
+        static func painChangeIncreased(levels: Int) -> String {
+            String(format: NSLocalizedString("history.pain_change_increased", comment: ""), levels)
         }
     }
 }
