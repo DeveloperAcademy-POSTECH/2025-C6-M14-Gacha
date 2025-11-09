@@ -81,6 +81,89 @@ class HistoryViewModel: ObservableObject {
         }
     }
     
+    // MARK: - Summary Cards Data
+    
+    /// 첫 번째 (가장 오래된) 기록의 ROM
+    var firstROM: Int? {
+        guard let first = recentRecords.first,
+              let rom = first.flexionAngle else { return nil }
+        return Int(rom)
+    }
+    
+    /// 마지막 (가장 최근) 기록의 ROM
+    var latestROM: Int? {
+        guard let last = recentRecords.last,
+              let rom = last.flexionAngle else { return nil }
+        return Int(rom)
+    }
+    
+    /// ROM 변화량 (최근 - 오래된)
+    var romChange: Int? {
+        guard let first = firstROM, let latest = latestROM else { return nil }
+        return latest - first
+    }
+    
+    /// ROM 변화 설명 텍스트
+    var romChangeText: String {
+        guard recentRecords.count > 1,
+              let change = romChange,
+              change != 0 else {
+            return ""
+        }
+        
+        if change > 0 {
+            return "지난 \(daysBetweenRecords)일간\n무릎 굽힘 범위가\n\(abs(change))도 늘어났어요!"
+        } else {
+            return "지난 \(daysBetweenRecords)일간\n무릎 굽힘 범위가\n\(abs(change))도 줄어들었어요"
+        }
+    }
+    
+    /// 첫 번째와 마지막 기록 사이의 날짜 차이 (일 단위)
+    var daysBetweenRecords: Int {
+        guard recentRecords.count > 1,
+              let firstDate = recentRecords.first?.measuredDate,
+              let lastDate = recentRecords.last?.measuredDate else {
+            return 0
+        }
+        
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.day], from: firstDate, to: lastDate)
+        return components.day ?? 0
+    }
+    
+    /// 첫 번째 (가장 오래된) 기록의 통증 레벨
+    var firstPainLevel: Int? {
+        guard let first = recentRecords.first else { return nil }
+        return first.painLevel
+    }
+    
+    /// 마지막 (가장 최근) 기록의 통증 레벨
+    var latestPainLevel: Int? {
+        guard let last = recentRecords.last else { return nil }
+        return last.painLevel
+    }
+    
+    /// 통증 변화량 (처음 - 최근, 양수면 줄어든 것)
+    var painChange: Int? {
+        guard let first = firstPainLevel, let latest = latestPainLevel else { return nil }
+        return first - latest
+    }
+    
+    /// 통증 변화 설명 텍스트
+    var painChangeText: String {
+        guard recentRecords.count > 1,
+              let change = painChange,
+              change != 0 else {
+            return ""
+        }
+        
+        if change > 0 {
+            return "처음에 비해\n통증이\n\(abs(change))단계 줄어들었어요!"
+        } else {
+            return "처음에 비해\n통증이\n\(abs(change))단계 늘어났어요"
+        }
+    }
+    
     // MARK: - Chart Y-Axis Range
     
     var romMaxValue: Double {
@@ -117,8 +200,8 @@ class HistoryViewModel: ObservableObject {
     }
     
     var xAxisDomain: ClosedRange<Double> {
-        let maxIndex = Double(max(0, recentRecords.count - 1))
-        return -0.3...(maxIndex + 0.3)
+        let maxIndex = Double(max(0, recentRecords.count-1))
+        return -0.3...(maxIndex + 0.8)
     }
 
     // MARK: - Helper Methods
