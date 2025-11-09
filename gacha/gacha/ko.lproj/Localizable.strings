@@ -10,10 +10,12 @@
 "common.yes" = "네";
 "common.no" = "아니요";
 "common.retake" = "다시 측정하기";
-"common.next" = "다음";
-"common.measure" = "측정하기";
 "commom.cancel" = "취소";
-"common.save" = "저장";
+
+/* Button */
+"button.next" = "다음";
+"button.measure" = "측정하기";
+"button.save" = "저장";
 
 /* tabbar */
 "tabbar.calendar" = "캘린더";

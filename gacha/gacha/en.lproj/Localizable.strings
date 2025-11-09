@@ -10,10 +10,12 @@
 "common.yes" = "Yes";
 "common.no" = "No";
 "common.retake" = "Retake Measurement";
-"common.next" = "Next";
-"common.measure" = "Start";
 "commom.cancel" = "Cancel";
-"common.save" = "Save";
+
+/* Button */
+"button.next" = "Next";
+"button.measure" = "Start";
+"button.save" = "Save";
 
 /* tabbar */
 "tabbar.calendar" = "Calendar";
