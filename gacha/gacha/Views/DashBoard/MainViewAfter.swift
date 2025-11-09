@@ -149,10 +149,10 @@ struct MainViewAfter: View {
     /// 피드백 박스
     private var feedbackBox: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("vm.cardTitle")
+            Text(vm.cardTitle)
                 .font(.displayTitle2Bold)
                 .foregroundColor(.blue700)
-            Text("vm.feedbackMessage")
+            Text(vm.feedbackMessage)
                 .font(.displayBodyRegular)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
