@@ -29,13 +29,7 @@ struct History: View {
                             
                             VStack(alignment: .leading) {
 
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text(Strings.History.average)
-                                            .font(.displayCaption1Semibold)
-                                            .foregroundColor(Color("Gray500"))
-                                        Text("\(vm.romAverage)°")
-                                            .font(.displayTitle1Bold)
-                                    }
+                                Text(Strings.History.romHeadline)
                                 Text(vm.dateRangeText)
                                     .font(.displayCaption1Semibold)
                                     .foregroundColor(Color("Gray500"))
