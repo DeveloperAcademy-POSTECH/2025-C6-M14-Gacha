@@ -96,9 +96,9 @@ class HistoryViewModel: ObservableObject {
         }
         
         if change > 0 {
-            return "지난 \(daysBetweenRecords)일간\n무릎 굽힘 범위가\n\(abs(change))도 늘어났어요!"
+            return Strings.History.romChangeIncreased(days: daysBetweenRecords, degrees: abs(change))
         } else {
-            return "지난 \(daysBetweenRecords)일간\n무릎 굽힘 범위가\n\(abs(change))도 줄어들었어요"
+            return Strings.History.romChangeDecreased(days: daysBetweenRecords, degrees: abs(change))
         }
     }
     
@@ -142,9 +142,9 @@ class HistoryViewModel: ObservableObject {
         }
         
         if change > 0 {
-            return "처음에 비해\n통증이\n\(abs(change))단계 줄어들었어요!"
+            return Strings.History.painChangeDecreased(levels: abs(change))
         } else {
-            return "처음에 비해\n통증이\n\(abs(change))단계 늘어났어요"
+            return Strings.History.painChangeIncreased(levels: abs(change))
         }
     }
     
@@ -223,7 +223,7 @@ class HistoryViewModel: ObservableObject {
     
     func formatDateRange(startDate: Date, endDate: Date) -> String{
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.locale = Locale.current
         formatter.dateFormat = "yyyy/M/d"
 
         let start = formatter.string(from: startDate)

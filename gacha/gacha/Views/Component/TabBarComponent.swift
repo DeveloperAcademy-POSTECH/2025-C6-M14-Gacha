@@ -8,16 +8,24 @@
 import SwiftUI
 
 /// TabBarItem 타입
-enum TabBarItem: String, CaseIterable {
-    case calendar = "캘린더"
-    case measure = "측정"
-    case summary = "요약"
+enum TabBarItem: CaseIterable {
+    case calendar
+    case measure
+    case summary
     
     var systemImageName: String {
         switch self {
         case .calendar: return "calendar"
         case .measure: return "ruler"
         case .summary: return "chart.bar"
+        }
+    }
+    
+    var title: String {
+        switch self {
+        case .calendar: return Strings.Tabbar.calendar
+        case .measure: return Strings.Tabbar.measure
+        case .summary: return Strings.Tabbar.summary
         }
     }
 }
@@ -38,7 +46,7 @@ struct TabBarComponent: View {
                     VStack(spacing: 4) {
                         Image(systemName: tab.systemImageName)
                             .font(.displayTitle3Bold)
-                        Text(tab.rawValue)
+                        Text(tab.title)
                             .font(.displayCaption1Regular)
                     }
                     .foregroundStyle(

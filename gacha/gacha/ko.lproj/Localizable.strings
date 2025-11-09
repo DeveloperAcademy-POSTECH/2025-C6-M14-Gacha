@@ -11,6 +11,7 @@
 "common.no" = "아니요";
 "common.retake" = "다시 측정하기";
 "common.cancel" = "취소";
+"common.confirm" = "확인";
 
 /* Button */
 "button.next" = "다음";
@@ -55,6 +56,7 @@
 /* PainLevelView */
 "pain.title" = "통증 기록";
 "pain.description" = "통증 정도를 선택해 주세요";
+"pain.rom_measure" = "ROM 측정";
 
 /* Pain Categories */
 "pain.category.0" = "통증 없음";
@@ -105,7 +107,7 @@
 "progress.same_severepain.description" = "움직임 변화는 없고 통증이 이어지네요.\n전문가에게 정확히 확인해 보세요.\n원인을 초기에 잡는 게 좋아요.";
 "progress.same_excruciatingpain.headline" = "빨리 진료를 받으세요";
 "progress.same_excruciatingpain.description" = "통증이 심해요.\n지체하지 말고 전문가를 찾으세요.\n빠른 조치가 회복의 시작이에요.";
-"progress.worse_nopain.headlne" = "움직임이 살짝 줄었어요";
+"progress.worse_nopain.headline" = "움직임이 살짝 줄었어요";
 "progress.worse_nopain.description" = "통증은 없지만 관절이 조금 뻣뻣하네요.\n가볍게 움직이며 풀어주세요.\n무리하지 않는 게 좋아요.";
 "progress.worse_mildpain.headline" = "몸이 피로한 날이에요";
 "progress.worse_mildpain.description" = "가동범위가 줄었네요.\n오늘은 충분히 쉬어요.\n내일 다시 확인해 보세요.";
@@ -142,6 +144,14 @@
 "history.pain_semibold15_same" = "이기간 가장 낮았던 nn단계의 통증과 같아요";
 "history.pain_semibold15_worse" = "이 기간 가장 낮았던 nn보다 n단계 더 아파졌어요";
 "history.pain_semibold15_norecord" = "첫 기록을 남겨 주세요";
+
+/* History Summary Card - ROM Change */
+"history.rom_change_increased" = "지난 %d일간\n무릎 굽힘 범위가\n%d도 늘어났어요!";
+"history.rom_change_decreased" = "지난 %d일간\n무릎 굽힘 범위가\n%d도 줄어들었어요";
+
+/* History Summary Card - Pain Change */
+"history.pain_change_decreased" = "처음에 비해\n통증이\n%d단계 줄어들었어요!";
+"history.pain_change_increased" = "처음에 비해\n통증이\n%d단계 늘어났어요";
 
 
 // 없앤 것

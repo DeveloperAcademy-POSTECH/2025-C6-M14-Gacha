@@ -54,7 +54,7 @@ struct CalendarRecordModal: View {
         HStack(spacing: 16) {
             // TODO: 통계 데이터 표시
             VStack(alignment: .leading, spacing: 4) {
-                Text("굴곡 각도")
+                Text(Strings.Progress.flexionAngle)
                     .font(.displayCalloutBold)
                     .foregroundColor(.blue700)
                 Text(formatAngle(record.flexionAngle))
@@ -64,7 +64,7 @@ struct CalendarRecordModal: View {
             Spacer()
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("통증 정도")
+                Text(Strings.Progress.painLevel)
                     .font(.displayCalloutBold)
                     .foregroundColor(.blue700)
                 Text("\(record.painLevel ?? 0)")
@@ -92,8 +92,9 @@ struct CalendarRecordModal: View {
 
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "yyyy년 M월 d일"
+        formatter.locale = Locale.current
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
         return formatter.string(from: date)
     }
 

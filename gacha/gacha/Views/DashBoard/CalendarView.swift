@@ -126,8 +126,8 @@ struct MonthCalendarView: View {
     
     private var monthYearString: String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "M월"
+        formatter.locale = Locale.current
+        formatter.dateFormat = "MMMM"
         return formatter.string(from: monthDate)
     }
     
@@ -148,7 +148,7 @@ struct MonthCalendarView: View {
                 .padding(.bottom, 12)
             
             HStack(spacing: 0) {
-                ForEach(["일", "월", "화", "수", "목", "금", "토"], id: \.self) { weekday in
+                ForEach(weekdaySymbols, id: \.self) { weekday in
                     Text(weekday)
                         .font(.roundedFootnoteRegular)
                         .foregroundStyle(Color("Gray500"))
@@ -157,6 +157,17 @@ struct MonthCalendarView: View {
             }
             .padding(.bottom, 8)
         }
+    }
+    
+    private var weekdaySymbols: [String] {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        
+        // shortWeekdaySymbols는 현재 로케일에 맞는 요일 약어를 반환
+        // iOS에서는 항상 일요일부터 시작하는 배열을 반환 (일요일=인덱스 0)
+        // 영어: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        // 한국어: ["일", "월", "화", "수", "목", "금", "토"]
+        return formatter.shortWeekdaySymbols
     }
     
     // MARK: - Calendar Grid

@@ -30,8 +30,8 @@ struct PainLevel: View {
                     }
                     .alert(isPresented: $showingAlert) {
                         Alert(
-                            title: Text(Strings.Alert.cancelPainHeadline), //무릎 움직임 측정을 취소하겠어요?
-                            message: Text(Strings.Alert.cancelPainMessage), //측정된 기록이 저장되지 않고 처음 화면으로 되돌아가요
+                            title: Text(Strings.Alert.CancelPain.title),
+                            message: Text(Strings.Alert.CancelPain.message),
                             primaryButton: .destructive(
                                 Text(Strings.Common.yes),
                                 action: {
@@ -54,7 +54,7 @@ struct PainLevel: View {
                     
                     Spacer()
                     
-                    Text(Strings.Pain.title)
+                    Text(Strings.Pain.romMeasure)
                         .font(.displayBodySemibold)
                     Spacer()
                     
@@ -83,7 +83,7 @@ struct PainLevel: View {
                             .font(.displayTitle1Bold)
                             .foregroundStyle(Color("Gray700"))
                         Text(Strings.PainLevel.level(for: Int(value)))
-                            .font(.displayBodyRegular)
+                            .font(.displayTitle1Bold)
                             .foregroundStyle(Color("Gray700"))
                             .frame(height: 44)
                             .multilineTextAlignment(.center)
@@ -103,7 +103,7 @@ struct PainLevel: View {
                 Spacer()
 
                 CapsuleButtonComponent(
-                    title: Strings.Button.save,
+                    title: Strings.Common.confirm,
                     style: .primary
                 ) {
                     Task {
@@ -119,11 +119,18 @@ struct PainLevel: View {
                             await vm.finishPainLevelOnly(level: Int(value))
                         }
                         
-                        await vm.saveCurrentRecord()  // 레코드 저장
-                        await vm.checkTodayRecord()   // 상태 업데이트 (hasTodayRecord = true)
-                        // 네비게이션 스택을 모두 비워서 메인 화면으로 돌아가기
-                        // 메인 화면에서 hasTodayRecord를 체크하여 MainViewB를 표시
-                        vm.navigationPath = NavigationPath()
+                        // 레코드 저장 (clearCurrentRecord는 저장 후 내부에서 호출됨)
+                        await vm.saveCurrentRecord()
+                        
+                        // 상태 업데이트: 오늘 기록이 있는지 확인하고 currentRecord 로드
+                        // checkTodayRecord는 hasTodayRecord를 true로 설정하고 currentRecord를 로드함
+                        await vm.checkTodayRecord()
+                        
+                        // checkTodayRecord가 완료된 후 네비게이션 스택을 비워서 메인 화면으로 돌아가기
+                        // 메인 화면에서 hasTodayRecord를 체크하여 MainViewAfter를 표시
+                        await MainActor.run {
+                            vm.navigationPath = NavigationPath()
+                        }
                     }
                 }
                 .padding(.horizontal, 40)
@@ -150,24 +157,6 @@ struct PainLevel: View {
             return "painlevel1"
         }
     }
-    
-    private func painLevelTitle(for index: Int) -> String {
-        switch index {
-        case 0:
-            return Strings.PainCategory.none
-        case 1...3:
-            return Strings.PainCategory.mild
-        case 4...6:
-            return Strings.PainCategory.moderate
-        case 7...9:
-            return Strings.PainCategory.severe
-        case 10:
-            return Strings.PainCategory.extreme
-        default:
-            return Strings.PainCategory.mild
-        }
-    }
-
 }
 
 struct ArcSlider: View {
