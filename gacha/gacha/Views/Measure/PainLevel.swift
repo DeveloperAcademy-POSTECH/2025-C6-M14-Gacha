@@ -83,7 +83,7 @@ struct PainLevel: View {
                             .font(.displayTitle1Bold)
                             .foregroundStyle(Color("Gray700"))
                         Text(Strings.PainLevel.level(for: Int(value)))
-                            .font(.displayTitle1Bold)
+                            .font(.displayTitle3Regular)
                             .foregroundStyle(Color("Gray700"))
                             .frame(height: 44)
                             .multilineTextAlignment(.center)

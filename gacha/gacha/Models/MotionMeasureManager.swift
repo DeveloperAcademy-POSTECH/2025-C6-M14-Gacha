@@ -138,9 +138,12 @@ final class MotionMeasureManager: MeasureManager {
         var angleDiff: Double = 0.0
         switch selectedOrientation {
         case .portrait:
-            angleDiff = (attitude.pitch - baselinePitch) * 180 / .pi
+            // 홈버튼/음량버튼이 있는 긴 측면을 종아리에 부착
+            // pitch 축 사용: 무릎을 구부릴 때의 각도 변화 측정
+            // 부호를 반전시켜 무릎을 구부릴수록 양수 값이 나오도록 조정
+            angleDiff = -(attitude.pitch - baselinePitch) * 180 / .pi
         case .landscape:
-            angleDiff = (attitude.roll - baselineRoll) * 180 / .pi
+            angleDiff = (attitude.pitch - baselinePitch) * 180 / .pi
         }
 
         return angleDiff
