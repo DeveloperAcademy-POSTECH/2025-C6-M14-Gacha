@@ -15,6 +15,13 @@ struct CalendarRecordModal: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            
+            Text(formatDate(record.measuredDate))
+                .font(.displayBodyMedium)
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(33)
+            
             // Modal 내용
             resultCard
                 .padding(.horizontal, 20)
@@ -31,17 +38,14 @@ struct CalendarRecordModal: View {
             statisticsSection
                 .padding(.top, 24)
                 .padding(.horizontal, 20)
+                .border(Color.red)
             
             // 2. 일러스트 영역 (240px)
             illustrationSection
                 .padding(.top, 22)
                 .padding(.horizontal, 20)
+                .border(Color.red)
             
-            // 3. 피드백 박스 (auto)
-            feedbackBox
-                .padding(.horizontal, 10)  // 주의: 10px!
-                .padding(.top, 6)
-                .padding(.bottom, 24)  // 하단 여백 추가
         }
         .frame(width: 361)  // 너비만 고정, 높이는 내용에 맞게 자동 조정
         .background(Color("White"))
@@ -94,23 +98,11 @@ struct CalendarRecordModal: View {
                     .frame(width: 240, height: 240)
             }
         }
-        .frame(height: 240)
+        .padding(.horizontal,24)
+        .padding(.bottom,20)
     }
     
-    // MARK: - Feedback Box
     
-    private var feedbackBox: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(formatDate(record.measuredDate))
-                .font(.displayBodyMedium)
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(16)
-        .background(Color("Gray100"))
-        .cornerRadius(12)
-    }
     
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
