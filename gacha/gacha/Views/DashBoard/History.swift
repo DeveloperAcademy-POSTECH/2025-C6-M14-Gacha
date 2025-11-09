@@ -87,7 +87,6 @@ struct History: View {
                  
             }
         }
-
         .background(Color("BackgoundSecondary"))
 
         .task {

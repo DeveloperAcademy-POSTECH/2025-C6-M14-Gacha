@@ -9,10 +9,8 @@ import SwiftUI
 
 struct PainLevel: View {
     @EnvironmentObject var vm: MeasureViewModel
-
     @State private var value: Double = 5.0  // 0~10 범위
     @State private var showingAlert = false
-
 
     var body: some View {
         GeometryReader { geo in
@@ -58,7 +56,6 @@ struct PainLevel: View {
                     
                     Text(Strings.Pain.title)
                         .font(.displayBodySemibold)
-
                     Spacer()
                     
                     Button(action: {
@@ -75,22 +72,17 @@ struct PainLevel: View {
 
                 Spacer()
                 
-
                 // MARK: - 이모지
-                VStack (spacing: 16) {
+                VStack(spacing: 16) {
                     Image(painImageName(for: Int(value)))
                         .resizable()
                         .scaledToFit()
                         .frame(width: 136, height: 136)
-                    //원준띠니얌~
-                    VStack (spacing: 8) {
-//                        Text(Strings.PainCategory.(Int(value)))
-//                            .font(.displayTitle1Bold)
-//                            .foregroundStyle(Color("Gray700"))
-//                        Text(Strings.PainLevel.level(Int(value)))
-//                            .font(.displayBodyRegular)
-//                            .foregroundStyle(Color("Gray700"))
-//                            .frame(height: 44)
+                    
+                    VStack(spacing: 8) {
+                        Text(Strings.Pain.level(Int(value)))
+                            .font(.displayTitle1Bold)
+                            .foregroundStyle(Color("Gray700"))
                     }
                 }
                 .padding(.bottom, 40)
@@ -98,9 +90,9 @@ struct PainLevel: View {
                 Spacer()
 
                 // MARK: - 반원형 슬라이더
-                VStack (spacing: 16) {
+                VStack(spacing: 16) {
                     ArcSlider(value: $value)
-                        .frame(height: 100)
+                        .frame(height: 250)
                     Text(Strings.Pain.description)
                 }
                 
@@ -135,7 +127,6 @@ struct PainLevel: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
              
-
         }
     }
 
@@ -155,35 +146,12 @@ struct PainLevel: View {
             return "painlevel1"
         }
     }
-    
-//    private func painLevelTitle(for index: Int) -> String {
-//        switch index {
-//        case 0...2:
-//            return Color("1")
-//        case 3...5:
-//            return Color("4")
-//        case 6...8:
-//            return Color("7")
-//        case 9:
-//            // value가 10일 때만 Index/10 사용
-//            if value >= 10 {
-//                return Color("10")
-//            } else {
-//                return Color("7")
-//            }
-//        default:
-//            return Color("Gray300")
-//        }
-//    }
-
 }
 
 struct ArcSlider: View {
     @Binding var value: Double
     @State private var lastIntValue: Int = 5
-
     private let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-
     private let totalSegments = 10  // 10개 칸
     private let startAngle: Double = 160  // 원호 시작 각도
     private let totalAngle: Double = 220  // 원호 총 각도
@@ -218,17 +186,15 @@ struct ArcSlider: View {
                 return Color("7")
             }
         default:
-            return Color("Gray300")
+            return Color("Gray500")
         }
     }
-
     var body: some View {
         GeometryReader { geo in
             let size = geo.size
             let center = CGPoint(x: size.width / 2, y: size.height / 2)
             let radius = size.width / 3
             let arcCenter = CGPoint(x: size.width / 2, y: size.height / 2)
-
             ZStack {
                 // MARK: - 배경 세그먼트들 (정확히 10개, 모두 회색)
                 // 원호를 정확히 10등분한 세그먼트
@@ -268,7 +234,8 @@ struct ArcSlider: View {
                         filledSegmentColor(for: index, value: value),
                         style: StrokeStyle(lineWidth: 40, lineCap: .butt, lineJoin: .miter)
                     )
-//                    .animation(.easeInOut(duration: 0.2), value: value)
+                    // 애니메이션 비활성화
+                    // .animation(.easeInOut(duration: 0.2), value: value)
                 }
                 
                 // MARK: - 구분선 (11개: 각 칸의 경계에 정확히 배치)
@@ -290,7 +257,6 @@ struct ArcSlider: View {
                     )
                     .stroke(Color("Gray700"), lineWidth: 1.5)
                 }
-
                 // 중앙 텍스트 (값 + 상태)
                 VStack(spacing: 16) {
                     Text("\(Int(value))")
@@ -369,7 +335,6 @@ struct ArcSlider: View {
             .onChange(of: value) { oldValue, newValue in
                 let newIntValue = Int(round(newValue))
             }
-
         }
     }
 
@@ -438,7 +403,6 @@ struct DividerLineShape: Shape {
 struct ArcShape: Shape {
     var startAngle: Angle
     var endAngle: Angle
-
     func path(in rect: CGRect) -> Path {
         var path = Path()
         path.addArc(
@@ -461,7 +425,7 @@ struct ArcShape: Shape {
         modelContext: container.mainContext
     )
     let viewModel = MeasureViewModel(repository: repository)
-
     return PainLevel()
         .environmentObject(viewModel)
 }
+
