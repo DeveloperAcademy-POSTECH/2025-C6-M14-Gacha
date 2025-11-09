@@ -51,7 +51,7 @@ struct MainViewAfter: View {
                         }
                         .alert(isPresented: $showingAlert) {
                             Alert(
-                                title: Text(Strings.Alert.remeasureHeadline.title),
+                                title: Text(Strings.Alert.remeasureHeadline),
                                 message: Text(Strings.Alert.remeasureMessage),
                                 primaryButton: .destructive(
                                     Text(Strings.Common.yes),
@@ -152,7 +152,7 @@ struct MainViewAfter: View {
             Text("vm.cardTitle")
                 .font(.displayTitle2Bold)
                 .foregroundColor(.blue700)
-            Text(vm.feedbackMessage)
+            Text("vm.feedbackMessage")
                 .font(.displayBodyRegular)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
