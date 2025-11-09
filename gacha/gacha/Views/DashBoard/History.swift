@@ -19,26 +19,37 @@ struct History: View {
             if vm.isLoading {
                 Text("Loading...")
             } else {
-                ScrollView {
-                    VStack(spacing: 32) {
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack(spacing: 32) {
+                        
+                        HStack {
+                            Text("요약")
+                                .font(.displayLargeBold)
+                            Spacer()
+                        }
+                        
 
+                        // MARK: - Summary Cards
+                        HStack(spacing: 14) {
+                            // 무릎 굽힘 범위 카드
+                            romSummaryCard(proxy: proxy)
+                            
+                            // 통증 정도 카드
+                            painSummaryCard(proxy: proxy)
+                        }
+                        
+                        
                         // MARK: - 무릎 가동범위 추이
                         VStack(alignment: .leading, spacing: 16) {
+                            
                             Text(Strings.History.romTitle)
                                 .font(.displayTitle3Bold)
+                                .id("romChart")
                             
                             VStack(alignment: .leading) {
 
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text(Strings.History.average)
-                                            .font(.displayCaption1Semibold)
-                                            .foregroundColor(Color("Gray500"))
-                                        Text("\(vm.romAverage)°")
-                                            .font(.displayTitle1Bold)
-                                    }
-                                Text(vm.dateRangeText)
-                                    .font(.displayCaption1Semibold)
-                                    .foregroundColor(Color("Gray500"))
+                                Text("무릎 굽힘 정도 설명")
                                 romChart
                                     
                             }
@@ -53,20 +64,10 @@ struct History: View {
                         VStack(alignment: .leading, spacing: 16) {
                             Text(Strings.History.painTitle)
                                 .font(.displayTitle3Bold)
+                                .id("painChart")
                             
                             VStack(alignment: .leading) {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(vm.painLevelLabel)
-                                        .font(.displayCaption1Semibold)
-                                        .foregroundColor(Color("Gray500"))
-
-                                    Text(vm.painLevelValue)
-                                        .font(.displayTitle1Bold)
-                                }
-                                
-                                Text(vm.dateRangeText)
-                                    .font(.displayCaption1Semibold)
-                                    .foregroundColor(Color("Gray500"))
+                                Text("통증 정도 설명")
 
                                 painChart
                             }
@@ -78,6 +79,7 @@ struct History: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 60)
                     .padding(.bottom, 20)
+                    }
                 }
                  
             }
@@ -293,4 +295,196 @@ struct History: View {
             .clipShape(RoundedRectangle(cornerRadius: 8))
         }
     }
+    
+    // MARK: - Summary Cards
+    
+    @ViewBuilder
+    private func romSummaryCard(proxy: ScrollViewProxy) -> some View {
+        VStack {
+            VStack(alignment: .leading, spacing: 12) {
+
+                // 헤더
+                HStack {
+                    Text("무릎 굽힘 범위")
+                        .font(.displayBodyBold)
+                        .foregroundColor(Color("Blue700"))
+                    Spacer()
+                    Button {
+                        withAnimation {
+                            proxy.scrollTo("romChart", anchor: .top)
+                        }
+                    } label: {
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(Color("Gray500"))
+                    }
+                }
+                
+                
+                
+                // ROM 수치 표시
+                if vm.recentRecords.count == 1 {
+                    // 기록이 1개만 있을 때
+                    if let rom = vm.firstROM {
+                        Text("\(rom)°")
+                            .font(.system(size: 36, weight: .bold))
+                            .foregroundColor(Color("Gray900"))
+                            .padding(.horizontal, 16)
+                    }
+                } else if let first = vm.firstROM, let latest = vm.latestROM {
+                    // 기록이 여러 개일 때
+                    HStack(spacing: 0) {
+                        Text("\(first)°")
+                            .font(.roundedTitle2Semibold)
+                            .foregroundColor(Color("Gray700"))
+                        
+                        Image(systemName: "arrow.right")
+                            .font(.roundedTitle2Semibold)
+                            .foregroundColor(Color("Gray700"))
+                        
+                        Text("\(latest)°")
+                            .font(.roundedLargeSemibold)
+                            .foregroundColor(Color("Gray900"))
+                    }
+                    
+
+                }
+                
+                // 변화 설명 텍스트
+                if !vm.romChangeText.isEmpty {
+                    Text(vm.romChangeText)
+                        .font(.displayBodyRegular)
+                        .foregroundColor(Color("Gray700"))
+                }
+                
+            }
+            .padding(.horizontal,8)
+            .padding(.vertical, 12)
+        }
+        .frame(width: 173, height: 173)
+        .background(Color.white)
+        .cornerRadius(15)
+    }
+    
+    @ViewBuilder
+    private func painSummaryCard(proxy: ScrollViewProxy) -> some View {
+        VStack {
+            VStack(alignment: .leading, spacing: 12) {
+            // 헤더
+            HStack {
+                Text("통증 정도")
+                    .font(.displayBodyBold)
+                    .foregroundColor(Color("Blue700"))
+                Spacer()
+                Button {
+                    withAnimation {
+                        proxy.scrollTo("painChart", anchor: .top)
+                    }
+                } label: {
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(Color("Gray500"))
+                }
+            }
+            
+            // 통증 레벨 바 표시
+            if vm.recentRecords.count == 1 {
+                // 기록이 1개만 있을 때
+                if let pain = vm.firstPainLevel {
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack(spacing: 8) {
+                            Rectangle()
+                                .fill(Color("Primary500"))
+                                .frame(width: CGFloat(pain) * 10, height: 8)
+                                .cornerRadius(4)
+                            Text("\(pain)")
+                                .font(.system(size: 24, weight: .bold))
+                                .foregroundColor(Color("Gray900"))
+                        }
+                    }
+
+                }
+            } else if let first = vm.firstPainLevel, let latest = vm.latestPainLevel {
+                // 기록이 여러 개일 때
+                VStack(alignment: .leading, spacing: 0) {
+                    // 첫 번째 통증 레벨
+                    HStack (spacing: 0){
+                        Rectangle()
+                            .fill(Color("Blue900"))
+                            .frame(width: CGFloat(first) * 15, height: 3)
+                            .cornerRadius(4)
+                        Text("\(first)")
+                            .font(.system(size: 17, weight: .bold))
+                            .foregroundColor(Color("Gray900"))
+                    }
+                    
+                    // 최근 통증 레벨
+                    HStack (spacing: 0){
+                        Rectangle()
+                            .fill(Color("Blue700"))
+                            .frame(width: CGFloat(latest) * 15, height: 3)
+                            .cornerRadius(4)
+                        Text("\(latest)")
+                            .font(.system(size: 17, weight: .bold))
+                            .foregroundColor(Color("Gray900"))
+                    }
+                }
+
+            }
+            
+            // 변화 설명 텍스트
+            if !vm.painChangeText.isEmpty {
+                Text(vm.painChangeText)
+                    .font(.displayBodyRegular)
+                    .foregroundColor(Color("Gray700"))
+            }
+        }
+            .padding(.horizontal,8)
+            .padding(.vertical, 12)
+
+        }
+        .frame(width: 173, height: 173)
+        .background(Color.white)
+        .cornerRadius(15)
+    }
+}
+
+// MARK: - Previews
+
+struct HistoryPreviewWrapper: View {
+    @StateObject private var vm: HistoryViewModel
+    
+    init(scenario: MockRecordRepository.Scenario) {
+        _vm = StateObject(wrappedValue: HistoryViewModel(repository: MockRecordRepository(scenario: scenario)))
+    }
+    
+    var body: some View {
+        NavigationStack {
+            History()
+                .environmentObject(vm)
+                .task {
+                    await vm.loadRecentRecords()
+                }
+        }
+    }
+}
+
+#Preview("Single Record") {
+    HistoryPreviewWrapper(scenario: .singleRecord)
+}
+
+#Preview("Positive Progress (67° → 97°)") {
+    HistoryPreviewWrapper(scenario: .multipleRecordsPositive)
+}
+
+#Preview("Negative Progress") {
+    HistoryPreviewWrapper(scenario: .multipleRecordsNegative)
+}
+
+#Preview("23 Days - 7 Records") {
+    HistoryPreviewWrapper(scenario: .sevenRecords23Days)
+}
+
+#Preview("No Change") {
+    HistoryPreviewWrapper(scenario: .noChange)
 }
