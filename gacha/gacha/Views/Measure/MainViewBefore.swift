@@ -30,7 +30,7 @@ struct MainViewBefore: View {
             VStack(spacing: 40) {
                 // 안내 문구 영역
                 if currentPage == 0 {
-                    Image("Before1")
+                    Image("before1")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 300, height: 300)
@@ -38,7 +38,7 @@ struct MainViewBefore: View {
                     instructionTextPage1
                 } else {
                     
-                    Image("Before2")
+                    Image("before2")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 300, height: 300)
