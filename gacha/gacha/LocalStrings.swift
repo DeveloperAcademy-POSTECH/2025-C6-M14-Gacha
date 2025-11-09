@@ -143,7 +143,7 @@ enum Strings {
     // MARK: - Pain Categories
     enum PainCategory {
         static var none: String {
-            NSLocalizedString("pain.category.0", comment: "")
+            NSLocalizedString("pain.category.0to0", comment: "")
         }
         static var mild: String {
             NSLocalizedString("pain.category.1to3", comment: "")
@@ -155,7 +155,7 @@ enum Strings {
             NSLocalizedString("pain.category.7to9", comment: "")
         }
         static var extreme: String {
-            NSLocalizedString("pain.category.10", comment: "")
+            NSLocalizedString("pain.category.10to10", comment: "")
         }
     }
     
