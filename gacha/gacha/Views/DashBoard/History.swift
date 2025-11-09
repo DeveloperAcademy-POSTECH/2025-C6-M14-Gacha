@@ -84,9 +84,6 @@ struct History: View {
                  
             }
         }
-        .background(Color("BackgoundSecondary"))
-        .navigationTitle(Strings.History.title)
-        .navigationBarTitleDisplayMode(.inline)
         .task {
             await vm.loadRecentRecords()
         }
