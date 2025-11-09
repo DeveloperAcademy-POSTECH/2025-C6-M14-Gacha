@@ -93,23 +93,30 @@ struct History: View {
     // MARK: - Chart Views
 
     private var romChart: some View {
-        Chart(vm.recentRecords) { record in
-            BarMark(
-                x: .value("date", record.measuredDate, unit: .day),
-                y: .value("flexion", record.flexionAngle ?? 0),
-                width: .fixed(6)
-            )
-            .foregroundStyle(
-                LinearGradient(
-                    colors: [Color("Primary300"), Color("Primary500")],
-                    startPoint: .top,
-                    endPoint: .bottom
+        let data = vm.chartData
+        let domain = vm.xAxisDomain
+        let selectedIndex = vm.selectedROMIndex
+        
+        return Chart {
+            ForEach(data, id: \.record.id) { item in
+                BarMark(
+                    x: .value("index", item.index),
+                    y: .value("flexion", item.record.flexionAngle ?? 0),
+                    width: .fixed(6)
                 )
-            )
-            .cornerRadius(4)
-
-            if let selectedROMDate = vm.selectedROMDate {
-                RuleMark(x: .value("Selected", selectedROMDate, unit: .day))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [Color("Primary300"), Color("Primary500")],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .cornerRadius(4)
+            }
+            
+            if let selectedIndex = selectedIndex,
+               selectedIndex >= 0 && selectedIndex < data.count {
+                RuleMark(x: .value("Selected", selectedIndex))
                     .foregroundStyle(Color("Gray300"))
                     .zIndex(-1)
                     .annotation(
@@ -125,10 +132,20 @@ struct History: View {
             }
         }
         .chartXAxis {
-            AxisMarks(values: .stride(by: .day)) { value in
-                if let date = value.as(Date.self) {
-                    AxisValueLabel {
-                        Text(vm.formatShortDate(date))
+            AxisMarks(position: .bottom, values: vm.chartIndicesAsDouble) { value in
+                if let doubleValue = value.as(Double.self) {
+                    let index = Int(round(doubleValue))
+                    // 정확한 인덱스 값인지 확인 (0.01 이내 오차 허용)
+                    if abs(doubleValue - Double(index)) < 0.01,
+                       index >= 0 && index < vm.recentRecords.count {
+                        let record = vm.recentRecords[index]
+                        let dateStr = vm.formatShortDate(record.measuredDate)
+                        AxisValueLabel {
+                            Text(dateStr)
+                                .offset(x:-17)
+                        }
+                    } else {
+                        AxisGridLine()
                     }
                 }
             }
@@ -143,23 +160,17 @@ struct History: View {
                 AxisGridLine()
             }
         }
-        .chartYScale(domain: 0...190)
-        .chartXSelection(value: $vm.selectedROMDate)
+        .chartYScale(domain: 0...vm.romMaxValue)
+        .chartXScale(domain: domain)
+        .chartXSelection(value: $vm.selectedROMIndex)
         .frame(height: 361)
-       
-    
     }
 
     @ViewBuilder
     private var romAnnotation: some View {
-        if let selectedROMDate = vm.selectedROMDate,
-            let selectedRecord = vm.recentRecords.first(where: {
-                Calendar.current.isDate(
-                    $0.measuredDate,
-                    inSameDayAs: selectedROMDate
-                )
-            })
-        {
+        if let selectedIndex = vm.selectedROMIndex,
+           selectedIndex >= 0 && selectedIndex < vm.recentRecords.count {
+            let selectedRecord = vm.recentRecords[selectedIndex]
             VStack(alignment: .center, spacing: 4) {
                 Text(Strings.Card.flexionAngle)
                     .font(.displayCaption1Semibold)
@@ -189,23 +200,30 @@ struct History: View {
     }
 
     private var painChart: some View {
-        Chart(vm.recentRecords) { record in
-            LineMark(
-                x: .value("date", record.measuredDate, unit: .day),
-                y: .value("pain", record.painLevel ?? 0)
-            )
-            .foregroundStyle(Color("GraphSecondary"))
-            .interpolationMethod(.catmullRom)
+        let data = vm.chartData
+        let domain = vm.xAxisDomain
+        let selectedIndex = vm.selectedPainIndex
+        
+        return Chart {
+            ForEach(data, id: \.record.id) { item in
+                LineMark(
+                    x: .value("index", item.index),
+                    y: .value("pain", item.record.painLevel ?? 0)
+                )
+                .foregroundStyle(Color("GraphSecondary"))
+                .interpolationMethod(.catmullRom)
 
-            PointMark(
-                x: .value("date", record.measuredDate, unit: .day),
-                y: .value("pain", record.painLevel ?? 0)
-            )
-            .foregroundStyle(Color("GraphSecondary"))
-            .symbolSize(60)
-
-            if let selectedPainDate = vm.selectedPainDate {
-                RuleMark(x: .value("Selected", selectedPainDate, unit: .day))
+                PointMark(
+                    x: .value("index", item.index),
+                    y: .value("pain", item.record.painLevel ?? 0)
+                )
+                .foregroundStyle(Color("GraphSecondary"))
+                .symbolSize(60)
+            }
+            
+            if let selectedIndex = selectedIndex,
+               selectedIndex >= 0 && selectedIndex < data.count {
+                RuleMark(x: .value("Selected", selectedIndex))
                     .foregroundStyle(Color("Gray300"))
                     .zIndex(-1)
                     .annotation(
@@ -221,29 +239,35 @@ struct History: View {
             }
         }
         .chartXAxis {
-            AxisMarks(values: .stride(by: .day)) { value in
-                if let date = value.as(Date.self) {
-                    AxisValueLabel {
-                        Text(vm.formatShortDate(date))
+            AxisMarks(position: .bottom, values: vm.chartIndicesAsDouble) { value in
+                if let doubleValue = value.as(Double.self) {
+                    let index = Int(round(doubleValue))
+                    // 정확한 인덱스 값인지 확인 (0.01 이내 오차 허용)
+                    if abs(doubleValue - Double(index)) < 0.01,
+                       index >= 0 && index < vm.recentRecords.count {
+                        let record = vm.recentRecords[index]
+                        let dateStr = vm.formatShortDate(record.measuredDate)
+                        AxisValueLabel {
+                            Text(dateStr)
+                                .offset(x:-17)
+                        }
+                    } else {
+                        AxisGridLine()
                     }
                 }
             }
         }
-        .chartYScale(domain: 0...10)
-        .chartXSelection(value: $vm.selectedPainDate)
+        .chartYScale(domain: 0...vm.painMaxValue)
+        .chartXScale(domain: domain)
+        .chartXSelection(value: $vm.selectedPainIndex)
         .frame(height: 250)
     }
 
     @ViewBuilder
     private var painAnnotation: some View {
-        if let selectedPainDate = vm.selectedPainDate,
-            let selectedRecord = vm.recentRecords.first(where: {
-                Calendar.current.isDate(
-                    $0.measuredDate,
-                    inSameDayAs: selectedPainDate
-                )
-            })
-        {
+        if let selectedIndex = vm.selectedPainIndex,
+           selectedIndex >= 0 && selectedIndex < vm.recentRecords.count {
+            let selectedRecord = vm.recentRecords[selectedIndex]
             VStack(alignment: .leading, spacing: 4) {
                 Text(Strings.Card.painLevel)
                     .font(.displayCaption1Semibold)
