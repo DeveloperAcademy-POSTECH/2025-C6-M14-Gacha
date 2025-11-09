@@ -73,16 +73,20 @@ struct PainLevel: View {
                 Spacer()
                 
                 // MARK: - 이모지
-                VStack(spacing: 16) {
+                VStack (spacing: 16) {
                     Image(painImageName(for: Int(value)))
                         .resizable()
                         .scaledToFit()
                         .frame(width: 136, height: 136)
-                    
-                    VStack(spacing: 8) {
+                    VStack (spacing: 8) {
+                        Text(Strings.PainCategory.category(for: Int(value)))
+                            .font(.displayTitle1Bold)
+                            .foregroundStyle(Color("Gray700"))
                         Text(Strings.PainLevel.level(for: Int(value)))
                             .font(.displayTitle1Bold)
                             .foregroundStyle(Color("Gray700"))
+                            .frame(height: 44)
+                            .multilineTextAlignment(.center)
                     }
                 }
                 .padding(.bottom, 40)
@@ -344,10 +348,6 @@ struct ArcSlider: View {
             }
         }
     }
-
-    private func levelDescription(for value: Double) -> String {
-        return Strings.PainLevel.level(for: Int(value))
-    }
 }
 
 // MARK: - 세그먼트 원호 Shape
@@ -434,4 +434,3 @@ struct ArcShape: Shape {
     return PainLevel()
         .environmentObject(viewModel)
 }
-
