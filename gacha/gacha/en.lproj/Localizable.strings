@@ -19,15 +19,13 @@
 "common.back_home" = "Back to Start";
 
 /* DailyMeasureStartView */
-"daily_start.title" = "Knee Range of Motion";
+"daily_start.title" = "Measure";
 "daily_start.description" = "Let's check how much your knee can move";
-"daily_start.instruction" = "Please Sit on a flat surface,\nmove your leg comfortably";
-"daily_start.button" = "Start Measurement";
-
-/* ExtensionMeasureView */
-"extension.instruction" = "Sit with your leg fully extended,\nplace phone on your thigh";
-"extension.instruction_emphasis" = "Hold the button to measure";
-"extension.measuring" = "Measuring knee extension angle";
+"daily_start.instruction_page1" = "Lean your back against the wall, sit on a flat surface";
+"daily_start.instruction_page2" = "Bend your leg as much as possible, hold the position for 2 seconds!";
+"daily_start.button_next" = "Next";
+"daily_start.button_measure" = "Measure";
+"daily_start.button_pain_only" = "Enter Pain Level Only";
 
 /* FlexionMeasureView */
 "flexion.instruction" = "Keep your heel on the floor,\nbend your leg fully";
@@ -36,7 +34,7 @@
 "flexion.skip_button" = "Does it hurt a lot?";
 
 /* Alerts */
-"alert.quit_extension.title" = "Cancel the Knee Movement Measurement?";
+"alert.quit_extension.title" = "Cancel the Knee Flexion Measurement?";
 "alert.quit_extension.message" = "You'll return to the start screen";
 "alert.skip_flexion.title" = "Skip the Knee Flexion Measurement?";
 "alert.skip_flexion.message" = "Only the knee extension angle will be saved";
@@ -52,18 +50,18 @@
 "pain.description" = "Please select the level of pain you felt during the measurement";
 "pain.button" = "View Results";
 
-/* Pain Levels 0-10 (6 categories) */
+/* Pain Levels 0-10 */
 "pain.level.0" = "No pain";
-"pain.level.1" = "Very mild pain";
-"pain.level.2" = "Mild pain";
-"pain.level.3" = "Moderate pain";
-"pain.level.4" = "Quite painful";
-"pain.level.5" = "Strong pain";
-"pain.level.6" = "Intense pain";
-"pain.level.7" = "Severe pain";
-"pain.level.8" = "Hard to bear";
-"pain.level.9" = "Unbearable";
-"pain.level.10" = "Intolerable";
+"pain.level.1" = "Knee feels slightly uncomfortable";
+"pain.level.2" = "Knee feels a bit stiff";
+"pain.level.3" = "Knee is uncomfortable but bearable";
+"pain.level.4" = "Knee bothers me when I move";
+"pain.level.5" = "Knee hurts and it's hard to concentrate";
+"pain.level.6" = "Can't fully extend or bend knee due to pain";
+"pain.level.7" = "Knee hurts so much it's hard to move";
+"pain.level.8" = "Knee hurts severely";
+"pain.level.9" = "Knee hurts so much it's hard to bear";
+"pain.level.10" = "Knee hurts beyond imagination";
 
 /* ProgressDetailView */
 "progress.title" = "Today's Record";
@@ -103,12 +101,11 @@
 "progress.first_take.description" = "Today is the first step.\nKeep going consistently.";
 
 //MARK: Add card variable name
-"card.extension_angle" = "Extension Angle";
 "card.flexion_angle" = "Flexion Angle";
 "card.knee_ROM" = "Knee Range of Motion";
 "card.pain_level" = "Pain Level";
 
-/* ProgressHistoryView */
+/* HistoryView */
 "history.title" = "View My Progress";
 "history.rom_title" = "Knee Range of Motion Changes";
 "history.average" = "Average";

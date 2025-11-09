@@ -190,7 +190,7 @@ extension MeasureViewModel {
 
     //     MARK: - Formatting
     func formatAngle(_ angle: Double?) -> String {
-        guard let angle = angle else { return "0°" }
+        guard let angle = angle else { return "-" }
         return "\(Int(angle))°"
     }
 
@@ -212,24 +212,24 @@ extension MeasureViewModel {
     /// 굴곡 각도에 따른 이미지 이름 반환
     var flexionImageName: String {
         guard let angle = currentRecord?.flexionAngle else {
-            return "70"  // 기본값
+            return "result45"  // 기본값
         }
         
         switch angle {
-        case ...70:
-            return "70"
-        case 70..<80:
-            return "80"
-        case 80..<90:
-            return "90"
-        case 90..<100:
-            return "100"
-        case 100..<110:
-            return "110"
-        case 110..<120:
-            return "120"
-        default:  // 120 이상
-            return "130"
+        case ...60:
+            return "result45"
+        case 60..<75:
+            return "result60"
+        case 75..<90:
+            return "result75"
+        case 90..<105:
+            return "result90"
+        case 105..<120:
+            return "result105"
+        case 120..<135:
+            return "result120"
+        default:  // 135 이상
+            return "result135"
         }
     }
 }

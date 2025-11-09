@@ -27,7 +27,6 @@ func analyzeRecordChange(latest:MeasuredRecord, previous:MeasuredRecord) -> Chan
     // MARK: - 데이터
     //최신 데이터
     let latestDate = latest.measuredDate
-    let latestExtensionAngle = latest.extensionAngle
     let latestFlexionAngle = latest.flexionAngle ?? 0.0
     let latestROM = latest.ROM ?? 0.0
     let latestMeasuredMinutes = latest.measuredSeconds ?? 0
@@ -36,7 +35,6 @@ func analyzeRecordChange(latest:MeasuredRecord, previous:MeasuredRecord) -> Chan
     
     //과거 데이터
     let previousDate = previous.measuredDate
-    let previousExtensionAngle = previous.extensionAngle
     let previousFlexionAngle = previous.flexionAngle ?? 0.0
     let previousROM = previous.ROM ?? 0.0
     let previousMeasuredMinutes = previous.measuredSeconds ?? 0
@@ -48,11 +46,7 @@ func analyzeRecordChange(latest:MeasuredRecord, previous:MeasuredRecord) -> Chan
     let flexRomDiffState = RomChangeState.calculate(latestAngle: latestFlexionAngle, previousAngle: previousFlexionAngle)
     let flexRomDiff = flexRomDiffState.delta
     
-    // 신전(Extension) 상태에서 ROM 차이와 상태
-    let extenRomDiffState = RomChangeState.calculate(latestAngle: latestExtensionAngle, previousAngle: previousExtensionAngle)
-    let extenRomDiff = extenRomDiffState.delta
-    
-    // Rom(굴곡-신전)의 차이와 상태
+    // Rom(굴곡)의 차이와 상태
     let romDiffState = RomChangeState.calculate(latestAngle: latestROM, previousAngle: previousROM)
     let romDiff = romDiffState.delta
     
@@ -60,6 +54,6 @@ func analyzeRecordChange(latest:MeasuredRecord, previous:MeasuredRecord) -> Chan
     let painDiffState = PainChangeState.calculate(latestPainLevel: latestPainLevel, previousPainLevel: previousPainLevel)
     let painDiff = painDiffState.delta
     
-    return ChangeResult(flexRomDiff: flexRomDiff, flexRomDiffState: flexRomDiffState, extenRomDiff: extenRomDiff, extenRomDiffState: extenRomDiffState, romDiff: romDiff, romDiffState: romDiffState, painDiff: painDiff, painDiffState: painDiffState)
+    return ChangeResult(flexRomDiff: flexRomDiff, flexRomDiffState: flexRomDiffState, extenRomDiff: 0, extenRomDiffState: .normal(delta: 0.0), romDiff: romDiff, romDiffState: romDiffState, painDiff: painDiff, painDiffState: painDiffState)
     
 }

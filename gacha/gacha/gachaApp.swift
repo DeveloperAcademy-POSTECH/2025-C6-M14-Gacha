@@ -15,7 +15,6 @@ struct gachaApp: App {
     init() {
         do {
             modelContainer = try ModelContainer(for: MeasuredRecord.self)
-
         } catch {
             fatalError("ModelContainer 초기화 실패: \(error)")
         }
@@ -23,7 +22,7 @@ struct gachaApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MeasureFlowViewWrapper()
+            MeasureFlowWrapper()
                 .preferredColorScheme(.light)
         }
         .modelContainer(modelContainer)

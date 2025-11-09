@@ -15,6 +15,8 @@ protocol RecordRepository {
     func loadRecords() async throws -> [MeasuredRecord]
     func loadRecord(by id: UUID) async throws -> MeasuredRecord?
     func loadLatestRecord() async throws -> MeasuredRecord?  // 가장 최근 데이터
+    func loadRecord(by date: Date) async throws -> MeasuredRecord?  // 특정 날짜의 기록
+    func loadEarliestRecord() async throws -> MeasuredRecord?  // 가장 과거 데이터
     func deleteRecord(by id: UUID) async throws
 }
 
@@ -70,6 +72,28 @@ final class SwiftDataRecordRepository: RecordRepository {
     func loadLatestRecord() async throws -> MeasuredRecord? {
         let descriptor = FetchDescriptor<MeasuredRecord>(
             sortBy: [SortDescriptor(\.measuredDate, order: .reverse)]
+        )
+        return try modelContext.fetch(descriptor).first
+    }
+    
+    func loadRecord(by date: Date) async throws -> MeasuredRecord? {
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: date)
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? date
+        
+        let predicate = #Predicate<MeasuredRecord> { record in
+            record.measuredDate >= startOfDay && record.measuredDate < endOfDay
+        }
+        let descriptor = FetchDescriptor<MeasuredRecord>(
+            predicate: predicate,
+            sortBy: [SortDescriptor(\.measuredDate, order: .reverse)]
+        )
+        return try modelContext.fetch(descriptor).first
+    }
+    
+    func loadEarliestRecord() async throws -> MeasuredRecord? {
+        let descriptor = FetchDescriptor<MeasuredRecord>(
+            sortBy: [SortDescriptor(\.measuredDate, order: .forward)]
         )
         return try modelContext.fetch(descriptor).first
     }
