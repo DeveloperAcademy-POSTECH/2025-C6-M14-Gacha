@@ -38,11 +38,11 @@ struct FlexionMeasure: View {
                     // MARK: - 네비게이션 바
                     HStack {
                         Button(action: {
-                            // MainView로 이동 (측정 취소)
+                            // MainViewBefore로 이동 (측정 취소)
                             if vm.isMeasuring {
                                 vm.cancelFlexionMeasure()
                             }
-                            vm.navigationPath.removeLast()
+                            vm.navigationPath = NavigationPath()
                         }) {
                             HStack(spacing: 4) {
                                 Image(systemName: "chevron.left")

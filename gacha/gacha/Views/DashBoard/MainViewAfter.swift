@@ -57,10 +57,10 @@ struct MainViewAfter: View {
                                     Text(Strings.Common.yes),
                                     action: {
                                         vm.prepareForNewMeasurement()  // 새 측정 준비
-                                        vm.shouldAutoStartMeasure = true  // 자동 시작 플래그
-                                        vm.navigationPath.append(
-                                            MeasureFlowStep.flexionMeasure
-                                        )
+                                        Task {
+                                            await vm.deleteTodayRecords()  // 오늘 기록 삭제
+                                            await vm.checkTodayRecord()    // 상태 업데이트 (hasTodayRecord = false)
+                                        }
                                     }
                                 ),
                                 secondaryButton: .cancel(Text(Strings.Common.no))
