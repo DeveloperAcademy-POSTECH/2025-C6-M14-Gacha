@@ -129,8 +129,12 @@ struct History: View {
             }
         }
         .chartXAxis {
-            AxisMarks(position: .bottom, values: vm.chartIndicesAsDouble) { value in
-                if let doubleValue = value.as(Double.self) {
+            AxisMarks(
+                position: .bottom,
+                values: vm.chartIndicesAsDouble.isEmpty ? [0.0] : vm.chartIndicesAsDouble
+            ) { value in
+                if let doubleValue = value.as(Double.self),
+                   !vm.recentRecords.isEmpty {
                     let index = Int(round(doubleValue))
                     // 정확한 인덱스 값인지 확인 (0.01 이내 오차 허용)
                     if abs(doubleValue - Double(index)) < 0.01,
@@ -144,6 +148,8 @@ struct History: View {
                     } else {
                         AxisGridLine()
                     }
+                } else {
+                    AxisGridLine()
                 }
             }
         }
@@ -157,7 +163,7 @@ struct History: View {
                 AxisGridLine()
             }
         }
-        .chartYScale(domain: 0...vm.romMaxValue)
+        .chartYScale(domain: 0...max(vm.romMaxValue, 10))
         .chartXScale(domain: domain)
         .chartXSelection(value: $vm.selectedROMIndex)
         .frame(height: 361)
@@ -203,12 +209,15 @@ struct History: View {
         
         return Chart {
             ForEach(data, id: \.record.id) { item in
-                LineMark(
-                    x: .value("index", item.index),
-                    y: .value("pain", item.record.painLevel ?? 0)
-                )
-                .foregroundStyle(Color("GraphSecondary"))
-                .interpolationMethod(.catmullRom)
+                // 레코드가 2개 이상일 때만 LineMark 사용 (catmullRom은 최소 2개 포인트 필요)
+                if data.count > 1 {
+                    LineMark(
+                        x: .value("index", item.index),
+                        y: .value("pain", item.record.painLevel ?? 0)
+                    )
+                    .foregroundStyle(Color("GraphSecondary"))
+                    .interpolationMethod(.catmullRom)
+                }
 
                 PointMark(
                     x: .value("index", item.index),
@@ -236,8 +245,12 @@ struct History: View {
             }
         }
         .chartXAxis {
-            AxisMarks(position: .bottom, values: vm.chartIndicesAsDouble) { value in
-                if let doubleValue = value.as(Double.self) {
+            AxisMarks(
+                position: .bottom,
+                values: vm.chartIndicesAsDouble.isEmpty ? [0.0] : vm.chartIndicesAsDouble
+            ) { value in
+                if let doubleValue = value.as(Double.self),
+                   !vm.recentRecords.isEmpty {
                     let index = Int(round(doubleValue))
                     // 정확한 인덱스 값인지 확인 (0.01 이내 오차 허용)
                     if abs(doubleValue - Double(index)) < 0.01,
@@ -251,10 +264,12 @@ struct History: View {
                     } else {
                         AxisGridLine()
                     }
+                } else {
+                    AxisGridLine()
                 }
             }
         }
-        .chartYScale(domain: 0...vm.painMaxValue)
+        .chartYScale(domain: 0...max(vm.painMaxValue, 1))
         .chartXScale(domain: domain)
         .chartXSelection(value: $vm.selectedPainIndex)
         .frame(height: 250)

@@ -153,7 +153,8 @@ class HistoryViewModel: ObservableObject {
     var romMaxValue: Double {
         guard !recentRecords.isEmpty else { return 190 }
         let maxROM = recentRecords.compactMap { $0.flexionAngle }.max() ?? 0
-        return maxROM + 10
+        // 최소값을 보장하여 범위 오류 방지
+        return max(maxROM + 10, 10)
     }
     
     var painMaxValue: Double {
@@ -170,7 +171,8 @@ class HistoryViewModel: ObservableObject {
     }
     
     var chartIndices: [Int] {
-        Array(0..<recentRecords.count)
+        guard !recentRecords.isEmpty else { return [] }
+        return Array(0..<recentRecords.count)
     }
     
     var chartIndicesAsDouble: [Double] {
@@ -184,8 +186,31 @@ class HistoryViewModel: ObservableObject {
     }
     
     var xAxisDomain: ClosedRange<Double> {
-        let maxIndex = Double(max(0, recentRecords.count-1))
-        return -0.3...(maxIndex + 0.8)
+        guard !recentRecords.isEmpty else {
+            // 레코드가 없을 때 기본 범위
+            return 0.0...1.0
+        }
+        
+        let count = recentRecords.count
+        
+        // 레코드가 1개일 때 최소 범위 보장 (데이터 포인트를 중심으로)
+        if count == 1 {
+            // 인덱스 0을 중심으로 양쪽에 여백 추가
+            return -0.5...0.5
+        }
+        
+        // 레코드가 2개 이상일 때
+        let maxIndex = Double(count - 1)
+        let minValue = -0.3
+        let maxValue = maxIndex + 0.8
+        
+        // 범위가 유효한지 명시적으로 확인 (lowerBound <= upperBound)
+        guard minValue <= maxValue else {
+            // 안전장치: 범위가 잘못된 경우 기본 범위 반환
+            return 0.0...max(maxValue, 1.0)
+        }
+        
+        return minValue...maxValue
     }
 
     // MARK: - Helper Methods
