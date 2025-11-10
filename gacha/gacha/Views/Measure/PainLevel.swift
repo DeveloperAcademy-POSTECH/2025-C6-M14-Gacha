@@ -119,7 +119,8 @@ struct PainLevel: View {
                         Text(Strings.PainLevel.level(for: Int(value)))
                             .font(.displayTitle3Regular)
                             .foregroundStyle(Color("Gray700"))
-                            .frame(height: 44)
+                            .frame(minHeight: 46)
+                            .lineLimit(2)
                             .multilineTextAlignment(.center)
                     }
                 }
