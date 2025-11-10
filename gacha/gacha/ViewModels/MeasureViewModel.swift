@@ -42,7 +42,7 @@ final class MeasureViewModel: ObservableObject {
     private var stableAngleTimer: Timer?
     private var lastStableAngle: Double = 0.0
     private var stableStartTime: Date?
-    private let stableDurationThreshold: TimeInterval = 1.7  // 1.7초
+    private let stableDurationThreshold: TimeInterval = 1.4  // 1.4초
     private let stableAngleThreshold: Double = 3.0  // ±3도
     private var lastHapticProgressLevel: Int = 0  // 마지막 햅틱 발생 레벨 (0, 1, 2...)
     
@@ -56,10 +56,10 @@ final class MeasureViewModel: ObservableObject {
         case .started:
             return 0.1  // 시작
         case .moving:
-            return 0.3  // 움직임 감지
+            return 0.2  // 움직임 감지
         case .stabilizing:
             // 0.3에서 1.0까지 (stabilizingProgress 기반)
-            return 0.3 + (stabilizingProgress * 0.7)
+            return 0.2 + (stabilizingProgress * 0.7)
         case .completed:
             return 1.0
         }
@@ -182,7 +182,7 @@ final class MeasureViewModel: ObservableObject {
                 stabilizingProgress = min(elapsed / stableDurationThreshold, 1.0)
                 
                 
-                // 1.7초 동안 안정 유지 시 측정 완료
+                // 1.4초 동안 안정 유지 시 측정 완료
                 if elapsed >= stableDurationThreshold {
                     completeFlexionMeasure()
                 }

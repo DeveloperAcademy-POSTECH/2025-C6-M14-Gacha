@@ -98,6 +98,7 @@ struct MainViewBefore: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onAppear {
+            vm.startSensor()
             // 화면이 나타날 때마다 첫 번째 화면으로 초기화
             currentPage = 0
         }

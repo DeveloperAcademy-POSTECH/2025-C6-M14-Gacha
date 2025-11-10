@@ -151,9 +151,19 @@ class HistoryViewModel: ObservableObject {
     // MARK: - Chart Y-Axis Range
     
     var romMaxValue: Double {
-        guard !recentRecords.isEmpty else { return 190 }
-        let maxROM = recentRecords.compactMap { $0.flexionAngle }.max() ?? 0
-        return maxROM + 10
+        // Use only finite, non-negative angles to avoid invalid ranges or NaN propagation
+        let validAngles = recentRecords
+            .compactMap { $0.flexionAngle }
+            .filter { $0.isFinite && $0 >= 0 }
+        
+        guard let maxROM = validAngles.max() else {
+            // Safe default when no valid angles exist
+            return 0
+        }
+        
+        // Padding for headroom; ensure upper bound is positive
+        let padded = maxROM + 10
+        return max(padded, 1)
     }
     
     var painMaxValue: Double {
@@ -200,7 +210,6 @@ class HistoryViewModel: ObservableObject {
         let formatter = DateFormatter()
         formatter.dateFormat = "M/d"
         let result = formatter.string(from: date)
-        print("🔍 formatShortDate - Input: \(date), Output: '\(result)'")
         return result
     }
     

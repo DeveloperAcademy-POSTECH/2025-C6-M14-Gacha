@@ -132,8 +132,6 @@ struct FlexionMeasure: View {
         }
         .navigationBarHidden(true)
         .onAppear {
-            vm.startSensor()
-            
             // 자동 시작 플래그 확인
             if vm.shouldAutoStartMeasure {
                 vm.shouldAutoStartMeasure = false

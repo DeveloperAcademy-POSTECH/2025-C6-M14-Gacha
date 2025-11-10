@@ -29,6 +29,10 @@ struct MeasureFlag: View {
             maxWidth: .infinity,
             maxHeight: .infinity,
         )
+        .onAppear {
+            // Start sensor early to warm up before actual measurement view
+            vm.startSensor()
+        }
 
         .task {
             // 1.5초 동안 Loading 이미지 변경 (1 -> 5)
