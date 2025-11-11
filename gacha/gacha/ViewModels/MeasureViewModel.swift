@@ -88,12 +88,16 @@ final class MeasureViewModel: ObservableObject {
             print("오늘의 기록 여부: \(hasTodayRecord)")
             if hasTodayRecord {
                 currentRecord = await loadLatestRecord()
+            } else {
+                // 오늘 기록이 없으면 currentRecord도 nil로 초기화
+                currentRecord = nil
             }
             print("오늘의 기록: \(currentRecord?.measuredDate.description ?? "없음")")
 
         } catch {
             print("기록 확인 실패: \(error)")
             hasTodayRecord = false
+            currentRecord = nil
         }
     }
 
@@ -297,6 +301,8 @@ final class MeasureViewModel: ObservableObject {
         stableStartTime = nil
         stabilizingProgress = 0.0
         
+        // 현재 레코드 초기화
+        currentRecord = nil
         
         // 타이머 정리
         stableAngleTimer?.invalidate()
