@@ -474,6 +474,7 @@ final class MeasureViewModel: ObservableObject {
                 guard let record = legacyRecord else { return }
                 print("🗑️ deleteTodayRecords: ", record.measuredDate)
                 try await repository.deleteRecord(by: record.id)
+                currentRecord = nil
                 print("🗑️ 오늘의 레코드를 delete")
             }
         } catch {
