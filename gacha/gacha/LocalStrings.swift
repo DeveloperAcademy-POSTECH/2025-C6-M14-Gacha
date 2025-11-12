@@ -404,7 +404,10 @@ enum Strings {
             NSLocalizedString("history.rom_semibold15_worse", comment: "")
         }
         static var romNoRecord: String {
-            NSLocalizedString("history.semibold15_norecord", comment: "")
+            NSLocalizedString("history.rom_semibold15_norecord", comment: "")
+        }
+        static var rom1Record: String {
+            NSLocalizedString("history.rom_semibold15_1record", comment: "")
         }
         
         static var painTitle: String {
@@ -422,6 +425,10 @@ enum Strings {
         static var painNoRecord: String {
             NSLocalizedString("history.pain_semibold15_norecord", comment: "")
         }
+        static var pain1Record: String {
+            NSLocalizedString("history.pain_semibold15_1record", comment: "")
+        }
+
         
         // MARK: - History Summary Card Changes
         static func romChangeIncreased(days: Int, degrees: Int) -> String {

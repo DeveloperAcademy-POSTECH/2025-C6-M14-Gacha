@@ -138,13 +138,15 @@
 "history.rom_semibold15_better" = "이 기간 최대였던 nnn°보다 nnn° 더 움직일 수 있어요";
 "history.rom_semibold15_same" = "이 기간 최대였던 nnn°와 같아요";
 "history.rom_semibold15_worse" = "이 기간 최대였던 nnn°보다 nnn° 덜 움직여요";
-"history.semibold15_norecord" = "첫 측정을 완료해 주세요";
+"history.rom_semibold15_norecord" = "첫 측정을 완료해 주세요";
+"history.rom_semibold15_1record" = "현재 무릎이 %d°까지 굽혀지고 있어요";
 
 "history.pain_title" = "통증 정도";
 "history.pain_semibold15_better" = "이 기간 가장 낮았던  nn보다 n단계 덜 아파졌어요";
 "history.pain_semibold15_same" = "이기간 가장 낮았던 nn단계의 통증과 같아요";
 "history.pain_semibold15_worse" = "이 기간 가장 낮았던 nn보다 n단계 더 아파졌어요";
 "history.pain_semibold15_norecord" = "첫 기록을 남겨 주세요";
+"history.pain_semibold15_1record" = "현재 통증 정도는 %d단계예요"
 
 /* History Summary Card - ROM Change */
 "history.rom_change_increased" = "지난 %d일간\n무릎 굽힘 범위가\n%d도 늘어났어요!";
