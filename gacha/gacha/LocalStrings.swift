@@ -438,13 +438,24 @@ enum Strings {
         static func romChangeDecreased(days: Int, degrees: Int) -> String {
             String(format: NSLocalizedString("history.rom_change_decreased", comment: ""), days, degrees)
         }
-        
+
         static func painChangeDecreased(levels: Int) -> String {
             String(format: NSLocalizedString("history.pain_change_decreased", comment: ""), levels)
         }
         
         static func painChangeIncreased(levels: Int) -> String {
             String(format: NSLocalizedString("history.pain_change_increased", comment: ""), levels)
+        }
+    }
+    
+    enum HistoryRomUnder2 {
+        struct RomUnder2Parts {
+            func emphasized(days: Int) -> String {
+                let format = NSLocalizedString("history.rom_change_under2_emphasized", comment: "")
+                return String(format: format, "\(days)")
+            }
+                
+            let part2: String = NSLocalizedString("history.rom_change_under2", comment: "")
         }
     }
 }
