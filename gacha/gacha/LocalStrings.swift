@@ -372,6 +372,7 @@ enum Strings {
             NSLocalizedString("history.rom_subheadline_worse", comment: "")
         }
         
+        
         static var painHeadline: String {
             NSLocalizedString("history.pain_headline", comment: "")
         }
@@ -394,39 +395,39 @@ enum Strings {
         static var romTitle: String {
             NSLocalizedString("history.rom_title", comment: "")
         }
-        static var romBetter: String {
-            NSLocalizedString("history.rom_semibold15_better", comment: "")
+        static func romBetter(maxDegrees: Int, difference: Int) -> String {
+            String(format: NSLocalizedString("history.rom_semibold15_better", comment: ""), maxDegrees, difference)
         }
-        static var romSame: String {
-            NSLocalizedString("history.rom_semibold15_same", comment: "")
+        static func romSame(maxDegrees: Int) -> String {
+            String(format: NSLocalizedString("history.rom_semibold15_same", comment: ""), maxDegrees)
         }
-        static var romWorse: String {
-            NSLocalizedString("history.rom_semibold15_worse", comment: "")
+        static func romWorse(maxDegrees: Int, difference: Int) -> String {
+            String(format: NSLocalizedString("history.rom_semibold15_worse", comment: ""), maxDegrees, difference)
         }
         static var romNoRecord: String {
             NSLocalizedString("history.rom_semibold15_norecord", comment: "")
         }
-        static var rom1Record: String {
-            NSLocalizedString("history.rom_semibold15_1record", comment: "")
+        static func rom1Record(degrees: Int) -> String {
+            String(format: NSLocalizedString("history.rom_semibold15_1record", comment: ""), degrees)
         }
-        
+
         static var painTitle: String {
             NSLocalizedString("history.pain_title", comment: "")
         }
-        static var painBetter: String {
-            NSLocalizedString("history.pain_semibold15_better", comment: "")
+        static func painBetter(minLevel: Int, difference: Int) -> String {
+            String(format: NSLocalizedString("history.pain_semibold15_better", comment: ""), minLevel, difference)
         }
-        static var painSame: String {
-            NSLocalizedString("history.pain_semibold15_same", comment: "")
+        static func painSame(minLevel: Int) -> String {
+            String(format: NSLocalizedString("history.pain_semibold15_same", comment: ""), minLevel)
         }
-        static var painWorse: String {
-            NSLocalizedString("history.pain_semibold15_worse", comment: "")
+        static func painWorse(minLevel: Int, difference: Int) -> String {
+            String(format: NSLocalizedString("history.pain_semibold15_worse", comment: ""), minLevel, difference)
         }
         static var painNoRecord: String {
             NSLocalizedString("history.pain_semibold15_norecord", comment: "")
         }
-        static var pain1Record: String {
-            NSLocalizedString("history.pain_semibold15_1record", comment: "")
+        static func pain1Record(level: Int) -> String {
+            String(format: NSLocalizedString("history.pain_semibold15_1record", comment: ""), level)
         }
 
         

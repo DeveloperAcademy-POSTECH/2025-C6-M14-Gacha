@@ -135,18 +135,18 @@
 "history.pain_subheadline_1record" = "Great first step!\nAnggle is cheering for you!";
 
 "history.rom_title" = "Flexion range";
-"history.rom_semibold15_better" = "You can flex (nn)° more than previous (nnn)°";
-"history.rom_semibold15_same" = "Same as the period’s max of (nnn)°";
-"history.rom_semibold15_worse" = "You moved (nnn)° less than previous (nnn)°";
+"history.rom_semibold15_better" = "You can flex %d° more than previous %d°";
+"history.rom_semibold15_same" = "Same as the period’s max of %d°";
+"history.rom_semibold15_worse" = "You moved %d° less than previous %d°";
 "history.rom_semibold15_norecord" = "Take your first measurement";
 "history.rom_semibold15_1record" = "Your knee can bend up to %d°";
 
 "history.pain_title" = "Pain Level";
-"history.pain_semibold15_better" = "Pain eased by (n) level from (nn)";
+"history.pain_semibold15_better" = "Pain eased by %d level from %d";
 "history.pain_semibold15_same" = "Same pain level as the previous lowest";
-"history.pain_semibold15_worse" = "Pain increased by (n) level from (nn)";
+"history.pain_semibold15_worse" = "Pain increased by %d level from %d";
 "history.pain_semibold15_norecord" = "Make your first record";
-"history.pain_semibold15_1record" = "You’re feeling pain at level %d"
+"history.pain_semibold15_1record" = "You’re feeling pain at level %d";
 
 /* History Summary Card - ROM Change */
 "history.rom_change_increased" = "It has improved by %d° over the past %d days!";
