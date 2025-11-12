@@ -132,7 +132,7 @@
 "history.pain_subheadline_same" = "Pain level has remained steady";
 "history.pain_subheadline_worse" = "Pain increased by nn steps since the start";
 "history.pain_subheadline_norecord" = "Make your first record. Track your body’s changes with Anggle!";
-"history.pain_subheadline_1record" = "You’ve made your first record.Anggle cheers you on in your first step toward recovery!";
+"history.pain_subheadline_1record" = "Great first step!\nAnggle is cheering for you!";
 
 "history.rom_title" = "Flexion range";
 "history.rom_semibold15_better" = "You can flex (nn)° more than previous (nnn)°";
