@@ -42,10 +42,12 @@ struct History: View {
                             VStack(alignment: .leading, spacing: 16) {
 
                                 VStack(alignment: .leading, spacing: 8) {
+                                    // Title
                                     Text(Strings.History.romTitle)
                                         .font(.displayTitle3Bold)
                                         .id("romChart")
-                                    Text(Strings.History.romSubWorse)
+                                    // SubTitle
+                                    Text(vm.romSubtitle)
 
                                     romChart
 
@@ -59,10 +61,12 @@ struct History: View {
                             VStack(alignment: .leading, spacing: 16) {
                                 
                                 VStack(alignment: .leading, spacing: 8) {
+                                    // Title
                                     Text(Strings.History.painTitle)
                                         .font(.displayTitle3Bold)
                                         .id("painChart")
-                                    Text(Strings.History.painSubBetter)
+                                    // SubTitle
+                                    Text(vm.painSubtitle)
 
                                     painChart
                                 }
