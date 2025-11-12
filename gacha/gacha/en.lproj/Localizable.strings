@@ -151,8 +151,8 @@
 /* History Summary Card - ROM Change */
 "history.rom_change_increased" = "It has improved by %d° over the past %d days!";
 "history.rom_change_decreased" = "It has decreased by %d° over the past %d days.";
-"history.rom_change_under2_emphasized" = "Measure: (n)days";
-"history.rom_change_under2" = "Changes may appear after the 3rd day"
+"history.rom_change_under2_emphasized" = "Measure: %ddays";
+"history.rom_change_under2" = "Changes may appear after the 3rd day";
 
 /* History Summary Card - Pain Change */
 "history.pain_change_decreased" = "Pain erased by %d levels since the start!";

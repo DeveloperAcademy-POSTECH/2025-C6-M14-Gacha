@@ -151,8 +151,8 @@
 /* History Summary Card - ROM Change */
 "history.rom_change_increased" = "지난 %d일간\n무릎 굽힘 범위가\n%d도 늘어났어요!";
 "history.rom_change_decreased" = "지난 %d일간\n무릎 굽힘 범위가\n%d도 줄었어요";
-"history.rom_change_under2_emphasized" = "측정일수: (n)일";
-"history.rom_change_under2" = "3일째 측정부터 변화를 확인할 수 있어요"
+"history.rom_change_under2_emphasized" = "측정일수: %d일";
+"history.rom_change_under2" = "3일째 측정부터 변화를 확인할 수 있어요";
 
 /* History Summary Card - Pain Change */
 "history.pain_change_decreased" = "처음에 비해\n통증이\n%d단계 줄었어요!";
