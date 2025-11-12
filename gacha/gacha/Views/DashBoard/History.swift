@@ -41,11 +41,12 @@ struct History: View {
                             // MARK: - 무릎 가동범위 추이
                             VStack(alignment: .leading, spacing: 16) {
 
-                                Text(Strings.History.romTitle)
-                                    .font(.displayTitle3Bold)
-                                    .id("romChart")
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text(Strings.History.romTitle)
+                                        .font(.displayTitle3Bold)
+                                        .id("romChart")
+                                    Text(Strings.History.romSubWorse)
 
-                                VStack(alignment: .leading) {
                                     romChart
 
                                 }
@@ -56,11 +57,13 @@ struct History: View {
 
                             // MARK: - 통증 수준 추이
                             VStack(alignment: .leading, spacing: 16) {
-                                Text(Strings.History.painTitle)
-                                    .font(.displayTitle3Bold)
-                                    .id("painChart")
+                                
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text(Strings.History.painTitle)
+                                        .font(.displayTitle3Bold)
+                                        .id("painChart")
+                                    Text(Strings.History.painSubBetter)
 
-                                VStack(alignment: .leading) {
                                     painChart
                                 }
                                 .padding(16)
@@ -91,18 +94,15 @@ struct History: View {
         let selectedIndex = vm.selectedROMIndex
 
         return Chart {
+
             ForEach(data, id: \.record.id) { item in
                 BarMark(
                     x: .value("index", item.index),
                     y: .value("flexion", item.record.flexionAngle ?? 0),
-                    width: .fixed(6)
+                    width: .fixed(12)
                 )
                 .foregroundStyle(
-                    LinearGradient(
-                        colors: [Color("Blue500"), Color("Blue400")],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
+                    Color("Blue500")
                 )
                 .cornerRadius(4)
             }
@@ -114,7 +114,7 @@ struct History: View {
                     .zIndex(-1)
                     .annotation(
                         position: .top,
-                        spacing: 0,
+                        spacing: 8,
                         overflowResolution: .init(
                             x: .fit(to: .chart),
                             y: .disabled
@@ -157,6 +157,7 @@ struct History: View {
         .chartXScale(domain: domain)
         .chartXSelection(value: $vm.selectedROMIndex)
         .frame(height: 361)
+        .padding(.top, 20)
     }
 
     @ViewBuilder
@@ -203,15 +204,15 @@ struct History: View {
                     x: .value("index", item.index),
                     y: .value("pain", item.record.painLevel ?? 0)
                 )
-                .foregroundStyle(Color("GraphSecondary"))
+                .foregroundStyle(Color(.blue500))
                 .interpolationMethod(.catmullRom)
 
                 PointMark(
                     x: .value("index", item.index),
                     y: .value("pain", item.record.painLevel ?? 0)
                 )
-                .foregroundStyle(Color("GraphSecondary"))
-                .symbolSize(60)
+                .foregroundStyle(Color("Blue500"))
+                .symbolSize(80)
             }
             
             if let selectedIndex = selectedIndex,
@@ -254,6 +255,7 @@ struct History: View {
         .chartXScale(domain: domain)
         .chartXSelection(value: $vm.selectedPainIndex)
         .frame(height: 250)
+        .padding(.top, 20)
     }
 
     @ViewBuilder
