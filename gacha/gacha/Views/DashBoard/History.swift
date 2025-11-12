@@ -46,12 +46,19 @@ struct History: View {
                                     Text(Strings.History.romTitle)
                                         .font(.displayTitle3Bold)
                                         .id("romChart")
-                                    // SubTitle
-                                    Text(vm.romSubtitle)
+                                    if vm.chartData.isEmpty {
+                                        // 측정된 데이터가 없을 때
+                                        Text(Strings.History.romNoRecord)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                    } else {
+                                        // SubTitle
+                                        Text(vm.romSubtitle)
 
-                                    romChart
+                                        romChart
 
+                                    }
                                 }
+                                .frame(maxWidth: .infinity)
                                 .padding(16)
                                 .background(Color("White"))
                                 .cornerRadius(24)
@@ -59,17 +66,24 @@ struct History: View {
 
                             // MARK: - 통증 수준 추이
                             VStack(alignment: .leading, spacing: 16) {
-                                
+
                                 VStack(alignment: .leading, spacing: 8) {
                                     // Title
                                     Text(Strings.History.painTitle)
                                         .font(.displayTitle3Bold)
                                         .id("painChart")
-                                    // SubTitle
-                                    Text(vm.painSubtitle)
+                                    if vm.chartData.isEmpty {
+                                        // 측정된 데이터가 없을 때
+                                        Text(Strings.History.painNoRecord)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                    } else {
+                                        // SubTitle
+                                        Text(vm.painSubtitle)
 
-                                    painChart
+                                        painChart
+                                    }
                                 }
+                                .frame(maxWidth: .infinity)
                                 .padding(16)
                                 .background(Color("White"))
                                 .cornerRadius(24)
@@ -110,9 +124,10 @@ struct History: View {
                 )
                 .cornerRadius(4)
             }
-            
+
             if let selectedIndex = selectedIndex,
-               selectedIndex >= 0 && selectedIndex < data.count {
+                selectedIndex >= 0 && selectedIndex < data.count
+            {
                 RuleMark(x: .value("Selected", selectedIndex))
                     .foregroundStyle(Color("Gray300"))
                     .zIndex(-1)
@@ -129,17 +144,19 @@ struct History: View {
             }
         }
         .chartXAxis {
-            AxisMarks(position: .bottom, values: vm.chartIndicesAsDouble) { value in
+            AxisMarks(position: .bottom, values: vm.chartIndicesAsDouble) {
+                value in
                 if let doubleValue = value.as(Double.self) {
                     let index = Int(round(doubleValue))
                     // 정확한 인덱스 값인지 확인 (0.01 이내 오차 허용)
                     if abs(doubleValue - Double(index)) < 0.01,
-                       index >= 0 && index < vm.recentRecords.count {
+                        index >= 0 && index < vm.recentRecords.count
+                    {
                         let record = vm.recentRecords[index]
                         let dateStr = vm.formatShortDate(record.measuredDate)
                         AxisValueLabel {
                             Text(dateStr)
-                                .offset(x:-17)
+                                .offset(x: -17)
                         }
                     } else {
                         AxisGridLine()
@@ -167,27 +184,25 @@ struct History: View {
     @ViewBuilder
     private var romAnnotation: some View {
         if let selectedIndex = vm.selectedROMIndex,
-           selectedIndex >= 0 && selectedIndex < vm.recentRecords.count {
+            selectedIndex >= 0 && selectedIndex < vm.recentRecords.count
+        {
             let selectedRecord = vm.recentRecords[selectedIndex]
             VStack(alignment: .center, spacing: 4) {
                 Text(Strings.History.romHeadline)
                     .font(.displayCaption1Semibold)
                     .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
-                    
 
                 Text("\(Int(selectedRecord.flexionAngle ?? 0))°")
                     .font(.displayTitle2Semibold)
                     .foregroundStyle(Color("Gray900"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
-                
-
 
                 Text(vm.formatDate(selectedRecord.measuredDate))
                     .font(.displayCaption1Semibold)
                     .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
-                    
+
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
@@ -201,7 +216,7 @@ struct History: View {
         let data = vm.chartData
         let domain = vm.xAxisDomain
         let selectedIndex = vm.selectedPainIndex
-        
+
         return Chart {
             ForEach(data, id: \.record.id) { item in
                 LineMark(
@@ -218,9 +233,10 @@ struct History: View {
                 .foregroundStyle(Color("Blue500"))
                 .symbolSize(80)
             }
-            
+
             if let selectedIndex = selectedIndex,
-               selectedIndex >= 0 && selectedIndex < data.count {
+                selectedIndex >= 0 && selectedIndex < data.count
+            {
                 RuleMark(x: .value("Selected", selectedIndex))
                     .foregroundStyle(Color("Gray300"))
                     .zIndex(-1)
@@ -237,17 +253,19 @@ struct History: View {
             }
         }
         .chartXAxis {
-            AxisMarks(position: .bottom, values: vm.chartIndicesAsDouble) { value in
+            AxisMarks(position: .bottom, values: vm.chartIndicesAsDouble) {
+                value in
                 if let doubleValue = value.as(Double.self) {
                     let index = Int(round(doubleValue))
                     // 정확한 인덱스 값인지 확인 (0.01 이내 오차 허용)
                     if abs(doubleValue - Double(index)) < 0.01,
-                       index >= 0 && index < vm.recentRecords.count {
+                        index >= 0 && index < vm.recentRecords.count
+                    {
                         let record = vm.recentRecords[index]
                         let dateStr = vm.formatShortDate(record.measuredDate)
                         AxisValueLabel {
                             Text(dateStr)
-                                .offset(x:-17)
+                                .offset(x: -17)
                         }
                     } else {
                         AxisGridLine()
@@ -265,7 +283,8 @@ struct History: View {
     @ViewBuilder
     private var painAnnotation: some View {
         if let selectedIndex = vm.selectedPainIndex,
-           selectedIndex >= 0 && selectedIndex < vm.recentRecords.count {
+            selectedIndex >= 0 && selectedIndex < vm.recentRecords.count
+        {
             let selectedRecord = vm.recentRecords[selectedIndex]
             VStack(alignment: .leading, spacing: 4) {
                 Text(Strings.History.painTitle)
@@ -274,10 +293,9 @@ struct History: View {
                     .frame(maxWidth: .infinity, alignment: .topLeading)
 
                 Text(formatPainLevel(selectedRecord.painLevel))
-                .font(.displayTitle2Semibold)
+                    .font(.displayTitle2Semibold)
                     .foregroundStyle(Color("Gray900"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
-
 
                 Text(vm.formatDate(selectedRecord.measuredDate))
                     .font(.displayCaption1Semibold)
@@ -292,9 +310,9 @@ struct History: View {
             .clipShape(RoundedRectangle(cornerRadius: 8))
         }
     }
-    
+
     // MARK: - Summary Cards
-    
+
     @ViewBuilder
     private func romSummaryCard(proxy: ScrollViewProxy) -> some View {
         VStack {
@@ -383,12 +401,12 @@ struct History: View {
                             .foregroundColor(Color("Gray500"))
                     }
                 }
-                
+
                 Spacer()
 
                 // 통증 레벨 바 표시
                 if vm.recentRecords.count < 2 {
-                    
+
                 } else if let first = vm.firstPainLevel,
                     let latest = vm.latestPainLevel
                 {
@@ -418,13 +436,14 @@ struct History: View {
                     }
 
                 }
-                
+
                 Spacer()
 
                 // 변화 설명 텍스트
                 Text(
                     vm.recentRecords.count < 2
-                        ? "첫 기록을 남겨보세요\nAnggle과 함께\n몸의 변화를 기록해봐요!" : vm.painChangeText
+                        ? "첫 기록을 남겨보세요\nAnggle과 함께\n몸의 변화를 기록해봐요!"
+                        : vm.painChangeText
                 )
                 .font(
                     vm.recentRecords.count < 2
@@ -475,6 +494,10 @@ struct HistoryPreviewWrapper: View {
                 }
         }
     }
+}
+
+#Preview("No Record") {
+    HistoryPreviewWrapper(scenario: .noRecord)
 }
 
 #Preview("Single Record") {
