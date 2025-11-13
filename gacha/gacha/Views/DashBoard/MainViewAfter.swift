@@ -47,10 +47,25 @@ struct MainViewAfter: View {
                                 primaryButton: .destructive(
                                     Text(Strings.Common.yes),
                                     action: {
-                                        vm.prepareForNewMeasurement()  // 새 측정 준비
+                                        print("🔴 [MainViewAfter Alert] 다시 측정하기 버튼 클릭")
+
                                         Task {
+                                            vm.isRemeasuring = true  // 재측정 플래그 설정
+                                            vm.prepareForNewMeasurement()  // 새 측정 준비
+                                            vm.clearCurrentRecord()  // 현재 레코드 클리어
+
+                                            print("🔴 [MainViewAfter Alert] deleteTodayRecords 호출")
                                             await vm.deleteTodayRecords()  // 오늘 기록 삭제
+
+                                            print("🔴 [MainViewAfter Alert] checkTodayRecord 호출")
                                             await vm.checkTodayRecord()    // 상태 업데이트 (hasTodayRecord = false)
+
+                                            print("🔴 [MainViewAfter Alert] hasTodayRecord = \(vm.hasTodayRecord)")
+                                            print("🔴 [MainViewAfter Alert] navigationPath 초기화")
+
+                                            // 네비게이션 스택 초기화 (홈으로 이동)
+                                            vm.navigationPath = NavigationPath()
+                                            vm.isRemeasuring = false  // 플래그 해제
                                         }
                                     }
                                 ),
