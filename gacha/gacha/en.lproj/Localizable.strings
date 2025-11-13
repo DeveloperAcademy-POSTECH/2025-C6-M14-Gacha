@@ -34,16 +34,20 @@
 
 /* MeasureView(Before) - 1/2 */
 "daily_start.title_large" = "Measure";
-"daily_start.instruction" = "Place your foot tip against the wall\nSit with your leg bent";
+"daily_start.instruction1.part1" = "Sit on a flat surface\nand";
+"daily_start.instruction1.emphasis1" = "fully bend your leg";
+"daily_start.instruction1.part2" = "";
 "enter.pain_only" = "Enter pain score only";
 
 /* MeasureView(Before) - 2/2 */
-"daily_start.instruction2" = "Hold the iPhone sideways\non your shin";
+"daily_start.instruction2.part1" = "Place the device on your ";
+"daily_start.instruction2.emphasis1" = "thigh\nnear the knee";
+"daily_start.instruction2.part2" = "";
 
 /* MeasureView(Loading) */
 "measure.title" = "Measure Knee Flexion";
 "flexion.loading.instruction_bold24" = "Starting soon";
-"flexion.loading.instruction" = "Keep your device steady";
+"flexion.loading.instruction" = "Keep your device steady\nHold your position";
 
 /* FlexionMeasureView - 측정전 */
 "flexion.instruction_semibold24" = "Keep your iPhone steady\nHold your position";
@@ -57,7 +61,6 @@
 /* PainLevelView */
 "pain.title" = "Record Pain Level";
 "pain.description" = "Select your pain level";
-"pain.rom_measure" = "ROM Measurement";
 
 /* Pain Categories */
 "pain.category.0" = "No pain";

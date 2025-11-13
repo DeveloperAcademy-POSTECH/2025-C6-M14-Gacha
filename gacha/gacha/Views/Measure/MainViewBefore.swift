@@ -108,7 +108,7 @@ struct MainViewBefore: View {
     
     private var instructionTextPage1: some View {
         Group {
-            Text(Strings.DailyStart.instruction)
+            Text(Strings.DailyStart.instruction1)
                 .font(.displayTitle3Regular)
         }
         .multilineTextAlignment(.center)

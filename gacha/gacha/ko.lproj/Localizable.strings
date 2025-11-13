@@ -9,7 +9,6 @@
 /* Common */
 "common.yes" = "네";
 "common.no" = "아니요";
-"common.retake" = "다시 측정하기";
 "common.cancel" = "취소";
 "common.confirm" = "확인";
 
@@ -17,9 +16,10 @@
 "button.next" = "다음";
 "button.measure" = "측정하기";
 "button.save" = "저장";
+"button.retake" = "다시 측정하기";
 
 /* tabbar */
-"tabbar.calendar" = "캘린더";
+"tabbar.calendar" = "기록";
 "tabbar.measure" = "측정";
 "tabbar.summary" = "요약";
 
@@ -34,16 +34,20 @@
 
 /* MeasureView(Before) - 1/2 */
 "daily_start.title_large" = "측정";
-"daily_start.instruction" = "벽에 측정할 다리의 발끝을 대고\n다리를 최대한 굽혀 앉아 주세요";
-"enter.pain_only" = "통증 수치만 입력하기";
+"daily_start.instruction1.part1" = "평평한 곳에 앉아 측정할 다리를\n";
+"daily_start.instruction1.emphasis1" = "최대한 굽혀";
+"daily_start.instruction1.part2" = "주세요";
+"daily_start.pain_only" = "통증 수치만 입력하기";
 
 /* MeasureView(Before) - 2/2 */
-"daily_start.instruction2" = "기기의 옆면을 정강이뼈 위에 대고\n고정해 주세요";
+"daily_start.instruction2.part1" = "기기를 무릎 가까이";
+"daily_start.instruction2.emphasis1" = "허벅지에 얹고";
+"daily_start.instruction2.part2" = "\n고정해 주세요";
 
 /* MeasureView(Loading) */
-"measure.title" = "무릎 굽힘 측정";
+"flexion.title" = "무릎 굽힘 측정";
 "flexion.loading.instruction_bold24" = "잠시 후 측정이 시작돼요";
-"flexion.loading.instruction" = "기기의 위치를 고정한 채 대기해 주세요";
+"flexion.loading.instruction" = "기기의 위치를 고정한 채\n자세를 유지해 주세요";
 
 /* FlexionMeasureView - 측정전 */
 "flexion.instruction_semibold24" = "기기의 위치를 고정한 채\n자세를 유지해 주세요";
@@ -57,7 +61,6 @@
 /* PainLevelView */
 "pain.title" = "통증 기록";
 "pain.description" = "통증 정도를 선택해 주세요";
-"pain.rom_measure" = "ROM 측정";
 
 /* Pain Categories */
 "pain.category.0" = "통증 없음";
@@ -82,8 +85,8 @@
 /* MeasureView(After) */
 "progress.title_large" = "오늘의 기록";
 
-"card.flexion_angle" = "무릎 굽힘 각도";
-"card.pain_level" = "통증 정도";
+"progress.flexion_angle" = "무릎 굽힘 각도";
+"progress.pain_level" = "통증 정도";
 
 "progress.first_take.headline" = "첫 기록을 남기셨네요!";
 "progress.first_take.description" = "오늘의 기록이 회복을 향한 첫 발자국이에요.\n앞으로도 꾸준히 함께해요.";
@@ -122,18 +125,29 @@
 /* HistoryView */
 "history.title_large" = "요약";
 
+/* History Summary Card - ROM Change */
+"history.rom_change_increased" = "지난 %d일간\n무릎 굽힘 범위가\n%d도 늘어났어요!";
+"history.rom_change_decreased" = "지난 %d일간\n무릎 굽힘 범위가\n%d도 줄었어요";
+"history.rom_change_under2_emphasized" = "측정일수: %d일";
+"history.rom_change_under2" = "3일째 측정부터 변화를 확인할 수 있어요";
+
 "history.rom_headline" = "무릎 굽힘 범위";
 "history.rom_subheadline_better" = "지난 ddd일간 무릎 굽힘 범위가 nnn도 늘어났어요!";
 "history.rom_subheadline_same" = "지난 ddd일간 무릎 굽힘 범위가 유지되고 있어요";
 "history.rom_subheadline_worse" = "지난 ddd일간 무릎 굽힘 범위가 nnn도 줄었어요";
 
+/* History Summary Card - Pain Change */
+"history.pain_change_decreased" = "처음에 비해\n통증이\n%d단계 줄었어요!";
+"history.pain_change_increased" = "처음에 비해\n통증이\n%d단계 늘었어요";
+
 "history.pain_headline" = "통증 정도";
 "history.pain_subheadline_better" = "처음에 비해 통증이 nn단계 줄었어요!";
 "history.pain_subheadline_same" = "통증이 일정하게 유지되고 있어요";
 "history.pain_subheadline_worse" = "처음에 비해 통증이 nn단계만큼 커졌어요";
-"history.pain_subheadline_norecord" = "첫 기록을 남겨\n보세요.\n\nAnggle과 함께\n몸의 변화를 기록해봐요!";
-"history.pain_subheadline_1record" = "처음 기록을\n남기셨군요.\n\n회복을 향한 첫걸음을\nAnggle이 응원해요!";
+"history.pain_subheadline_norecord" = "첫 기록을 남겨\n보세요.\nAnggle과 함께\n몸의 변화를 기록해봐요!";
+"history.pain_subheadline_1record" = "처음 기록을\n남기셨군요.\n회복을 향한 첫걸음을\nAnggle이 응원해요!";
 
+/* History Summary Chart - ROM Change */
 "history.rom_title" = "무릎 굽힘 범위";
 "history.rom_semibold15_better" = "이 기간 최대였던 nnn°보다 nnn° 더 움직일 수 있어요";
 "history.rom_semibold15_same" = "이 기간 최대였던 nnn°와 같아요";
@@ -141,6 +155,7 @@
 "history.rom_semibold15_norecord" = "첫 측정을 완료해 주세요";
 "history.rom_semibold15_1record" = "현재 무릎이 %d°까지 굽혀지고 있어요";
 
+/* History Summary Chart - Pain Change */
 "history.pain_title" = "통증 정도";
 "history.pain_semibold15_better" = "이 기간 가장 낮았던  nn보다 n단계 덜 아파졌어요";
 "history.pain_semibold15_same" = "이기간 가장 낮았던 nn단계의 통증과 같아요";
@@ -148,15 +163,7 @@
 "history.pain_semibold15_norecord" = "첫 기록을 남겨 주세요";
 "history.pain_semibold15_1record" = "현재 통증 정도는 %d단계예요"
 
-/* History Summary Card - ROM Change */
-"history.rom_change_increased" = "지난 %d일간\n무릎 굽힘 범위가\n%d도 늘어났어요!";
-"history.rom_change_decreased" = "지난 %d일간\n무릎 굽힘 범위가\n%d도 줄었어요";
-"history.rom_change_under2_emphasized" = "측정일수: %d일";
-"history.rom_change_under2" = "3일째 측정부터 변화를 확인할 수 있어요";
 
-/* History Summary Card - Pain Change */
-"history.pain_change_decreased" = "처음에 비해\n통증이\n%d단계 줄었어요!";
-"history.pain_change_increased" = "처음에 비해\n통증이\n%d단계 늘었어요";
 
 
 // 없앤 것

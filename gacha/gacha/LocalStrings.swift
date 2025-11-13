@@ -108,12 +108,27 @@ enum Strings {
         static var titleLarge: String {
             NSLocalizedString("daily_start.title_large", comment: "")
         }
-        static var instruction: String {
-            NSLocalizedString("daily_start.instruction", comment: "")
+        
+        struct Instruction1 {
+            let i1part1: String = NSLocalizedString("daily_start.instruction1.part1", comment: "")
+            let i1emphasize1: String = NSLocalizedString("daily_start.instruction1.emphasis1", comment: "")
+            let i1part2: String = NSLocalizedString("daily_start.instruction1.part2", comment: "")
         }
-        static var instruction2: String {
-            NSLocalizedString("daily_start.instruction2", comment: "")
+        
+        static var instruction1: Instruction1 {
+            Instruction1()
         }
+
+        struct Instruction2 {
+            let i2part1: String = NSLocalizedString("daily_start.instruction2.part1", comment: "")
+            let i2emphasize1: String = NSLocalizedString("daily_start.instruction2.emphasis1", comment: "")
+            let i2part2: String = NSLocalizedString("daily_start.instruction2.part2", comment: "")
+        }
+        
+        static var instruction2: Instruction2 {
+            Instruction2()
+        }
+        
         static var enterPainOnly: String {
             NSLocalizedString("enter.pain_only", comment: "")
         }
