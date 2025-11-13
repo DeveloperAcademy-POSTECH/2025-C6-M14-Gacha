@@ -170,8 +170,7 @@ class HistoryViewModel: ObservableObject {
     
     /// 통증 변화 설명 텍스트
     var painChangeText: String {
-        guard recentRecords.count > 1,
-              let change = painChange,
+        guard let change = painChange,
               change != 0 else {
             return ""
         }
@@ -190,7 +189,7 @@ class HistoryViewModel: ObservableObject {
             return Strings.History.painNoRecord
         }
 
-        // 첫 측정인 경우
+        // 첫 측정인 경우 (기록이 1개만 있을 때)
         guard recentRecords.count > 1,
               let todayPain = latestPainLevel else {
             guard let firstPain = latestPainLevel else {

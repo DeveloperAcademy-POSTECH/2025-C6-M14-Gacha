@@ -27,7 +27,7 @@ protocol MeasureManager {
     func stopRecording()
 }
 
-final class MotionMeasureManager: MeasureManager {
+final class MotionMeasureManager: MeasureManager, ObservableObject {
     private let motionManager = CMMotionManager()
 
     enum DeviceOrientation: String {
@@ -42,13 +42,10 @@ final class MotionMeasureManager: MeasureManager {
     var isRecording = false
 
     // 데이터
-    var currentAngle: Double = 0
+    @Published var currentAngle: Double = 0
     var recordedAngles: [Double] = []
 
 
-    // 상대 각도용
-    var baselinePitch: Double = 0.0
-    var baselineRoll: Double = 0.0
 
     init() {
         checkMotionAvailability()
@@ -80,7 +77,7 @@ final class MotionMeasureManager: MeasureManager {
             guard let self = self, let motion = motion else { return }
 
             self.updateAngle(from: motion)
-            
+
             if self.isRecording {
                 self.recordedAngles.append(self.currentAngle)
             }
@@ -110,42 +107,77 @@ final class MotionMeasureManager: MeasureManager {
         print("센서 중지")
     }
 
-    // (사용X) 영점 조절 함수
-    func setBaseline(from motion: CMDeviceMotion? = nil) {
-        let motionData = motion ?? motionManager.deviceMotion
-
-        guard let motionData = motionData else {
-            print("❌ Motion 데이터 없음")
-            return
-        }
-
-        baselinePitch = motionData.attitude.pitch
-        baselineRoll = motionData.attitude.roll
-        print(
-            "📍 Baseline 설정 - Pitch: \(String(format: "%.2f", baselinePitch)), Roll: \(String(format: "%.2f", baselineRoll)) radians"
-        )
-    }
 
     private func updateAngle(from motion: CMDeviceMotion) {
-        let attitude = motion.attitude
-        var angle: Double = 0.0
+        let angle = calculateGravityAngle(gravity: motion.gravity)
 
-        angle = calculateAttitudeAngle(attitude: attitude)
-        currentAngle = angle
-    }
-
-    func calculateAttitudeAngle(attitude: CMAttitude) -> Double {
-        var angleDiff: Double = 0.0
-        switch selectedOrientation {
-        case .portrait:
-            // 홈버튼/음량버튼이 있는 긴 측면을 종아리에 부착
-            // pitch 축 사용: 무릎을 구부릴 때의 각도 변화 측정
-            // 부호를 반전시켜 무릎을 구부릴수록 양수 값이 나오도록 조정
-            angleDiff = -(attitude.pitch - baselinePitch) * 180 / .pi
-        case .landscape:
-            angleDiff = (attitude.pitch - baselinePitch) * 180 / .pi
+        // 메인 스레드에서 @Published 속성 업데이트
+        DispatchQueue.main.async { [weak self] in
+            self?.currentAngle = angle
         }
 
-        return angleDiff
+        // 디버깅: 실시간 각도 출력
+        if isRecording {
+            print("📐 [Recording] Current Angle: \(String(format: "%.2f", angle))°")
+        }
+    }
+
+    func calculateGravityAngle(gravity: CMAcceleration) -> Double {
+        var angle: Double = 0.0
+
+        switch selectedOrientation {
+        case .portrait:
+            // 휴대폰의 넓은 면(후면)을 허벅지 위에 올림
+            // gravity.y: 휴대폰의 세로 방향 (상단→하단)
+            // gravity.z: 휴대폰의 후면에 수직 방향 (화면→후면)
+
+            // 허벅지 위에 평평하게 놓았을 때: z ≈ -1 (중력이 화면을 향함)
+            // 무릎을 구부리면: y 값이 증가
+
+            // atan2를 사용하여 절대 각도 계산 (baseline 불필요)
+            // y축과 z축의 비율로 기울기 각도 계산
+            angle = atan2(gravity.y, -gravity.z) * 180 / .pi
+
+            // 디버깅: gravity 값과 계산된 각도 출력
+            if isRecording {
+                print("🌍 Gravity - x: \(String(format: "%.3f", gravity.x)), y: \(String(format: "%.3f", gravity.y)), z: \(String(format: "%.3f", gravity.z))")
+                print("📊 Calculated Angle (raw): \(String(format: "%.2f", angle))°")
+            }
+
+            // 부호 반전: 음수였던 값은 양수로, 양수였던 값은 음수로
+            angle = -angle
+
+            // 0도 기준을 평평한 상태로 설정하고, 무릎을 구부릴수록 양수
+            // 평평한 상태(z=-1, y=0)에서 각도는 0도
+            // 수직(z=0, y=-1)에서 각도는 90도
+
+            // 음수 각도는 0으로 (역방향 제한)
+            if angle < 0 {
+                angle = 0
+            }
+
+            // 최대 180도로 제한
+            if angle > 180 {
+                angle = 180
+            }
+
+            // 디버깅: 클램핑 후 최종 각도
+            if isRecording {
+                print("✅ Final Angle (after clamping): \(String(format: "%.2f", angle))°")
+            }
+
+        case .landscape:
+            // landscape 모드
+            angle = atan2(gravity.x, -gravity.z) * 180 / .pi
+
+            if angle < 0 {
+                angle = 0
+            }
+            if angle > 180 {
+                angle = 180
+            }
+        }
+
+        return angle
     }
 }

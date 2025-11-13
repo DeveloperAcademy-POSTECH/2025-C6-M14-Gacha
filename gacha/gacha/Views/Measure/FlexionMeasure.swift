@@ -68,18 +68,19 @@ struct FlexionMeasure: View {
                                         vm.prepareForNewMeasurement()  // 측정 상태 초기화
                                         vm.clearCurrentRecord()  // 현재 레코드 클리어
 
+                                        if vm.isMeasuring {
+                                            vm.cancelFlexionMeasure()
+                                        }
+
                                         Task {
-                                            if vm.isMeasuring {
-                                                vm.cancelFlexionMeasure()
-                                            }
                                             // 오늘 기록이 있다면 삭제 (이미 저장된 기록이 있을 수 있음)
                                             await vm.deleteTodayRecords()
                                             // 상태 업데이트 (hasTodayRecord = false)
                                             await vm.checkTodayRecord()
-                                            // 네비게이션 스택 전체 비우기
-
-                                            vm.navigationPath = NavigationPath()
                                         }
+
+                                        // 네비게이션 스택 전체 비우기 (Task 밖에서 동기적으로 실행)
+                                        vm.navigationPath = NavigationPath()
                                     }
                                 ),
                                 secondaryButton: .cancel(
@@ -109,11 +110,11 @@ struct FlexionMeasure: View {
                     
                     Spacer()
                     
-                    // MARK: - 일러스트 영역
+                    // MARK: - 실시간 각도 표시
                     ZStack {
-                        Image("flexionPosture")
-                            .resizable()
-                            .scaledToFit()
+                        Text("\(Int(vm.currentAngle * 2))°")
+                            .font(.system(size: 80, weight: .bold))
+                            .foregroundStyle(Color("Gray900"))
                     }
                     .frame(maxWidth: .infinity)
                     .zIndex(2)  // 물 위에 표시

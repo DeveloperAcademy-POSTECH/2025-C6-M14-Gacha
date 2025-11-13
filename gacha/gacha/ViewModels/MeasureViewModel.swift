@@ -11,13 +11,16 @@ import SwiftUI
 
 final class MeasureViewModel: ObservableObject {
     private var repository: RecordRepository
-    private var measureManager: MeasureManager
+    private var measureManager: MotionMeasureManager
 
     @Published var measuredRom: Double = 0.0
 
     @Published var hasTodayRecord: Bool = false
 
     @Published var navigationPath = NavigationPath()
+
+    // 재측정 플래그 (onChange에서 checkTodayRecord를 건너뛰기 위함)
+    var isRemeasuring: Bool = false
 
     @Published var currentRecord: MeasuredRecord? = nil
     @Published var allRecords: [MeasuredRecord] = []
@@ -49,7 +52,7 @@ final class MeasureViewModel: ObservableObject {
     // MARK: - 전체 측정 진행률 (0.0~1.0)
     var overallProgress: Double {
         guard isMeasuring || measurementState == .completed else { return 0.0 }
-        
+
         switch measurementState {
         case .idle:
             return 0.0
@@ -64,7 +67,12 @@ final class MeasureViewModel: ObservableObject {
             return 1.0
         }
     }
-    
+
+    // MARK: - 현재 각도 (measureManager에서 가져옴)
+    @Published var currentAngle: Double = 0
+
+    private var cancellables = Set<AnyCancellable>()
+
     enum MeasurementState {
         case idle           // 대기
         case started        // 측정 시작됨
@@ -76,6 +84,10 @@ final class MeasureViewModel: ObservableObject {
     init(repository: RecordRepository) {
         self.repository = repository
         self.measureManager = MotionMeasureManager()
+
+        // measureManager의 currentAngle 변화를 구독
+        measureManager.$currentAngle
+            .assign(to: &$currentAngle)
     }
 
 
@@ -85,14 +97,16 @@ final class MeasureViewModel: ObservableObject {
 
         do {
             hasTodayRecord = try await repository.hasTodayRecord
-            print("오늘의 기록 여부: \(hasTodayRecord)")
+            print("✅ [checkTodayRecord] hasTodayRecord: \(hasTodayRecord)")
             if hasTodayRecord {
                 currentRecord = await loadLatestRecord()
+                print("✅ [checkTodayRecord] currentRecord: \(currentRecord?.measuredDate.description ?? "없음")")
+            } else {
+                print("✅ [checkTodayRecord] No record today")
             }
-            print("오늘의 기록: \(currentRecord?.measuredDate.description ?? "없음")")
 
         } catch {
-            print("기록 확인 실패: \(error)")
+            print("❌ [checkTodayRecord] 기록 확인 실패: \(error)")
             hasTodayRecord = false
         }
     }
@@ -469,16 +483,22 @@ final class MeasureViewModel: ObservableObject {
     // MARK: - 오늘 데이터가 있다면 삭제하기
     func deleteTodayRecords() async {
         do {
+            print("🗑️ [deleteTodayRecords] Starting...")
             if try await repository.hasTodayRecord {
                 let legacyRecord = try await repository.loadLatestRecord()
-                guard let record = legacyRecord else { return }
-                print("🗑️ deleteTodayRecords: ", record.measuredDate)
+                guard let record = legacyRecord else {
+                    print("🗑️ [deleteTodayRecords] No record to delete")
+                    return
+                }
+                print("🗑️ [deleteTodayRecords] Deleting record: \(record.measuredDate)")
                 try await repository.deleteRecord(by: record.id)
                 currentRecord = nil
-                print("🗑️ 오늘의 레코드를 delete")
+                print("✅ [deleteTodayRecords] Record deleted successfully")
+            } else {
+                print("🗑️ [deleteTodayRecords] No today record exists")
             }
         } catch {
-            print("error")
+            print("❌ [deleteTodayRecords] Error: \(error)")
         }
     }
 }
