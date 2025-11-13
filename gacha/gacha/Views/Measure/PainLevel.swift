@@ -103,7 +103,7 @@ struct PainLevel: View {
                 .frame(height: 44)
 
                 Spacer()
-                
+
                 // MARK: - 이모지
                 VStack (spacing: 16) {
                     Image(painImageName(for: Int(value)))
@@ -123,7 +123,7 @@ struct PainLevel: View {
                     }
                 }
                 .padding(.bottom, 40)
-                
+
                 Spacer()
 
                 // MARK: - 반원형 슬라이더
@@ -132,7 +132,7 @@ struct PainLevel: View {
                         .frame(height: 250)
                     Text(Strings.Pain.description)
                 }
-                
+
                 Spacer()
 
                 CapsuleButtonComponent(
@@ -170,7 +170,7 @@ struct PainLevel: View {
                 .padding(.bottom, 40)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-             
+
         }
     }
 
