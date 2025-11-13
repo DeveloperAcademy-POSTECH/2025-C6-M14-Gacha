@@ -39,13 +39,13 @@
 "daily_start.instruction.no3" = "③ 측정이 끝날 때까지 자세를 유지해 주세요";
 
 /* MeasureView(Loading) */
-"daily_start.instruction.no1" = "① 측정할 무릎을 최대한 굽히고 앉아 주세요";
-"daily_start.instruction.no2.emphasis" = "② iPhone을 무릎 쪽 허벅지 위에 얹어 주세요";
+"daily_start.instruction.no1" = "한 쪽 다리를 최대한 굽히고 앉아 주세요";
+"daily_start.instruction.no2.emphasis" = "iPhone을 허벅지 위에 얹어 주세요";
+"daily_start.instruction.no3.countdown" = "자세를 3초 동안 유지해 주세요";
 
 /* FlexionMeasureView - 측정중 */
 "daily_start.flexion.title.measuring" = "무릎 굽힘 측정";
 "daily_start.flexion.measuring.emphasis" = "측정 중";
-"daily_start.instruction.no3.emphasis" = "③ 측정이 끝날 때까지 자세를 유지해 주세요";
 
 /* FlexionMeasureView - 측정완료 */
 "daily_start.flexion.title.measured" = "무릎 굽힘 측정";

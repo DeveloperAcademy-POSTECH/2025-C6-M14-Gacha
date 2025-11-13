@@ -39,8 +39,9 @@
 "daily_start.instruction.no3" = "③ Hold still until measurement ends";
 
 /* MeasureView(Loading) */
-"daily_start.instruction.no1" = "① Sit and bend your knee fully";
-"daily_start.instruction.no2.emphasis" = "② Place iPhone on the thigh near the knee";
+"daily_start.instruction.no1" = "Sit and bend one leg fully";
+"daily_start.instruction.no2.emphasis" = "Place iPhone on your thigh";
+"daily_start.instruction.no3.countdown" = "Hold the position for 3 seconds";
 
 /* FlexionMeasureView - Measuring */
 "daily_start.flexion.title.measuring" = "Knee Flexion Measurement";

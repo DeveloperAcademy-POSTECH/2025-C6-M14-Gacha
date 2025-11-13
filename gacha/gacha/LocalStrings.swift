@@ -70,6 +70,7 @@ enum Strings {
     enum Measure {
         static var instructionNo1: String { NSLocalizedString("daily_start.instruction.no1", comment: "") }
         static var instructionNo2Emphasis: String { NSLocalizedString("daily_start.instruction.no2.emphasis", comment: "") }
+        static var instructionNo3Countdown: String { NSLocalizedString("daily_start.instruction.no3.countdown", comment: "") }
     }
     
     // MARK: - FlexionMeasureView
