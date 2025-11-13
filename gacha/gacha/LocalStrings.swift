@@ -257,12 +257,27 @@ enum Strings {
         static func chartPainSame(level: Int) -> String {
             String(format: NSLocalizedString("history.chart.pain.same", comment: ""), level)
         }
-        static func chartPainWorse(increase: Int, from: Int) -> String {
-            String(format: NSLocalizedString("history.chart.pain.worse", comment: ""), increase, from)
+
+        // Summary Card - ROM
+        static func romUnder2Days(days: Int) -> String {
+            String(format: NSLocalizedString("history.rom_change_under2_days", comment: ""), days)
         }
-        static var chartPainNoRecord: String { NSLocalizedString("history.chart.pain.no_record", comment: "") }
-        static func chartPainFirstRecord(level: Int) -> String {
-            String(format: NSLocalizedString("history.chart.pain.first_record", comment: ""), level)
+
+        static var romUnder2Description: String {
+            NSLocalizedString("history.rom_change_under2_description", comment: "")
+        }
+
+        // Summary Card - Pain
+        static func painChangeDecreased(levels: Int) -> String {
+            String(format: NSLocalizedString("history.pain_change_decreased", comment: ""), levels)
+        }
+
+        static func painChangeIncreased(levels: Int) -> String {
+            String(format: NSLocalizedString("history.pain_change_increased", comment: ""), levels)
+        }
+
+        static var painFirstRecord: String {
+            NSLocalizedString("history.pain_change_first_record", comment: "")
         }
     }
 }

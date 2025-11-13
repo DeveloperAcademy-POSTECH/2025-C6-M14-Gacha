@@ -10,35 +10,26 @@ import SwiftUI
 
 struct MainViewBefore: View {
     @EnvironmentObject var vm: MeasureViewModel
-    
+
     @State private var currentPage = 0  // 0: 첫 화면, 1: 두 번째 화면
 
     var body: some View {
         VStack(spacing: 0) {
-            // MARK: - Navigation Bar
-            HStack {
-                Text(Strings.DailyStart.title)
-                    .font(.displayLargeBold)
-                Spacer()
-            }
-            .padding(.horizontal, 16)
-            .padding(.top, 54)
-            
             Spacer()
-            
+
             // MARK: - 중앙 콘텐츠 영역
             VStack(spacing: 40) {
                 // 안내 문구 영역
                 if currentPage == 0 {
-                    Image("before1")
+                    Image("before3")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 300, height: 300)
                     // 첫 번째 화면 안내 문구
                     instructionTextPage1
                 } else {
-                    
-                    Image("before2")
+
+                    Image("leg")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 300, height: 300)
@@ -48,28 +39,50 @@ struct MainViewBefore: View {
             }
             .frame(width: 361)
             .frame(maxWidth: .infinity)
-            
+
             Spacer()
-            
+
             // MARK: - 버튼 영역 (92px height, 16px gap)
             VStack(spacing: 16) {
-                // "측정하러 가기" 버튼 (primary style, 100px cornerRadius)
-                CapsuleButtonComponent(
-                    title: Strings.Button.measure,
-                    style: .primary,
-                    width: 361,
-                    height: 54,
-                    cornerRadius: 100
-                ) {
-                    vm.shouldAutoStartMeasure = true
-                    // 홈에서 FlexionMeasure로 이동하는 경우 소스 기록
-                    vm.navigate(to: MeasureFlowStep.flexionMeasure, from: NavigationSource.home)
+                if currentPage == 0 {
+                    // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
+                    CapsuleButtonComponent(
+                        title: Strings.Button.next,
+                        style: .secondary,
+                        width: 361,
+                        height: 54,
+                        fontSize: 20,
+                        cornerRadius: 100
+                    ) {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            currentPage = 1
+                        }
+                    }
+                } else {
+                    // 두 번째 화면: "측정하기" 버튼 (primary style, 100px cornerRadius)
+                    CapsuleButtonComponent(
+                        title: Strings.Button.measure,
+                        style: .primary,
+                        width: 361,
+                        height: 54,
+                        cornerRadius: 100
+                    ) {
+                        vm.shouldAutoStartMeasure = true
+                        // 홈에서 FlexionMeasure로 이동하는 경우 소스 기록
+                        vm.navigate(
+                            to: MeasureFlowStep.flexionMeasure,
+                            from: NavigationSource.home
+                        )
+                    }
                 }
 
-                // 보조 링크: "통증 수치만 입력하기" (16px, 밑줄, Gray500)
+                // 보조 링크: "고통수치만 입력하기" (16px, 밑줄, Gray500)
                 Button(action: {
                     // 홈에서 직접 PainLevel로 이동하는 경우 소스 기록
-                    vm.navigate(to: MeasureFlowStep.painLevel, from: NavigationSource.home)
+                    vm.navigate(
+                        to: MeasureFlowStep.painLevel,
+                        from: NavigationSource.home
+                    )
                 }) {
                     Text(Strings.Button.painOnly)
                         .font(.displayBodyRegular)
@@ -81,37 +94,102 @@ struct MainViewBefore: View {
             .padding(.bottom, 34)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .navigationTitle(Strings.DailyStart.titleLarge)
+        .navigationBarTitleDisplayMode(.large)
         .onAppear {
-            vm.startSensor()
             // 화면이 나타날 때마다 첫 번째 화면으로 초기화
             currentPage = 0
         }
     }
-    
+
     // MARK: - Instruction Text Views
 
     private var instructionTextPage1: some View {
-        VStack(spacing: 8) {
-            Text(Strings.DailyStart.instructionNo1Emphasis)
-                .font(.displayTitle3Regular)
-            Text(Strings.DailyStart.instructionNo2)
-                .font(.displayTitle3Regular)
-            Text(Strings.DailyStart.instructionNo3)
-                .font(.displayTitle3Regular)
+        VStack(spacing: 16) {
+            HStack(alignment: .top, spacing: 8) {
+                Image(systemName: "1.circle")
+                    .font(.displayTitle3Bold)
+                    .foregroundStyle(Color(.blue800))
+                
+                Text("한 쪽 다리를 최대한 굽히고 앉아\n주세요")
+                    .font(.displayTitle3Bold)
+                    .foregroundStyle(Color(.blue800))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            HStack(alignment: .top, spacing: 8) {
+                Image(systemName: "2.circle")
+                    .font(.displayBodyRegular)
+                    .foregroundStyle(Color(.gray500))
+                
+                Text("iPhone을 허벅지 위에 올려주세요")
+                    .font(.displayBodyRegular)
+                    .foregroundStyle(Color(.gray500))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            HStack(alignment: .top, spacing: 8) {
+                Image(systemName: "3.circle")
+                    .font(.displayBodyRegular)
+                    .foregroundStyle(Color(.gray500))
+                
+                Text("자세를 3초 동안 유지해주세요")
+                    .font(.displayBodyRegular)
+                    .foregroundStyle(Color(.gray500))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
-        .multilineTextAlignment(.center)
+        .padding(20)
+        .background(.backgoundSecondary)
+        .cornerRadius(20)
     }
 
     private var instructionTextPage2: some View {
-        VStack(spacing: 8) {
-            Text(Strings.DailyStart.instructionNo1Emphasis)
-                .font(.displayTitle3Regular)
-            Text(Strings.DailyStart.instructionNo2)
-                .font(.displayTitle3Regular)
-            Text(Strings.DailyStart.instructionNo3)
-                .font(.displayTitle3Regular)
+        VStack(spacing: 16) {
+            HStack(alignment: .top, spacing: 8) {
+                Image(systemName: "1.circle")
+                    .font(.displayBodyRegular)
+                    .foregroundStyle(Color(.gray500))
+                
+                Text("한 쪽 다리를 최대한 굽히고 앉아\n주세요")
+                    .font(.displayBodyRegular)
+                    .foregroundStyle(Color(.gray500))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            HStack(alignment: .top, spacing: 8) {
+                Image(systemName: "2.circle")
+                    .font(.displayTitle3Bold)
+                    .foregroundStyle(Color(.blue800))
+                
+                Text("iPhone을 허벅지 위에 올려주세요")
+                    .font(.displayTitle3Bold)
+                    .foregroundStyle(Color(.blue800))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            HStack(alignment: .top, spacing: 8) {
+                Image(systemName: "3.circle")
+                    .font(.displayBodyRegular)
+                    .foregroundStyle(Color(.gray500))
+                
+                Text("자세를 3초 동안 유지해주세요")
+                    .font(.displayBodyRegular)
+                    .foregroundStyle(Color(.gray500))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
-        .multilineTextAlignment(.center)
+        .padding(20)
+        .background(.backgoundSecondary)
+        .cornerRadius(20)
     }
 }
 
@@ -133,5 +211,3 @@ struct MainViewBefore: View {
     MainViewBefore()
         .environmentObject(vm)
 }
-
-

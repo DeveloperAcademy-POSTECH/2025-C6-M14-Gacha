@@ -60,6 +60,44 @@ struct MeasureFlag: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
+            VStack(spacing: 16) {
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "1.circle")
+                        .font(.displayBodyRegular)
+                        .foregroundStyle(Color(.gray500))
+                    
+                    Text("한 쪽 다리를 최대한 굽히고 앉아\n주세요")
+                        .font(.displayBodyRegular)
+                        .foregroundStyle(Color(.gray500))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "2.circle")
+                        .font(.displayTitle3Bold)
+                        .foregroundStyle(Color(.blue800))
+                    
+                    Text("iPhone을 허벅지 위에 올려주세요")
+                        .font(.displayTitle3Bold)
+                        .foregroundStyle(Color(.blue800))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "3.circle")
+                        .font(.displayBodyRegular)
+                        .foregroundStyle(Color(.gray500))
+                    
+                    Text("자세를 3초 동안 유지해주세요")
+                        .font(.displayBodyRegular)
+                        .foregroundStyle(Color(.gray500))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
             .padding(20)
             .background(.backgoundSecondary)
             .cornerRadius(20)
