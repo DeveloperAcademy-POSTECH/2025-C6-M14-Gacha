@@ -21,6 +21,7 @@ struct MeasureFlow: View {
     @StateObject private var measureVM: MeasureViewModel
     @StateObject private var historyVM: HistoryViewModel
     @StateObject private var calendarVM: CalendarViewModel
+    @State private var selectedTab = 1  // 기본 탭: 1 = 측정 탭
 
     init(modelContext: ModelContext) {
         let repository = SwiftDataRecordRepository(modelContext: modelContext)
@@ -32,7 +33,7 @@ struct MeasureFlow: View {
     }
 
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             // 캘린더 탭
             NavigationStack {
                 CalendarView()
@@ -42,6 +43,7 @@ struct MeasureFlow: View {
             .tabItem {
                 Label(Strings.Tabbar.calendar, systemImage: "calendar")
             }
+            .tag(0)
             .environmentObject(calendarVM)
 
             // 측정 탭 (메인)
@@ -54,6 +56,7 @@ struct MeasureFlow: View {
             .tabItem {
                 Label(Strings.Tabbar.measure, systemImage: "ruler")
             }
+            .tag(1)
             .environmentObject(measureVM)
 
             // 요약 탭
@@ -65,6 +68,7 @@ struct MeasureFlow: View {
             .tabItem {
                 Label(Strings.Tabbar.summary, systemImage: "chart.bar")
             }
+            .tag(2)
             .environmentObject(historyVM)
         }
         .onChange(of: measureVM.navigationPath.count) { oldValue, newValue in
