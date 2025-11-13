@@ -109,11 +109,11 @@ struct FlexionMeasure: View {
                     
                     Spacer()
                     
-                    // MARK: - 일러스트 영역
+                    // MARK: - 실시간 각도 표시
                     ZStack {
-                        Image("flexionPosture")
-                            .resizable()
-                            .scaledToFit()
+                        Text("\(Int(vm.currentAngle))°")
+                            .font(.system(size: 80, weight: .bold))
+                            .foregroundStyle(Color("Gray900"))
                     }
                     .frame(maxWidth: .infinity)
                     .zIndex(2)  // 물 위에 표시

@@ -49,7 +49,7 @@ final class MeasureViewModel: ObservableObject {
     // MARK: - 전체 측정 진행률 (0.0~1.0)
     var overallProgress: Double {
         guard isMeasuring || measurementState == .completed else { return 0.0 }
-        
+
         switch measurementState {
         case .idle:
             return 0.0
@@ -63,6 +63,11 @@ final class MeasureViewModel: ObservableObject {
         case .completed:
             return 1.0
         }
+    }
+
+    // MARK: - 현재 각도 (measureManager에서 가져옴)
+    var currentAngle: Double {
+        return measureManager.currentAngle
     }
     
     enum MeasurementState {
