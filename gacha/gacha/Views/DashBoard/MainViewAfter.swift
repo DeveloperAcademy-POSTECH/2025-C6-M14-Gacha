@@ -31,7 +31,7 @@ struct MainViewAfter: View {
                     // MARK: - 하단 버튼 영역 (MainViewBefore와 동일한 구조)
                     VStack(spacing: 16) {
                         CapsuleButtonComponent(
-                            title: Strings.Common.retake,
+                            title: Strings.Button.retake,
                             style: .light,
                             width: 361,
                             height: 54,
@@ -42,7 +42,7 @@ struct MainViewAfter: View {
                         }
                         .alert(isPresented: $showingAlert) {
                             Alert(
-                                title: Text(Strings.Alert.remeasureHeadline),
+                                title: Text(Strings.Alert.remeasureTitle),
                                 message: Text(Strings.Alert.remeasureMessage),
                                 primaryButton: .destructive(
                                     Text(Strings.Common.yes),
@@ -70,7 +70,7 @@ struct MainViewAfter: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        .navigationTitle(Strings.Progress.titleLarge)
+        .navigationTitle(Strings.Progress.title)
         .navigationBarTitleDisplayMode(.large)
         .onAppear {
             Task {

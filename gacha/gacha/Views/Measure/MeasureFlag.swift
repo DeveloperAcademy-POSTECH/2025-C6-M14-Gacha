@@ -17,9 +17,9 @@ struct MeasureFlag: View {
         VStack(spacing: 60) {
             CountdownNumber
             VStack(spacing: 12) {
-                Text(Strings.Measure.loadingBold)
-                    .font(.displayTitle2Bold)
-                Text(Strings.Measure.loadingInstruction)
+                Text(Strings.Measure.instructionNo1)
+                    .font(.displayTitle3Regular)
+                Text(Strings.Measure.instructionNo2Emphasis)
                     .font(.displayTitle3Regular)
             }
             VStack(spacing: 16) {
@@ -27,8 +27,8 @@ struct MeasureFlag: View {
                     Image(systemName: "1.circle")
                         .font(.displayBodyRegular)
                         .foregroundStyle(Color(.gray500))
-                    
-                    Text("한 쪽 다리를 최대한 굽히고 앉아\n주세요")
+
+                    Text(Strings.Measure.instructionNo1)
                         .font(.displayBodyRegular)
                         .foregroundStyle(Color(.gray500))
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -39,8 +39,8 @@ struct MeasureFlag: View {
                     Image(systemName: "2.circle")
                         .font(.displayTitle3Bold)
                         .foregroundStyle(Color(.blue800))
-                    
-                    Text("iPhone을 허벅지 위에 올려주세요")
+
+                    Text(Strings.Measure.instructionNo2Emphasis)
                         .font(.displayTitle3Bold)
                         .foregroundStyle(Color(.blue800))
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -51,8 +51,8 @@ struct MeasureFlag: View {
                     Image(systemName: "3.circle")
                         .font(.displayBodyRegular)
                         .foregroundStyle(Color(.gray500))
-                    
-                    Text("자세를 3초 동안 유지해주세요")
+
+                    Text(Strings.Measure.instructionNo3Countdown)
                         .font(.displayBodyRegular)
                         .foregroundStyle(Color(.gray500))
                         .frame(maxWidth: .infinity, alignment: .leading)

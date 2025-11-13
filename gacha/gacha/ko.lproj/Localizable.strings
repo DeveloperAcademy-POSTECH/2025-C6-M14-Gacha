@@ -9,55 +9,51 @@
 /* Common */
 "common.yes" = "네";
 "common.no" = "아니요";
-"common.retake" = "다시 측정하기";
 "common.cancel" = "취소";
 "common.confirm" = "확인";
 
 /* Button */
-"button.next" = "다음";
-"button.measure" = "측정하기";
+"button.measure" = "측정하러 가기";
+"button.measure.start" = "측정 시작";
+"button.retake" = "다시 측정하기";
+"button.pain_only" = "통증 수치만 입력하기";
 "button.save" = "저장";
 
 /* tabbar */
-"tabbar.calendar" = "캘린더";
+"tabbar.calendar" = "기록";
 "tabbar.measure" = "측정";
 "tabbar.summary" = "요약";
 
 /* Alerts */
-"alert.cancel_flexion.headline" = "무릎 굽힘 측정을 취소하시겠어요?";
-"alert.quit_extension.message" = "처음 화면으로 되돌아가요";
-"alert.cancel_pain.headline" = "통증 기록을 취소하시겠어요?";
-"alert.cancel_pain.message" = "무릎 굽힘 각도만 기록되고, 처음 화면으로 되돌아가요";
-"alert.cancel_pain_from_home.message" = "처음 화면으로 되돌아가요";
-"alert.remeasure.headline" = "다시 측정하시겠어요?";
+"alert.cancel.flexion.title" = "무릎 굽힘 측정을 취소하시겠어요?";
+"alert.cancel.flexion.message" = "처음 화면으로 되돌아가요";
+"alert.cancel.pain.title" = "통증 기록을 취소하시겠어요?";
+"alert.cancel.pain.message" = "무릎 굽힘 각도만 기록되고, 처음 화면으로 되돌아가요";
+"alert.remeasure.title" = "다시 측정하시겠어요?";
 "alert.remeasure.message" = "새로 측정한 내용이 오늘의 기록으로 업데이트되어 저장돼요.";
 
-/* MeasureView(Before) - 1/2 */
-"daily_start.title_large" = "측정";
-"daily_start.instruction" = "벽에 측정할 다리의 발끝을 대고\n다리를 최대한 굽혀 앉아 주세요";
-"enter.pain_only" = "통증 수치만 입력하기";
-
-/* MeasureView(Before) - 2/2 */
-"daily_start.instruction2" = "기기의 옆면을 정강이뼈 위에 대고\n고정해 주세요";
+/* MainBefore - 1/2 */
+"daily_start.title" = "측정 준비하기";
+"daily_start.instruction.no1.emphasis" = "① 측정할 무릎을 최대한 굽히고 앉아 주세요";
+"daily_start.instruction.no2" = "② iPhone을 무릎 쪽 허벅지 위에 얹어 주세요";
+"daily_start.instruction.no3" = "③ 측정이 끝날 때까지 자세를 유지해 주세요";
 
 /* MeasureView(Loading) */
-"measure.title" = "무릎 굽힘 측정";
-"flexion.loading.instruction_bold24" = "잠시 후 측정이 시작돼요";
-"flexion.loading.instruction" = "기기의 위치를 고정한 채 대기해 주세요";
-
-/* FlexionMeasureView - 측정전 */
-"flexion.instruction_semibold24" = "기기의 위치를 고정한 채\n자세를 유지해 주세요";
+"daily_start.instruction.no1" = "한 쪽 다리를 최대한 굽히고 앉아 주세요";
+"daily_start.instruction.no2.emphasis" = "iPhone을 허벅지 위에 얹어 주세요";
+"daily_start.instruction.no3.countdown" = "자세를 3초 동안 유지해 주세요";
 
 /* FlexionMeasureView - 측정중 */
-"flexion.measuring_semibold24" = "측정 중";
+"daily_start.flexion.title.measuring" = "무릎 굽힘 측정";
+"daily_start.flexion.measuring.emphasis" = "측정 중";
 
 /* FlexionMeasureView - 측정완료 */
-"flexion.measured_semibold24" = "측정 완료";
+"daily_start.flexion.title.measured" = "무릎 굽힘 측정";
+"daily_start.flexion.measured" = "측정 완료";
 
 /* PainLevelView */
 "pain.title" = "통증 기록";
-"pain.description" = "통증 정도를 선택해 주세요";
-"pain.rom_measure" = "ROM 측정";
+"pain.description" = "슬라이더를 움직여 통증 정도를 선택하세요";
 
 /* Pain Categories */
 "pain.category.0" = "통증 없음";
@@ -80,73 +76,49 @@
 "pain.level.10" = "이렇게 아픈 건 처음이에요";
 
 /* MeasureView(After) */
-"progress.title_large" = "오늘의 기록";
+"progress.title" = "오늘의 기록";
 
-"card.flexion_angle" = "무릎 굽힘 각도";
-"card.pain_level" = "통증 정도";
+"progress.flexion_angle" = "무릎 굽힘 각도";
+"progress.pain_level" = "통증 정도";
 
-"progress.first_take.headline" = "첫 기록을 남기셨네요!";
-"progress.first_take.description" = "오늘의 기록이 회복을 향한 첫 발자국이에요.\n앞으로도 꾸준히 함께해요.";
+"progress.first_record.title" = "첫 기록을 남기셨네요!";
+"progress.first_record.description" = "오늘의 기록이 회복을 향한 첫 발자국이에요.\n앞으로도 꾸준히 함께해요.";
 
-"progress.better_nopain.headline" = "잘 회복되고 있어요";
+"progress.better_nopain.title" = "잘 회복되고 있어요";
 "progress.better_nopain.description" = "움직임이 부드러워졌어요.\n통증도 없고 회복이 잘되고 있어요.\n이대로 꾸준히 이어가요.";
-"progress.better_mildpain.headline" = "좋은 변화가 보여요";
+"progress.better_mildpain.title" = "좋은 변화가 보여요";
 "progress.better_mildpain.description" = "조금 뻐근할 수 있지만 괜찮아요.\n지금처럼 천천히 해요.\n무리하지 않는 게 중요해요.";
-"progress.better_moderatepain.headline" = "전문가와 함께 점검해 보세요";
+"progress.better_moderatepain.title" = "전문가와 함께 점검해 보세요";
 "progress.better_moderatepain.description" = "움직임은 좋아졌어요.\n하지만 통증이 조금 남았네요.\n전문가와 함께 이유를 살펴보세요.";
-"progress.better_severepain.headline" = "전문가의 도움이 필요해요";
+"progress.better_severepain.title" = "전문가의 도움이 필요해요";
 "progress.better_severepain.description" = "움직임은 괜찮지만 통증이 심하네요.\n회복 중 약간 무리가 있어요.\n회복 속도를 조절할 필요가 있어요.";
-"progress.better_excruciatingpain.headline" = "병원 진료를 받으세요";
+"progress.better_excruciatingpain.title" = "병원 진료를 받으세요";
 "progress.better_excruciatingpain.description" = "지금은 통증 관리가 더 중요해요.\n빨리 전문가에게 치료를 받으세요.\n충분한 휴식이 필요해요.";
-"progress.same_nopain.headline" = "안정적인 상태예요";
+
+"progress.same_nopain.title" = "안정적인 상태예요";
 "progress.same_nopain.description" = "변화는 없지만 나쁘지 않아요.\n꾸준히 유지하는 것도 좋아요.\n조금씩 다음 단계로 나아가요.";
-"progress.same_mildpain.headline" = "무리하지 말고 가볍게 관리해요";
+"progress.same_mildpain.title" = "무리하지 말고 가볍게 관리해요";
 "progress.same_mildpain.description" = "컨디션에 따라 달라질 수 있어요.\n조금은 쉬어가도 돼요.\n회복은 천천히 와요.";
-"progress.same_moderatepain.headline" = "전문가에게 상담하세요";
-"progress.same_moderatepain.description" = "움직임은 비슷하지만 통증이 있네요.\n변화가 느려지고 있어요.\n회복을 조절할 때에요.";
-"progress.same_severepain.headline" = "전문가의 도움을 받으세요";
+"progress.same_moderatepain.title" = "전문가에게 상담하세요";
+"progress.same_moderatepain.description" = "움직임은 비슷하지만 통증이 있네요.\n변화가 느려지고 있어요.\n상태를 점검해 볼 필요가 있어요.";
+"progress.same_severepain.title" = "전문가의 도움을 받으세요";
 "progress.same_severepain.description" = "움직임 변화는 없고 통증이 이어지네요.\n전문가에게 정확히 확인해 보세요.\n원인을 초기에 잡는 게 좋아요.";
-"progress.same_excruciatingpain.headline" = "빨리 진료를 받으세요";
+"progress.same_excruciatingpain.title" = "빨리 진료를 받으세요";
 "progress.same_excruciatingpain.description" = "통증이 심해요.\n지체하지 말고 전문가를 찾으세요.\n빠른 조치가 회복의 시작이에요.";
-"progress.worse_nopain.headline" = "움직임이 살짝 줄었어요";
+
+"progress.worse_nopain.title" = "움직임이 살짝 줄었어요";
 "progress.worse_nopain.description" = "통증은 없지만 관절이 조금 뻣뻣하네요.\n가볍게 움직이며 풀어주세요.\n무리하지 않는 게 좋아요.";
-"progress.worse_mildpain.headline" = "몸이 피로한 날이에요";
-"progress.worse_mildpain.description" = "가동범위가 줄었네요.\n오늘은 충분히 쉬어요.\n내일 다시 확인해 보세요.";
-"progress.worse_moderatepain.headline" = "전문가의 조언을 받으세요";
-"progress.worse_moderatepain.description" = "움직임이 줄고 통증이 있네요.\n회복 흐름이 느려졌어요.\n전문가의 조언이 필요한 때에요";
-"progress.worse_severepain.headline" = "전문가의 진료가 필요해요";
+"progress.worse_mildpain.title" = "몸이 피로한 날이에요";
+"progress.worse_mildpain.description" = "움직임이 살짝 줄었어요.\n오늘은 몸을 쉬게 해 주세요.\n내일 다시 측정해 봐요.";
+"progress.worse_moderatepain.title" = "전문가의 조언을 받으세요";
+"progress.worse_moderatepain.description" = "움직임이 줄고 통증이 있네요.\n회복 흐름이 느려졌어요.\n전문가의 조언이 필요한 때에요.";
+"progress.worse_severepain.title" = "전문가의 진료가 필요해요";
 "progress.worse_severepain.description" = "움직임이 줄고 통증도 심하네요.\n상태가 악화되고 있어요.\n회복 계획을 다시 세워 보세요.";
-"progress.worse_excruciatingpain.headline" = "빨리 치료 받으세요";
+"progress.worse_excruciatingpain.title" = "빨리 치료 받으세요";
 "progress.worse_excruciatingpain.description" = "움직이기 어렵고 통증이 심해요.\n지체하지 말고 전문가를 찾으세요.\n지금은 치료가 최우선이에요.";
 
 /* HistoryView */
-"history.title_large" = "요약";
-
-"history.rom_headline" = "무릎 굽힘 범위";
-"history.rom_subheadline_better" = "지난 ddd일간 무릎 굽힘 범위가 nnn도 늘어났어요!";
-"history.rom_subheadline_same" = "지난 ddd일간 무릎 굽힘 범위가 유지되고 있어요";
-"history.rom_subheadline_worse" = "지난 ddd일간 무릎 굽힘 범위가 nnn도 줄었어요";
-
-"history.pain_headline" = "통증 정도";
-"history.pain_subheadline_better" = "처음에 비해 통증이 nn단계 줄었어요!";
-"history.pain_subheadline_same" = "통증이 일정하게 유지되고 있어요";
-"history.pain_subheadline_worse" = "처음에 비해 통증이 nn단계만큼 커졌어요";
-"history.pain_subheadline_norecord" = "첫 기록을 남겨\n보세요.\n\nAnggle과 함께\n몸의 변화를 기록해봐요!";
-"history.pain_subheadline_1record" = "처음 기록을\n남기셨군요.\n\n회복을 향한 첫걸음을\nAnggle이 응원해요!";
-
-"history.rom_title" = "무릎 굽힘 범위";
-"history.rom_semibold15_better" = "이 기간 최대였던 %d°보다 %d° 더 움직일 수 있어요";
-"history.rom_semibold15_same" = "이 기간 최대였던 %d°와 같아요";
-"history.rom_semibold15_worse" = "이 기간 최대였던 %d°보다 %d° 덜 움직여요";
-"history.rom_semibold15_norecord" = "첫 측정을 완료해 주세요";
-"history.rom_semibold15_1record" = "현재 무릎이 %d°까지 굽혀지고 있어요";
-
-"history.pain_title" = "통증 정도";
-"history.pain_semibold15_better" = "이 기간 가장 낮았던 %d보다 %d단계 덜 아파졌어요";
-"history.pain_semibold15_same" = "이기간 가장 낮았던 %d단계의 통증과 같아요";
-"history.pain_semibold15_worse" = "이 기간 가장 낮았던 %d보다 %d단계 더 아파졌어요";
-"history.pain_semibold15_norecord" = "첫 기록을 남겨 주세요";
-"history.pain_semibold15_1record" = "현재 통증 정도는 %d단계예요";
+"history.summary.title" = "요약";
 
 /* History Summary Card - ROM Change */
 "history.rom_change_increased" = "지난 %d일간\n무릎 굽힘 범위가\n%d도 늘어났어요!";
@@ -158,6 +130,27 @@
 "history.pain_change_decreased" = "처음에 비해\n통증이\n%d단계 줄었어요!";
 "history.pain_change_increased" = "처음에 비해\n통증이\n%d단계 늘었어요";
 "history.pain_change_first_record" = "첫 기록을 남겨보세요\nAnggle과 함께\n몸의 변화를 기록해봐요!";
+
+/* History Chart - Titles */
+"history.chart.rom.title" = "무릎 굽힘 범위 추이";
+"history.chart.rom.no_record" = "측정된 기록이 없습니다";
+"history.chart.pain.title" = "통증 수준 추이";
+"history.chart.pain.no_record" = "측정된 기록이 없습니다";
+
+/* History - Common */
+"history.rom.title" = "무릎 굽힘 범위";
+"history.pain.title" = "통증 정도";
+
+/* History Chart - Detailed Messages */
+"history.chart.rom.better" = "이전 최대 %d°에서 %d° 향상";
+"history.chart.rom.same" = "이전 최대 %d°와 동일";
+"history.chart.rom.worse" = "이전 최대 %d°에서 %d° 감소";
+"history.chart.rom.first_record" = "첫 측정: %d°";
+
+"history.chart.pain.better" = "이전 최소 %d에서 %d 감소";
+"history.chart.pain.same" = "이전 최소 %d과 동일";
+"history.chart.pain.worse" = "이전 최소 %d에서 %d 증가";
+"history.chart.pain.first_record" = "첫 측정: %d";
 
 
 // 없앤 것

@@ -47,7 +47,7 @@ struct MainViewBefore: View {
                 if currentPage == 0 {
                     // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
                     CapsuleButtonComponent(
-                        title: Strings.Button.next,
+                        title: Strings.Button.measureStart,
                         style: .secondary,
                         width: 361,
                         height: 54,
@@ -84,7 +84,7 @@ struct MainViewBefore: View {
                         from: NavigationSource.home
                     )
                 }) {
-                    Text(Strings.DailyStart.enterPainOnly)
+                    Text(Strings.Button.painOnly)
                         .font(.displayBodyRegular)
                         .foregroundStyle(.gray500)
                         .underline()
@@ -94,7 +94,7 @@ struct MainViewBefore: View {
             .padding(.bottom, 34)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .navigationTitle(Strings.DailyStart.titleLarge)
+        .navigationTitle(Strings.DailyStart.title)
         .navigationBarTitleDisplayMode(.large)
         .onAppear {
             // 화면이 나타날 때마다 첫 번째 화면으로 초기화
@@ -105,91 +105,35 @@ struct MainViewBefore: View {
     // MARK: - Instruction Text Views
 
     private var instructionTextPage1: some View {
-        VStack(spacing: 16) {
-            HStack(alignment: .top, spacing: 8) {
-                Image(systemName: "1.circle")
-                    .font(.displayTitle3Bold)
-                    .foregroundStyle(Color(.blue800))
-                
-                Text("한 쪽 다리를 최대한 굽히고 앉아\n주세요")
-                    .font(.displayTitle3Bold)
-                    .foregroundStyle(Color(.blue800))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .multilineTextAlignment(.leading)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            HStack(alignment: .top, spacing: 8) {
-                Image(systemName: "2.circle")
-                    .font(.displayBodyRegular)
-                    .foregroundStyle(Color(.gray500))
-                
-                Text("iPhone을 허벅지 위에 올려주세요")
-                    .font(.displayBodyRegular)
-                    .foregroundStyle(Color(.gray500))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .multilineTextAlignment(.leading)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            HStack(alignment: .top, spacing: 8) {
-                Image(systemName: "3.circle")
-                    .font(.displayBodyRegular)
-                    .foregroundStyle(Color(.gray500))
-                
-                Text("자세를 3초 동안 유지해주세요")
-                    .font(.displayBodyRegular)
-                    .foregroundStyle(Color(.gray500))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .multilineTextAlignment(.leading)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
+        VStack(spacing: 8) {
+            Text(Strings.DailyStart.instructionNo1Emphasis)
+                .font(.displayTitle3Bold)
+                .foregroundStyle(Color(.blue800))
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text(Strings.DailyStart.instructionNo2)
+                .font(.displayTitle3Regular)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text(Strings.DailyStart.instructionNo3)
+                .font(.displayTitle3Regular)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(20)
-        .background(.backgoundSecondary)
-        .cornerRadius(20)
+        .multilineTextAlignment(.leading)
     }
 
     private var instructionTextPage2: some View {
-        VStack(spacing: 16) {
-            HStack(alignment: .top, spacing: 8) {
-                Image(systemName: "1.circle")
-                    .font(.displayBodyRegular)
-                    .foregroundStyle(Color(.gray500))
-                
-                Text("한 쪽 다리를 최대한 굽히고 앉아\n주세요")
-                    .font(.displayBodyRegular)
-                    .foregroundStyle(Color(.gray500))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .multilineTextAlignment(.leading)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            HStack(alignment: .top, spacing: 8) {
-                Image(systemName: "2.circle")
-                    .font(.displayTitle3Bold)
-                    .foregroundStyle(Color(.blue800))
-                
-                Text("iPhone을 허벅지 위에 올려주세요")
-                    .font(.displayTitle3Bold)
-                    .foregroundStyle(Color(.blue800))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .multilineTextAlignment(.leading)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            HStack(alignment: .top, spacing: 8) {
-                Image(systemName: "3.circle")
-                    .font(.displayBodyRegular)
-                    .foregroundStyle(Color(.gray500))
-                
-                Text("자세를 3초 동안 유지해주세요")
-                    .font(.displayBodyRegular)
-                    .foregroundStyle(Color(.gray500))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .multilineTextAlignment(.leading)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
+        VStack(spacing: 8) {
+            Text(Strings.DailyStart.instructionNo1Emphasis)
+                .font(.displayTitle3Regular)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text(Strings.DailyStart.instructionNo2)
+                .font(.displayTitle3Bold)
+                .foregroundStyle(Color(.blue800))
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text(Strings.DailyStart.instructionNo3)
+                .font(.displayTitle3Regular)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(20)
-        .background(.backgoundSecondary)
-        .cornerRadius(20)
+        .multilineTextAlignment(.leading)
     }
 }
 
