@@ -439,21 +439,27 @@ enum Strings {
         static func romChangeDecreased(days: Int, degrees: Int) -> String {
             String(format: NSLocalizedString("history.rom_change_decreased", comment: ""), days, degrees)
         }
-        
-        static func romUnder2Emphasized(days: Int) -> String {
-            String(format: NSLocalizedString("history.rom_change_under2_emphasized", comment: ""), days)
-        }
-        
-        static var romUnder2: String {
-            NSLocalizedString("history.rom_change_under2", comment: "")
+
+        // Summary Card - ROM
+        static func romUnder2Days(days: Int) -> String {
+            String(format: NSLocalizedString("history.rom_change_under2_days", comment: ""), days)
         }
 
+        static var romUnder2Description: String {
+            NSLocalizedString("history.rom_change_under2_description", comment: "")
+        }
+
+        // Summary Card - Pain
         static func painChangeDecreased(levels: Int) -> String {
             String(format: NSLocalizedString("history.pain_change_decreased", comment: ""), levels)
         }
-        
+
         static func painChangeIncreased(levels: Int) -> String {
             String(format: NSLocalizedString("history.pain_change_increased", comment: ""), levels)
+        }
+
+        static var painFirstRecord: String {
+            NSLocalizedString("history.pain_change_first_record", comment: "")
         }
     }
 }
