@@ -31,8 +31,12 @@ struct PainLevel: View {
 
     var body: some View {
         GeometryReader { geo in
-            // 화면 높이에 따라 슬라이더 높이 결정
-            let sliderHeight: CGFloat = geo.size.height > 700 ? 160 : 100
+            // 화면 높이에 따라 크기 결정
+            let isCompact = geo.size.height <= 700
+            let sliderHeight: CGFloat = isCompact ? 100 : 160
+            let imageSize: CGFloat = isCompact ? 100 : 136
+            let verticalSpacing: CGFloat = isCompact ? 12 : 16
+            let bottomPadding: CGFloat = isCompact ? 20 : 40
 
             VStack(alignment: .center, spacing: 0) {
                 // MARK: - 네비게이션 바
@@ -108,13 +112,14 @@ struct PainLevel: View {
                 .frame(height: 44)
 
                 Spacer()
+                    .frame(maxHeight: isCompact ? 20 : .infinity)
 
                 // MARK: - 이모지
-                VStack (spacing: 16) {
+                VStack (spacing: verticalSpacing) {
                     Image(painImageName(for: Int(value)))
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 136, height: 136)
+                        .frame(width: imageSize, height: imageSize)
                     VStack (spacing: 8) {
                         Text(Strings.PainCategory.category(for: Int(value)))
                             .font(.displayTitle1Bold)
@@ -122,19 +127,21 @@ struct PainLevel: View {
                         Text(Strings.PainLevel.level(for: Int(value)))
                             .font(.displayTitle3Regular)
                             .foregroundStyle(Color("Gray700"))
-                            .frame(minHeight: 46)
+                            .frame(minHeight: isCompact ? 40 : 46)
                             .lineLimit(2)
                             .multilineTextAlignment(.center)
                     }
                 }
+                .padding(.bottom, isCompact ? 20 : 0)
 
                 Spacer()
+                    .frame(maxHeight: isCompact ? 20 : .infinity)
 
                 // MARK: - 반원형 슬라이더
-                VStack(spacing: 16) {
+                VStack(spacing: verticalSpacing) {
                     ArcSlider(value: $value)
                         .frame(height: sliderHeight)
-                        .padding(.bottom, sliderHeight > 100 ? 50 : 30)
+                        .padding(.bottom, isCompact ? 30 : 50)
                     HStack {
                         Text("0")
                         Spacer()
@@ -145,8 +152,9 @@ struct PainLevel: View {
                 }
 
                 Spacer()
+                    .frame(maxHeight: isCompact ? 20 : .infinity)
 
-                VStack {
+                VStack(spacing: isCompact ? 12 : 16) {
                     Text(Strings.Pain.description)
                     CapsuleButtonComponent(
                         title: Strings.Common.confirm,
@@ -180,7 +188,7 @@ struct PainLevel: View {
                         }
                     }
                     .padding(.horizontal, 40)
-                    .padding(.bottom, 40)
+                    .padding(.bottom, bottomPadding)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
