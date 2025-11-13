@@ -90,7 +90,7 @@ struct History: View {
                             }
                         }
                         .padding(.horizontal, 20)
-                        .padding(.top, 20)
+                        .padding(.top, 60)
                         .padding(.bottom, 20)
                     }
                 }
@@ -98,6 +98,7 @@ struct History: View {
             }
         }
         .background(Color("BackgoundSecondary"))
+
         .task {
             await vm.loadRecentRecords()
         }

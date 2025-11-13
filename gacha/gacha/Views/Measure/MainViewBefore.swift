@@ -89,7 +89,7 @@ struct MainViewBefore: View {
     }
     
     // MARK: - Instruction Text Views
-    
+
     private var instructionTextPage1: some View {
         VStack(spacing: 8) {
             Text(Strings.DailyStart.instructionNo1Emphasis)
@@ -101,7 +101,7 @@ struct MainViewBefore: View {
         }
         .multilineTextAlignment(.center)
     }
-    
+
     private var instructionTextPage2: some View {
         VStack(spacing: 8) {
             Text(Strings.DailyStart.instructionNo1Emphasis)

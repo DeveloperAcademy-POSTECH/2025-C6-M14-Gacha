@@ -68,19 +68,18 @@ struct FlexionMeasure: View {
                                         vm.prepareForNewMeasurement()  // 측정 상태 초기화
                                         vm.clearCurrentRecord()  // 현재 레코드 클리어
 
-                                        if vm.isMeasuring {
-                                            vm.cancelFlexionMeasure()
-                                        }
-
                                         Task {
+                                            if vm.isMeasuring {
+                                                vm.cancelFlexionMeasure()
+                                            }
                                             // 오늘 기록이 있다면 삭제 (이미 저장된 기록이 있을 수 있음)
                                             await vm.deleteTodayRecords()
                                             // 상태 업데이트 (hasTodayRecord = false)
                                             await vm.checkTodayRecord()
-                                        }
+                                            // 네비게이션 스택 전체 비우기
 
-                                        // 네비게이션 스택 전체 비우기 (Task 밖에서 동기적으로 실행)
-                                        vm.navigationPath = NavigationPath()
+                                            vm.navigationPath = NavigationPath()
+                                        }
                                     }
                                 ),
                                 secondaryButton: .cancel(
@@ -110,15 +109,14 @@ struct FlexionMeasure: View {
                     
                     Spacer()
                     
-                    // MARK: - 실시간 각도 표시
+                    // MARK: - 일러스트 영역
                     ZStack {
-                        Text("\(Int(vm.measurementState == .completed ? vm.measuredRom : vm.currentAngle * 2))°")
-                            .font(.system(size: 80, weight: .bold))
-                            .foregroundStyle(Color("Gray900"))
+                        Image("flexionPosture")
+                            .resizable()
+                            .scaledToFit()
                     }
                     .frame(maxWidth: .infinity)
                     .zIndex(2)  // 물 위에 표시
-                    
                     
                     Spacer()
                     
@@ -128,7 +126,6 @@ struct FlexionMeasure: View {
                         .foregroundStyle(Color("Gray900"))
                         .padding(.bottom, 100)
                         .zIndex(2)  // 물 위에 표시
-                    
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
@@ -161,28 +158,28 @@ struct FlexionMeasure: View {
         switch progress {
         case 0..<20:
             colors = [
-                Color("Blue200"),
-                Color("Blue200").opacity(0.9)
+                Color("Green200"),
+                Color("Green200").opacity(0.9)
             ]
         case 20..<40:
             colors = [
-                Color("Blue300"),
-                Color("Blue300").opacity(0.9)
+                Color("Green300"),
+                Color("Green300").opacity(0.9)
             ]
         case 40..<60:
             colors = [
-                Color("Blue400"),
-                Color("Blue400").opacity(0.9)
+                Color("Green400"),
+                Color("Green400").opacity(0.9)
             ]
         case 60..<80:
             colors = [
-                Color("Blue500"),
-                Color("Blue500").opacity(0.9)
+                Color("Green500"),
+                Color("Green500").opacity(0.9)
             ]
         default:  // 80~100
             colors = [
-                Color("Blue700"),
-                Color("Blue700").opacity(0.9)
+                Color("Green700"),
+                Color("Green700").opacity(0.9)
             ]
         }
         

@@ -29,13 +29,6 @@ struct PainLevel: View {
 
     var body: some View {
         GeometryReader { geo in
-            // 화면 높이에 따라 크기 결정
-            let isCompact = geo.size.height <= 700
-            let sliderHeight: CGFloat = isCompact ? 100 : 160
-            let imageSize: CGFloat = isCompact ? 100 : 136
-            let verticalSpacing: CGFloat = isCompact ? 12 : 16
-            let bottomPadding: CGFloat = isCompact ? 20 : 40
-
             VStack(alignment: .center, spacing: 0) {
                 // MARK: - 네비게이션 바
                 HStack {
@@ -110,14 +103,13 @@ struct PainLevel: View {
                 .frame(height: 44)
 
                 Spacer()
-                    .frame(maxHeight: isCompact ? 20 : .infinity)
-
+                
                 // MARK: - 이모지
-                VStack (spacing: verticalSpacing) {
+                VStack (spacing: 16) {
                     Image(painImageName(for: Int(value)))
                         .resizable()
                         .scaledToFit()
-                        .frame(width: imageSize, height: imageSize)
+                        .frame(width: 136, height: 136)
                     VStack (spacing: 8) {
                         Text(Strings.PainCategory.category(for: Int(value)))
                             .font(.displayTitle1Bold)
@@ -125,74 +117,60 @@ struct PainLevel: View {
                         Text(Strings.PainLevel.level(for: Int(value)))
                             .font(.displayTitle3Regular)
                             .foregroundStyle(Color("Gray700"))
-                            .frame(minHeight: isCompact ? 40 : 46)
+                            .frame(minHeight: 46)
                             .lineLimit(2)
                             .multilineTextAlignment(.center)
                     }
                 }
-                .padding(.bottom, isCompact ? 20 : 0)
-
+                .padding(.bottom, 40)
+                
                 Spacer()
-                    .frame(maxHeight: isCompact ? 20 : .infinity)
 
                 // MARK: - 반원형 슬라이더
-                VStack(spacing: verticalSpacing) {
+                VStack(spacing: 16) {
                     ArcSlider(value: $value)
-                        .frame(height: sliderHeight)
-                        .padding(.bottom, isCompact ? 30 : 50)
-                    HStack {
-                        Text("0")
-                        Spacer()
-                        Text("10")
-                    }
-                    .padding(.horizontal, 60)
-                    .foregroundColor(.gray500)
-                }
-
-                Spacer()
-                    .frame(maxHeight: isCompact ? 20 : .infinity)
-
-                VStack(spacing: isCompact ? 12 : 16) {
+                        .frame(height: 250)
                     Text(Strings.Pain.description)
-                    CapsuleButtonComponent(
-                        title: Strings.Common.confirm,
-                        style: .primary
-                    ) {
-                        Task {
-                            if vm.hasTodayRecord {
-                                await vm.deleteTodayRecords()
-                            }
-                            
-                            // currentRecord가 있으면 기존 레코드에 통증 레벨 추가 (측정 후)
-                            // 없으면 통증 레벨만 있는 새 레코드 생성 (통증만 입력)
-                            if vm.currentRecord != nil {
-                                await vm.finishPainLevel(level: Int(value))
-                            } else {
-                                await vm.finishPainLevelOnly(level: Int(value))
-                            }
-                            
-                            // 레코드 저장 (clearCurrentRecord는 저장 후 내부에서 호출됨)
-                            await vm.saveCurrentRecord()
-                            
-                            // 상태 업데이트: 오늘 기록이 있는지 확인하고 currentRecord 로드
-                            // checkTodayRecord는 hasTodayRecord를 true로 설정하고 currentRecord를 로드함
-                            await vm.checkTodayRecord()
-                            
-                            // checkTodayRecord가 완료된 후 네비게이션 스택을 비워서 메인 화면으로 돌아가기
-                            // 메인 화면에서 hasTodayRecord를 체크하여 MainViewAfter를 표시
-                            await MainActor.run {
-                                vm.navigationPath = NavigationPath()
-                            }
+                }
+                
+                Spacer()
+
+                CapsuleButtonComponent(
+                    title: Strings.Common.confirm,
+                    style: .primary
+                ) {
+                    Task {
+                        if vm.hasTodayRecord {
+                            await vm.deleteTodayRecords()
+                        }
+                        
+                        // currentRecord가 있으면 기존 레코드에 통증 레벨 추가 (측정 후)
+                        // 없으면 통증 레벨만 있는 새 레코드 생성 (통증만 입력)
+                        if vm.currentRecord != nil {
+                            await vm.finishPainLevel(level: Int(value))
+                        } else {
+                            await vm.finishPainLevelOnly(level: Int(value))
+                        }
+                        
+                        // 레코드 저장 (clearCurrentRecord는 저장 후 내부에서 호출됨)
+                        await vm.saveCurrentRecord()
+                        
+                        // 상태 업데이트: 오늘 기록이 있는지 확인하고 currentRecord 로드
+                        // checkTodayRecord는 hasTodayRecord를 true로 설정하고 currentRecord를 로드함
+                        await vm.checkTodayRecord()
+                        
+                        // checkTodayRecord가 완료된 후 네비게이션 스택을 비워서 메인 화면으로 돌아가기
+                        // 메인 화면에서 hasTodayRecord를 체크하여 MainViewAfter를 표시
+                        await MainActor.run {
+                            vm.navigationPath = NavigationPath()
                         }
                     }
-                    .padding(.horizontal, 40)
-                    .padding(.bottom, bottomPadding)
                 }
                 .padding(.horizontal, 40)
                 .padding(.bottom, 40)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-
+             
         }
     }
 

@@ -30,13 +30,13 @@ struct MainViewAfter: View {
                     .padding(.top, 54)
                     
                     Spacer()
-
+                    
                     // MARK: - 중간 영역: 측정 결과 카드
                     resultCard
                         .padding(.horizontal, 20)
-
+                    
                     Spacer()
-
+                    
                     // MARK: - 하단 버튼 영역 (MainViewBefore와 동일한 구조)
                     VStack(spacing: 16) {
                         CapsuleButtonComponent(
@@ -56,16 +56,10 @@ struct MainViewAfter: View {
                                 primaryButton: .destructive(
                                     Text(Strings.Common.yes),
                                     action: {
+                                        vm.prepareForNewMeasurement()  // 새 측정 준비
                                         Task {
-                                            vm.isRemeasuring = true
-                                            vm.prepareForNewMeasurement()
-                                            vm.clearCurrentRecord()
-
-                                            await vm.deleteTodayRecords()
-                                            await vm.checkTodayRecord()
-
-                                            vm.navigationPath = NavigationPath()
-                                            vm.isRemeasuring = false
+                                            await vm.deleteTodayRecords()  // 오늘 기록 삭제
+                                            await vm.checkTodayRecord()    // 상태 업데이트 (hasTodayRecord = false)
                                         }
                                     }
                                 ),
@@ -79,8 +73,6 @@ struct MainViewAfter: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        .navigationTitle(Strings.Progress.titleLarge)
-        .navigationBarTitleDisplayMode(.large)
         .onAppear {
             Task {
                 await vm.loadTodayRecord()
@@ -99,12 +91,12 @@ struct MainViewAfter: View {
             statisticsSection
                 .padding(.horizontal, 20)
                 .padding(.bottom, 12)
-
+            
             // 2. 일러스트 영역 (240px)
             illustrationSection
                 .padding(.horizontal, 20)
                 .padding(.bottom, 24)
-
+            
             // 3. 피드백 박스 (auto)
             feedbackBox
                 .padding(.top, 6)
@@ -112,7 +104,7 @@ struct MainViewAfter: View {
         .frame(height: 460)
         .background(Color("White"))
     }
-
+    
     /// 통계 섹션
     private var statisticsSection: some View {
         HStack(spacing: 16) {
@@ -124,9 +116,9 @@ struct MainViewAfter: View {
                 Text(vm.formatAngle(vm.currentRecord?.flexionAngle))
                     .font(.displayTitle2Bold)
             }
-
+            
             Spacer()
-
+            
             VStack(alignment: .leading, spacing: 4) {
                 Text(Strings.Progress.painLevel)
                     .font(.displayCalloutBold)
@@ -134,12 +126,12 @@ struct MainViewAfter: View {
                 Text(vm.formatPainLevel(vm.currentRecord?.painLevel))
                     .font(.displayTitle2Bold)
             }
-
+            
             Spacer()
         }
         .frame(height: 54)
     }
-
+    
     /// 일러스트 영역
     private var illustrationSection: some View {
         ZStack {
@@ -153,7 +145,7 @@ struct MainViewAfter: View {
         }
         .frame(height: 240)
     }
-
+    
     /// 피드백 박스
     private var feedbackBox: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -187,4 +179,5 @@ struct MainViewAfter: View {
     return MainViewAfter()
         .environmentObject(viewModel)
 }
+
 
