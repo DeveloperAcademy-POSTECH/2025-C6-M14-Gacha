@@ -11,19 +11,59 @@ import SwiftUI
 struct MeasureFlag: View {
     @EnvironmentObject var vm: MeasureViewModel
 
-    @State private var scale: CGFloat = 0.5
-    @State private var opacity: Double = 0
-    @State private var currentLoadingIndex: Int = 1
+    @State private var countdown: Int = 3
 
     var body: some View {
         VStack(spacing: 60) {
-            LoadingImage
+            CountdownNumber
             VStack(spacing: 12) {
                 Text(Strings.Measure.instructionNo1)
                     .font(.displayTitle3Regular)
                 Text(Strings.Measure.instructionNo2Emphasis)
                     .font(.displayTitle3Regular)
             }
+            VStack(spacing: 16) {
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "1.circle")
+                        .font(.displayBodyRegular)
+                        .foregroundStyle(Color(.gray500))
+                    
+                    Text("한 쪽 다리를 최대한 굽히고 앉아\n주세요")
+                        .font(.displayBodyRegular)
+                        .foregroundStyle(Color(.gray500))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "2.circle")
+                        .font(.displayTitle3Bold)
+                        .foregroundStyle(Color(.blue800))
+                    
+                    Text("iPhone을 허벅지 위에 올려주세요")
+                        .font(.displayTitle3Bold)
+                        .foregroundStyle(Color(.blue800))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "3.circle")
+                        .font(.displayBodyRegular)
+                        .foregroundStyle(Color(.gray500))
+                    
+                    Text("자세를 3초 동안 유지해주세요")
+                        .font(.displayBodyRegular)
+                        .foregroundStyle(Color(.gray500))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            .padding(20)
+            .background(.backgoundSecondary)
+            .cornerRadius(20)
+            .padding(.horizontal, 20)
         }
         .frame(
             maxWidth: .infinity,
@@ -35,10 +75,10 @@ struct MeasureFlag: View {
         }
 
         .task {
-            // 1.5초 동안 Loading 이미지 변경 (1 -> 5)
-            for index in 1...5 {
-                currentLoadingIndex = index
-                try? await Task.sleep(nanoseconds: 300_000_000) // 0.3초씩 (총 1.5초)
+            // 3-2-1 카운트다운 (각 1초씩, 총 3초)
+            for number in (1...3).reversed() {
+                countdown = number
+                try? await Task.sleep(nanoseconds: 1_000_000_000) // 1초
 
                 if Task.isCancelled {
                     return
@@ -52,10 +92,10 @@ struct MeasureFlag: View {
         }
     }
 
-    private var LoadingImage: some View {
-        Image("Loading\(currentLoadingIndex)")
-            .resizable()
-            .scaledToFit()
+    private var CountdownNumber: some View {
+        Text("\(countdown)")
+            .font(.system(size: 100, weight: .bold))
+            .foregroundStyle(Color("Blue700"))
             .frame(width: 100, height: 100)
     }
 }

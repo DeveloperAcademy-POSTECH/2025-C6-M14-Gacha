@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MainViewBefore: View {
     @EnvironmentObject var vm: MeasureViewModel
-    
+
     @State private var currentPage = 0  // 0: 첫 화면, 1: 두 번째 화면
 
     var body: some View {
@@ -30,7 +30,7 @@ struct MainViewBefore: View {
             VStack(spacing: 40) {
                 // 안내 문구 영역
                 if currentPage == 0 {
-                    Image("before1")
+                    Image("before3")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 300, height: 300)
@@ -69,7 +69,10 @@ struct MainViewBefore: View {
                 // 보조 링크: "통증 수치만 입력하기" (16px, 밑줄, Gray500)
                 Button(action: {
                     // 홈에서 직접 PainLevel로 이동하는 경우 소스 기록
-                    vm.navigate(to: MeasureFlowStep.painLevel, from: NavigationSource.home)
+                    vm.navigate(
+                        to: MeasureFlowStep.painLevel,
+                        from: NavigationSource.home
+                    )
                 }) {
                     Text(Strings.Button.painOnly)
                         .font(.displayBodyRegular)
@@ -82,12 +85,11 @@ struct MainViewBefore: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onAppear {
-            vm.startSensor()
             // 화면이 나타날 때마다 첫 번째 화면으로 초기화
             currentPage = 0
         }
     }
-    
+
     // MARK: - Instruction Text Views
 
     private var instructionTextPage1: some View {
@@ -133,5 +135,3 @@ struct MainViewBefore: View {
     MainViewBefore()
         .environmentObject(vm)
 }
-
-
