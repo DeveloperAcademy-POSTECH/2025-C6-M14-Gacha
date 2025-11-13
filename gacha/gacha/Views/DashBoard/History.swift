@@ -22,13 +22,6 @@ struct History: View {
                 ScrollViewReader { proxy in
                     ScrollView {
                         VStack(spacing: 32) {
-
-                            HStack {
-                                Text(Strings.History.titleLarge)
-                                    .font(.displayLargeBold)
-                                Spacer()
-                            }
-
                             // MARK: - Summary Cards
                             HStack(spacing: 14) {
                                 // 무릎 굽힘 범위 카드
@@ -90,7 +83,7 @@ struct History: View {
                             }
                         }
                         .padding(.horizontal, 20)
-                        .padding(.top, 60)
+                        .padding(.top, 20)
                         .padding(.bottom, 20)
                     }
                 }
@@ -98,7 +91,6 @@ struct History: View {
             }
         }
         .background(Color("BackgoundSecondary"))
-
         .task {
             await vm.loadRecentRecords()
         }

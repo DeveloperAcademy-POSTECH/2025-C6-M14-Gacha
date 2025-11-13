@@ -15,17 +15,8 @@ struct MainViewBefore: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // MARK: - Navigation Bar
-            HStack {
-                Text(Strings.DailyStart.titleLarge)
-                    .font(.displayLargeBold)
-                Spacer()
-            }
-            .padding(.horizontal, 16)
-            .padding(.top, 54)
-            
             Spacer()
-            
+
             // MARK: - 중앙 콘텐츠 영역
             VStack(spacing: 40) {
                 // 안내 문구 영역
@@ -37,7 +28,7 @@ struct MainViewBefore: View {
                     // 첫 번째 화면 안내 문구
                     instructionTextPage1
                 } else {
-                    
+
                     Image("before2")
                         .resizable()
                         .scaledToFit()
@@ -48,9 +39,9 @@ struct MainViewBefore: View {
             }
             .frame(width: 361)
             .frame(maxWidth: .infinity)
-            
+
             Spacer()
-            
+
             // MARK: - 버튼 영역 (92px height, 16px gap)
             VStack(spacing: 16) {
                 if currentPage == 0 {
@@ -81,7 +72,7 @@ struct MainViewBefore: View {
                         vm.navigate(to: MeasureFlowStep.flexionMeasure, from: NavigationSource.home)
                     }
                 }
-                
+
                 // 보조 링크: "고통수치만 입력하기" (16px, 밑줄, Gray500)
                 Button(action: {
                     // 홈에서 직접 PainLevel로 이동하는 경우 소스 기록
@@ -97,6 +88,8 @@ struct MainViewBefore: View {
             .padding(.bottom, 34)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .navigationTitle(Strings.DailyStart.titleLarge)
+        .navigationBarTitleDisplayMode(.large)
         .onAppear {
             vm.startSensor()
             // 화면이 나타날 때마다 첫 번째 화면으로 초기화

@@ -21,7 +21,7 @@ struct MeasureFlow: View {
     @StateObject private var measureVM: MeasureViewModel
     @StateObject private var historyVM: HistoryViewModel
     @StateObject private var calendarVM: CalendarViewModel
-    @State private var selectedTab: TabBarItem = .measure
+    @State private var selectedTab = 1  // 기본 탭: 1 = 측정 탭
 
     init(modelContext: ModelContext) {
         let repository = SwiftDataRecordRepository(modelContext: modelContext)
@@ -33,35 +33,49 @@ struct MeasureFlow: View {
     }
 
     var body: some View {
-        NavigationStack(path: $measureVM.navigationPath) {
-            ZStack(alignment: .bottom) {
-                // 메인 콘텐츠
-                tabContentView()
+        TabView(selection: $selectedTab) {
+            // 캘린더 탭
+            NavigationStack {
+                CalendarView()
+                    .navigationTitle(Strings.Tabbar.calendar)
+                    .navigationBarTitleDisplayMode(.large)
+            }
+            .tabItem {
+                Label(Strings.Tabbar.calendar, systemImage: "calendar")
+            }
+            .tag(0)
+            .environmentObject(calendarVM)
+
+            // 측정 탭 (메인)
+            NavigationStack(path: $measureVM.navigationPath) {
+                homeView()
                     .navigationDestination(for: MeasureFlowStep.self) { step in
                         viewForStep(step)
                     }
-                
-                // TabBar (메인 화면일 때만 표시)
-                if measureVM.navigationPath.isEmpty {
-                    TabBarComponent(selectedTab: $selectedTab)
-                }
             }
-            .ignoresSafeArea(edges: .bottom)
+            .tabItem {
+                Label(Strings.Tabbar.measure, systemImage: "ruler")
+            }
+            .tag(1)
+            .environmentObject(measureVM)
 
+            // 요약 탭
+            NavigationStack {
+                History()
+                    .navigationTitle(Strings.Tabbar.summary)
+                    .navigationBarTitleDisplayMode(.large)
+            }
+            .tabItem {
+                Label(Strings.Tabbar.summary, systemImage: "chart.bar")
+            }
+            .tag(2)
+            .environmentObject(historyVM)
         }
         .onChange(of: measureVM.navigationPath.count) { oldValue, newValue in
             // 홈으로 돌아왔을 때 (path가 비었을 때)
             if newValue == 0 {
                 Task {
                     await measureVM.checkTodayRecord()
-                }
-            }
-        }
-        .onChange(of: selectedTab) { oldValue, newValue in
-            // 캘린더 탭으로 전환할 때만 데이터 새로고침
-            if newValue == .calendar {
-                Task {
-                    await calendarVM.loadMeasuredDates()
                 }
             }
         }
@@ -74,33 +88,8 @@ struct MeasureFlow: View {
         .environmentObject(historyVM)
         .environmentObject(calendarVM)
     }
-    
-    // MARK: - Tab Content View
-    @ViewBuilder
-    private func tabContentView() -> some View {
-        ZStack {
-            // 모든 탭 뷰를 미리 생성 (뷰 재생성 방지)
-            calendarView()
-                .opacity(selectedTab == .calendar ? 1 : 0)
-                .allowsHitTesting(selectedTab == .calendar)
-            
-            homeView()
-                .opacity(selectedTab == .measure ? 1 : 0)
-                .allowsHitTesting(selectedTab == .measure)
-            
-            summaryView()
-                .opacity(selectedTab == .summary ? 1 : 0)
-                .allowsHitTesting(selectedTab == .summary)
-        }
-    }
 
     // MARK: - View Builder
-    @ViewBuilder
-    private func calendarView() -> some View {
-        CalendarView()
-            .padding(.bottom, 80)  // TabBar 높이만큼 여백
-    }
-    
     @ViewBuilder
     private func homeView() -> some View {
         if measureVM.isLoading {
@@ -109,19 +98,10 @@ struct MeasureFlow: View {
         } else if measureVM.hasTodayRecord {
             // 오늘 측정을 한 상태: MainViewAfter 표시
             MainViewAfter()
-                .padding(.bottom, 80)  // TabBar 높이만큼 여백
         } else {
             // 오늘 측정을 안한 상태: MainViewBefore 표시
             MainViewBefore()
-                .padding(.bottom, 80)  // TabBar 높이만큼 여백
         }
-    }
-    
-    @ViewBuilder
-    private func summaryView() -> some View {
-        History()
-            .padding(.bottom, 80)  // TabBar 높이만큼 여백
-            .toolbar(.hidden, for: .navigationBar)  // 탭 뷰에서는 네비게이션 바 숨김
     }
 
     @ViewBuilder
