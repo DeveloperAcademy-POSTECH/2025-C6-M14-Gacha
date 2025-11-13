@@ -112,7 +112,7 @@ struct FlexionMeasure: View {
                     
                     // MARK: - 실시간 각도 표시
                     ZStack {
-                        Text("\(Int(vm.currentAngle * 2))°")
+                        Text("\(Int(vm.measurementState == .completed ? vm.measuredRom : vm.currentAngle * 2))°")
                             .font(.system(size: 80, weight: .bold))
                             .foregroundStyle(Color("Gray900"))
                     }
