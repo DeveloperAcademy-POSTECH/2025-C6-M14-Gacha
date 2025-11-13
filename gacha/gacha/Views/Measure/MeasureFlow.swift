@@ -39,6 +39,7 @@ struct MeasureFlow: View {
                 CalendarView()
                     .navigationTitle(Strings.Tabbar.calendar)
                     .navigationBarTitleDisplayMode(.large)
+                    .environmentObject(calendarVM)
             }
             .tabItem {
                 Label(Strings.Tabbar.calendar, systemImage: "calendar")
