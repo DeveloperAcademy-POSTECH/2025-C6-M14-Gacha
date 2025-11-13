@@ -119,14 +119,60 @@ struct FlexionMeasure: View {
                     .frame(maxWidth: .infinity)
                     .zIndex(2)  // 물 위에 표시
                     
+                    
                     Spacer()
                     
                     // MARK: - 하단 텍스트 (항상 검은색, 완료 시 "측정 완료")
+                    VStack(spacing: 16) {
+                        HStack(alignment: .top, spacing: 8) {
+                            Image(systemName: "1.circle")
+                                .font(.displayBodyRegular)
+                                .foregroundStyle(Color(.gray500))
+                            
+                            Text("한 쪽 다리를 최대한 굽히고 앉아\n주세요")
+                                .font(.displayBodyRegular)
+                                .foregroundStyle(Color(.gray500))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .multilineTextAlignment(.leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        HStack(alignment: .top, spacing: 8) {
+                            Image(systemName: "2.circle")
+                                .font(.displayBodyRegular)
+                                .foregroundStyle(Color(.gray500))
+                            
+                            Text("iPhone을 허벅지 위에 올려주세요")
+                                .font(.displayBodyRegular)
+                                .foregroundStyle(Color(.gray500))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .multilineTextAlignment(.leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        HStack(alignment: .top, spacing: 8) {
+                            Image(systemName: "3.circle")
+                                .font(.displayTitle3Bold)
+                                .foregroundStyle(Color(.blue800))
+                            
+                            Text("자세를 3초 동안 유지해주세요")
+                                .font(.displayTitle3Bold)
+                                .foregroundStyle(Color(.blue800))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .multilineTextAlignment(.leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+                    .padding(20)
+                    .background(.backgoundSecondary.opacity(0.8))
+                    .cornerRadius(20)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 32)
+                    
                     Text(vm.measurementState == .completed ? Strings.Flexion.measured : Strings.Flexion.measuring)
                         .font(.displayTitle3Regular)
                         .foregroundStyle(Color("Gray900"))
                         .padding(.bottom, 100)
                         .zIndex(2)  // 물 위에 표시
+                    
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
@@ -159,28 +205,28 @@ struct FlexionMeasure: View {
         switch progress {
         case 0..<20:
             colors = [
-                Color("Green200"),
-                Color("Green200").opacity(0.9)
+                Color("Blue200"),
+                Color("Blue200").opacity(0.9)
             ]
         case 20..<40:
             colors = [
-                Color("Green300"),
-                Color("Green300").opacity(0.9)
+                Color("Blue300"),
+                Color("Blue300").opacity(0.9)
             ]
         case 40..<60:
             colors = [
-                Color("Green400"),
-                Color("Green400").opacity(0.9)
+                Color("Blue400"),
+                Color("Blue400").opacity(0.9)
             ]
         case 60..<80:
             colors = [
-                Color("Green500"),
-                Color("Green500").opacity(0.9)
+                Color("Blue500"),
+                Color("Blue500").opacity(0.9)
             ]
         default:  // 80~100
             colors = [
-                Color("Green700"),
-                Color("Green700").opacity(0.9)
+                Color("Blue700"),
+                Color("Blue700").opacity(0.9)
             ]
         }
         
