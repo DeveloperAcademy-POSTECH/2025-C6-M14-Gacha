@@ -62,17 +62,21 @@ final class MockRecordRepository: RecordRepository {
 
 extension MockRecordRepository {
     enum Scenario {
+        case noRecord               // 데이터 없음
         case singleRecord           // 기록 1개만
         case multipleRecordsPositive // ROM 증가, 통증 감소 (긍정적)
         case multipleRecordsNegative // ROM 감소, 통증 증가 (부정적)
         case sevenRecords23Days     // 7개 기록, 23일간
         case noChange               // 변화 없음
-        
+
         func createRecords() -> [MeasuredRecord] {
             let calendar = Calendar.current
             let today = Date()
             
             switch self {
+            case .noRecord:
+                return []
+
             case .singleRecord:
                 return [
                     MeasuredRecord(

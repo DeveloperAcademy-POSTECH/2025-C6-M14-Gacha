@@ -57,7 +57,7 @@ struct MainViewBefore: View {
                     // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
                     CapsuleButtonComponent(
                         title: Strings.Button.next,
-                        style: .light,
+                        style: .secondary,
                         width: 361,
                         height: 54,
                         fontSize: 20,

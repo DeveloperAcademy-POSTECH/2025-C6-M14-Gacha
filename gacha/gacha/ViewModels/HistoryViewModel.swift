@@ -94,11 +94,46 @@ class HistoryViewModel: ObservableObject {
               change != 0 else {
             return ""
         }
-        
+
         if change > 0 {
             return Strings.History.romChangeIncreased(days: daysBetweenRecords, degrees: abs(change))
         } else {
             return Strings.History.romChangeDecreased(days: daysBetweenRecords, degrees: abs(change))
+        }
+    }
+
+    /// ROM 서브타이틀 (최근 일주일 이내 데이터와 오늘 데이터 비교)
+    var romSubtitle: String {
+        // 측정 기록이 없는 경우
+        guard !recentRecords.isEmpty else {
+            return Strings.History.romNoRecord
+        }
+
+        // 첫 측정인 경우
+        guard recentRecords.count > 1,
+              let todayROM = latestROM else {
+            guard let firstROM = latestROM else {
+                return Strings.History.romNoRecord
+            }
+            return Strings.History.rom1Record(degrees: firstROM)
+        }
+
+        // 최근 일주일 이내의 최대 ROM (오늘 제외)
+        let previousRecords = recentRecords.dropLast()
+        guard let maxPreviousROM = previousRecords.compactMap({ $0.flexionAngle }).max() else {
+            return Strings.History.rom1Record(degrees: todayROM)
+        }
+
+        let maxPreviousROMInt = Int(maxPreviousROM)
+        let difference = abs(todayROM - maxPreviousROMInt)
+
+        // 비교 (ROM은 클수록 좋음)
+        if Double(todayROM) > maxPreviousROM {
+            return Strings.History.romBetter(maxDegrees: maxPreviousROMInt, difference: difference)
+        } else if Double(todayROM) == maxPreviousROM {
+            return Strings.History.romSame(maxDegrees: maxPreviousROMInt)
+        } else {
+            return Strings.History.romWorse(maxDegrees: maxPreviousROMInt, difference: difference)
         }
     }
     
@@ -140,11 +175,45 @@ class HistoryViewModel: ObservableObject {
               change != 0 else {
             return ""
         }
-        
+
         if change > 0 {
             return Strings.History.painChangeDecreased(levels: abs(change))
         } else {
             return Strings.History.painChangeIncreased(levels: abs(change))
+        }
+    }
+
+    /// 통증 레벨 서브타이틀 (최근 일주일 이내 데이터와 오늘 데이터 비교)
+    var painSubtitle: String {
+        // 측정 기록이 없는 경우
+        guard !recentRecords.isEmpty else {
+            return Strings.History.painNoRecord
+        }
+
+        // 첫 측정인 경우
+        guard recentRecords.count > 1,
+              let todayPain = latestPainLevel else {
+            guard let firstPain = latestPainLevel else {
+                return Strings.History.painNoRecord
+            }
+            return Strings.History.pain1Record(level: firstPain)
+        }
+
+        // 최근 일주일 이내의 최소 통증 레벨 (오늘 제외, 통증은 낮을수록 좋음)
+        let previousRecords = recentRecords.dropLast()
+        guard let minPreviousPain = previousRecords.compactMap({ $0.painLevel }).min() else {
+            return Strings.History.pain1Record(level: todayPain)
+        }
+
+        let difference = abs(todayPain - minPreviousPain)
+
+        // 비교 (통증은 낮을수록 좋음)
+        if todayPain < minPreviousPain {
+            return Strings.History.painBetter(minLevel: minPreviousPain, difference: difference)
+        } else if todayPain == minPreviousPain {
+            return Strings.History.painSame(minLevel: minPreviousPain)
+        } else {
+            return Strings.History.painWorse(minLevel: minPreviousPain, difference: difference)
         }
     }
     
