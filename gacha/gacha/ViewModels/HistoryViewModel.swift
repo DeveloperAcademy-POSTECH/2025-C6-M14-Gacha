@@ -96,9 +96,9 @@ class HistoryViewModel: ObservableObject {
         }
 
         if change > 0 {
-            return Strings.History.romChangeIncreased(days: daysBetweenRecords, degrees: abs(change))
+            return Strings.History.romBetter(days: daysBetweenRecords, degrees: abs(change))
         } else {
-            return Strings.History.romChangeDecreased(days: daysBetweenRecords, degrees: abs(change))
+            return Strings.History.romWorse(days: daysBetweenRecords, degrees: abs(change))
         }
     }
 
@@ -106,22 +106,22 @@ class HistoryViewModel: ObservableObject {
     var romSubtitle: String {
         // 측정 기록이 없는 경우
         guard !recentRecords.isEmpty else {
-            return Strings.History.romNoRecord
+            return Strings.History.chartRomNoRecord
         }
 
         // 첫 측정인 경우
         guard recentRecords.count > 1,
               let todayROM = latestROM else {
             guard let firstROM = latestROM else {
-                return Strings.History.romNoRecord
+                return Strings.History.chartRomNoRecord
             }
-            return Strings.History.rom1Record(degrees: firstROM)
+            return Strings.History.chartRomFirstRecord(angle: firstROM)
         }
 
         // 최근 일주일 이내의 최대 ROM (오늘 제외)
         let previousRecords = recentRecords.dropLast()
         guard let maxPreviousROM = previousRecords.compactMap({ $0.flexionAngle }).max() else {
-            return Strings.History.rom1Record(degrees: todayROM)
+            return Strings.History.chartRomFirstRecord(angle: todayROM)
         }
 
         let maxPreviousROMInt = Int(maxPreviousROM)
@@ -129,11 +129,11 @@ class HistoryViewModel: ObservableObject {
 
         // 비교 (ROM은 클수록 좋음)
         if Double(todayROM) > maxPreviousROM {
-            return Strings.History.romBetter(maxDegrees: maxPreviousROMInt, difference: difference)
+            return Strings.History.chartRomBetter(prevMax: maxPreviousROMInt, improvement: difference)
         } else if Double(todayROM) == maxPreviousROM {
-            return Strings.History.romSame(maxDegrees: maxPreviousROMInt)
+            return Strings.History.chartRomSame(prevMax: maxPreviousROMInt)
         } else {
-            return Strings.History.romWorse(maxDegrees: maxPreviousROMInt, difference: difference)
+            return Strings.History.chartRomWorse(prevMax: maxPreviousROMInt, decline: difference)
         }
     }
     
@@ -177,9 +177,9 @@ class HistoryViewModel: ObservableObject {
         }
 
         if change > 0 {
-            return Strings.History.painChangeDecreased(levels: abs(change))
+            return Strings.History.painBetter(levels: abs(change))
         } else {
-            return Strings.History.painChangeIncreased(levels: abs(change))
+            return Strings.History.painWorse(levels: abs(change))
         }
     }
 
@@ -187,33 +187,33 @@ class HistoryViewModel: ObservableObject {
     var painSubtitle: String {
         // 측정 기록이 없는 경우
         guard !recentRecords.isEmpty else {
-            return Strings.History.painNoRecord
+            return Strings.History.chartPainNoRecord
         }
 
         // 첫 측정인 경우
         guard recentRecords.count > 1,
               let todayPain = latestPainLevel else {
             guard let firstPain = latestPainLevel else {
-                return Strings.History.painNoRecord
+                return Strings.History.chartPainNoRecord
             }
-            return Strings.History.pain1Record(level: firstPain)
+            return Strings.History.chartPainFirstRecord(level: firstPain)
         }
 
         // 최근 일주일 이내의 최소 통증 레벨 (오늘 제외, 통증은 낮을수록 좋음)
         let previousRecords = recentRecords.dropLast()
         guard let minPreviousPain = previousRecords.compactMap({ $0.painLevel }).min() else {
-            return Strings.History.pain1Record(level: todayPain)
+            return Strings.History.chartPainFirstRecord(level: todayPain)
         }
 
         let difference = abs(todayPain - minPreviousPain)
 
         // 비교 (통증은 낮을수록 좋음)
         if todayPain < minPreviousPain {
-            return Strings.History.painBetter(minLevel: minPreviousPain, difference: difference)
+            return Strings.History.chartPainBetter(improvement: difference, from: minPreviousPain)
         } else if todayPain == minPreviousPain {
-            return Strings.History.painSame(minLevel: minPreviousPain)
+            return Strings.History.chartPainSame(level: minPreviousPain)
         } else {
-            return Strings.History.painWorse(minLevel: minPreviousPain, difference: difference)
+            return Strings.History.chartPainWorse(increase: difference, from: minPreviousPain)
         }
     }
     

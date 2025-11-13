@@ -24,7 +24,7 @@ struct History: View {
                         VStack(spacing: 32) {
 
                             HStack {
-                                Text(Strings.History.titleLarge)
+                                Text(Strings.History.summaryTitle)
                                     .font(.displayLargeBold)
                                 Spacer()
                             }
@@ -43,12 +43,12 @@ struct History: View {
 
                                 VStack(alignment: .leading, spacing: 8) {
                                     // Title
-                                    Text(Strings.History.romTitle)
+                                    Text(Strings.History.chartRomTitle)
                                         .font(.displayTitle3Bold)
                                         .id("romChart")
                                     if vm.chartData.isEmpty {
                                         // 측정된 데이터가 없을 때
-                                        Text(Strings.History.romNoRecord)
+                                        Text(Strings.History.chartRomNoRecord)
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                     } else {
                                         // SubTitle
@@ -69,12 +69,12 @@ struct History: View {
 
                                 VStack(alignment: .leading, spacing: 8) {
                                     // Title
-                                    Text(Strings.History.painTitle)
+                                    Text(Strings.History.chartPainTitle)
                                         .font(.displayTitle3Bold)
                                         .id("painChart")
                                     if vm.chartData.isEmpty {
                                         // 측정된 데이터가 없을 때
-                                        Text(Strings.History.painNoRecord)
+                                        Text(Strings.History.chartPainNoRecord)
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                     } else {
                                         // SubTitle
@@ -188,7 +188,7 @@ struct History: View {
         {
             let selectedRecord = vm.recentRecords[selectedIndex]
             VStack(alignment: .center, spacing: 4) {
-                Text(Strings.History.romHeadline)
+                Text(Strings.History.chartRomTitle)
                     .font(.displayCaption1Semibold)
                     .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -287,7 +287,7 @@ struct History: View {
         {
             let selectedRecord = vm.recentRecords[selectedIndex]
             VStack(alignment: .leading, spacing: 4) {
-                Text(Strings.History.painTitle)
+                Text(Strings.History.chartPainTitle)
                     .font(.displayCaption1Semibold)
                     .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -336,7 +336,7 @@ struct History: View {
 
                 // ROM 수치 표시
                 if vm.recentRecords.count < 2 {
-                    Text("측정일수 : \(vm.recentRecords.count)일")
+                    Text(Strings.History.romUnder2Emphasized(days: vm.recentRecords.count))
                         .font(.displayTitle3Semibold)
                 } else if let first = vm.firstROM, let latest = vm.latestROM {
                     // 기록이 여러 개일 때
@@ -361,7 +361,7 @@ struct History: View {
                 // 변화 설명 텍스트
                 Text(
                     vm.recentRecords.count < 2
-                        ? "3일째 측정부터\n변화를 확인할 수 있어요!" : vm.romChangeText
+                        ? Strings.History.romUnder2 : vm.romChangeText
                 )
                 .font(
                     vm.recentRecords.count < 2
@@ -442,7 +442,7 @@ struct History: View {
                 // 변화 설명 텍스트
                 Text(
                     vm.recentRecords.count < 2
-                        ? "첫 기록을 남겨보세요\nAnggle과 함께\n몸의 변화를 기록해봐요!"
+                        ? Strings.History.painNoRecord
                         : vm.painChangeText
                 )
                 .font(

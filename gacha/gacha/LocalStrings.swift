@@ -94,6 +94,23 @@ enum Strings {
         static var moderate: String { NSLocalizedString("pain.category.4to6", comment: "") }
         static var severe: String { NSLocalizedString("pain.category.7to9", comment: "") }
         static var extreme: String { NSLocalizedString("pain.category.10", comment: "") }
+
+        static func category(for value: Int) -> String {
+            switch value {
+            case 0:
+                return none
+            case 1...3:
+                return mild
+            case 4...6:
+                return moderate
+            case 7...9:
+                return severe
+            case 10:
+                return extreme
+            default:
+                return none
+            }
+        }
     }
     
     // MARK: - Pain Levels
@@ -109,6 +126,23 @@ enum Strings {
         static var level8: String { NSLocalizedString("pain.level.8", comment: "") }
         static var level9: String { NSLocalizedString("pain.level.9", comment: "") }
         static var level10: String { NSLocalizedString("pain.level.10", comment: "") }
+
+        static func level(for value: Int) -> String {
+            switch value {
+            case 0: return level0
+            case 1: return level1
+            case 2: return level2
+            case 3: return level3
+            case 4: return level4
+            case 5: return level5
+            case 6: return level6
+            case 7: return level7
+            case 8: return level8
+            case 9: return level9
+            case 10: return level10
+            default: return level0
+            }
+        }
     }
     
     // MARK: - Progress (After Measure)
@@ -169,7 +203,8 @@ enum Strings {
     // MARK: - History
     enum History {
         static var summaryTitle: String { NSLocalizedString("history.summary.title", comment: "") }
-        
+
+        // Card - ROM
         static var romTitle: String { NSLocalizedString("history.card.rom.title", comment: "") }
         static func romBetter(days: Int, degrees: Int) -> String {
             String(format: NSLocalizedString("history.card.rom.better", comment: ""), days, degrees)
@@ -184,7 +219,8 @@ enum Strings {
             String(format: NSLocalizedString("history.card.rom.under2_emphasis", comment: ""), days)
         }
         static var romUnder2: String { NSLocalizedString("history.card.rom.under2", comment: "") }
-        
+
+        // Card - Pain
         static var painTitle: String { NSLocalizedString("history.card.pain.title", comment: "") }
         static func painBetter(levels: Int) -> String {
             String(format: NSLocalizedString("history.card.pain.better", comment: ""), levels)
@@ -195,5 +231,37 @@ enum Strings {
         }
         static var painNoRecord: String { NSLocalizedString("history.card.pain.no_record", comment: "") }
         static var painFirstRecord: String { NSLocalizedString("history.card.pain.first_record", comment: "") }
+
+        // Chart - ROM
+        static var chartRomTitle: String { NSLocalizedString("history.chart.rom.title", comment: "") }
+        static func chartRomBetter(prevMax: Int, improvement: Int) -> String {
+            String(format: NSLocalizedString("history.chart.rom.better", comment: ""), prevMax, improvement)
+        }
+        static func chartRomSame(prevMax: Int) -> String {
+            String(format: NSLocalizedString("history.chart.rom.same", comment: ""), prevMax)
+        }
+        static func chartRomWorse(prevMax: Int, decline: Int) -> String {
+            String(format: NSLocalizedString("history.chart.rom.worse", comment: ""), prevMax, decline)
+        }
+        static var chartRomNoRecord: String { NSLocalizedString("history.chart.rom.no_record", comment: "") }
+        static func chartRomFirstRecord(angle: Int) -> String {
+            String(format: NSLocalizedString("history.chart.rom.first_record", comment: ""), angle)
+        }
+
+        // Chart - Pain
+        static var chartPainTitle: String { NSLocalizedString("history.chart.pain.title", comment: "") }
+        static func chartPainBetter(improvement: Int, from: Int) -> String {
+            String(format: NSLocalizedString("history.chart.pain.better", comment: ""), improvement, from)
+        }
+        static func chartPainSame(level: Int) -> String {
+            String(format: NSLocalizedString("history.chart.pain.same", comment: ""), level)
+        }
+        static func chartPainWorse(increase: Int, from: Int) -> String {
+            String(format: NSLocalizedString("history.chart.pain.worse", comment: ""), increase, from)
+        }
+        static var chartPainNoRecord: String { NSLocalizedString("history.chart.pain.no_record", comment: "") }
+        static func chartPainFirstRecord(level: Int) -> String {
+            String(format: NSLocalizedString("history.chart.pain.first_record", comment: ""), level)
+        }
     }
 }

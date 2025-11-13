@@ -19,9 +19,9 @@ struct MeasureFlag: View {
         VStack(spacing: 60) {
             LoadingImage
             VStack(spacing: 12) {
-                Text(Strings.Measure.loadingBold)
-                    .font(.displayTitle2Bold)
-                Text(Strings.Measure.loadingInstruction)
+                Text(Strings.Measure.instructionNo1)
+                    .font(.displayTitle3Regular)
+                Text(Strings.Measure.instructionNo2Emphasis)
                     .font(.displayTitle3Regular)
             }
         }

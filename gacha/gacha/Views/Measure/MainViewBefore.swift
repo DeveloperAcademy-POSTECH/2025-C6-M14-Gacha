@@ -17,7 +17,7 @@ struct MainViewBefore: View {
         VStack(spacing: 0) {
             // MARK: - Navigation Bar
             HStack {
-                Text(Strings.DailyStart.titleLarge)
+                Text(Strings.DailyStart.title)
                     .font(.displayLargeBold)
                 Spacer()
             }
@@ -53,41 +53,25 @@ struct MainViewBefore: View {
             
             // MARK: - 버튼 영역 (92px height, 16px gap)
             VStack(spacing: 16) {
-                if currentPage == 0 {
-                    // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
-                    CapsuleButtonComponent(
-                        title: Strings.Button.next,
-                        style: .secondary,
-                        width: 361,
-                        height: 54,
-                        fontSize: 20,
-                        cornerRadius: 100
-                    ) {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            currentPage = 1
-                        }
-                    }
-                } else {
-                    // 두 번째 화면: "측정하기" 버튼 (primary style, 100px cornerRadius)
-                    CapsuleButtonComponent(
-                        title: Strings.Button.measure,
-                        style: .primary,
-                        width: 361,
-                        height: 54,
-                        cornerRadius: 100
-                    ) {
-                        vm.shouldAutoStartMeasure = true
-                        // 홈에서 FlexionMeasure로 이동하는 경우 소스 기록
-                        vm.navigate(to: MeasureFlowStep.flexionMeasure, from: NavigationSource.home)
-                    }
+                // "측정하러 가기" 버튼 (primary style, 100px cornerRadius)
+                CapsuleButtonComponent(
+                    title: Strings.Button.measure,
+                    style: .primary,
+                    width: 361,
+                    height: 54,
+                    cornerRadius: 100
+                ) {
+                    vm.shouldAutoStartMeasure = true
+                    // 홈에서 FlexionMeasure로 이동하는 경우 소스 기록
+                    vm.navigate(to: MeasureFlowStep.flexionMeasure, from: NavigationSource.home)
                 }
-                
-                // 보조 링크: "고통수치만 입력하기" (16px, 밑줄, Gray500)
+
+                // 보조 링크: "통증 수치만 입력하기" (16px, 밑줄, Gray500)
                 Button(action: {
                     // 홈에서 직접 PainLevel로 이동하는 경우 소스 기록
                     vm.navigate(to: MeasureFlowStep.painLevel, from: NavigationSource.home)
                 }) {
-                    Text(Strings.DailyStart.enterPainOnly)
+                    Text(Strings.Button.painOnly)
                         .font(.displayBodyRegular)
                         .foregroundStyle(.gray500)
                         .underline()
@@ -105,23 +89,29 @@ struct MainViewBefore: View {
     }
     
     // MARK: - Instruction Text Views
-    
+
     private var instructionTextPage1: some View {
-        Group {
-            Text(Strings.DailyStart.instruction1)
+        VStack(spacing: 8) {
+            Text(Strings.DailyStart.instructionNo1Emphasis)
+                .font(.displayTitle3Regular)
+            Text(Strings.DailyStart.instructionNo2)
+                .font(.displayTitle3Regular)
+            Text(Strings.DailyStart.instructionNo3)
                 .font(.displayTitle3Regular)
         }
         .multilineTextAlignment(.center)
-        .frame(height: 56)
     }
-    
+
     private var instructionTextPage2: some View {
-        Group {
-            Text(Strings.DailyStart.instruction2)
+        VStack(spacing: 8) {
+            Text(Strings.DailyStart.instructionNo1Emphasis)
+                .font(.displayTitle3Regular)
+            Text(Strings.DailyStart.instructionNo2)
+                .font(.displayTitle3Regular)
+            Text(Strings.DailyStart.instructionNo3)
                 .font(.displayTitle3Regular)
         }
         .multilineTextAlignment(.center)
-        .frame(height: 56)
     }
 }
 

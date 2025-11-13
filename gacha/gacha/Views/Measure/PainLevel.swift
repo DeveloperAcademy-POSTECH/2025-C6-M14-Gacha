@@ -22,11 +22,9 @@ struct PainLevel: View {
         return false
     }
     
-    // Alert 메시지 분기
+    // Alert 메시지는 통일됨 (이제 메시지가 하나임)
     private var alertMessage: String {
-        isFromHome 
-            ? Strings.Alert.CancelPain.messageFromHome 
-            : Strings.Alert.CancelPain.message
+        Strings.Alert.cancelPainMessage
     }
 
     var body: some View {
@@ -47,8 +45,8 @@ struct PainLevel: View {
                     }
                     .alert(isPresented: $showingAlert) {
                         Alert(
-                            title: Text(Strings.Alert.CancelPain.title),
-                            message: Text(alertMessage),  // 분기된 메시지 사용
+                            title: Text(Strings.Alert.cancelPainTitle),
+                            message: Text(alertMessage),
                             primaryButton: .destructive(
                                 Text(Strings.Common.yes),
                                 action: {
@@ -64,7 +62,7 @@ struct PainLevel: View {
                                             if let record = vm.currentRecord, record.flexionAngle != nil {
                                                 // 통증 레벨을 nil로 명시적으로 설정하여 각도만 저장되도록 보장
                                                 record.painLevel = nil
-                                                
+
                                                 // 각도만 저장 (통증 레벨 없음)
                                                 await vm.saveCurrentRecord()
                                                 print("✅ 각도만 저장됨: \(record.flexionAngle ?? 0)°")
@@ -87,8 +85,8 @@ struct PainLevel: View {
                     }
                     
                     Spacer()
-                    
-                    Text(Strings.Pain.romMeasure)
+
+                    Text(Strings.Pain.title)
                         .font(.displayBodySemibold)
                     Spacer()
                     

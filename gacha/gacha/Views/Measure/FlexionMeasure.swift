@@ -60,8 +60,8 @@ struct FlexionMeasure: View {
                         }
                         .alert(isPresented: $showingAlert) {
                             Alert(
-                                title: Text(Strings.Alert.cancelFlexionHeadline),
-                                message: Text(Strings.Alert.quitExtensionMessage),
+                                title: Text(Strings.Alert.cancelFlexionTitle),
+                                message: Text(Strings.Alert.cancelFlexionMessage),
                                 primaryButton: .destructive(
                                     Text(Strings.Common.yes),
                                     action: {
@@ -89,8 +89,8 @@ struct FlexionMeasure: View {
                         }
 
                         Spacer()
-                        
-                        Text(Strings.Measure.title)
+
+                        Text(vm.measurementState == .completed ? Strings.Flexion.titleMeasured : Strings.Flexion.titleMeasuring)
                             .font(.displayBodySemibold)
 
                         Spacer()
@@ -121,7 +121,7 @@ struct FlexionMeasure: View {
                     Spacer()
                     
                     // MARK: - 하단 텍스트 (항상 검은색, 완료 시 "측정 완료")
-                    Text(vm.measurementState == .completed ? Strings.Flexion.measured : Strings.Flexion.measuring)
+                    Text(vm.measurementState == .completed ? Strings.Flexion.measured : Strings.Flexion.measuringEmphasis)
                         .font(.displayTitle3Regular)
                         .foregroundStyle(Color("Gray900"))
                         .padding(.bottom, 100)

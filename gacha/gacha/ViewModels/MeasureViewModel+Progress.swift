@@ -74,12 +74,12 @@ extension MeasureViewModel {
     var cardTitle: String {
         // 첫 측정인 경우
         if !hasComparison {
-            return Strings.Progress.firstTakeHeadline
+            return Strings.Progress.firstRecordTitle
         }
 
         guard let result = changeResult,
               let currentPainLevel = currentRecord?.painLevel else {
-            return Strings.Progress.firstTakeHeadline
+            return Strings.Progress.firstRecordTitle
         }
 
         // ROM 변화 상태 판별
@@ -95,17 +95,17 @@ extension MeasureViewModel {
         if isFlexBetter {
             switch painCat {
             case "nopain":
-                return Strings.Progress.betterNoPainHeadline
+                return Strings.Progress.betterNoPainTitle
             case "mildpain":
-                return Strings.Progress.betterMildPainHeadline
+                return Strings.Progress.betterMildPainTitle
             case "moderatepain":
-                return Strings.Progress.betterModeratePainHeadline
+                return Strings.Progress.betterModeratePainTitle
             case "severepain":
-                return Strings.Progress.betterSeverePainHeadline
+                return Strings.Progress.betterSeverePainTitle
             case "excruciatingpain":
-                return Strings.Progress.betterExcruciatingPainHeadline
+                return Strings.Progress.betterExcruciatingPainTitle
             default:
-                return Strings.Progress.betterNoPainHeadline
+                return Strings.Progress.betterNoPainTitle
             }
         }
 
@@ -113,17 +113,17 @@ extension MeasureViewModel {
         if isFlexNormal {
             switch painCat {
             case "nopain":
-                return Strings.Progress.sameNoPainHeadline
+                return Strings.Progress.sameNoPainTitle
             case "mildpain":
-                return Strings.Progress.sameMildPainHeadline
+                return Strings.Progress.sameMildPainTitle
             case "moderatepain":
-                return Strings.Progress.sameModeratePainHeadline
+                return Strings.Progress.sameModeratePainTitle
             case "severepain":
-                return Strings.Progress.sameSeverePainHeadline
+                return Strings.Progress.sameSeverePainTitle
             case "excruciatingpain":
-                return Strings.Progress.sameExcruciatingPainHeadline
+                return Strings.Progress.sameExcruciatingPainTitle
             default:
-                return Strings.Progress.sameNoPainHeadline
+                return Strings.Progress.sameNoPainTitle
             }
         }
 
@@ -131,33 +131,33 @@ extension MeasureViewModel {
         if isFlexWarning {
             switch painCat {
             case "nopain":
-                return Strings.Progress.worseNoPainHeadline
+                return Strings.Progress.worseNoPainTitle
             case "mildpain":
-                return Strings.Progress.worseMildPainHeadline
+                return Strings.Progress.worseMildPainTitle
             case "moderatepain":
-                return Strings.Progress.worseModeratePainHeadline
+                return Strings.Progress.worseModeratePainTitle
             case "severepain":
-                return Strings.Progress.worseSeverePainHeadline
+                return Strings.Progress.worseSeverePainTitle
             case "excruciatingpain":
-                return Strings.Progress.worseExcruciatingPainHeadline
+                return Strings.Progress.worseExcruciatingPainTitle
             default:
-                return Strings.Progress.worseNoPainHeadline
+                return Strings.Progress.worseNoPainTitle
             }
         }
 
         // 기본값
-        return Strings.Progress.firstTakeHeadline
+        return Strings.Progress.firstRecordTitle
     }
 
     var feedbackMessage: String {
         // 첫 측정인 경우
         if !hasComparison {
-            return Strings.Progress.firstTakeDescription
+            return Strings.Progress.firstRecordDescription
         }
 
         guard let result = changeResult,
               let currentPainLevel = currentRecord?.painLevel else {
-            return Strings.Progress.firstTakeDescription
+            return Strings.Progress.firstRecordDescription
         }
 
         // ROM 변화 상태 판별
@@ -224,7 +224,7 @@ extension MeasureViewModel {
         }
 
         // 기본값
-        return Strings.Progress.firstTakeDescription
+        return Strings.Progress.firstRecordDescription
     }
 
     //     MARK: - Formatting
