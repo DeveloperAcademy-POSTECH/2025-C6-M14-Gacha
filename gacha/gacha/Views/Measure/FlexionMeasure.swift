@@ -167,7 +167,7 @@ struct FlexionMeasure: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 32)
                     
-                    Text(vm.measurementState == .completed ? Strings.Flexion.measured : Strings.Flexion.measuring)
+                    Text(vm.measurementState == .completed ? Strings.Flexion.measured : Strings.Flexion.measuringEmphasis)
                         .font(.displayTitle3Regular)
                         .foregroundStyle(Color("Gray900"))
                         .padding(.bottom, 100)

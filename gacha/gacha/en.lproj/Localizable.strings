@@ -122,33 +122,33 @@
 "history.summary.title" = "Summary";
 
 /* History Summary Card - ROM Change */
-"history.card.rom.title" = "Knee Flexion Range";
-"history.card.rom.better" = "Over past %d days, flexion improved by %d°!";
-"history.card.rom.same" = "Flexion maintained over past %d days";
-"history.card.rom.worse" = "Over past %d days, flexion decreased by %d°";
-"history.card.rom.under2_emphasis" = "Measurement Days: %d";
-"history.card.rom.under2" = "Changes visible after 3rd day";
+"history.rom_change_increased" = "Over past %d days\nflexion improved\nby %d°!";
+"history.rom_change_decreased" = "Over past %d days\nflexion decreased\nby %d°";
+"history.rom_change_under2_days" = "Measurement Days: %d";
+"history.rom_change_under2_description" = "Changes visible\nfrom 3rd measurement!";
 
 /* History Summary Card - Pain Change */
-"history.card.pain.title" = "Pain Level";
-"history.card.pain.better" = "Pain reduced by %d levels since start!";
-"history.card.pain.same" = "Pain has remained steady";
-"history.card.pain.worse" = "Pain increased by %d levels since start";
-"history.card.pain.no_record" = "Make your first record!\nTrack changes with Anggle";
-"history.card.pain.first_record" = "First record made!\nAnggle supports your first recovery step!";
+"history.pain_change_decreased" = "Compared to start\npain reduced\nby %d levels!";
+"history.pain_change_increased" = "Compared to start\npain increased\nby %d levels";
+"history.pain_change_first_record" = "Make your first record!\nTrack body changes\nwith Anggle!";
 
-/* History Summary Chart - ROM Change */
-"history.chart.rom.title" = "Knee Flexion Range";
+/* History Chart - Titles */
+"history.chart.rom.title" = "Knee Flexion Range Trend";
+"history.chart.rom.no_record" = "No records available";
+"history.chart.pain.title" = "Pain Level Trend";
+"history.chart.pain.no_record" = "No records available";
+
+/* History - Common */
+"history.rom.title" = "Knee Flexion Range";
+"history.pain.title" = "Pain Level";
+
+/* History Chart - Detailed Messages */
 "history.chart.rom.better" = "You can flex %d° more than previous %d°";
 "history.chart.rom.same" = "Same as previous max %d°";
 "history.chart.rom.worse" = "You moved %d° less than previous %d°";
-"history.chart.rom.no_record" = "Complete your first measurement";
 "history.chart.rom.first_record" = "Current flexion: %d°";
 
-/* History Summary Chart - Pain Change */
-"history.chart.pain.title" = "Pain Level";
 "history.chart.pain.better" = "Pain reduced by %d levels from %d";
 "history.chart.pain.same" = "Same pain level as previous %d";
 "history.chart.pain.worse" = "Pain increased by %d levels from %d";
-"history.chart.pain.no_record" = "Make your first record";
 "history.chart.pain.first_record" = "Current pain level: %d";

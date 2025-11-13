@@ -70,7 +70,7 @@ struct MainViewAfter: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        .navigationTitle(Strings.Progress.titleLarge)
+        .navigationTitle(Strings.Progress.title)
         .navigationBarTitleDisplayMode(.large)
         .onAppear {
             Task {

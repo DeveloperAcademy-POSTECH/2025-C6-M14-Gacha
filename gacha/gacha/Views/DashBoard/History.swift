@@ -328,7 +328,7 @@ struct History: View {
 
                 // ROM 수치 표시
                 if vm.recentRecords.count < 2 {
-                    Text(Strings.History.romUnder2Days(days: vm.recentRecords.count))
+                    Text(Strings.History.romUnder2Emphasized(days: vm.recentRecords.count))
                         .font(.displayTitle3Semibold)
                 } else if let first = vm.firstROM, let latest = vm.latestROM {
                     // 기록이 여러 개일 때
@@ -434,7 +434,7 @@ struct History: View {
                 // 변화 설명 텍스트
                 Text(
                     vm.recentRecords.count < 2
-                        ? Strings.History.painFirstRecord
+                        ? Strings.History.painNoRecord
                         : vm.painChangeText
                 )
                 .font(

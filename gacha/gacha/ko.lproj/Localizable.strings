@@ -131,6 +131,27 @@
 "history.pain_change_increased" = "처음에 비해\n통증이\n%d단계 늘었어요";
 "history.pain_change_first_record" = "첫 기록을 남겨보세요\nAnggle과 함께\n몸의 변화를 기록해봐요!";
 
+/* History Chart - Titles */
+"history.chart.rom.title" = "무릎 굽힘 범위 추이";
+"history.chart.rom.no_record" = "측정된 기록이 없습니다";
+"history.chart.pain.title" = "통증 수준 추이";
+"history.chart.pain.no_record" = "측정된 기록이 없습니다";
+
+/* History - Common */
+"history.rom.title" = "무릎 굽힘 범위";
+"history.pain.title" = "통증 정도";
+
+/* History Chart - Detailed Messages */
+"history.chart.rom.better" = "이전 최대 %d°에서 %d° 향상";
+"history.chart.rom.same" = "이전 최대 %d°와 동일";
+"history.chart.rom.worse" = "이전 최대 %d°에서 %d° 감소";
+"history.chart.rom.first_record" = "첫 측정: %d°";
+
+"history.chart.pain.better" = "이전 최소 %d에서 %d 감소";
+"history.chart.pain.same" = "이전 최소 %d과 동일";
+"history.chart.pain.worse" = "이전 최소 %d에서 %d 증가";
+"history.chart.pain.first_record" = "첫 측정: %d";
+
 
 // 없앤 것
 //"common.confirm" = "확인";

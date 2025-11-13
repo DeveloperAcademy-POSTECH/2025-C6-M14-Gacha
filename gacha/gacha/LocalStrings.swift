@@ -205,35 +205,32 @@ enum Strings {
     enum History {
         static var summaryTitle: String { NSLocalizedString("history.summary.title", comment: "") }
 
-        // Card - ROM
-        static var romTitle: String { NSLocalizedString("history.card.rom.title", comment: "") }
+        // ROM Change (Summary Card)
         static func romBetter(days: Int, degrees: Int) -> String {
-            String(format: NSLocalizedString("history.card.rom.better", comment: ""), days, degrees)
-        }
-        static func romSame(days: Int) -> String {
-            String(format: NSLocalizedString("history.card.rom.same", comment: ""), days)
+            String(format: NSLocalizedString("history.rom_change_increased", comment: ""), days, degrees)
         }
         static func romWorse(days: Int, degrees: Int) -> String {
-            String(format: NSLocalizedString("history.card.rom.worse", comment: ""), days, degrees)
+            String(format: NSLocalizedString("history.rom_change_decreased", comment: ""), days, degrees)
         }
         static func romUnder2Emphasized(days: Int) -> String {
-            String(format: NSLocalizedString("history.card.rom.under2_emphasis", comment: ""), days)
+            String(format: NSLocalizedString("history.rom_change_under2_days", comment: ""), days)
         }
-        static var romUnder2: String { NSLocalizedString("history.card.rom.under2", comment: "") }
+        static var romUnder2Description: String {
+            NSLocalizedString("history.rom_change_under2_description", comment: "")
+        }
 
-        // Card - Pain
-        static var painTitle: String { NSLocalizedString("history.card.pain.title", comment: "") }
+        // Pain Change (Summary Card)
         static func painBetter(levels: Int) -> String {
-            String(format: NSLocalizedString("history.card.pain.better", comment: ""), levels)
+            String(format: NSLocalizedString("history.pain_change_decreased", comment: ""), levels)
         }
-        static var painSame: String { NSLocalizedString("history.card.pain.same", comment: "") }
         static func painWorse(levels: Int) -> String {
-            String(format: NSLocalizedString("history.card.pain.worse", comment: ""), levels)
+            String(format: NSLocalizedString("history.pain_change_increased", comment: ""), levels)
         }
-        static var painNoRecord: String { NSLocalizedString("history.card.pain.no_record", comment: "") }
-        static var painFirstRecord: String { NSLocalizedString("history.card.pain.first_record", comment: "") }
+        static var painNoRecord: String {
+            NSLocalizedString("history.pain_change_first_record", comment: "")
+        }
 
-        // Chart - ROM
+        // Chart
         static var chartRomTitle: String { NSLocalizedString("history.chart.rom.title", comment: "") }
         static func chartRomBetter(prevMax: Int, improvement: Int) -> String {
             String(format: NSLocalizedString("history.chart.rom.better", comment: ""), prevMax, improvement)
@@ -249,7 +246,6 @@ enum Strings {
             String(format: NSLocalizedString("history.chart.rom.first_record", comment: ""), angle)
         }
 
-        // Chart - Pain
         static var chartPainTitle: String { NSLocalizedString("history.chart.pain.title", comment: "") }
         static func chartPainBetter(improvement: Int, from: Int) -> String {
             String(format: NSLocalizedString("history.chart.pain.better", comment: ""), improvement, from)
@@ -257,27 +253,20 @@ enum Strings {
         static func chartPainSame(level: Int) -> String {
             String(format: NSLocalizedString("history.chart.pain.same", comment: ""), level)
         }
-
-        // Summary Card - ROM
-        static func romUnder2Days(days: Int) -> String {
-            String(format: NSLocalizedString("history.rom_change_under2_days", comment: ""), days)
+        static func chartPainWorse(increase: Int, from: Int) -> String {
+            String(format: NSLocalizedString("history.chart.pain.worse", comment: ""), increase, from)
+        }
+        static var chartPainNoRecord: String { NSLocalizedString("history.chart.pain.no_record", comment: "") }
+        static func chartPainFirstRecord(level: Int) -> String {
+            String(format: NSLocalizedString("history.chart.pain.first_record", comment: ""), level)
         }
 
-        static var romUnder2Description: String {
-            NSLocalizedString("history.rom_change_under2_description", comment: "")
+        // Common (Chart와 Card에서 공통 사용)
+        static var romTitle: String { NSLocalizedString("history.rom.title", comment: "") }
+        static var painTitle: String { NSLocalizedString("history.pain.title", comment: "") }
+        static func romSame(days: Int) -> String {
+            "지난 \(days)일간 변화 없음"
         }
-
-        // Summary Card - Pain
-        static func painChangeDecreased(levels: Int) -> String {
-            String(format: NSLocalizedString("history.pain_change_decreased", comment: ""), levels)
-        }
-
-        static func painChangeIncreased(levels: Int) -> String {
-            String(format: NSLocalizedString("history.pain_change_increased", comment: ""), levels)
-        }
-
-        static var painFirstRecord: String {
-            NSLocalizedString("history.pain_change_first_record", comment: "")
-        }
+        static var painSame: String { "이전과 동일" }
     }
 }
