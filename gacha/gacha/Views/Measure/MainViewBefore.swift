@@ -24,7 +24,7 @@ struct MainViewBefore: View {
                     Image("before3")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 300, height: 300)
+                        .frame(width: 240, height: 240)
                     // 첫 번째 화면 안내 문구
                     instructionTextPage1
                 } else {
@@ -32,7 +32,7 @@ struct MainViewBefore: View {
                     Image("leg")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 300, height: 300)
+                        .frame(width: 240, height: 240)
                     // 두 번째 화면 안내 문구
                     instructionTextPage2
                 }
@@ -68,20 +68,20 @@ struct MainViewBefore: View {
                         cornerRadius: 100
                     ) {
                         vm.shouldAutoStartMeasure = true
-                        // 홈에서 FlexionMeasure로 이동하는 경우 소스 기록
-                        vm.navigate(
-                            to: MeasureFlowStep.flexionMeasure,
-                            from: NavigationSource.home
+                        // 홈에서 FlexionMeasure로 시작하는 측정 플로우
+                        vm.startMeasureFlow(
+                            initialStep: .flexionMeasure,
+                            from: .home
                         )
                     }
                 }
 
                 // 보조 링크: "고통수치만 입력하기" (16px, 밑줄, Gray500)
                 Button(action: {
-                    // 홈에서 직접 PainLevel로 이동하는 경우 소스 기록
-                    vm.navigate(
-                        to: MeasureFlowStep.painLevel,
-                        from: NavigationSource.home
+                    // 홈에서 직접 PainLevel로 시작하는 측정 플로우
+                    vm.startMeasureFlow(
+                        initialStep: .painLevel,
+                        from: .home
                     )
                 }) {
                     Text(Strings.Button.painOnly)
@@ -92,6 +92,7 @@ struct MainViewBefore: View {
             }
             .frame(height: 92)  // 버튼 영역 높이: 92px
             .padding(.bottom, 34)
+
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle(Strings.DailyStart.title)
@@ -105,7 +106,7 @@ struct MainViewBefore: View {
     // MARK: - Instruction Text Views
 
     private var instructionTextPage1: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 12) {
             Text(Strings.DailyStart.instructionNo1Emphasis)
                 .font(.displayTitle3Bold)
                 .foregroundStyle(Color(.blue800))
@@ -117,11 +118,15 @@ struct MainViewBefore: View {
                 .font(.displayTitle3Regular)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 20)
+        .background(.blue100)
+        .cornerRadius(20)
         .multilineTextAlignment(.leading)
     }
 
     private var instructionTextPage2: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 12) {
             Text(Strings.DailyStart.instructionNo1Emphasis)
                 .font(.displayTitle3Regular)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -133,6 +138,10 @@ struct MainViewBefore: View {
                 .font(.displayTitle3Regular)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 20)
+        .background(.blue100)
+        .cornerRadius(20)
         .multilineTextAlignment(.leading)
     }
 }

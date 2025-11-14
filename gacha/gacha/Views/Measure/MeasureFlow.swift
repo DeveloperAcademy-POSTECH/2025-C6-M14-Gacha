@@ -32,6 +32,11 @@ struct MeasureFlow: View {
         _calendarVM = StateObject(wrappedValue: CalendarViewModel(repository: repository))
     }
 
+    // 측정 플로우가 진행 중인지 확인
+    private var isInMeasureFlow: Bool {
+        return measureVM.showMeasureFlow
+    }
+
     var body: some View {
         TabView(selection: $selectedTab) {
             // 캘린더 탭
@@ -41,23 +46,31 @@ struct MeasureFlow: View {
                     .navigationBarTitleDisplayMode(.large)
                     .environmentObject(calendarVM)
             }
+            .tag(0)
             .tabItem {
                 Label(Strings.Tabbar.calendar, systemImage: "calendar")
             }
-            .tag(0)
             .environmentObject(calendarVM)
 
             // 측정 탭 (메인)
-            NavigationStack(path: $measureVM.navigationPath) {
+            NavigationStack {
                 homeView()
-                    .navigationDestination(for: MeasureFlowStep.self) { step in
-                        viewForStep(step)
+                    .fullScreenCover(isPresented: $measureVM.showMeasureFlow) {
+                        NavigationStack(path: $measureVM.navigationPath) {
+                            // 빈 초기 화면 (navigationPath에 의해 즉시 대체됨)
+                            Color.clear
+                                .navigationDestination(for: MeasureFlowStep.self) { step in
+                                    viewForStep(step)
+                                }
+                        }
+                        .interactiveDismissDisabled()
+                        .environmentObject(measureVM)
                     }
             }
+            .tag(1)
             .tabItem {
                 Label(Strings.Tabbar.measure, systemImage: "ruler")
             }
-            .tag(1)
             .environmentObject(measureVM)
 
             // 요약 탭
@@ -66,15 +79,16 @@ struct MeasureFlow: View {
                     .navigationTitle(Strings.Tabbar.summary)
                     .navigationBarTitleDisplayMode(.large)
             }
+            .tag(2)
             .tabItem {
                 Label(Strings.Tabbar.summary, systemImage: "chart.bar")
             }
-            .tag(2)
             .environmentObject(historyVM)
         }
-        .onChange(of: measureVM.navigationPath.count) { oldValue, newValue in
-            // 홈으로 돌아왔을 때 (path가 비었을 때)
-            if newValue == 0 {
+        .toolbar(isInMeasureFlow ? .hidden : .visible, for: .tabBar)
+        .onChange(of: measureVM.showMeasureFlow) { oldValue, newValue in
+            // 홈으로 돌아왔을 때 (modal이 닫혔을 때)
+            if !newValue {
                 Task {
                     await measureVM.checkTodayRecord()
                 }
@@ -90,6 +104,7 @@ struct MeasureFlow: View {
         .environmentObject(calendarVM)
     }
 
+    
     // MARK: - View Builder
     @ViewBuilder
     private func homeView() -> some View {

@@ -79,8 +79,8 @@ struct FlexionMeasure: View {
                                             await vm.checkTodayRecord()
                                         }
 
-                                        // 네비게이션 스택 전체 비우기 (Task 밖에서 동기적으로 실행)
-                                        vm.navigationPath = NavigationPath()
+                                        // 측정 플로우 닫기
+                                        vm.dismissMeasureFlow()
                                     }
                                 ),
                                 secondaryButton: .cancel(

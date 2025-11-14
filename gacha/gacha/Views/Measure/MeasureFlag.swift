@@ -87,7 +87,7 @@ struct MeasureFlag: View {
 
             // Task가 취소되지 않았을 때만 실행
             if !Task.isCancelled {
-                vm.navigationPath.append(MeasureFlowStep.flexionCheck)
+                vm.navigate(to: .flexionCheck, from: .flexionMeasure)
             }
         }
     }

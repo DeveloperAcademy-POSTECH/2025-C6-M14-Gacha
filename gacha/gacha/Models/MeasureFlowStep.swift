@@ -7,12 +7,22 @@
 import Foundation
 
 /// 측정 플로우의 각 단계
-enum MeasureFlowStep: Hashable {
+enum MeasureFlowStep: Hashable, Identifiable {
     case home  // DailyMeasureStartView (홈 화면)
     case flexionMeasure  // FlexionMeasure
     case flexionCheck  // MeasureFlag (측정 완료)
     case painLevel  // PainLevel
     case summary  // MainViewAfter (측정 완료)
+
+    var id: String {
+        switch self {
+        case .home: return "home"
+        case .flexionMeasure: return "flexionMeasure"
+        case .flexionCheck: return "flexionCheck"
+        case .painLevel: return "painLevel"
+        case .summary: return "summary"
+        }
+    }
 }
 
 /// 네비게이션 소스 - 각 화면으로 진입한 경로를 추적
