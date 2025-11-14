@@ -166,7 +166,7 @@ struct History: View {
                 AxisGridLine()
             }
         }
-        .chartYScale(domain: 0...vm.romMaxValue)
+        .chartYScale(domain: 0...150)
         .chartXScale(domain: domain)
         .chartXSelection(value: $vm.selectedROMIndex)
         .frame(height: 361)
@@ -265,7 +265,7 @@ struct History: View {
                 }
             }
         }
-        .chartYScale(domain: 0...vm.painMaxValue)
+        .chartYScale(domain: 0...10)
         .chartXScale(domain: domain)
         .chartXSelection(value: $vm.selectedPainIndex)
         .frame(height: 250)
