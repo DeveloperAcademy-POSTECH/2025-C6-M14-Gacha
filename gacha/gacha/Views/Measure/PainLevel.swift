@@ -33,7 +33,7 @@ struct PainLevel: View {
             let isCompact = geo.size.height <= 700
             let sliderHeight: CGFloat = isCompact ? 100 : 160
             let imageSize: CGFloat = isCompact ? 100 : 136
-            let verticalSpacing: CGFloat = isCompact ? 12 : 16
+            let verticalSpacing: CGFloat = isCompact ? 16 : 20
             let bottomPadding: CGFloat = isCompact ? 20 : 40
 
             VStack(alignment: .center, spacing: 0) {
@@ -80,9 +80,9 @@ struct PainLevel: View {
                                             vm.prepareForNewMeasurement()  // 측정 상태 초기화
                                             await vm.checkTodayRecord()    // 상태 업데이트
                                         }
-                                        // 네비게이션 스택 전체 비우기
+                                        // 측정 플로우 닫기
                                         await MainActor.run {
-                                            vm.navigationPath = NavigationPath()
+                                            vm.dismissMeasureFlow()
                                         }
                                     }
                                 }
@@ -178,10 +178,10 @@ struct PainLevel: View {
                             // checkTodayRecord는 hasTodayRecord를 true로 설정하고 currentRecord를 로드함
                             await vm.checkTodayRecord()
                             
-                            // checkTodayRecord가 완료된 후 네비게이션 스택을 비워서 메인 화면으로 돌아가기
+                            // checkTodayRecord가 완료된 후 측정 플로우를 닫아서 메인 화면으로 돌아가기
                             // 메인 화면에서 hasTodayRecord를 체크하여 MainViewAfter를 표시
                             await MainActor.run {
-                                vm.navigationPath = NavigationPath()
+                                vm.dismissMeasureFlow()
                             }
                         }
                     }
@@ -250,7 +250,7 @@ struct ArcSlider: View {
                 return Color("7")
             }
         default:
-            return Color("Gray500")
+            return Color("0")
         }
     }
     var body: some View {
@@ -277,7 +277,7 @@ struct ArcSlider: View {
                     )
                     .stroke(
                         Color("Gray300"),
-                        style: StrokeStyle(lineWidth: 40, lineCap: .butt, lineJoin: .miter)
+                        style: StrokeStyle(lineWidth: 40, lineCap: (.round), lineJoin: .miter)
                     )
                 }
                 
@@ -299,7 +299,7 @@ struct ArcSlider: View {
                     )
                     .stroke(
                         filledSegmentColor(for: index, value: value),
-                        style: StrokeStyle(lineWidth: 40, lineCap: .butt, lineJoin: .miter)
+                        style: StrokeStyle(lineWidth: 40, lineCap: (index == 0 ? .round : .butt), lineJoin: .miter)
                     )
                     // 애니메이션 비활성화
                     // .animation(.easeInOut(duration: 0.2), value: value)
@@ -312,7 +312,7 @@ struct ArcSlider: View {
                 // 구분선 2: startAngle + 2*segmentAngle (204°)
                 // ...
                 // 구분선 10: startAngle + 10*segmentAngle (380° = 20°)
-                ForEach(0...totalSegments, id: \.self) { index in
+                ForEach(1...totalSegments-1, id: \.self) { index in
                     // 각 구분선의 각도 = 시작각도 + (인덱스 * 칸당각도)
                     // 정확히 원호를 10등분한 위치
                     let dividerAngle = startAngle + (Double(index) * segmentAngle)
@@ -322,13 +322,37 @@ struct ArcSlider: View {
                         radius: radius,
                         lineLength: 40
                     )
-                    .stroke(Color("Gray700"), lineWidth: 1.5)
+                    .stroke(Color("Gray600"), lineWidth: 1.5)
                 }
+
+                // MARK: - 핸들러 (현재 값 위치 표시)
+                // value 위치에 원형 핸들러 표시
+                let handlerAngle = startAngle + (value * segmentAngle)
+                let handlerAngleRadians = handlerAngle * .pi / 180
+                let handlerX = arcCenter.x + radius * cos(handlerAngleRadians)
+                let handlerY = arcCenter.y + radius * sin(handlerAngleRadians)
+
+                ZStack {
+                    // 외곽 흰색 테두리
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: 48, height: 48)
+                        .shadow(color: Color.black.opacity(0.15), radius: 4, x: 0, y: 2)
+
+                    // 내부 컬러 원
+                    Circle()
+                        .fill(filledSegmentColor(for: min(Int(value-1), totalSegments - 1), value: value))
+                        .frame(width: 36, height: 36)
+                }
+                .position(x: handlerX, y: handlerY)
+
                 // 중앙 텍스트 (값 + 상태)
                 VStack(spacing: 16) {
+                    Spacer()
                     Text("\(Int(value))")
-                        .font(.system(size: 40, weight: .bold))
+                        .font(.system(size: 60, weight: .bold))
                         .foregroundStyle(Color("Gray900"))
+                    
                 }
                 .position(
                     x: size.width / 2,
