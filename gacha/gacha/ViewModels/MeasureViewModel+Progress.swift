@@ -238,6 +238,27 @@ extension MeasureViewModel {
         return "\(level)"
     }
 
+    /// 어제 대비 각도 변화량 포맷팅 (예: "+5°", "-3°", "동일")
+    var angleTrendText: String? {
+        guard let result = changeResult else { return nil }
+
+        let delta = result.flexRomDiff
+
+        if delta > 0 {
+            return "+\(Int(delta))°"
+        } else {
+            return nil
+        }
+    }
+
+    /// 통증 카테고리 텍스트 (예: "통증 없음", "약간의 통증")
+    var painCategoryText: String {
+        guard let painLevel = currentRecord?.painLevel else {
+            return ""
+        }
+        return Strings.PainCategory.category(for: painLevel)
+    }
+
     func changeColor(for change: Int, isPositiveGood: Bool) -> Color {
         if abs(change) < 1 {
             return .secondary
