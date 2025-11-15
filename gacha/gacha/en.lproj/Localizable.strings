@@ -30,7 +30,7 @@
 "alert.cancel.flexion.title" = "Cancel knee flexion measurement?";
 "alert.cancel.flexion.message" = "Return to the first screen";
 "alert.cancel.pain.title" = "Cancel pain record?";
-"alert.cancel.pain.message" = "Only knee flexion angle will be recorded, and you will return to the first screen";
+"alert.cancel.pain.message" = "Return to the first screen";
 "alert.remeasure.title" = "Measure again?";
 "alert.remeasure.message" = "The new measurement will update today's record";
 
