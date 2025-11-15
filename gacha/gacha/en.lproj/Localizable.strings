@@ -122,18 +122,18 @@
 /* History Summary Card - ROM Change */
 "history.card.rom.title" = "Knee Flexion Range";
 "history.card.rom.better" = "Flexion up %d°\n in %d days!";
-"history.card.rom.same" = "Flexion stayed steady for %d days";
+"history.card.rom.same" = "Flexion stayed steady\nfor %d days";
 "history.card.rom.worse" = "Flexion decreased\n%d° in %d days";
 "history.card.rom.under2Days" = "Day %d";
-"history.card.rom.under2" = "Changes appear after 2 days";
+"history.card.rom.under2" = "Changes appear\nafter 2 days";
 
 /* History Summary Card - Pain Change */
 "history.card.pain.title" = "Pain Level";
-"history.card.pain.better" = "Pain reduced by %d steps since start!";
-"history.card.pain.same" = "Pain has remained steady";
-"history.card.pain.worse" = "Pain increased by %d steps since start";
-"history.card.pain.no_record" = "Make your first record!\nTrack changes with Anggle";
-"history.card.pain.first_record" = "First record made!\nAnggle supports your first recovery step!";
+"history.card.pain.better" = "Pain reduced by\n%d steps since start!";
+"history.card.pain.same" = "Pain has remained\nsteady";
+"history.card.pain.worse" = "Pain increased by\n%d steps since start";
+"history.card.pain.no_record" = "Make your first record!\nTrack changes\nwith Anggle";
+"history.card.pain.first_record" = "First record made!\nAnggle supports your\nfirst recovery step!";
 
 /* History Summary Chart - ROM Change */
 "history.chart.rom.title" = "Knee Flexion Range";
