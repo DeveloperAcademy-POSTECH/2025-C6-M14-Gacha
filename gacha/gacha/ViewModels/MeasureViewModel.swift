@@ -384,7 +384,7 @@ final class MeasureViewModel: ObservableObject {
         print("✅ Flexion: \(record.flexionAngle)°")
 
         // Modal 내부에서 PainLevel로 이동
-        navigate(to: .painLevel, from: .measureLoading)
+        navigate(to: .completeMeasure, from: .flexionMeasure)
     }
 
     // MARK: - PainLevel 측정 완료 시

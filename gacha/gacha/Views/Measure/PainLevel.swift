@@ -37,77 +37,7 @@ struct PainLevel: View {
             let bottomPadding: CGFloat = isCompact ? 20 : 40
 
             VStack(alignment: .center, spacing: 0) {
-                // MARK: - 네비게이션 바
-                HStack {
-                    Button(action: {
-                        showingAlert = true
-                    }) {
-                        HStack(spacing: 4) {
-                            Image(systemName: "chevron.left")
-                                .font(.displayCalloutMedium)
-                            Text(Strings.Common.cancel)
-                                .font(.displayBodySemibold)
-                        }
-                        .foregroundStyle(.blue800)
-                    }
-                    .alert(isPresented: $showingAlert) {
-                        Alert(
-                            title: Text(Strings.Alert.cancelPainTitle),
-                            message: Text(alertMessage),
-                            primaryButton: .destructive(
-                                Text(Strings.Common.yes),
-                                action: {
-                                    Task {
-                                        if isFromHome {
-                                            // 홈에서 바로 온 경우: 아무것도 저장하지 않고 취소
-                                            vm.prepareForNewMeasurement()  // 측정 상태 초기화
-                                            vm.clearCurrentRecord()        // 현재 레코드 클리어
-                                            await vm.deleteTodayRecords()  // 오늘 기록 삭제
-                                            await vm.checkTodayRecord()    // 상태 업데이트
-                                        } else {
-                                            // 측정 후 온 경우: 각도만 저장 (통증 레벨은 저장하지 않음)
-                                            if let record = vm.currentRecord, record.flexionAngle != nil {
-                                                // 통증 레벨을 nil로 명시적으로 설정하여 각도만 저장되도록 보장
-                                                record.painLevel = nil
 
-                                                // 각도만 저장 (통증 레벨 없음)
-                                                await vm.saveCurrentRecord()
-                                                print("✅ 각도만 저장됨: \(record.flexionAngle ?? 0)°")
-                                            } else {
-                                                // 각도가 없는 경우 레코드만 클리어
-                                                vm.clearCurrentRecord()
-                                            }
-                                            vm.prepareForNewMeasurement()  // 측정 상태 초기화
-                                            await vm.checkTodayRecord()    // 상태 업데이트
-                                        }
-                                        // 측정 플로우 닫기
-                                        await MainActor.run {
-                                            vm.dismissMeasureFlow()
-                                        }
-                                    }
-                                }
-                            ),
-                            secondaryButton: .cancel(Text(Strings.Common.no))
-                        )
-                    }
-                    
-                    Spacer()
-                    
-                    Text(Strings.Pain.title)
-                        .font(.displayBodySemibold)
-                    Spacer()
-                    
-                    Button(action: {
-                    }) {
-                        Text(Strings.Common.cancel)
-                    }
-                    .disabled(true)
-                    .opacity(0)
-                    
-                }
-                .padding(.horizontal, 16)
-                .padding(.top, 8)
-                .frame(height: 44)
 
                 Spacer()
                     .frame(maxHeight: isCompact ? 20 : .infinity)
@@ -191,6 +121,62 @@ struct PainLevel: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                // MARK: - 네비게이션 바
+                Button(action: {
+                        showingAlert = true
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                                .font(.displayBodySemibold)
+                            Text(Strings.Common.cancel)
+                                .font(.displayBodySemibold)
+                        }
+                        .foregroundStyle(.blue800)
+                    }
+                    .alert(isPresented: $showingAlert) {
+                        Alert(
+                            title: Text(Strings.Alert.cancelPainTitle),
+                            message: Text(alertMessage),
+                            primaryButton: .destructive(
+                                Text(Strings.Common.yes),
+                                action: {
+                                    Task {
+                                        if isFromHome {
+                                            // 홈에서 바로 온 경우: 아무것도 저장하지 않고 취소
+                                            vm.prepareForNewMeasurement()  // 측정 상태 초기화
+                                            vm.clearCurrentRecord()        // 현재 레코드 클리어
+                                            await vm.deleteTodayRecords()  // 오늘 기록 삭제
+                                            await vm.checkTodayRecord()    // 상태 업데이트
+                                        } else {
+                                            // 측정 후 온 경우: 각도만 저장 (통증 레벨은 저장하지 않음)
+                                            if let record = vm.currentRecord, record.flexionAngle != nil {
+                                                // 통증 레벨을 nil로 명시적으로 설정하여 각도만 저장되도록 보장
+                                                record.painLevel = nil
+
+                                                // 각도만 저장 (통증 레벨 없음)
+                                                await vm.saveCurrentRecord()
+                                                print("✅ 각도만 저장됨: \(record.flexionAngle ?? 0)°")
+                                            } else {
+                                                // 각도가 없는 경우 레코드만 클리어
+                                                vm.clearCurrentRecord()
+                                            }
+                                            vm.prepareForNewMeasurement()  // 측정 상태 초기화
+                                            await vm.checkTodayRecord()    // 상태 업데이트
+                                        }
+                                        // 측정 플로우 닫기
+                                        await MainActor.run {
+                                            vm.dismissMeasureFlow()
+                                        }
+                                    }
+                                }
+                            ),
+                            secondaryButton: .cancel(Text(Strings.Common.no))
+                        )
+                    }
+            }
         }
     }
 

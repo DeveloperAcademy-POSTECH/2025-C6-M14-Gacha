@@ -61,12 +61,11 @@ struct FlexionMeasure: View {
                 .offset(y: geometry.size.height * 0.3)
             }
         }
-        .navigationBarHidden(true)
         .onAppear {
             // 자동 시작 플래그 확인
             if vm.shouldAutoStartMeasure {
                 vm.shouldAutoStartMeasure = false
-                
+            
                 // 0.5초 후 자동 시작
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     vm.startFlexionMeasure()
@@ -89,28 +88,28 @@ struct FlexionMeasure: View {
         switch progress {
         case 0..<20:
             colors = [
+                Color("Blue100"),
+                Color("Blue100").opacity(0.9)
+            ]
+        case 20..<40:
+            colors = [
                 Color("Blue200"),
                 Color("Blue200").opacity(0.9)
             ]
-        case 20..<40:
+        case 40..<60:
             colors = [
                 Color("Blue300"),
                 Color("Blue300").opacity(0.9)
             ]
-        case 40..<60:
+        case 60..<80:
             colors = [
                 Color("Blue400"),
                 Color("Blue400").opacity(0.9)
             ]
-        case 60..<80:
+        default:  // 80~100
             colors = [
                 Color("Blue500"),
                 Color("Blue500").opacity(0.9)
-            ]
-        default:  // 80~100
-            colors = [
-                Color("Blue700"),
-                Color("Blue700").opacity(0.9)
             ]
         }
         

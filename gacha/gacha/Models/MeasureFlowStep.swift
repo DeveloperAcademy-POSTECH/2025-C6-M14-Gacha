@@ -8,17 +8,19 @@ import Foundation
 
 /// 측정 플로우의 각 단계
 enum MeasureFlowStep: Hashable, Identifiable {
-    case home  // DailyMeasureStartView (홈 화면)
-    case measureLoading  // FlexionMeasure
-    case flexionCheck  // MeasureFlag (측정 완료)
+    case home  // 홈 화면
+    case measureLoading  // 대기 화면
+    case flexionMeasure  // 측정 화면
+    case completeMeasure // 측정 완료 화면
     case painLevel  // PainLevel
     case summary  // MainViewAfter (측정 완료)
 
     var id: String {
         switch self {
         case .home: return "home"
-        case .measureLoading: return "flexionMeasure"
-        case .flexionCheck: return "flexionCheck"
+        case .measureLoading: return "measureLoading"
+        case .flexionMeasure: return "flexionMeasure"
+        case .completeMeasure: return "completeMeasure"
         case .painLevel: return "painLevel"
         case .summary: return "summary"
         }
@@ -28,8 +30,9 @@ enum MeasureFlowStep: Hashable, Identifiable {
 /// 네비게이션 소스 - 각 화면으로 진입한 경로를 추적
 enum NavigationSource: Hashable {
     case home              // 홈 화면에서 직접 진입
-    case measureLoading    // 굴곡 측정 화면에서 진입
-    case flexionCheck      // 측정 확인 화면에서 진입
+    case measureLoading    // 측정 로딩 화면에서 진입
+    case flexionMeasure    // 굴곡 측정 화면에서 진입
+    case completeMeasure   // 측정 완료 화면에서 진입
     case painLevel         // 통증 레벨 화면에서 진입
     case summary           // 결과 화면에서 진입
     case calendar          // 캘린더에서 진입
@@ -40,7 +43,8 @@ enum NavigationSource: Hashable {
         switch step {
         case .home: return .home
         case .measureLoading: return .measureLoading
-        case .flexionCheck: return .flexionCheck
+        case .flexionMeasure: return .flexionMeasure
+        case .completeMeasure: return .completeMeasure
         case .painLevel: return .painLevel
         case .summary: return .summary
         }

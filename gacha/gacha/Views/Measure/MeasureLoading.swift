@@ -51,7 +51,6 @@ struct MeasureLoading: View {
             // Start sensor early to warm up before actual measurement view
             vm.startSensor()
         }
-
         .task {
             // 3-2-1 카운트다운 (각 1초씩, 총 3초)
             for number in (1...3).reversed() {
@@ -65,7 +64,7 @@ struct MeasureLoading: View {
 
             // Task가 취소되지 않았을 때만 실행
             if !Task.isCancelled {
-                vm.navigate(to: .flexionCheck, from: .measureLoading)
+                vm.navigate(to: .flexionMeasure, from: .measureLoading)
             }
         }
     }

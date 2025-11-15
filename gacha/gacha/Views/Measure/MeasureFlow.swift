@@ -28,8 +28,12 @@ struct MeasureFlow: View {
         _measureVM = StateObject(
             wrappedValue: MeasureViewModel(repository: repository)
         )
-        _historyVM = StateObject(wrappedValue: HistoryViewModel(repository: repository))
-        _calendarVM = StateObject(wrappedValue: CalendarViewModel(repository: repository))
+        _historyVM = StateObject(
+            wrappedValue: HistoryViewModel(repository: repository)
+        )
+        _calendarVM = StateObject(
+            wrappedValue: CalendarViewModel(repository: repository)
+        )
     }
 
     // 측정 플로우가 진행 중인지 확인
@@ -59,7 +63,9 @@ struct MeasureFlow: View {
                         NavigationStack(path: $measureVM.navigationPath) {
                             // 빈 초기 화면 (navigationPath에 의해 즉시 대체됨)
                             Color.clear
-                                .navigationDestination(for: MeasureFlowStep.self) { step in
+                                .navigationDestination(
+                                    for: MeasureFlowStep.self
+                                ) { step in
                                     viewForStep(step)
                                 }
                         }
@@ -104,7 +110,6 @@ struct MeasureFlow: View {
         .environmentObject(calendarVM)
     }
 
-    
     // MARK: - View Builder
     @ViewBuilder
     private func homeView() -> some View {
@@ -129,15 +134,26 @@ struct MeasureFlow: View {
         case .measureLoading:
             MeasureLoading()
                 .navigationBarBackButtonHidden(true)
+                .navigationTitle(Strings.Flexion.titleMeasuring)
+                .navigationBarTitleDisplayMode(.inline)
 
-        case .flexionCheck:
+        case .flexionMeasure:
             FlexionMeasure()
-                .navigationBarHidden(true)
-            
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle(Strings.Flexion.titleMeasuring)
+                .navigationBarTitleDisplayMode(.inline)
+
+        case .completeMeasure:
+            CompleteMeasure()
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle(Strings.Flexion.titleMeasured)
+                .navigationBarTitleDisplayMode(.inline)
+
         case .painLevel:
             PainLevel()
-                .navigationBarHidden(true)
-
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle(Strings.Pain.title)
+                .navigationBarTitleDisplayMode(.inline)
 
         case .summary:
             MainViewAfter()
