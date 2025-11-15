@@ -48,11 +48,11 @@ struct CalendarRecordModal: View {
         .background(Color("White"))
         .cornerRadius(24)
     }
-
+    
     /// 통계 섹션
-    private var statisticsSection: some View {
+    var statisticsSection: some View {
         HStack(spacing: 16) {
-            // TODO: 통계 데이터 표시
+            // 굴곡 각도
             VStack(alignment: .leading, spacing: 4) {
                 Text(Strings.Progress.flexionAngle)
                     .font(.displayCalloutBold)
@@ -63,17 +63,26 @@ struct CalendarRecordModal: View {
 
             Spacer()
 
+            // 통증 정도
             VStack(alignment: .leading, spacing: 4) {
                 Text(Strings.Progress.painLevel)
                     .font(.displayCalloutBold)
                     .foregroundColor(.blue700)
-                Text(formatPainLevelForDisplay(record.painLevel))
-                    .font(.displayTitle2Bold)
+                HStack (spacing: 4) {
+                    Text(formatPainLevelForDisplay(record.painLevel))
+                        .font(.displayTitle2Bold)
+
+                    if let painLevel = record.painLevel, !painCategoryText(for: painLevel).isEmpty {
+                        Text("(\(painCategoryText(for: painLevel)))")
+                            .font(.displayCaption1Regular)
+                            .foregroundColor(.gray600)
+                    }
+                }
             }
 
             Spacer()
         }
-        .frame(height: 54)
+        .frame(minHeight: 54)
     }
 
     /// 일러스트 영역
@@ -110,6 +119,11 @@ struct CalendarRecordModal: View {
     private func formatPainLevelForDisplay(_ level: Int?) -> String {
         guard let level = level else { return "-" }
         return "\(level)"
+    }
+
+    /// 통증 카테고리 텍스트 반환
+    private func painCategoryText(for painLevel: Int) -> String {
+        return Strings.PainCategory.category(for: painLevel)
     }
 
     private var flexionImageName: String {
