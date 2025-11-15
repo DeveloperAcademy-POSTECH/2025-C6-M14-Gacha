@@ -54,7 +54,7 @@ struct PostureInstructionComponent: View {
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 20)
-        .background(.blue100)
+        .background(index == 3 ? .blue100 : Color(.blue100.opacity(0.8)))
         .cornerRadius(20)
         .multilineTextAlignment(.leading)
     }

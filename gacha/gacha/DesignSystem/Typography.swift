@@ -83,6 +83,9 @@ extension Font {
 
 
     // MARK: - Rounded
+    // ExtraLarge (60pt)
+    static let roundedExtraLargeBold = Font.system(size: 60, weight: .bold, design: .rounded)
+    
     // Large (34pt)
     static let roundedLargeBold = Font.system(size: 34, weight: .bold, design: .rounded)
     static let roundedLargeSemibold = Font.system(size: 34, weight: .semibold, design: .rounded)

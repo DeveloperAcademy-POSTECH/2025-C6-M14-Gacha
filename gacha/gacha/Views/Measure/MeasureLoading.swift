@@ -72,7 +72,7 @@ struct MeasureLoading: View {
 
     private var CountdownNumber: some View {
         Text("\(countdown)")
-            .font(.system(size: 100, weight: .bold, design: .rounded))
+            .font(.roundedExtraLargeBold)
             .foregroundStyle(Color("Blue800"))
             .frame(width: 100, height: 100)
     }
