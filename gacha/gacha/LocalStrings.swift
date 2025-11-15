@@ -2,7 +2,7 @@
 //  LocalStrings.swift
 //  gacha
 //
-//  Created by 김순주 on 11/12/25.
+//  Created by 김순주 on 11/14/25.
 //
 
 /*
@@ -34,11 +34,13 @@ enum Strings {
     
     // MARK: - Button
     enum Button {
+        static var next: String { NSLocalizedString("button.next", comment: "") }
         static var measure: String { NSLocalizedString("button.measure", comment: "") }
         static var measureStart: String { NSLocalizedString("button.measure.start", comment: "") }
         static var retake: String { NSLocalizedString("button.retake", comment: "") }
         static var painOnly: String { NSLocalizedString("button.pain_only", comment: "") }
         static var save: String { NSLocalizedString("button.save", comment: "") }
+        static var cancel: String { NSLocalizedString("button.cancel", comment: "") }
     }
     
     // MARK: - Tabbar
