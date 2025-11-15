@@ -71,7 +71,7 @@ struct CompleteMeasureView: View {
                             await MainActor.run {
                                 vm.shouldAutoStartMeasure = true
                                 vm.navigationPath = NavigationPath()
-                                vm.navigationPath.append(MeasureFlowStep.measureLoading)
+                                vm.navigationPath.append(MeasureFlowStep.countdown)
                             }
                             vm.isRemeasuring = false
                         }

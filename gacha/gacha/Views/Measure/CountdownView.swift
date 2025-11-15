@@ -64,7 +64,7 @@ struct CountdownView: View {
 
             // Task가 취소되지 않았을 때만 실행
             if !Task.isCancelled {
-                vm.navigate(to: .flexionMeasure, from: .measureLoading)
+                vm.navigate(to: .flexionMeasure, from: .countdown)
             }
         }
     }

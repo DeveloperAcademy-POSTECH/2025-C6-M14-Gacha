@@ -65,7 +65,7 @@ struct MainViewBefore: View {
                             vm.shouldAutoStartMeasure = true
                             // 홈에서 FlexionMeasure로 시작하는 측정 플로우
                             vm.startMeasureFlow(
-                                initialStep: .measureLoading,
+                                initialStep: .countdown,
                                 from: .home
                             )
                         }
