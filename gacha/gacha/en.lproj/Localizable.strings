@@ -37,12 +37,12 @@
 /* MainBefore - 1/2 */
 "daily_start.title" = "Prepare to Measure";
 "daily_start.instruction.no1.emphasis" = "Sit and bend your leg fully";
-"daily_start.instruction.no2" = "Place iPhone on the thigh near the knee";
+"daily_start.instruction.no2" = "Place iPhone on thigh near knee";
 "daily_start.instruction.no3" = "Hold still until measurement ends";
 
 /* MeasureView(Loading) */
 "daily_start.instruction.no1" = "Sit and bend your leg fully";
-"daily_start.instruction.no2.emphasis" = "Place iPhone on the thigh near the knee";
+"daily_start.instruction.no2.emphasis" = "Place iPhone on thigh near knee";
 "daily_start.instruction.no3.countdown" = "Hold still until measurement ends";
 
 /* MeasureView(Loading) */
