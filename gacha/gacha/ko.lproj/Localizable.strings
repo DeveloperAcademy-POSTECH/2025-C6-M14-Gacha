@@ -1,10 +1,10 @@
 /*
-  Localizable.strings
-  gacha
+   Localizable.strings
+   gacha
  
-  Created by 김순주 on 11/14/25.
+   Created by 김순주 on 11/15/25.
  
-  */
+   */
 
 /* Common */
 "common.yes" = "네";
@@ -38,11 +38,11 @@
 "daily_start.title" = "측정 준비하기";
 "daily_start.instruction.no1" = "측정할 무릎을 최대한 굽혀 앉아주세요";
 "daily_start.instruction.no2" = "iPhone을 무릎 쪽 허벅지에 얹어주세요";
-"daily_start.instruction.no3" = "측정이 끝날 때까지 자세를 유지해주세요";
+"daily_start.instruction.no3" = "측정이 끝날 때까지 자세를 유지하세요";
 
 /* CountdownView */
 "measure.countdown.emphasis_text" = "잠시 후 측정이 시작돼요";
-"measure.countdown.description" = "iPhone을 무릎 쪽 허벅지에 얹은 채\n자세를 유지해주세요";
+"measure.countdown.description" = "iPhone을 무릎 쪽 허벅지 위에 얹은 채\n자세를 유지해 주세요";
 
 /* FlexionMeasureView - 측정중 */
 "measure.flexion.title" = "무릎 굽힘 측정";
@@ -121,17 +121,17 @@
 
 /* History Summary Card - ROM Change */
 "history.card.rom.title" = "무릎 굽힘 범위";
-"history.card.rom.better" = "%d일 전보다 %d도\n더 움직일 수 있어요!";
-"history.card.rom.same" = "지난 %d일간 움직이는 범위가 유지되고 있어요";
-"history.card.rom.worse" = "%d일 전보다 %d도\n덜 움직여요";
+"history.card.rom.better" = "첫측정한 %d일 전보다\n무릎을 %d도\n더 움직일 수 있어요!";
+"history.card.rom.same" = "첫측정부터 %d일간\n무릎 움직이는 범위가\n유지되고 있어요";
+"history.card.rom.worse" = "첫측정한 %d일 전보다\n무릎이 %d도\n덜 움직여요";
 "history.card.rom.under2Days" = "%d일째 측정";
 "history.card.rom.under2" = "이틀만 측정해도\n변화를 알 수 있어요";
 
 /* History Summary Card - Pain Change */
 "history.card.pain.title" = "통증 정도";
-"history.card.pain.better" = "처음보다 %d단계\n덜 아파졌어요!";
-"history.card.pain.same" = "통증이 일정하게\n유지되고 있어요";
-"history.card.pain.worse" = "처음보다 %d단계\n더 아파졌어요";
+"history.card.pain.better" = "처음 기록한 날보다\n아픔을 %d단계\n덜 느껴요!";
+"history.card.pain.same" = "처음 기록한 날부터\n아픔을 같은 정도로\n느끼고 있어요";
+"history.card.pain.worse" = "처음 기록한 날보다\n아픔을 %d단계\n더 느껴요";
 "history.card.pain.no_record" = "첫 기록을 남겨보세요.\nAnggle과 함께\n변화를 기록해봐요!";
 "history.card.pain.first_record" = "처음 기록을\n남기셨군요.\n회복을 향한 첫걸음\nAnggle이 응원해요!";
 
@@ -150,3 +150,18 @@
 "history.chart.pain.worse" = "이 기간 최저 통증인 %d단계보다 %d단계 더 아파졌어요";
 "history.chart.pain.no_record" = "첫 기록을 남겨 주세요";
 "history.chart.pain.first_record" = "현재 %d단계의 통증을 느끼고 있어요";
+
+/* Select Type */
+"select.type.title" = "측정 선택";
+
+"select.type.knee.flexion.title" = "무릎 굽힘 각도";
+"select.type.knee.flexion.description" = "무릎을 얼마나 굽힐 수 있는지\n확인하세요";
+
+"select.type.shoulder.flexion.title" = "어깨 굽힘 각도";
+"select.type.shoulder.flexion.description" = "팔을 얼마나 앞으로 들어올릴 수\n있는지 확인하세요";
+
+"select.type.hip.adduction.title" = "고관절 모음 각도";
+"select.type.hip.adduction.description" = "다리를 몸 안쪽으로 얼마나 모을 수\n있는지 확인하세요";
+
+"select.type.elbow.extension.title" = "팔꿈치 폄 각도";
+"select.type.elbow.extension.description" = "팔꿈치를 얼마나 펼 수 있는지\n확인하세요";

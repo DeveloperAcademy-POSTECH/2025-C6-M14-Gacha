@@ -1,10 +1,10 @@
 /*
-  Localizable.strings
-  gacha
+   Localizable.strings
+   gacha
  
-  Created by 김순주 on 11/14/25.
+   Created by 김순주 on 11/15/25.
  
-  */
+   */
 
 /* Common */
 "common.yes" = "Yes";
@@ -121,19 +121,19 @@
 
 /* History Summary Card - ROM Change */
 "history.card.rom.title" = "Knee Flexion Range";
-"history.card.rom.better" = "Flexion up %d°\n in %d days!";
-"history.card.rom.same" = "Flexion stayed steady\nfor %d days";
-"history.card.rom.worse" = "Flexion decreased\n%d° in %d days";
+"history.card.rom.better" = "You can bend your knee %d° more than %d days ago! !";
+"history.card.rom.same" = "Knee range has\nstayed the same\nfor %d days.";
+"history.card.rom.worse" = "Your knee moves\n%d° less than\n%d days ago.";
 "history.card.rom.under2Days" = "Day %d";
 "history.card.rom.under2" = "Changes appear\nafter 2 days";
 
 /* History Summary Card - Pain Change */
 "history.card.pain.title" = "Pain Level";
-"history.card.pain.better" = "Pain reduced by\n%d steps since start!";
-"history.card.pain.same" = "Pain has remained\nsteady";
-"history.card.pain.worse" = "Pain increased by\n%d steps since start";
-"history.card.pain.no_record" = "Make your first record!\nTrack changes\nwith Anggle";
-"history.card.pain.first_record" = "First record made!\nAnggle supports your\nfirst recovery step!";
+"history.card.pain.better" = "You feel %d levels\nless pain than\non your first record!";
+"history.card.pain.same" = "You’ve felt the same\nlevel of pain\nsince your first record";
+"history.card.pain.worse" = "You feel %d levels\nmore pain than\non your first record";
+"history.card.pain.no_record" = "Make first record!\nTrack changes\nwith Anggle";
+"history.card.pain.first_record" = "First record made!\nAnggle supports\nyour recovery step!";
 
 /* History Summary Chart - ROM Change */
 "history.chart.rom.title" = "Knee Flexion Range";
@@ -150,3 +150,18 @@
 "history.chart.pain.worse" = "Pain increased by %d steps from %d";
 "history.chart.pain.no_record" = "Make your first record";
 "history.chart.pain.first_record" = "You’re feeling pain at level %d";
+
+
+"select.type.title" = "Select";
+
+"select.type.knee.flexion.title" = "Knee Flexion";
+"select.type.knee.flexion.description" = "Check how much you can\nbend your knee";
+
+"select.type.shoulder.flexion.title" = "Shoulder Flexion";
+"select.type.shoulder.flexion.description" = "Check how high you can\nraise your arm";
+
+"select.type.hip.adduction.title" = "Hip Adduction";
+"select.type.hip.adduction.description" = "Check how far you can\nbring your leg inward";
+
+"select.type.elbow.extension.title" = "Elbow Extension";
+"select.type.elbow.extension.description" = "Check how much you can\nstraighten your elbow";
