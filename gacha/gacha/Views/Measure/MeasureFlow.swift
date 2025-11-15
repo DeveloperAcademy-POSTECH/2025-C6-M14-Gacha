@@ -126,8 +126,8 @@ struct MeasureFlow: View {
         case .home:
             homeView()
 
-        case .flexionMeasure:
-            MeasureFlag()
+        case .measureLoading:
+            MeasureLoading()
                 .navigationBarBackButtonHidden(true)
 
         case .flexionCheck:
