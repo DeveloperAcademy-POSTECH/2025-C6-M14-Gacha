@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct CompleteMeasure: View {
+struct CompleteMeasureView: View {
     @EnvironmentObject var vm: MeasureViewModel
     @State private var showingAlert = false
 
@@ -153,6 +153,6 @@ struct CompleteMeasure: View {
     )
     let viewModel = MeasureViewModel(repository: repository)
 
-    return CompleteMeasure()
+    return CompleteMeasureView()
         .environmentObject(viewModel)
 }

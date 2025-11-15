@@ -7,7 +7,7 @@
 import SwiftData
 import SwiftUI
 
-struct PainLevel: View {
+struct PainMeasureView: View {
     @EnvironmentObject var vm: MeasureViewModel
     @State private var value: Double = 5.0  // 0~10 범위
     @State private var showingAlert = false
@@ -530,6 +530,6 @@ struct ArcShape: Shape {
         modelContext: container.mainContext
     )
     let viewModel = MeasureViewModel(repository: repository)
-    return PainLevel()
+    return PainMeasureView()
         .environmentObject(viewModel)
 }

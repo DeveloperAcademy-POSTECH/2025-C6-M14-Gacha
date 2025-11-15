@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct MeasureLoading: View {
+struct CountdownView: View {
     @EnvironmentObject var vm: MeasureViewModel
 
     @State private var countdown: Int = 3
@@ -88,7 +88,7 @@ struct MeasureLoading: View {
     )
     let viewModel = MeasureViewModel(repository: repository)
 
-    MeasureLoading()
+    CountdownView()
         .environmentObject(viewModel)
 }
 
