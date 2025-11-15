@@ -42,7 +42,10 @@ struct History: View {
                                     if vm.chartData.isEmpty {
                                         // 측정된 데이터가 없을 때
                                         Text(Strings.History.chartRomNoRecord)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .frame(
+                                                maxWidth: .infinity,
+                                                alignment: .leading
+                                            )
                                     } else {
                                         // SubTitle
                                         Text(vm.romSubtitle)
@@ -68,7 +71,10 @@ struct History: View {
                                     if vm.chartData.isEmpty {
                                         // 측정된 데이터가 없을 때
                                         Text(Strings.History.chartPainNoRecord)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .frame(
+                                                maxWidth: .infinity,
+                                                alignment: .leading
+                                            )
                                     } else {
                                         // SubTitle
                                         Text(vm.painSubtitle)
@@ -85,6 +91,14 @@ struct History: View {
                         .padding(.horizontal, 20)
                         .padding(.top, 20)
                         .padding(.bottom, 20)
+
+                        // 크레딧
+                        VStack(spacing: 4) {
+                            Text("Team Anggle©")
+                            Text("v2.0.1")
+                        }
+                        .padding(.vertical, 40)
+                        .foregroundColor(.gray500)
                     }
                 }
 
@@ -166,7 +180,7 @@ struct History: View {
                 AxisGridLine()
             }
         }
-        .chartYScale(domain: 0...vm.romMaxValue)
+        .chartYScale(domain: 0...150)
         .chartXScale(domain: domain)
         .chartXSelection(value: $vm.selectedROMIndex)
         .frame(height: 361)
@@ -265,7 +279,7 @@ struct History: View {
                 }
             }
         }
-        .chartYScale(domain: 0...vm.painMaxValue)
+        .chartYScale(domain: 0...10)
         .chartXScale(domain: domain)
         .chartXSelection(value: $vm.selectedPainIndex)
         .frame(height: 250)
@@ -316,36 +330,24 @@ struct History: View {
                         .font(.displayBodyBold)
                         .foregroundColor(Color("Blue700"))
                     Spacer()
-                    Button {
-                    } label: {
-                        Image(systemName: "chevron.right")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(Color("Gray500"))
-                    }
                 }
 
                 Spacer()
 
                 // ROM 수치 표시
-                if vm.recentRecords.count < 2 {
-                    Text(Strings.History.romUnder2Emphasized(days: vm.recentRecords.count))
-                        .font(.displayTitle3Semibold)
-                } else if let first = vm.firstROM, let latest = vm.latestROM {
-                    // 기록이 여러 개일 때
-                    HStack(spacing: 0) {
-                        Text("\(first)°")
-                            .font(.roundedTitle2Semibold)
-                            .foregroundColor(Color("Gray700"))
-
-                        Image(systemName: "arrow.right")
-                            .font(.roundedTitle2Semibold)
-                            .foregroundColor(Color("Gray700"))
-
-                        Text("\(latest)°")
-                            .font(.roundedLargeSemibold)
+                HStack(spacing: 0) {
+                    Spacer()
+                    if vm.recentRecords.count < 2 {
+                        Text("\(vm.recentRecords.count)일째")
+                            .font(.displayTitle1Bold)
+                    } else if let first = vm.firstROM, let latest = vm.latestROM
+                    {
+                        // 기록이 여러 개일 때
+                        let change = latest - first
+                        Text("\(change > 0 ? "+" : "")\(change)°")
+                            .font(.roundedTitle1Bold)
                             .foregroundColor(Color("Gray900"))
                     }
-
                 }
 
                 Spacer()
@@ -353,7 +355,8 @@ struct History: View {
                 // 변화 설명 텍스트
                 Text(
                     vm.recentRecords.count < 2
-                        ? Strings.History.romUnder2Description : vm.romChangeText
+                        ? Strings.History.romUnder2Description
+                        : vm.romChangeText
                 )
                 .font(
                     vm.recentRecords.count < 2
@@ -386,12 +389,6 @@ struct History: View {
                         .font(.displayBodyBold)
                         .foregroundColor(Color("Blue700"))
                     Spacer()
-                    Button {
-                    } label: {
-                        Image(systemName: "chevron.right")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(Color("Gray500"))
-                    }
                 }
 
                 Spacer()
@@ -408,8 +405,12 @@ struct History: View {
                         HStack(spacing: 0) {
                             Rectangle()
                                 .fill(Color("Blue900"))
-                                .frame(width: CGFloat(first) * 15, height: 3)
+                                .frame(width: CGFloat(first) * 10, height: 3)
                                 .cornerRadius(4)
+                            Circle()
+                                .fill(Color("Blue900"))
+                                .frame(width: 10, height: 10)
+                            Spacer()
                             Text("\(first)")
                                 .font(.system(size: 17, weight: .bold))
                                 .foregroundColor(Color("Gray900"))
@@ -419,8 +420,12 @@ struct History: View {
                         HStack(spacing: 0) {
                             Rectangle()
                                 .fill(Color("Blue700"))
-                                .frame(width: CGFloat(latest) * 15, height: 3)
+                                .frame(width: CGFloat(latest)     * 10, height: 3)
                                 .cornerRadius(4)
+                            Circle()
+                                .fill(Color("Blue700"))
+                                .frame(width: 10, height: 10)
+                            Spacer()
                             Text("\(latest)")
                                 .font(.system(size: 17, weight: .bold))
                                 .foregroundColor(Color("Gray900"))

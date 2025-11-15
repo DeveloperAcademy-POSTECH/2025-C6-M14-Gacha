@@ -17,6 +17,10 @@ final class MeasureViewModel: ObservableObject {
 
     @Published var hasTodayRecord: Bool = false
 
+    // Modal 표시 여부
+    @Published var showMeasureFlow: Bool = false
+
+    // Modal 내부 navigation
     @Published var navigationPath = NavigationPath()
 
     // 재측정 플래그 (onChange에서 checkTodayRecord를 건너뛰기 위함)
@@ -352,6 +356,20 @@ final class MeasureViewModel: ObservableObject {
         navigationPath.append(step)
     }
 
+    /// 측정 플로우 시작 (Modal 열기)
+    func startMeasureFlow(initialStep: MeasureFlowStep, from source: NavigationSource) {
+        setNavigationSource(for: initialStep, source: source)
+        navigationPath = NavigationPath()  // 초기화
+        navigationPath.append(initialStep)
+        showMeasureFlow = true
+    }
+
+    /// 측정 플로우 종료 (Modal 닫기)
+    func dismissMeasureFlow() {
+        showMeasureFlow = false
+        navigationPath = NavigationPath()  // 정리
+    }
+
     // MARK: - Flexion 측정 완료 시
     func finishFlexion(angle: Double) {
         isLoading = true
@@ -361,12 +379,12 @@ final class MeasureViewModel: ObservableObject {
         let record = MeasuredRecord()
         record.flexionAngle = angle
         record.measuredSeconds = 0  // 측정 시간은 자동 계산됨
-        
+
         currentRecord = record
         print("✅ Flexion: \(record.flexionAngle)°")
 
-        // 소스를 기록하며 네비게이션 (측정 화면에서 PainLevel로 이동)
-        navigate(to: MeasureFlowStep.painLevel, from: NavigationSource.flexionMeasure)
+        // Modal 내부에서 PainLevel로 이동
+        navigate(to: .completeMeasure, from: .flexionMeasure)
     }
 
     // MARK: - PainLevel 측정 완료 시

@@ -16,7 +16,7 @@ struct MainViewBefore: View {
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
-
+            
             // MARK: - 중앙 콘텐츠 영역
             VStack(spacing: 40) {
                 // 안내 문구 영역
@@ -24,116 +24,98 @@ struct MainViewBefore: View {
                     Image("before3")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 300, height: 300)
+                        .frame(width: 240, height: 240)
                     // 첫 번째 화면 안내 문구
-                    instructionTextPage1
+                    PostureInstructionComponent(index: 1)
                 } else {
 
                     Image("leg")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 300, height: 300)
+                        .frame(width: 240, height: 240)
                     // 두 번째 화면 안내 문구
-                    instructionTextPage2
+                    PostureInstructionComponent(index: 2)
                 }
-            }
-            .frame(width: 361)
-            .frame(maxWidth: .infinity)
-
-            Spacer()
-
-            // MARK: - 버튼 영역 (92px height, 16px gap)
-            VStack(spacing: 16) {
-                if currentPage == 0 {
-                    // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
-                    CapsuleButtonComponent(
-                        title: Strings.Button.measureStart,
-                        style: .secondary,
-                        width: 361,
-                        height: 54,
-                        fontSize: 20,
-                        cornerRadius: 100
-                    ) {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            currentPage = 1
+                
+                // MARK: - 버튼 영역 (92px height, 16px gap)
+                VStack(spacing: 20) {
+                    if currentPage == 0 {
+                        // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
+                        CapsuleButtonComponent(
+                            title: Strings.Button.measureStart,
+                            style: .primary,
+                            width: 361,
+                            height: 54,
+                            fontSize: 20,
+                            cornerRadius: 100
+                        ) {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                currentPage = 1
+                            }
+                        }
+                    } else {
+                        // 두 번째 화면: "측정하기" 버튼 (primary style, 100px cornerRadius)
+                        CapsuleButtonComponent(
+                            title: Strings.Button.measure,
+                            style: .primary,
+                            width: 361,
+                            height: 54,
+                            cornerRadius: 100
+                        ) {
+                            vm.shouldAutoStartMeasure = true
+                            // 홈에서 FlexionMeasure로 시작하는 측정 플로우
+                            vm.startMeasureFlow(
+                                initialStep: .measureLoading,
+                                from: .home
+                            )
                         }
                     }
-                } else {
-                    // 두 번째 화면: "측정하기" 버튼 (primary style, 100px cornerRadius)
-                    CapsuleButtonComponent(
-                        title: Strings.Button.measure,
-                        style: .primary,
-                        width: 361,
-                        height: 54,
-                        cornerRadius: 100
-                    ) {
-                        vm.shouldAutoStartMeasure = true
-                        // 홈에서 FlexionMeasure로 이동하는 경우 소스 기록
-                        vm.navigate(
-                            to: MeasureFlowStep.flexionMeasure,
-                            from: NavigationSource.home
+
+                    // 보조 링크: "고통수치만 입력하기" (16px, 밑줄, Gray500)
+                    Button(action: {
+                        // 홈에서 직접 PainLevel로 시작하는 측정 플로우
+                        vm.startMeasureFlow(
+                            initialStep: .painLevel,
+                            from: .home
                         )
+                    }) {
+                        Text(Strings.Button.painOnly)
+                            .font(.displayBodyRegular)
+                            .foregroundStyle(.gray500)
+                            .underline()
                     }
                 }
-
-                // 보조 링크: "고통수치만 입력하기" (16px, 밑줄, Gray500)
-                Button(action: {
-                    // 홈에서 직접 PainLevel로 이동하는 경우 소스 기록
-                    vm.navigate(
-                        to: MeasureFlowStep.painLevel,
-                        from: NavigationSource.home
-                    )
-                }) {
-                    Text(Strings.Button.painOnly)
-                        .font(.displayBodyRegular)
-                        .foregroundStyle(.gray500)
-                        .underline()
-                }
+                .padding(.bottom, 40)
             }
-            .frame(height: 92)  // 버튼 영역 높이: 92px
-            .padding(.bottom, 34)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 20)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle(Strings.DailyStart.title)
         .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                if currentPage == 1 {
+                    Button(action: {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            currentPage -= 1
+                        }
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                                .font(.displayCalloutRegular)
+                            Text(Strings.Common.cancel)
+                                .font(.displayBodyRegular)
+                        }
+                        .foregroundStyle(.blue800)
+                    }
+                }
+            }
+        }
         .onAppear {
             // 화면이 나타날 때마다 첫 번째 화면으로 초기화
             currentPage = 0
         }
-    }
-
-    // MARK: - Instruction Text Views
-
-    private var instructionTextPage1: some View {
-        VStack(spacing: 8) {
-            Text(Strings.DailyStart.instructionNo1Emphasis)
-                .font(.displayTitle3Bold)
-                .foregroundStyle(Color(.blue800))
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(Strings.DailyStart.instructionNo2)
-                .font(.displayTitle3Regular)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(Strings.DailyStart.instructionNo3)
-                .font(.displayTitle3Regular)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .multilineTextAlignment(.leading)
-    }
-
-    private var instructionTextPage2: some View {
-        VStack(spacing: 8) {
-            Text(Strings.DailyStart.instructionNo1Emphasis)
-                .font(.displayTitle3Regular)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(Strings.DailyStart.instructionNo2)
-                .font(.displayTitle3Bold)
-                .foregroundStyle(Color(.blue800))
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(Strings.DailyStart.instructionNo3)
-                .font(.displayTitle3Regular)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .multilineTextAlignment(.leading)
     }
 }
 
