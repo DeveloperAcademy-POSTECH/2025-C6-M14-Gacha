@@ -34,9 +34,9 @@
 
 /* MainBefore - 1/2 */
 "daily_start.title" = "측정 준비하기";
-"daily_start.instruction.no1.emphasis" = "① 측정할 무릎을 최대한 굽히고 앉아 주세요";
-"daily_start.instruction.no2" = "② iPhone을 무릎 쪽 허벅지 위에 얹어 주세요";
-"daily_start.instruction.no3" = "③ 측정이 끝날 때까지 자세를 유지해 주세요";
+"daily_start.instruction.no1.emphasis" = "측정할 무릎을 최대한 굽히고 앉아 주세요";
+"daily_start.instruction.no2" = "iPhone을 무릎 쪽 허벅지 위에 얹어 주세요";
+"daily_start.instruction.no3" = "측정이 끝날 때까지 자세를 유지해 주세요";
 
 /* MeasureView(Loading) */
 "daily_start.instruction.no1" = "한 쪽 다리를 최대한 굽히고 앉아 주세요";

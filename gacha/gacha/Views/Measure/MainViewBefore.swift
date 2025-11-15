@@ -26,7 +26,7 @@ struct MainViewBefore: View {
                         .scaledToFit()
                         .frame(width: 240, height: 240)
                     // 첫 번째 화면 안내 문구
-                    instructionTextPage1
+                    PostureInstructionComponent(index: 1)
                 } else {
 
                     Image("leg")
@@ -34,7 +34,7 @@ struct MainViewBefore: View {
                         .scaledToFit()
                         .frame(width: 240, height: 240)
                     // 두 번째 화면 안내 문구
-                    instructionTextPage2
+                    PostureInstructionComponent(index: 2)
                 }
             }
             .frame(width: 361)
@@ -101,48 +101,6 @@ struct MainViewBefore: View {
             // 화면이 나타날 때마다 첫 번째 화면으로 초기화
             currentPage = 0
         }
-    }
-
-    // MARK: - Instruction Text Views
-
-    private var instructionTextPage1: some View {
-        VStack(spacing: 12) {
-            Text(Strings.DailyStart.instructionNo1Emphasis)
-                .font(.displayTitle3Bold)
-                .foregroundStyle(Color(.blue800))
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(Strings.DailyStart.instructionNo2)
-                .font(.displayTitle3Regular)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(Strings.DailyStart.instructionNo3)
-                .font(.displayTitle3Regular)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 20)
-        .background(.blue100)
-        .cornerRadius(20)
-        .multilineTextAlignment(.leading)
-    }
-
-    private var instructionTextPage2: some View {
-        VStack(spacing: 12) {
-            Text(Strings.DailyStart.instructionNo1Emphasis)
-                .font(.displayTitle3Regular)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(Strings.DailyStart.instructionNo2)
-                .font(.displayTitle3Bold)
-                .foregroundStyle(Color(.blue800))
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(Strings.DailyStart.instructionNo3)
-                .font(.displayTitle3Regular)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 20)
-        .background(.blue100)
-        .cornerRadius(20)
-        .multilineTextAlignment(.leading)
     }
 }
 
