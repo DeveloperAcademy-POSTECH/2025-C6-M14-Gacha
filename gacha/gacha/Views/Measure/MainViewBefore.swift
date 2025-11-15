@@ -42,7 +42,7 @@ struct MainViewBefore: View {
                     if currentPage == 0 {
                         // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
                         CapsuleButtonComponent(
-                            title: Strings.Button.measureStart,
+                            title: Strings.Button.measure,
                             style: .primary,
                             width: 361,
                             height: 54,
@@ -56,7 +56,7 @@ struct MainViewBefore: View {
                     } else {
                         // 두 번째 화면: "측정하기" 버튼 (primary style, 100px cornerRadius)
                         CapsuleButtonComponent(
-                            title: Strings.Button.measure,
+                            title: Strings.Button.measureStart,
                             style: .primary,
                             width: 361,
                             height: 54,
