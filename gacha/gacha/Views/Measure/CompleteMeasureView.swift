@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct CompleteMeasure: View {
+struct CompleteMeasureView: View {
     @EnvironmentObject var vm: MeasureViewModel
     @State private var showingAlert = false
 
@@ -17,7 +17,7 @@ struct CompleteMeasure: View {
             VStack {
                 VStack(spacing: 60) {
                     ZStack {
-                        Text(Strings.Flexion.measured)
+                        Text(Strings.Flexion.flexionMeasured)
                             .font(.roundedExtraLargeBold)
                             .foregroundStyle(Color("Blue800"))
                     }
@@ -153,6 +153,6 @@ struct CompleteMeasure: View {
     )
     let viewModel = MeasureViewModel(repository: repository)
 
-    return CompleteMeasure()
+    return CompleteMeasureView()
         .environmentObject(viewModel)
 }

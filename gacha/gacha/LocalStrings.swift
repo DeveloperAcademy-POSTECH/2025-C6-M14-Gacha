@@ -2,7 +2,7 @@
 //  LocalStrings.swift
 //  gacha
 //
-//  Created by 차원준 on 10/29/25.
+//  Created by 김순주 on 11/12/25.
 //
 
 /*
@@ -61,25 +61,23 @@ enum Strings {
     // MARK: - MainBefore
     enum DailyStart {
         static var title: String { NSLocalizedString("daily_start.title", comment: "") }
-        static var instructionNo1Emphasis: String { NSLocalizedString("daily_start.instruction.no1.emphasis", comment: "") }
+        static var instructionNo1: String { NSLocalizedString("daily_start.instruction.no1", comment: "") }
         static var instructionNo2: String { NSLocalizedString("daily_start.instruction.no2", comment: "") }
         static var instructionNo3: String { NSLocalizedString("daily_start.instruction.no3", comment: "") }
     }
     
-    // MARK: - MeasureView (Loading)
-    enum Measure {
-        static var instructionNo1: String { NSLocalizedString("daily_start.instruction.no1", comment: "") }
-        static var instructionNo2Emphasis: String { NSLocalizedString("daily_start.instruction.no2.emphasis", comment: "") }
-        static var instructionNo3Countdown: String { NSLocalizedString("daily_start.instruction.no3.countdown", comment: "") }
+    // MARK: - CountdownView
+    enum Countdown {
+        static var emphasisText: String { NSLocalizedString("measure.countdown.emphasis_text", comment: "") }
+        static var description: String { NSLocalizedString("measure.countdown.description", comment: "")
+        }
     }
     
     // MARK: - FlexionMeasureView
     enum Flexion {
-        static var titleMeasuring: String { NSLocalizedString("daily_start.flexion.title.measuring", comment: "") }
-        static var measuringEmphasis: String { NSLocalizedString("daily_start.flexion.measuring.emphasis", comment: "") }
-        static var instructionNo3Emphasis: String { NSLocalizedString("daily_start.instruction.no3.emphasis", comment: "") }
-        static var titleMeasured: String { NSLocalizedString("daily_start.flexion.title.measured", comment: "") }
-        static var measured: String { NSLocalizedString("daily_start.flexion.measured", comment: "") }
+        static var title: String { NSLocalizedString("measure.flexion.title", comment: "") }
+        static var flexionMeasuring: String { NSLocalizedString("measure.flexion.measuring", comment: "") }
+        static var flexionMeasured: String { NSLocalizedString("measure.flexion.measured", comment: "") }
     }
     
     // MARK: - Pain Level View
@@ -205,32 +203,35 @@ enum Strings {
     enum History {
         static var summaryTitle: String { NSLocalizedString("history.summary.title", comment: "") }
 
-        // ROM Change (Summary Card)
-        static func romBetter(days: Int, degrees: Int) -> String {
-            String(format: NSLocalizedString("history.rom_change_increased", comment: ""), days, degrees)
+        // Card - ROM
+        static var cardRomTitle: String { NSLocalizedString("history.card.rom.title", comment: "") }
+        static func cardRomBetter(days: Int, degrees: Int) -> String {
+            String(format: NSLocalizedString("history.card.rom.better", comment: ""), days, degrees)
         }
-        static func romWorse(days: Int, degrees: Int) -> String {
-            String(format: NSLocalizedString("history.rom_change_decreased", comment: ""), days, degrees)
+        static func cardRomSame(days: Int) -> String {
+            String(format: NSLocalizedString("history.card.rom.same", comment: ""), days)
         }
-        static func romUnder2Emphasized(days: Int) -> String {
-            String(format: NSLocalizedString("history.rom_change_under2_days", comment: ""), days)
+        static func cardRomWorse(days: Int, degrees: Int) -> String {
+            String(format: NSLocalizedString("history.card.rom.worse", comment: ""), days, degrees)
         }
-        static var romUnder2Description: String {
-            NSLocalizedString("history.rom_change_under2_description", comment: "")
+        static func cardRomUnder2Days(days: Int) -> String {
+            String(format: NSLocalizedString("history.card.rom.under2Days", comment: ""), days)
         }
+        static var cardRomUnder2: String { NSLocalizedString("history.card.rom.under2", comment: "") }
 
-        // Pain Change (Summary Card)
-        static func painBetter(levels: Int) -> String {
-            String(format: NSLocalizedString("history.pain_change_decreased", comment: ""), levels)
+        // Card - Pain
+        static var cardPainTitle: String { NSLocalizedString("history.card.pain.title", comment: "") }
+        static func cardPainBetter(levels: Int) -> String {
+            String(format: NSLocalizedString("history.card.pain.better", comment: ""), levels)
         }
-        static func painWorse(levels: Int) -> String {
-            String(format: NSLocalizedString("history.pain_change_increased", comment: ""), levels)
+        static var cardPainSame: String { NSLocalizedString("history.card.pain.same", comment: "") }
+        static func cardPainWorse(levels: Int) -> String {
+            String(format: NSLocalizedString("history.card.pain.worse", comment: ""), levels)
         }
-        static var painNoRecord: String {
-            NSLocalizedString("history.pain_change_first_record", comment: "")
-        }
+        static var cardPainNoRecord: String { NSLocalizedString("history.card.pain.no_record", comment: "") }
+        static var cardPainFirstRecord: String { NSLocalizedString("history.card.pain.first_record", comment: "") }
 
-        // Chart
+        // Chart - ROM
         static var chartRomTitle: String { NSLocalizedString("history.chart.rom.title", comment: "") }
         static func chartRomBetter(prevMax: Int, improvement: Int) -> String {
             String(format: NSLocalizedString("history.chart.rom.better", comment: ""), prevMax, improvement)
@@ -246,6 +247,7 @@ enum Strings {
             String(format: NSLocalizedString("history.chart.rom.first_record", comment: ""), angle)
         }
 
+        // Chart - Pain
         static var chartPainTitle: String { NSLocalizedString("history.chart.pain.title", comment: "") }
         static func chartPainBetter(improvement: Int, from: Int) -> String {
             String(format: NSLocalizedString("history.chart.pain.better", comment: ""), improvement, from)
@@ -254,19 +256,11 @@ enum Strings {
             String(format: NSLocalizedString("history.chart.pain.same", comment: ""), level)
         }
         static func chartPainWorse(increase: Int, from: Int) -> String {
-            String(format: NSLocalizedString("history.chart.pain.worse", comment: ""), increase, from)
+            String(format: NSLocalizedString("history.chart.pain.worse", comment: ""), from, increase)
         }
         static var chartPainNoRecord: String { NSLocalizedString("history.chart.pain.no_record", comment: "") }
         static func chartPainFirstRecord(level: Int) -> String {
             String(format: NSLocalizedString("history.chart.pain.first_record", comment: ""), level)
         }
-
-        // Common (Chart와 Card에서 공통 사용)
-        static var romTitle: String { NSLocalizedString("history.rom.title", comment: "") }
-        static var painTitle: String { NSLocalizedString("history.pain.title", comment: "") }
-        static func romSame(days: Int) -> String {
-            "지난 \(days)일간 변화 없음"
-        }
-        static var painSame: String { "이전과 동일" }
     }
 }

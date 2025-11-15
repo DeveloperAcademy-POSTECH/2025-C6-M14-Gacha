@@ -26,7 +26,7 @@ struct PostureInstructionComponent: View {
             HStack (spacing: 4) {
                 Image(systemName: "1.circle")
                     .font(index == 1 ? .displayTitle3Bold : .displayBodyRegular)
-                Text(Strings.DailyStart.instructionNo1Emphasis)
+                Text(Strings.DailyStart.instructionNo1)
                     .font(index == 1 ? .displayTitle3Bold : .displayBodyRegular)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }

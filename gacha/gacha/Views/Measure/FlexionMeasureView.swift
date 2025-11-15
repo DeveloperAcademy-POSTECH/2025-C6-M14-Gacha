@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct FlexionMeasure: View {
+struct FlexionMeasureView: View {
     @EnvironmentObject var vm: MeasureViewModel
     @State private var showingAlert = false
 
@@ -46,7 +46,7 @@ struct FlexionMeasure: View {
             GeometryReader { geometry in
                 VStack(spacing: 60) {
                     ZStack {
-                        Text(Strings.Flexion.measuringEmphasis)
+                        Text(Strings.Flexion.flexionMeasuring)
                             .font(.roundedExtraLargeBold)
                             .foregroundStyle(Color("Blue800"))
                     }
@@ -131,6 +131,6 @@ struct FlexionMeasure: View {
     )
     let viewModel = MeasureViewModel(repository: repository)
 
-    return FlexionMeasure()
+    return FlexionMeasureView()
         .environmentObject(viewModel)
 }

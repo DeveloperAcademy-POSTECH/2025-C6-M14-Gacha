@@ -208,7 +208,6 @@ struct History: View {
                     .font(.displayCaption1Semibold)
                     .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
-
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
@@ -326,7 +325,7 @@ struct History: View {
 
                 // 헤더
                 HStack {
-                    Text(Strings.History.romTitle)
+                    Text(Strings.History.cardRomTitle)
                         .font(.displayBodyBold)
                         .foregroundColor(Color("Blue700"))
                     Spacer()
@@ -338,7 +337,7 @@ struct History: View {
                 HStack(spacing: 0) {
                     Spacer()
                     if vm.recentRecords.count < 2 {
-                        Text("\(vm.recentRecords.count)일째")
+                        Text(Strings.History.cardRomUnder2Days(days: vm.recentRecords.count))
                             .font(.displayTitle1Bold)
                     } else if let first = vm.firstROM, let latest = vm.latestROM
                     {
@@ -355,7 +354,7 @@ struct History: View {
                 // 변화 설명 텍스트
                 Text(
                     vm.recentRecords.count < 2
-                        ? Strings.History.romUnder2Description
+                    ? Strings.History.cardRomUnder2
                         : vm.romChangeText
                 )
                 .font(
@@ -385,7 +384,7 @@ struct History: View {
             VStack(alignment: .leading) {
                 // 헤더
                 HStack {
-                    Text(Strings.History.painTitle)
+                    Text(Strings.History.cardPainTitle)
                         .font(.displayBodyBold)
                         .foregroundColor(Color("Blue700"))
                     Spacer()
@@ -439,7 +438,7 @@ struct History: View {
                 // 변화 설명 텍스트
                 Text(
                     vm.recentRecords.count < 2
-                        ? Strings.History.painNoRecord
+                        ? Strings.History.cardPainNoRecord
                         : vm.painChangeText
                 )
                 .font(

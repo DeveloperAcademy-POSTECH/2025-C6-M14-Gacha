@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct MeasureLoading: View {
+struct CountdownView: View {
     @EnvironmentObject var vm: MeasureViewModel
 
     @State private var countdown: Int = 3
@@ -22,10 +22,10 @@ struct MeasureLoading: View {
                 CountdownNumber
                 
                 VStack(spacing: 20) {
-                    Text(Strings.Measure.instructionNo1)
+                    Text(Strings.Countdown.emphasisText)
                         .font(.displayTitle1Bold)
                         .foregroundStyle(Color(.blue800))
-                    Text(Strings.Measure.instructionNo2Emphasis)
+                    Text(Strings.Countdown.description)
                         .font(.displayTitle3Regular)
                 }
             }
@@ -88,7 +88,7 @@ struct MeasureLoading: View {
     )
     let viewModel = MeasureViewModel(repository: repository)
 
-    MeasureLoading()
+    CountdownView()
         .environmentObject(viewModel)
 }
 
