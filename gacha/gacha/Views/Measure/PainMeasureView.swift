@@ -68,7 +68,7 @@ struct PainMeasureView: View {
                 VStack(spacing: verticalSpacing) {
                     ArcSlider(value: $value)
                         .frame(height: sliderHeight)
-                        .padding(.bottom, isCompact ? 30 : 50)
+                        .padding(.bottom, isCompact ? 30 : 60)
                     HStack {
                         Text("0")
                         Spacer()
@@ -85,7 +85,8 @@ struct PainMeasureView: View {
                     Text(Strings.Pain.description)
                     CapsuleButtonComponent(
                         title: Strings.Common.confirm,
-                        style: .primary
+                        style: .primary,
+                        width: geo.size.width - 40
                     ) {
                         Task {
                             if vm.hasTodayRecord {
@@ -114,7 +115,7 @@ struct PainMeasureView: View {
                             }
                         }
                     }
-                    .padding(.horizontal, 40)
+                    .padding(.horizontal, 20)
                     .padding(.bottom, bottomPadding)
                 }
             }

@@ -107,7 +107,7 @@ struct CapsuleButtonComponent: View {
         
         CapsuleButtonComponent(
             title: "Disabled Button",
-            style: .primary,
+            style: .light,
             isEnabled: false
         ) {
             print("This won't be called")

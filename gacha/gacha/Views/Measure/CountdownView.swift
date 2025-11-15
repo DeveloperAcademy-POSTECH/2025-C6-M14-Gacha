@@ -27,6 +27,7 @@ struct CountdownView: View {
                         .foregroundStyle(Color(.blue800))
                     Text(Strings.Countdown.description)
                         .font(.displayTitle3Regular)
+                        .multilineTextAlignment(.center)
                 }
             }
             
@@ -35,6 +36,7 @@ struct CountdownView: View {
             CapsuleButtonComponent(
                 title: Strings.Common.cancel,
                 style: .light,
+                width: UIScreen.main.bounds.width - 40,
                 action: {
                     vm.stopSensor()
                     vm.dismissMeasureFlow()
