@@ -330,12 +330,6 @@ struct History: View {
                         .font(.displayBodyBold)
                         .foregroundColor(Color("Blue700"))
                     Spacer()
-                    Button {
-                    } label: {
-                        Image(systemName: "chevron.right")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(Color("Gray500"))
-                    }
                 }
 
                 Spacer()
@@ -395,12 +389,6 @@ struct History: View {
                         .font(.displayBodyBold)
                         .foregroundColor(Color("Blue700"))
                     Spacer()
-                    Button {
-                    } label: {
-                        Image(systemName: "chevron.right")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(Color("Gray500"))
-                    }
                 }
 
                 Spacer()
@@ -417,8 +405,11 @@ struct History: View {
                         HStack(spacing: 0) {
                             Rectangle()
                                 .fill(Color("Blue900"))
-                                .frame(width: CGFloat(first) * 15, height: 3)
+                                .frame(width: CGFloat(first) * 10, height: 3)
                                 .cornerRadius(4)
+                            Circle()
+                                .fill(Color("Blue900"))
+                                .frame(width: 10, height: 10)
                             Spacer()
                             Text("\(first)")
                                 .font(.system(size: 17, weight: .bold))
@@ -429,8 +420,11 @@ struct History: View {
                         HStack(spacing: 0) {
                             Rectangle()
                                 .fill(Color("Blue700"))
-                                .frame(width: CGFloat(latest) * 15, height: 3)
+                                .frame(width: CGFloat(latest)     * 10, height: 3)
                                 .cornerRadius(4)
+                            Circle()
+                                .fill(Color("Blue700"))
+                                .frame(width: 10, height: 10)
                             Spacer()
                             Text("\(latest)")
                                 .font(.system(size: 17, weight: .bold))
