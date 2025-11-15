@@ -42,7 +42,7 @@ struct MainViewBefore: View {
                     if currentPage == 0 {
                         // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
                         CapsuleButtonComponent(
-                            title: Strings.Button.measure,
+                            title: Strings.Button.next,
                             style: .primary,
                             width: 361,
                             height: 54,
@@ -65,7 +65,7 @@ struct MainViewBefore: View {
                             vm.shouldAutoStartMeasure = true
                             // 홈에서 FlexionMeasure로 시작하는 측정 플로우
                             vm.startMeasureFlow(
-                                initialStep: .measureLoading,
+                                initialStep: .countdown,
                                 from: .home
                             )
                         }

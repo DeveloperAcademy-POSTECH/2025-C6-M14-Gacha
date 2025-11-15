@@ -1,10 +1,10 @@
 /*
- Localizable.strings
- gacha
+  Localizable.strings
+  gacha
  
- Created by 김순주 on 11/12/25.
+  Created by 김순주 on 11/14/25.
  
- */
+  */
 
 /* Common */
 "common.yes" = "네";
@@ -13,11 +13,13 @@
 "common.confirm" = "확인";
 
 /* Button */
+"button.next" = "다음";
 "button.measure" = "측정하러 가기";
 "button.measure.start" = "측정 시작";
 "button.retake" = "다시 측정하기";
 "button.pain_only" = "통증 수치만 입력하기";
 "button.save" = "저장";
+"button.cancel" = "취소";
 
 /* tabbar */
 "tabbar.calendar" = "기록";
@@ -28,19 +30,19 @@
 "alert.cancel.flexion.title" = "무릎 굽힘 측정을 취소하시겠어요?";
 "alert.cancel.flexion.message" = "처음 화면으로 되돌아가요";
 "alert.cancel.pain.title" = "통증 기록을 취소하시겠어요?";
-"alert.cancel.pain.message" = "무릎 굽힘 각도만 기록되고, 처음 화면으로 되돌아가요";
+"alert.cancel.pain.message" = "처음 화면으로 되돌아가요";
 "alert.remeasure.title" = "다시 측정하시겠어요?";
 "alert.remeasure.message" = "새로 측정한 내용이 오늘의 기록으로 업데이트되어 저장돼요.";
 
 /* MainBefore - 1/2 */
 "daily_start.title" = "측정 준비하기";
-"daily_start.instruction.no1" = "측정할 무릎을 최대한 굽히고 앉아 주세요";
-"daily_start.instruction.no2" = "iPhone을 무릎 쪽 허벅지 위에 얹어 주세요";
-"daily_start.instruction.no3" = "측정이 끝날 때까지 자세를 유지해 주세요";
+"daily_start.instruction.no1" = "측정할 무릎을 최대한 굽혀 앉아주세요";
+"daily_start.instruction.no2" = "iPhone을 무릎 쪽 허벅지에 얹어주세요";
+"daily_start.instruction.no3" = "측정이 끝날 때까지 자세를 유지해주세요";
 
 /* CountdownView */
-"measure.countdown.emphasis_text" = "강조될 텍스트";
-"measure.countdown.description" = "설명이 들어갈 부분";
+"measure.countdown.emphasis_text" = "잠시 후 측정이 시작돼요";
+"measure.countdown.description" = "iPhone을 무릎 쪽 허벅지에 얹은 채\n자세를 유지해주세요";
 
 /* FlexionMeasureView - 측정중 */
 "measure.flexion.title" = "무릎 굽힘 측정";
@@ -49,7 +51,7 @@
 
 /* PainLevelView */
 "pain.title" = "통증 기록";
-"pain.description" = "슬라이더를 움직여 통증 정도를 선택하세요";
+"pain.description" = "슬라이더를 움직여 오늘 느낀 통증을 선택하세요";
 
 /* Pain Categories */
 "pain.category.0" = "통증 없음";
@@ -119,19 +121,19 @@
 
 /* History Summary Card - ROM Change */
 "history.card.rom.title" = "무릎 굽힘 범위";
-"history.card.rom.better" = "지난 %d일간\n무릎 굽힘 범위가\n%d도 늘어났어요!";
-"history.card.rom.same" = "지난 %d일간 무릎 굽힘 범위가 유지되고 있어요";
-"history.card.rom.worse" = "지난 %d일간\n무릎 굽힘 범위가\n%d도 줄었어요";
-"history.card.rom.under2Days" = "%d일째";
-"history.card.rom.under2" = "3일째 측정부터 변화를 확인할 수 있어요";
+"history.card.rom.better" = "%d일 전보다 %d도\n더 움직일 수 있어요!";
+"history.card.rom.same" = "지난 %d일간 움직이는 범위가 유지되고 있어요";
+"history.card.rom.worse" = "%d일 전보다 %d도\n덜 움직여요";
+"history.card.rom.under2Days" = "%d일째 측정";
+"history.card.rom.under2" = "이틀만 측정해도\n변화를 알 수 있어요";
 
 /* History Summary Card - Pain Change */
 "history.card.pain.title" = "통증 정도";
-"history.card.pain.better" = "처음에 비해\n통증이\n%d단계 줄었어요!";
-"history.card.pain.same" = "통증이 일정하게 유지되고 있어요";
-"history.card.pain.worse" = "처음에 비해\n통증이\n%d단계 커졌어요";
-"history.card.pain.no_record" = "첫 기록을 남겨\n보세요.\nAnggle과 함께\n몸의 변화를 기록해봐요!";
-"history.card.pain.first_record" = "처음 기록을\n남기셨군요.\n회복을 향한 첫걸음을\nAnggle이 응원해요!";
+"history.card.pain.better" = "처음보다 %d단계\n덜 아파졌어요!";
+"history.card.pain.same" = "통증이 일정하게\n유지되고 있어요";
+"history.card.pain.worse" = "처음보다 %d단계\n더 아파졌어요";
+"history.card.pain.no_record" = "첫 기록을 남겨보세요.\nAnggle과 함께\n변화를 기록해봐요!";
+"history.card.pain.first_record" = "처음 기록을\n남기셨군요.\n회복을 향한 첫걸음\nAnggle이 응원해요!";
 
 /* History Summary Chart - ROM Change */
 "history.chart.rom.title" = "무릎 굽힘 범위";
@@ -143,8 +145,8 @@
 
 /* History Summary Chart - Pain Change */
 "history.chart.pain.title" = "통증 정도";
-"history.chart.pain.better" = "이 기간 가장 낮았던 %d보다 %d단계 덜 아파졌어요";
-"history.chart.pain.same" = "이 기간 가장 낮았던 %d단계의 통증과 같아요";
-"history.chart.pain.worse" = "이 기간 가장 낮았던 %d보다 %d단계 더 아파졌어요";
+"history.chart.pain.better" = "이 기간 최저 통증인 %d단계보다 %d단계 덜 아파졌어요";
+"history.chart.pain.same" = "이 기간 최저 통증인 %d단계와 같아요";
+"history.chart.pain.worse" = "이 기간 최저 통증인 %d단계보다 %d단계 더 아파졌어요";
 "history.chart.pain.no_record" = "첫 기록을 남겨 주세요";
-"history.chart.pain.first_record" = "현재 통증 정도는 %d단계예요";
+"history.chart.pain.first_record" = "현재 %d단계의 통증을 느끼고 있어요";

@@ -89,27 +89,27 @@ struct FlexionMeasureView: View {
         case 0..<20:
             colors = [
                 Color("Blue100"),
-                Color("Blue100").opacity(0.9)
+                Color("Blue100").opacity(0.8)
             ]
         case 20..<40:
             colors = [
                 Color("Blue200"),
-                Color("Blue200").opacity(0.9)
+                Color("Blue200").opacity(0.8)
             ]
         case 40..<60:
             colors = [
                 Color("Blue300"),
-                Color("Blue300").opacity(0.9)
+                Color("Blue300").opacity(0.8)
             ]
         case 60..<80:
             colors = [
                 Color("Blue400"),
-                Color("Blue400").opacity(0.9)
+                Color("Blue400").opacity(0.8)
             ]
         default:  // 80~100
             colors = [
                 Color("Blue500"),
-                Color("Blue500").opacity(0.9)
+                Color("Blue500").opacity(0.8)
             ]
         }
         

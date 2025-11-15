@@ -1,10 +1,10 @@
 /*
- Localizable.strings
- gacha
+  Localizable.strings
+  gacha
  
- Created by 김순주 on 11/12/25.
+  Created by 김순주 on 11/14/25.
  
- */
+  */
 
 /* Common */
 "common.yes" = "Yes";
@@ -13,14 +13,16 @@
 "common.confirm" = "Confirm";
 
 /* Button */
+"button.next" = "Next";
 "button.measure" = "Go to Measure";
 "button.measure.start" = "Start Measurement";
 "button.retake" = "Measure Again";
 "button.pain_only" = "Enter Pain Only";
 "button.save" = "Save";
+"button.cancel" = "Cancel";
 
 /* Tabbar */
-"tabbar.calendar" = "Records";
+"tabbar.calendar" = "Calendar";
 "tabbar.measure" = "Measure";
 "tabbar.summary" = "Summary";
 
@@ -28,14 +30,14 @@
 "alert.cancel.flexion.title" = "Cancel knee flexion measurement?";
 "alert.cancel.flexion.message" = "Return to the first screen";
 "alert.cancel.pain.title" = "Cancel pain record?";
-"alert.cancel.pain.message" = "Only knee flexion angle will be recorded, and you will return to the first screen";
+"alert.cancel.pain.message" = "Return to the first screen";
 "alert.remeasure.title" = "Measure again?";
 "alert.remeasure.message" = "The new measurement will update today's record";
 
 /* MainBefore - 1/2 */
 "daily_start.title" = "Prepare to Measure";
 "daily_start.instruction.no1" = "Sit and bend your knee fully";
-"daily_start.instruction.no2" = "Place iPhone on the thigh near the knee";
+"daily_start.instruction.no2" = "Place iPhone on thigh near the knee";
 "daily_start.instruction.no3" = "Hold still until measurement ends";
 
 /* CountdownView */
@@ -49,7 +51,7 @@
 
 /* PainLevelView */
 "pain.title" = "Record Pain Level";
-"pain.description" = "Move the slider to select your pain level";
+"pain.description" = "Move slider to select your pain level";
 
 /* Pain Categories */
 "pain.category.0" = "No pain";
@@ -82,6 +84,7 @@
 
 "progress.better_nopain.title" = "Recovery Going Well";
 "progress.better_nopain.description" = "Movement is smooth.\nNo pain, recovery is progressing.";
+
 "progress.better_mildpain.title" = "Positive Progress";
 "progress.better_mildpain.description" = "Slight stiffness is okay.\nMove slowly and steadily.";
 "progress.better_moderatepain.title" = "Check with Specialist";
@@ -118,32 +121,32 @@
 
 /* History Summary Card - ROM Change */
 "history.card.rom.title" = "Knee Flexion Range";
-"history.card.rom.better" = "Over past %d days, flexion improved by %d°!";
-"history.card.rom.same" = "Flexion maintained over past %d days";
-"history.card.rom.worse" = "Over past %d days, flexion decreased by %d°";
-"history.card.rom.under2Days" = "%dDays";
-"history.card.rom.under2" = "Changes visible after 3rd day";
+"history.card.rom.better" = "Flexion up %d°\n in %d days!";
+"history.card.rom.same" = "Flexion stayed steady\nfor %d days";
+"history.card.rom.worse" = "Flexion decreased\n%d° in %d days";
+"history.card.rom.under2Days" = "Day %d";
+"history.card.rom.under2" = "Changes appear\nafter 2 days";
 
 /* History Summary Card - Pain Change */
 "history.card.pain.title" = "Pain Level";
-"history.card.pain.better" = "Pain reduced by %d levels since start!";
-"history.card.pain.same" = "Pain has remained steady";
-"history.card.pain.worse" = "Pain increased by %d levels since start";
-"history.card.pain.no_record" = "Make your first record!\nTrack changes with Anggle";
-"history.card.pain.first_record" = "First record made!\nAnggle supports your first recovery step!";
+"history.card.pain.better" = "Pain reduced by\n%d steps since start!";
+"history.card.pain.same" = "Pain has remained\nsteady";
+"history.card.pain.worse" = "Pain increased by\n%d steps since start";
+"history.card.pain.no_record" = "Make your first record!\nTrack changes\nwith Anggle";
+"history.card.pain.first_record" = "First record made!\nAnggle supports your\nfirst recovery step!";
 
 /* History Summary Chart - ROM Change */
 "history.chart.rom.title" = "Knee Flexion Range";
 "history.chart.rom.better" = "You can flex %d° more than previous %d°";
 "history.chart.rom.same" = "Same as previous max %d°";
 "history.chart.rom.worse" = "You moved %d° less than previous %d°";
-"history.chart.rom.no_record" = "Complete your first measurement";
-"history.chart.rom.first_record" = "Current flexion: %d°";
+"history.chart.rom.no_record" = "Take your first measurement";
+"history.chart.rom.first_record" = "Your knee bend up to %d°";
 
 /* History Summary Chart - Pain Change */
 "history.chart.pain.title" = "Pain Level";
-"history.chart.pain.better" = "Pain reduced by %d levels from %d";
+"history.chart.pain.better" = "Pain reduced by %d steps from %d";
 "history.chart.pain.same" = "Same pain level as previous %d";
-"history.chart.pain.worse" = "Pain increased by %d levels from %d";
+"history.chart.pain.worse" = "Pain increased by %d steps from %d";
 "history.chart.pain.no_record" = "Make your first record";
-"history.chart.pain.first_record" = "Current pain level: %d";
+"history.chart.pain.first_record" = "You’re feeling pain at level %d";

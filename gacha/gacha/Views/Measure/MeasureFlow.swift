@@ -131,7 +131,7 @@ struct MeasureFlow: View {
         case .home:
             homeView()
 
-        case .measureLoading:
+        case .countdown:
             CountdownView()
                 .navigationBarBackButtonHidden(true)
                 .navigationTitle(Strings.Flexion.title)
