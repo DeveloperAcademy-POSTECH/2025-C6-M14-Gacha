@@ -85,6 +85,14 @@ struct History: View {
                         .padding(.horizontal, 20)
                         .padding(.top, 20)
                         .padding(.bottom, 20)
+                        
+                        // 크레딧
+                        VStack(spacing: 4) {
+                            Text("Team Anggle©")
+                            Text("v2.0.1")
+                        }
+                        .padding(.vertical, 40)
+                        .foregroundColor(.gray500)
                     }
                 }
 
@@ -332,20 +340,13 @@ struct History: View {
                         .font(.displayTitle3Semibold)
                 } else if let first = vm.firstROM, let latest = vm.latestROM {
                     // 기록이 여러 개일 때
+                    let change = latest - first
                     HStack(spacing: 0) {
-                        Text("\(first)°")
-                            .font(.roundedTitle2Semibold)
-                            .foregroundColor(Color("Gray700"))
-
-                        Image(systemName: "arrow.right")
-                            .font(.roundedTitle2Semibold)
-                            .foregroundColor(Color("Gray700"))
-
-                        Text("\(latest)°")
+                        Spacer()
+                        Text("\(change > 0 ? "+" : "")\(change)°")
                             .font(.roundedLargeSemibold)
                             .foregroundColor(Color("Gray900"))
                     }
-
                 }
 
                 Spacer()
