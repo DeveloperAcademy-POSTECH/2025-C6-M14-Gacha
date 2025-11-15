@@ -92,7 +92,7 @@ class HistoryViewModel: ObservableObject {
         guard recentRecords.count > 1,
               let change = romChange,
               change != 0 else {
-            return ""
+            return Strings.History.romSame(days: daysBetweenRecords)
         }
 
         if change > 0 {
@@ -172,7 +172,7 @@ class HistoryViewModel: ObservableObject {
     var painChangeText: String {
         guard let change = painChange,
               change != 0 else {
-            return ""
+            return Strings.History.painSame
         }
 
         if change > 0 {
