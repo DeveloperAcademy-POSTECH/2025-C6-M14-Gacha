@@ -134,19 +134,19 @@ struct MeasureFlow: View {
         case .measureLoading:
             MeasureLoading()
                 .navigationBarBackButtonHidden(true)
-                .navigationTitle(Strings.Flexion.titleMeasuring)
+                .navigationTitle(Strings.Flexion.title)
                 .navigationBarTitleDisplayMode(.inline)
 
         case .flexionMeasure:
             FlexionMeasure()
                 .navigationBarBackButtonHidden(true)
-                .navigationTitle(Strings.Flexion.titleMeasuring)
+                .navigationTitle(Strings.Flexion.title)
                 .navigationBarTitleDisplayMode(.inline)
 
         case .completeMeasure:
             CompleteMeasure()
                 .navigationBarBackButtonHidden(true)
-                .navigationTitle(Strings.Flexion.titleMeasured)
+                .navigationTitle(Strings.Flexion.title)
                 .navigationBarTitleDisplayMode(.inline)
 
         case .painLevel:

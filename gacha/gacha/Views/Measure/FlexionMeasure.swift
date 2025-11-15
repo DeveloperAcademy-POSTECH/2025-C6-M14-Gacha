@@ -46,7 +46,7 @@ struct FlexionMeasure: View {
             GeometryReader { geometry in
                 VStack(spacing: 60) {
                     ZStack {
-                        Text(Strings.Flexion.measuringEmphasis)
+                        Text(Strings.Flexion.flexionMeasuring)
                             .font(.roundedExtraLargeBold)
                             .foregroundStyle(Color("Blue800"))
                     }

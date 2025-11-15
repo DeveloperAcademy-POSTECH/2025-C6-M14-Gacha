@@ -2,7 +2,7 @@
  Localizable.strings
  gacha
  
- Created by 차원준 on 10/29/25.
+ Created by 김순주 on 11/12/25.
  
  */
 
@@ -28,29 +28,24 @@
 "alert.cancel.flexion.title" = "Cancel knee flexion measurement?";
 "alert.cancel.flexion.message" = "Return to the first screen";
 "alert.cancel.pain.title" = "Cancel pain record?";
-"alert.cancel.pain.message" = "Only knee flexion angle will be recorded\nReturn to the first screen";
+"alert.cancel.pain.message" = "Only knee flexion angle will be recorded, and you will return to the first screen";
 "alert.remeasure.title" = "Measure again?";
 "alert.remeasure.message" = "The new measurement will update today's record";
 
 /* MainBefore - 1/2 */
 "daily_start.title" = "Prepare to Measure";
-"daily_start.instruction.no1.emphasis" = "① Sit and bend your knee fully";
-"daily_start.instruction.no2" = "② Place iPhone on the thigh near the knee";
-"daily_start.instruction.no3" = "③ Hold still until measurement ends";
+"daily_start.instruction.no1" = "Sit and bend your knee fully";
+"daily_start.instruction.no2" = "Place iPhone on the thigh near the knee";
+"daily_start.instruction.no3" = "Hold still until measurement ends";
 
-/* MeasureView(Loading) */
-"daily_start.instruction.no1" = "Sit and bend one leg fully";
-"daily_start.instruction.no2.emphasis" = "Place iPhone on your thigh";
-"daily_start.instruction.no3.countdown" = "Hold the position for 3 seconds";
+/* CountdownView */
+"measure.countdown.emphasis_text" = "Get Ready";
+"measure.countdown.description" = "Hold still and prepare for measurement.";
 
 /* FlexionMeasureView - Measuring */
-"daily_start.flexion.title.measuring" = "Knee Flexion Measurement";
-"daily_start.flexion.measuring.emphasis" = "Measuring";
-"daily_start.instruction.no3.emphasis" = "③ Hold still until measurement ends";
-
-/* FlexionMeasureView - Measured */
-"daily_start.flexion.title.measured" = "Knee Flexion Measurement";
-"daily_start.flexion.measured" = "Completed";
+"measure.flexion.title" = "Knee Flexion Measurement";
+"measure.flexion.measuring" = "Measuring";
+"measure.flexion.measured" = "Completed";
 
 /* PainLevelView */
 "pain.title" = "Record Pain Level";
@@ -122,33 +117,33 @@
 "history.summary.title" = "Summary";
 
 /* History Summary Card - ROM Change */
-"history.rom_change_increased" = "Over past %d days\nflexion improved\nby %d°!";
-"history.rom_change_decreased" = "Over past %d days\nflexion decreased\nby %d°";
-"history.rom_change_under2_days" = "Measurement Days: %d";
-"history.rom_change_under2_description" = "Changes visible\nfrom 3rd measurement!";
+"history.card.rom.title" = "Knee Flexion Range";
+"history.card.rom.better" = "Over past %d days, flexion improved by %d°!";
+"history.card.rom.same" = "Flexion maintained over past %d days";
+"history.card.rom.worse" = "Over past %d days, flexion decreased by %d°";
+"history.card.rom.under2Days" = "%dDays";
+"history.card.rom.under2" = "Changes visible after 3rd day";
 
 /* History Summary Card - Pain Change */
-"history.pain_change_decreased" = "Compared to start\npain reduced\nby %d levels!";
-"history.pain_change_increased" = "Compared to start\npain increased\nby %d levels";
-"history.pain_change_first_record" = "Make your first record!\nTrack body changes\nwith Anggle!";
+"history.card.pain.title" = "Pain Level";
+"history.card.pain.better" = "Pain reduced by %d levels since start!";
+"history.card.pain.same" = "Pain has remained steady";
+"history.card.pain.worse" = "Pain increased by %d levels since start";
+"history.card.pain.no_record" = "Make your first record!\nTrack changes with Anggle";
+"history.card.pain.first_record" = "First record made!\nAnggle supports your first recovery step!";
 
-/* History Chart - Titles */
-"history.chart.rom.title" = "Knee Flexion Range Trend";
-"history.chart.rom.no_record" = "No records available";
-"history.chart.pain.title" = "Pain Level Trend";
-"history.chart.pain.no_record" = "No records available";
-
-/* History - Common */
-"history.rom.title" = "Knee Flexion Range";
-"history.pain.title" = "Pain Level";
-
-/* History Chart - Detailed Messages */
+/* History Summary Chart - ROM Change */
+"history.chart.rom.title" = "Knee Flexion Range";
 "history.chart.rom.better" = "You can flex %d° more than previous %d°";
 "history.chart.rom.same" = "Same as previous max %d°";
 "history.chart.rom.worse" = "You moved %d° less than previous %d°";
+"history.chart.rom.no_record" = "Complete your first measurement";
 "history.chart.rom.first_record" = "Current flexion: %d°";
 
+/* History Summary Chart - Pain Change */
+"history.chart.pain.title" = "Pain Level";
 "history.chart.pain.better" = "Pain reduced by %d levels from %d";
 "history.chart.pain.same" = "Same pain level as previous %d";
 "history.chart.pain.worse" = "Pain increased by %d levels from %d";
+"history.chart.pain.no_record" = "Make your first record";
 "history.chart.pain.first_record" = "Current pain level: %d";

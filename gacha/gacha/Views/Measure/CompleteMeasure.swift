@@ -17,7 +17,7 @@ struct CompleteMeasure: View {
             VStack {
                 VStack(spacing: 60) {
                     ZStack {
-                        Text(Strings.Flexion.measured)
+                        Text(Strings.Flexion.flexionMeasured)
                             .font(.roundedExtraLargeBold)
                             .foregroundStyle(Color("Blue800"))
                     }

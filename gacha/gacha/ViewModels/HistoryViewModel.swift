@@ -92,13 +92,13 @@ class HistoryViewModel: ObservableObject {
         guard recentRecords.count > 1,
               let change = romChange,
               change != 0 else {
-            return Strings.History.romSame(days: daysBetweenRecords)
+            return Strings.History.cardRomSame(days: daysBetweenRecords)
         }
 
         if change > 0 {
-            return Strings.History.romBetter(days: daysBetweenRecords, degrees: abs(change))
+            return Strings.History.cardRomBetter(days: daysBetweenRecords, degrees: abs(change))
         } else {
-            return Strings.History.romWorse(days: daysBetweenRecords, degrees: abs(change))
+            return Strings.History.cardRomWorse(days: daysBetweenRecords, degrees: abs(change))
         }
     }
 
@@ -172,13 +172,13 @@ class HistoryViewModel: ObservableObject {
     var painChangeText: String {
         guard let change = painChange,
               change != 0 else {
-            return Strings.History.painSame
+            return Strings.History.cardPainSame
         }
 
         if change > 0 {
-            return Strings.History.painBetter(levels: abs(change))
+            return Strings.History.cardPainBetter(levels: abs(change))
         } else {
-            return Strings.History.painWorse(levels: abs(change))
+            return Strings.History.cardPainWorse(levels: abs(change))
         }
     }
 

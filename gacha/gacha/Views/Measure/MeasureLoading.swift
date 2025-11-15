@@ -22,10 +22,10 @@ struct MeasureLoading: View {
                 CountdownNumber
                 
                 VStack(spacing: 20) {
-                    Text(Strings.Measure.instructionNo1)
+                    Text(Strings.Countdown.emphasisText)
                         .font(.displayTitle1Bold)
                         .foregroundStyle(Color(.blue800))
-                    Text(Strings.Measure.instructionNo2Emphasis)
+                    Text(Strings.Countdown.description)
                         .font(.displayTitle3Regular)
                 }
             }
