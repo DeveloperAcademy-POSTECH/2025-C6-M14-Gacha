@@ -34,8 +34,9 @@ enum Strings {
     
     // MARK: - Button
     enum Button {
-        static var measure: String { NSLocalizedString("button.measure", comment: "") }
-        static var measureStart: String { NSLocalizedString("button.measure.start", comment: "") }
+        static var next: String { NSLocalizedString("button.next", comment: "") }
+        static var measure: String { NSLocalizedString("button.measure.start", comment: "") }
+        static var measureStart: String { NSLocalizedString("button.next", comment: "") }
         static var retake: String { NSLocalizedString("button.retake", comment: "") }
         static var painOnly: String { NSLocalizedString("button.pain_only", comment: "") }
         static var save: String { NSLocalizedString("button.save", comment: "") }
@@ -227,7 +228,7 @@ enum Strings {
             String(format: NSLocalizedString("history.pain_change_increased", comment: ""), levels)
         }
         static var painNoRecord: String {
-            NSLocalizedString("history.pain_change_first_record", comment: "")
+            NSLocalizedString("history.pain_change_no_record", comment: "")
         }
 
         // Chart

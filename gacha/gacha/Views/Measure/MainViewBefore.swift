@@ -56,7 +56,7 @@ struct MainViewBefore: View {
                     } else {
                         // 두 번째 화면: "측정하기" 버튼 (primary style, 100px cornerRadius)
                         CapsuleButtonComponent(
-                            title: Strings.Button.measure,
+                            title: Strings.Button.next,
                             style: .primary,
                             width: 361,
                             height: 54,
