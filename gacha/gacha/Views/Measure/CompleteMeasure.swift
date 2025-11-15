@@ -67,7 +67,12 @@ struct CompleteMeasure: View {
                             await vm.deleteTodayRecords()
                             await vm.checkTodayRecord()
 
-                            vm.navigationPath = NavigationPath()
+                            // 다시 LoadingMeasure로 이동
+                            await MainActor.run {
+                                vm.shouldAutoStartMeasure = true
+                                vm.navigationPath = NavigationPath()
+                                vm.navigationPath.append(MeasureFlowStep.measureLoading)
+                            }
                             vm.isRemeasuring = false
                         }
                     }

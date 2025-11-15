@@ -21,7 +21,7 @@ struct PainLevel: View {
         // 소스가 기록되지 않은 경우 기본값 (안전하게 측정 화면에서 온 것으로 간주)
         return false
     }
-    
+
     // Alert 메시지는 통일됨 (이제 메시지가 하나임)
     private var alertMessage: String {
         Strings.Alert.cancelPainMessage
@@ -38,17 +38,16 @@ struct PainLevel: View {
 
             VStack(alignment: .center, spacing: 0) {
 
-
                 Spacer()
                     .frame(maxHeight: isCompact ? 20 : .infinity)
 
                 // MARK: - 이모지
-                VStack (spacing: verticalSpacing) {
+                VStack(spacing: verticalSpacing) {
                     Image(painImageName(for: Int(value)))
                         .resizable()
                         .scaledToFit()
                         .frame(width: imageSize, height: imageSize)
-                    VStack (spacing: 8) {
+                    VStack(spacing: 8) {
                         Text(Strings.PainCategory.category(for: Int(value)))
                             .font(.displayTitle1Bold)
                             .foregroundStyle(Color("Gray700"))
@@ -92,7 +91,7 @@ struct PainLevel: View {
                             if vm.hasTodayRecord {
                                 await vm.deleteTodayRecords()
                             }
-                            
+
                             // currentRecord가 있으면 기존 레코드에 통증 레벨 추가 (측정 후)
                             // 없으면 통증 레벨만 있는 새 레코드 생성 (통증만 입력)
                             if vm.currentRecord != nil {
@@ -100,14 +99,14 @@ struct PainLevel: View {
                             } else {
                                 await vm.finishPainLevelOnly(level: Int(value))
                             }
-                            
+
                             // 레코드 저장 (clearCurrentRecord는 저장 후 내부에서 호출됨)
                             await vm.saveCurrentRecord()
-                            
+
                             // 상태 업데이트: 오늘 기록이 있는지 확인하고 currentRecord 로드
                             // checkTodayRecord는 hasTodayRecord를 true로 설정하고 currentRecord를 로드함
                             await vm.checkTodayRecord()
-                            
+
                             // checkTodayRecord가 완료된 후 측정 플로우를 닫아서 메인 화면으로 돌아가기
                             // 메인 화면에서 hasTodayRecord를 체크하여 MainViewAfter를 표시
                             await MainActor.run {
@@ -126,56 +125,70 @@ struct PainLevel: View {
             ToolbarItem(placement: .topBarLeading) {
                 // MARK: - 네비게이션 바
                 Button(action: {
-                        showingAlert = true
-                    }) {
-                        HStack(spacing: 4) {
-                            Image(systemName: "chevron.left")
-                                .font(.displayBodySemibold)
-                            Text(Strings.Common.cancel)
-                                .font(.displayBodySemibold)
+                    if vm.getNavigationSource(for: .painLevel)
+                        == .completeMeasure
+                    {
+                        // CompleteMeasure에서 온 경우: alert 없이 바로 이전 화면으로 돌아가기
+                        if !vm.navigationPath.isEmpty {
+                            vm.navigationPath.removeLast()
                         }
-                        .foregroundStyle(.blue800)
+                    } else {
+                        // 다른 경로에서 온 경우: alert 표시
+                        showingAlert = true
                     }
-                    .alert(isPresented: $showingAlert) {
-                        Alert(
-                            title: Text(Strings.Alert.cancelPainTitle),
-                            message: Text(alertMessage),
-                            primaryButton: .destructive(
-                                Text(Strings.Common.yes),
-                                action: {
-                                    Task {
-                                        if isFromHome {
-                                            // 홈에서 바로 온 경우: 아무것도 저장하지 않고 취소
-                                            vm.prepareForNewMeasurement()  // 측정 상태 초기화
-                                            vm.clearCurrentRecord()        // 현재 레코드 클리어
-                                            await vm.deleteTodayRecords()  // 오늘 기록 삭제
-                                            await vm.checkTodayRecord()    // 상태 업데이트
-                                        } else {
-                                            // 측정 후 온 경우: 각도만 저장 (통증 레벨은 저장하지 않음)
-                                            if let record = vm.currentRecord, record.flexionAngle != nil {
-                                                // 통증 레벨을 nil로 명시적으로 설정하여 각도만 저장되도록 보장
-                                                record.painLevel = nil
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                            .font(.displayBodySemibold)
+                        Text(Strings.Common.cancel)
+                            .font(.displayBodySemibold)
+                    }
+                    .foregroundStyle(.blue800)
+                }
+                .alert(isPresented: $showingAlert) {
+                    Alert(
+                        title: Text(Strings.Alert.cancelPainTitle),
+                        message: Text(Strings.Alert.cancelFlexionMessage),
+                        primaryButton: .destructive(
+                            Text(Strings.Common.yes),
+                            action: {
+                                Task {
+                                    if isFromHome {
+                                        // 홈에서 바로 온 경우: 아무것도 저장하지 않고 취소
+                                        vm.prepareForNewMeasurement()  // 측정 상태 초기화
+                                        vm.clearCurrentRecord()  // 현재 레코드 클리어
+                                        await vm.deleteTodayRecords()  // 오늘 기록 삭제
+                                        await vm.checkTodayRecord()  // 상태 업데이트
+                                    } else {
+                                        // 측정 후 온 경우: 각도만 저장 (통증 레벨은 저장하지 않음)
+                                        if let record = vm.currentRecord,
+                                            record.flexionAngle != nil
+                                        {
+                                            // 통증 레벨을 nil로 명시적으로 설정하여 각도만 저장되도록 보장
+                                            record.painLevel = nil
 
-                                                // 각도만 저장 (통증 레벨 없음)
-                                                await vm.saveCurrentRecord()
-                                                print("✅ 각도만 저장됨: \(record.flexionAngle ?? 0)°")
-                                            } else {
-                                                // 각도가 없는 경우 레코드만 클리어
-                                                vm.clearCurrentRecord()
-                                            }
-                                            vm.prepareForNewMeasurement()  // 측정 상태 초기화
-                                            await vm.checkTodayRecord()    // 상태 업데이트
+                                            // 각도만 저장 (통증 레벨 없음)
+                                            await vm.saveCurrentRecord()
+                                            print(
+                                                "✅ 각도만 저장됨: \(record.flexionAngle ?? 0)°"
+                                            )
+                                        } else {
+                                            // 각도가 없는 경우 레코드만 클리어
+                                            vm.clearCurrentRecord()
                                         }
-                                        // 측정 플로우 닫기
-                                        await MainActor.run {
-                                            vm.dismissMeasureFlow()
-                                        }
+                                        vm.prepareForNewMeasurement()  // 측정 상태 초기화
+                                        await vm.checkTodayRecord()  // 상태 업데이트
+                                    }
+                                    // 측정 플로우 닫기
+                                    await MainActor.run {
+                                        vm.dismissMeasureFlow()
                                     }
                                 }
-                            ),
-                            secondaryButton: .cancel(Text(Strings.Common.no))
-                        )
-                    }
+                            }
+                        ),
+                        secondaryButton: .cancel(Text(Strings.Common.no))
+                    )
+                }
             }
         }
     }
@@ -206,7 +219,7 @@ struct ArcSlider: View {
     private let startAngle: Double = 160  // 원호 시작 각도
     private let totalAngle: Double = 220  // 원호 총 각도
     private let segmentAngle: Double = 220.0 / 10.0  // 각 칸의 각도 (정확히 22도, 220/10)
-    
+
     // MARK: - 세그먼트별 색상 반환
     /// 세그먼트 인덱스에 따른 배경색 반환
     /// 기본 배경은 모두 회색 (채워지지 않은 세그먼트)
@@ -214,7 +227,7 @@ struct ArcSlider: View {
         // 모든 배경 세그먼트는 회색
         return Color("Gray300")
     }
-    
+
     // MARK: - 세그먼트별 채워진 색상 반환
     /// 세그먼트 인덱스에 따른 채워진 색상 반환 (Index 폴더의 색상 사용)
     /// - 인덱스 0~3: Index/1 색상
@@ -263,10 +276,14 @@ struct ArcSlider: View {
                     )
                     .stroke(
                         Color("Gray300"),
-                        style: StrokeStyle(lineWidth: 40, lineCap: (.round), lineJoin: .miter)
+                        style: StrokeStyle(
+                            lineWidth: 40,
+                            lineCap: (.round),
+                            lineJoin: .miter
+                        )
                     )
                 }
-                
+
                 // MARK: - 채워진 세그먼트들 (value에 따라, 정확히 10개 중에서)
                 // value 0 → 0개 칸, value 1 → 1개 칸, ..., value 10 → 10개 칸 모두 채움
                 // 각 세그먼트는 해당 인덱스에 맞는 색상으로 채워짐
@@ -285,12 +302,16 @@ struct ArcSlider: View {
                     )
                     .stroke(
                         filledSegmentColor(for: index, value: value),
-                        style: StrokeStyle(lineWidth: 40, lineCap: (index == 0 ? .round : .butt), lineJoin: .miter)
+                        style: StrokeStyle(
+                            lineWidth: 40,
+                            lineCap: (index == 0 ? .round : .butt),
+                            lineJoin: .miter
+                        )
                     )
                     // 애니메이션 비활성화
                     // .animation(.easeInOut(duration: 0.2), value: value)
                 }
-                
+
                 // MARK: - 구분선 (11개: 각 칸의 경계에 정확히 배치)
                 // 원호를 정확히 1/10로 나눈 구분선
                 // 구분선 0: startAngle (160°)
@@ -298,10 +319,11 @@ struct ArcSlider: View {
                 // 구분선 2: startAngle + 2*segmentAngle (204°)
                 // ...
                 // 구분선 10: startAngle + 10*segmentAngle (380° = 20°)
-                ForEach(1...totalSegments-1, id: \.self) { index in
+                ForEach(1...totalSegments - 1, id: \.self) { index in
                     // 각 구분선의 각도 = 시작각도 + (인덱스 * 칸당각도)
                     // 정확히 원호를 10등분한 위치
-                    let dividerAngle = startAngle + (Double(index) * segmentAngle)
+                    let dividerAngle =
+                        startAngle + (Double(index) * segmentAngle)
                     DividerLineShape(
                         angle: dividerAngle,
                         center: arcCenter,
@@ -323,11 +345,21 @@ struct ArcSlider: View {
                     Circle()
                         .fill(Color.white)
                         .frame(width: 48, height: 48)
-                        .shadow(color: Color.black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        .shadow(
+                            color: Color.black.opacity(0.15),
+                            radius: 4,
+                            x: 0,
+                            y: 2
+                        )
 
                     // 내부 컬러 원
                     Circle()
-                        .fill(filledSegmentColor(for: min(Int(value-1), totalSegments - 1), value: value))
+                        .fill(
+                            filledSegmentColor(
+                                for: min(Int(value - 1), totalSegments - 1),
+                                value: value
+                            )
+                        )
                         .frame(width: 36, height: 36)
                 }
                 .position(x: handlerX, y: handlerY)
@@ -338,7 +370,7 @@ struct ArcSlider: View {
                     Text("\(Int(value))")
                         .font(.system(size: 60, weight: .bold))
                         .foregroundStyle(Color("Gray900"))
-                    
+
                 }
                 .position(
                     x: size.width / 2,
@@ -354,12 +386,12 @@ struct ArcSlider: View {
                         )
                         let angle = atan2(vector.dy, vector.dx)
                         var degrees = angle * 180 / .pi
-                        
+
                         // 각도를 0~360 범위로 정규화
                         if degrees < 0 {
                             degrees += 360
                         }
-                        
+
                         // 원호 범위: 160° ~ 380° (360°+20° = 0°+20°)
                         // 각도를 원호 내부의 상대 각도로 변환
                         let normalizedDegrees: Double
@@ -383,18 +415,18 @@ struct ArcSlider: View {
                             }
                             return
                         }
-                        
+
                         // 각도를 칸 인덱스로 변환 (한 칸 = 하나의 value)
                         // 칸 n의 범위: [n * segmentAngle, (n + 1) * segmentAngle)
                         // 드래그한 칸의 인덱스가 바로 value가 됨
                         let segmentIndex = Int(normalizedDegrees / segmentAngle)
-                        
+
                         // 칸 인덱스를 value로 직접 매핑
                         // 칸 0 → value = 0, 칸 1 → value = 1, ..., 칸 10 → value = 10
                         let mappedValue = Double(min(segmentIndex, 10))
-                        
+
                         value = min(max(mappedValue, 0), 10)
-                        
+
                         let newIntValue = Int(round(value))
                         if newIntValue != lastIntValue {
                             impactFeedback.impactOccurred()
@@ -424,13 +456,14 @@ struct SegmentedArcShape: Shape {
     let segmentAngle: Double
     let center: CGPoint
     let radius: CGFloat
-    
+
     func path(in rect: CGRect) -> Path {
         var path = Path()
-        
-        let segmentStartAngle = startAngle.degrees + Double(segmentIndex) * segmentAngle
+
+        let segmentStartAngle =
+            startAngle.degrees + Double(segmentIndex) * segmentAngle
         let segmentEndAngle = segmentStartAngle + segmentAngle
-        
+
         path.addArc(
             center: center,
             radius: radius,
@@ -438,7 +471,7 @@ struct SegmentedArcShape: Shape {
             endAngle: .degrees(segmentEndAngle),
             clockwise: false
         )
-        
+
         return path
     }
 }
@@ -449,25 +482,25 @@ struct DividerLineShape: Shape {
     let center: CGPoint
     let radius: CGFloat
     let lineLength: CGFloat
-    
+
     func path(in rect: CGRect) -> Path {
         var path = Path()
-        
+
         let angleRadians = angle * .pi / 180
-        
+
         // 원호의 안쪽 끝점
         let innerRadius = radius - lineLength / 2
         let innerX = center.x + innerRadius * cos(angleRadians)
         let innerY = center.y + innerRadius * sin(angleRadians)
-        
+
         // 원호의 바깥쪽 끝점
         let outerRadius = radius + lineLength / 2
         let outerX = center.x + outerRadius * cos(angleRadians)
         let outerY = center.y + outerRadius * sin(angleRadians)
-        
+
         path.move(to: CGPoint(x: innerX, y: innerY))
         path.addLine(to: CGPoint(x: outerX, y: outerY))
-        
+
         return path
     }
 }
