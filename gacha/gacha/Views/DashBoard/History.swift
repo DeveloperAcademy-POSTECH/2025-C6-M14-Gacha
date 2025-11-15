@@ -42,7 +42,10 @@ struct History: View {
                                     if vm.chartData.isEmpty {
                                         // 측정된 데이터가 없을 때
                                         Text(Strings.History.chartRomNoRecord)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .frame(
+                                                maxWidth: .infinity,
+                                                alignment: .leading
+                                            )
                                     } else {
                                         // SubTitle
                                         Text(vm.romSubtitle)
@@ -68,7 +71,10 @@ struct History: View {
                                     if vm.chartData.isEmpty {
                                         // 측정된 데이터가 없을 때
                                         Text(Strings.History.chartPainNoRecord)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .frame(
+                                                maxWidth: .infinity,
+                                                alignment: .leading
+                                            )
                                     } else {
                                         // SubTitle
                                         Text(vm.painSubtitle)
@@ -85,7 +91,7 @@ struct History: View {
                         .padding(.horizontal, 20)
                         .padding(.top, 20)
                         .padding(.bottom, 20)
-                        
+
                         // 크레딧
                         VStack(spacing: 4) {
                             Text("Team Anggle©")
@@ -335,16 +341,17 @@ struct History: View {
                 Spacer()
 
                 // ROM 수치 표시
-                if vm.recentRecords.count < 2 {
-                    Text(Strings.History.romUnder2Emphasized(days: vm.recentRecords.count))
-                        .font(.displayTitle3Semibold)
-                } else if let first = vm.firstROM, let latest = vm.latestROM {
-                    // 기록이 여러 개일 때
-                    let change = latest - first
-                    HStack(spacing: 0) {
-                        Spacer()
+                HStack(spacing: 0) {
+                    Spacer()
+                    if vm.recentRecords.count < 2 {
+                        Text("\(vm.recentRecords.count)일째")
+                            .font(.displayTitle1Bold)
+                    } else if let first = vm.firstROM, let latest = vm.latestROM
+                    {
+                        // 기록이 여러 개일 때
+                        let change = latest - first
                         Text("\(change > 0 ? "+" : "")\(change)°")
-                            .font(.roundedLargeSemibold)
+                            .font(.roundedTitle1Bold)
                             .foregroundColor(Color("Gray900"))
                     }
                 }
@@ -354,7 +361,8 @@ struct History: View {
                 // 변화 설명 텍스트
                 Text(
                     vm.recentRecords.count < 2
-                        ? Strings.History.romUnder2Description : vm.romChangeText
+                        ? Strings.History.romUnder2Description
+                        : vm.romChangeText
                 )
                 .font(
                     vm.recentRecords.count < 2
