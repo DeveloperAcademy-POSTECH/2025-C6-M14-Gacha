@@ -13,11 +13,11 @@ struct MeasureFlowWrapper: View {
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
-        MeasureFlow(modelContext: modelContext)
+        RootNavigationView(modelContext: modelContext)
     }
 }
 
-struct MeasureFlow: View {
+struct RootNavigationView: View {
     @StateObject private var measureVM: MeasureViewModel
     @StateObject private var historyVM: HistoryViewModel
     @StateObject private var calendarVM: CalendarViewModel
@@ -58,7 +58,9 @@ struct MeasureFlow: View {
 
             // 측정 탭 (메인)
             NavigationStack {
-                homeView()
+                MeasureSelectionView()
+                    .navigationTitle(Strings.SelectType.title)
+                    .navigationBarTitleDisplayMode(.large)
                     .fullScreenCover(isPresented: $measureVM.showMeasureFlow) {
                         NavigationStack(path: $measureVM.navigationPath) {
                             // 빈 초기 화면 (navigationPath에 의해 즉시 대체됨)
@@ -93,11 +95,17 @@ struct MeasureFlow: View {
         }
         .toolbar(isInMeasureFlow ? .hidden : .visible, for: .tabBar)
         .onChange(of: selectedTab) { oldValue, newValue in
-                // 요약 탭으로 전환 시 데이터 리로드
-                if newValue == 0 {
-                    Task {
-                        await calendarVM.loadMeasuredDates()
-                    
+            if newValue == 0 {
+                Task {
+                    await calendarVM.loadMeasuredDates()
+                }
+            }
+        }
+        .onChange(of: measureVM.showMeasureFlow) { oldValue, newValue in
+            // 홈으로 돌아왔을 때 (modal이 닫혔을 때)
+            if !newValue {
+                Task {
+                    await measureVM.checkTodayRecord()
                 }
             }
         }
@@ -114,24 +122,19 @@ struct MeasureFlow: View {
 
     // MARK: - View Builder
     @ViewBuilder
-    private func homeView() -> some View {
-        if measureVM.isLoading {
-            Text("Loading...")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else if measureVM.hasTodayRecord {
-            // 오늘 측정을 한 상태: MainViewAfter 표시
-            MainViewAfter()
-        } else {
-            // 오늘 측정을 안한 상태: MainViewBefore 표시
-            MainViewBefore()
-        }
-    }
-
-    @ViewBuilder
     private func viewForStep(_ step: MeasureFlowStep) -> some View {
         switch step {
+        case .select:
+            MeasureSelectionView()
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle(Strings.SelectType.title)
+                .navigationBarTitleDisplayMode(.large)
+            
         case .home:
-            homeView()
+            MainViewBefore()
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle(Strings.DailyStart.title)
+                .navigationBarTitleDisplayMode(.large)
 
         case .countdown:
             CountdownView()

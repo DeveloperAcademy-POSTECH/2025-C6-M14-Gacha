@@ -400,32 +400,25 @@ struct History: View {
                 {
                     // 기록이 여러 개일 때
                     VStack(alignment: .leading, spacing: 0) {
-                        // 첫 번째 통증 레벨
-                        HStack(spacing: 0) {
-                            Rectangle()
-                                .fill(Color("Blue900"))
-                                .frame(width: CGFloat(first) * 10, height: 3)
-                                .cornerRadius(4)
-                            Circle()
-                                .fill(Color("Blue900"))
-                                .frame(width: 10, height: 10)
-                            Spacer()
-                            Text("\(first)")
-                                .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(Color("Gray900"))
-                        }
-
                         // 최근 통증 레벨
                         HStack(spacing: 0) {
                             Rectangle()
                                 .fill(Color("Blue700"))
                                 .frame(width: CGFloat(latest)     * 10, height: 3)
                                 .cornerRadius(4)
-                            Circle()
-                                .fill(Color("Blue700"))
-                                .frame(width: 10, height: 10)
                             Spacer()
                             Text("\(latest)")
+                                .font(.system(size: 17, weight: .bold))
+                                .foregroundColor(Color("Gray900"))
+                        }
+                        // 첫 번째 통증 레벨
+                        HStack(spacing: 0) {
+                            Rectangle()
+                                .fill(Color("Gray500"))
+                                .frame(width: CGFloat(first) * 10, height: 3)
+                                .cornerRadius(4)
+                            Spacer()
+                            Text("\(first)")
                                 .font(.system(size: 17, weight: .bold))
                                 .foregroundColor(Color("Gray900"))
                         }

@@ -36,15 +36,31 @@ final class SwiftDataRecordRepository: RecordRepository {
 
     var hasTodayRecord: Bool {
         get async throws {
-            let startOfDay = Calendar.current.startOfDay(for: Date())
-            let predicate = #Predicate<MeasuredRecord> { record in
-                record.measuredDate >= startOfDay
+            let calendar = Calendar.current
+            let now = Date()
+
+            // 현지 시간대 기준으로 오늘의 시작 시간
+            guard let todayStart = calendar.startOfDay(for: now) as Date?,
+                  let tomorrowStart = calendar.date(byAdding: .day, value: 1, to: todayStart) else {
+                print("❌ [hasTodayRecord] 날짜 계산 실패")
+                return false
             }
-            let descriptor = FetchDescriptor<MeasuredRecord>(
-                predicate: predicate
-            )
-            let records = try modelContext.fetch(descriptor)
-            return !records.isEmpty
+
+            print("📅 [hasTodayRecord] 현재 시간: \(now)")
+
+            // 모든 레코드를 가져와서 현재 시간대 기준으로 필터링
+            let allRecords = try await loadRecords()
+
+            let hasToday = allRecords.contains { record in
+                let isToday = record.measuredDate >= todayStart && record.measuredDate < tomorrowStart
+                if isToday {
+                    print("✅ [hasTodayRecord] 오늘의 기록 발견: \(record.measuredDate)")
+                }
+                return isToday
+            }
+
+            print("📅 [hasTodayRecord] 결과: \(hasToday)")
+            return hasToday
         }
     }
 
@@ -52,7 +68,15 @@ final class SwiftDataRecordRepository: RecordRepository {
         modelContext.insert(record)
         try modelContext.save()
 
-        print("✅ Record 생성: \(record.measuredDate)°")
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = calendar.timeZone
+        let localDateString = dateFormatter.string(from: record.measuredDate)
+
+        print("✅ Record 생성 (현지시간): \(localDateString)")
+        print("   - 각도: \(record.flexionAngle ?? 0)°")
+        print("   - 통증: \(record.painLevel ?? -1)")
         return record
     }
 
@@ -78,17 +102,33 @@ final class SwiftDataRecordRepository: RecordRepository {
     
     func loadRecord(by date: Date) async throws -> MeasuredRecord? {
         let calendar = Calendar.current
-        let startOfDay = calendar.startOfDay(for: date)
-        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? date
-        
-        let predicate = #Predicate<MeasuredRecord> { record in
-            record.measuredDate >= startOfDay && record.measuredDate < endOfDay
+
+        // 현지 시간대 기준으로 해당 날짜의 시작과 끝 시간
+        guard let dayStart = calendar.startOfDay(for: date) as Date?,
+              let nextDayStart = calendar.date(byAdding: .day, value: 1, to: dayStart) else {
+            print("❌ [loadRecord(by:)] 날짜 계산 실패")
+            return nil
         }
-        let descriptor = FetchDescriptor<MeasuredRecord>(
-            predicate: predicate,
-            sortBy: [SortDescriptor(\.measuredDate, order: .reverse)]
-        )
-        return try modelContext.fetch(descriptor).first
+
+        print("📅 [loadRecord(by:)] 검색 날짜: \(date)")
+        print("📅 [loadRecord(by:)] 날짜 범위: \(dayStart) ~ \(nextDayStart)")
+
+        // 모든 레코드를 가져와서 현재 시간대 기준으로 필터링
+        let allRecords = try await loadRecords()
+
+        let record = allRecords.first { record in
+            let isInRange = record.measuredDate >= dayStart && record.measuredDate < nextDayStart
+            if isInRange {
+                print("✅ [loadRecord(by:)] 기록 발견: \(record.measuredDate)")
+            }
+            return isInRange
+        }
+
+        if record == nil {
+            print("❌ [loadRecord(by:)] 해당 날짜의 기록 없음")
+        }
+
+        return record
     }
     
     func loadEarliestRecord() async throws -> MeasuredRecord? {

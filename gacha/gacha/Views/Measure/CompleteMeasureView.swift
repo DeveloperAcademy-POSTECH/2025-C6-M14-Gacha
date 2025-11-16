@@ -61,9 +61,7 @@ struct CompleteMeasureView: View {
                         Task {
                             vm.isRemeasuring = true
                             vm.prepareForNewMeasurement()
-                            vm.clearCurrentRecord()
 
-                            await vm.deleteTodayRecords()
                             await vm.checkTodayRecord()
 
                             // 다시 LoadingMeasure로 이동
@@ -99,7 +97,6 @@ struct CompleteMeasureView: View {
             if vm.isMeasuring {
                 vm.cancelFlexionMeasure()
             }
-            vm.stopSensor()
         }
     }
 }
