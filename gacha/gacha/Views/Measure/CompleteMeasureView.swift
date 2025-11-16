@@ -99,7 +99,6 @@ struct CompleteMeasureView: View {
             if vm.isMeasuring {
                 vm.cancelFlexionMeasure()
             }
-            vm.stopSensor()
         }
     }
 }

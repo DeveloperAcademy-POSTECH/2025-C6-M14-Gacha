@@ -16,7 +16,7 @@ struct MainViewBefore: View {
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
-            
+
             // MARK: - 중앙 콘텐츠 영역
             VStack(spacing: 40) {
                 // 안내 문구 영역
@@ -36,17 +36,18 @@ struct MainViewBefore: View {
                     // 두 번째 화면 안내 문구
                     PostureInstructionComponent(index: 2)
                 }
-                
+
                 // MARK: - 버튼 영역 (92px height, 16px gap)
                 VStack(spacing: 20) {
                     if currentPage == 0 {
                         // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
-                        HStack (spacing: 20) {
+                        HStack(spacing: 20) {
                             CapsuleButtonComponent(
                                 title: "뒤로",
                                 style: .light,
                                 width: (UIScreen.main.bounds.width - 60) / 2
                             ) {
+                                vm.stopSensor()
                                 vm.dismissMeasureFlow()
                             }
                             CapsuleButtonComponent(
@@ -61,7 +62,7 @@ struct MainViewBefore: View {
                         }
                     } else {
                         // 두 번째 화면: "측정하기" 버튼 (primary style, 100px cornerRadius)
-                        HStack (spacing: 20) {
+                        HStack(spacing: 20) {
                             CapsuleButtonComponent(
                                 title: "뒤로",
                                 style: .light,
@@ -74,6 +75,7 @@ struct MainViewBefore: View {
                                 style: .primary,
                                 width: (UIScreen.main.bounds.width - 60) / 2
                             ) {
+                                vm.shouldAutoStartMeasure = true
                                 vm.navigate(to: .countdown, from: .home)
                             }
                         }
@@ -81,11 +83,8 @@ struct MainViewBefore: View {
 
                     // 보조 링크: "고통수치만 입력하기" (16px, 밑줄, Gray500)
                     Button(action: {
-                        // 홈에서 직접 PainLevel로 시작하는 측정 플로우
-                        vm.startMeasureFlow(
-                            initialStep: .painLevel,
-                            from: .home
-                        )
+                        // 홈에서 직접 PainLevel로 이동
+                        vm.navigate(to: .painLevel, from: .home)
                     }) {
                         Text(Strings.Button.painOnly)
                             .font(.displayBodyRegular)

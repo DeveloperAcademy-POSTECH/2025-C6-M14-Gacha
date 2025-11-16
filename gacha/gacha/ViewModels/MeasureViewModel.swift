@@ -275,7 +275,6 @@ final class MeasureViewModel: ObservableObject {
             return detectedMaxAngle
         }
         
-        // 필터링된 데이터의 최빈값 계산
         if let modeValue = mode(of: angles.map { Int($0) }) {
             return Double(modeValue)
         }
@@ -503,7 +502,6 @@ final class MeasureViewModel: ObservableObject {
                 }
                 print("🗑️ [deleteTodayRecords] Deleting record: \(record.measuredDate)")
                 try await repository.deleteRecord(by: record.id)
-                currentRecord = nil
                 print("✅ [deleteTodayRecords] Record deleted successfully")
             } else {
                 print("🗑️ [deleteTodayRecords] No today record exists")

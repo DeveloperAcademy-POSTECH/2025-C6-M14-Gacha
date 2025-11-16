@@ -89,27 +89,20 @@ struct PainMeasureView: View {
                         width: geo.size.width - 40
                     ) {
                         Task {
+                            await vm.checkTodayRecord()
+
                             if vm.hasTodayRecord {
                                 await vm.deleteTodayRecords()
                             }
 
-                            // currentRecord가 있으면 기존 레코드에 통증 레벨 추가 (측정 후)
-                            // 없으면 통증 레벨만 있는 새 레코드 생성 (통증만 입력)
                             if vm.currentRecord != nil {
                                 await vm.finishPainLevel(level: Int(value))
                             } else {
                                 await vm.finishPainLevelOnly(level: Int(value))
                             }
 
-                            // 레코드 저장 (clearCurrentRecord는 저장 후 내부에서 호출됨)
                             await vm.saveCurrentRecord()
 
-                            // 상태 업데이트: 오늘 기록이 있는지 확인하고 currentRecord 로드
-                            // checkTodayRecord는 hasTodayRecord를 true로 설정하고 currentRecord를 로드함
-                            await vm.checkTodayRecord()
-
-                            // checkTodayRecord가 완료된 후 측정 플로우를 닫아서 메인 화면으로 돌아가기
-                            // 메인 화면에서 hasTodayRecord를 체크하여 MainViewAfter를 표시
                             await MainActor.run {
                                 vm.dismissMeasureFlow()
                             }
@@ -121,6 +114,8 @@ struct PainMeasureView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
+        }
+        .onAppear {
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -149,41 +144,13 @@ struct PainMeasureView: View {
                 .alert(isPresented: $showingAlert) {
                     Alert(
                         title: Text(Strings.Alert.cancelPainTitle),
-                        message: Text(Strings.Alert.cancelFlexionMessage),
+                        message: Text(Strings.Alert.cancelPainMessage),
                         primaryButton: .destructive(
                             Text(Strings.Common.yes),
                             action: {
                                 Task {
-                                    if isFromHome {
-                                        // 홈에서 바로 온 경우: 아무것도 저장하지 않고 취소
-                                        vm.prepareForNewMeasurement()  // 측정 상태 초기화
-                                        vm.clearCurrentRecord()  // 현재 레코드 클리어
-                                        await vm.deleteTodayRecords()  // 오늘 기록 삭제
-                                        await vm.checkTodayRecord()  // 상태 업데이트
-                                    } else {
-                                        // 측정 후 온 경우: 각도만 저장 (통증 레벨은 저장하지 않음)
-                                        if let record = vm.currentRecord,
-                                            record.flexionAngle != nil
-                                        {
-                                            // 통증 레벨을 nil로 명시적으로 설정하여 각도만 저장되도록 보장
-                                            record.painLevel = nil
-
-                                            // 각도만 저장 (통증 레벨 없음)
-                                            await vm.saveCurrentRecord()
-                                            print(
-                                                "✅ 각도만 저장됨: \(record.flexionAngle ?? 0)°"
-                                            )
-                                        } else {
-                                            // 각도가 없는 경우 레코드만 클리어
-                                            vm.clearCurrentRecord()
-                                        }
-                                        vm.prepareForNewMeasurement()  // 측정 상태 초기화
-                                        await vm.checkTodayRecord()  // 상태 업데이트
-                                    }
-                                    // 측정 플로우 닫기
-                                    await MainActor.run {
-                                        vm.dismissMeasureFlow()
-                                    }
+                                    // 홈에서 온 경우 : 측정 플로우 닫기
+                                    vm.dismissMeasureFlow()
                                 }
                             }
                         ),
@@ -369,7 +336,7 @@ struct ArcSlider: View {
                 VStack(spacing: 16) {
                     Spacer()
                     Text("\(Int(value))")
-                        .font(.system(size: 60, weight: .bold))
+                        .font(.roundedExtraLargeBold)
                         .foregroundStyle(Color("Gray900"))
 
                 }
