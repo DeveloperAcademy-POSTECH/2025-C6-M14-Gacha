@@ -1,10 +1,10 @@
 /*
-   Localizable.strings
-   gacha
+    Localizable.strings
+    gacha
  
-   Created by 김순주 on 11/15/25.
+    Created by 김순주 on 11/15/25.
  
-   */
+    */
 
 /* Common */
 "common.yes" = "Yes";
@@ -31,11 +31,13 @@
 "alert.cancel.flexion.message" = "Return to the first screen";
 "alert.cancel.pain.title" = "Cancel pain record?";
 "alert.cancel.pain.message" = "Return to the first screen";
-"alert.remeasure.title" = "Measure again?";
-"alert.remeasure.message" = "The new measurement will update today's record";
+"alert.remeasure.title" = "Measure knee again?";
+"alert.remeasure.message" = "This will update today’s record";
+"alert.notyet.title" = "Not available yet";
+"alert.notyet.message" = "It’ll be ready soon";
 
 /* MainBefore - 1/2 */
-"daily_start.title" = "Prepare to Measure";
+"daily_start.title" = "Ready for Knee Flexion";
 "daily_start.instruction.no1" = "Sit and bend your knee fully";
 "daily_start.instruction.no2" = "Place iPhone on thigh near the knee";
 "daily_start.instruction.no3" = "Hold still until measurement ends";

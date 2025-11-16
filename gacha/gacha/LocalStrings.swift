@@ -58,6 +58,10 @@ enum Strings {
         static var cancelPainMessage: String { NSLocalizedString("alert.cancel.pain.message", comment: "") }
         static var remeasureTitle: String { NSLocalizedString("alert.remeasure.title", comment: "") }
         static var remeasureMessage: String { NSLocalizedString("alert.remeasure.message", comment: "") }
+        static var notyetTitle: String { NSLocalizedString("alert.notyet.title", comment: "")
+        }
+        static var notyetMessage: String { NSLocalizedString("alert.notyet.message", comment: "")
+        }
     }
     
     // MARK: - MainBefore
