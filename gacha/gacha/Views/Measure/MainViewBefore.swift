@@ -41,33 +41,41 @@ struct MainViewBefore: View {
                 VStack(spacing: 20) {
                     if currentPage == 0 {
                         // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
-                        CapsuleButtonComponent(
-                            title: Strings.Button.next,
-                            style: .primary,
-                            width: 361,
-                            height: 54,
-                            fontSize: 20,
-                            cornerRadius: 100
-                        ) {
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                currentPage = 1
+                        HStack (spacing: 20) {
+                            CapsuleButtonComponent(
+                                title: "뒤로",
+                                style: .light,
+                                width: (UIScreen.main.bounds.width - 60) / 2
+                            ) {
+                                vm.dismissMeasureFlow()
+                            }
+                            CapsuleButtonComponent(
+                                title: Strings.Button.next,
+                                style: .primary,
+                                width: (UIScreen.main.bounds.width - 60) / 2
+                            ) {
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    currentPage = 1
+                                }
                             }
                         }
                     } else {
                         // 두 번째 화면: "측정하기" 버튼 (primary style, 100px cornerRadius)
-                        CapsuleButtonComponent(
-                            title: Strings.Button.measureStart,
-                            style: .primary,
-                            width: 361,
-                            height: 54,
-                            cornerRadius: 100
-                        ) {
-                            vm.shouldAutoStartMeasure = true
-                            // 홈에서 FlexionMeasure로 시작하는 측정 플로우
-                            vm.startMeasureFlow(
-                                initialStep: .countdown,
-                                from: .home
-                            )
+                        HStack (spacing: 20) {
+                            CapsuleButtonComponent(
+                                title: "뒤로",
+                                style: .light,
+                                width: (UIScreen.main.bounds.width - 60) / 2
+                            ) {
+                                currentPage -= 1
+                            }
+                            CapsuleButtonComponent(
+                                title: Strings.Button.next,
+                                style: .primary,
+                                width: (UIScreen.main.bounds.width - 60) / 2
+                            ) {
+                                vm.navigate(to: .countdown, from: .home)
+                            }
                         }
                     }
 
@@ -93,25 +101,6 @@ struct MainViewBefore: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle(Strings.DailyStart.title)
         .navigationBarTitleDisplayMode(.large)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                if currentPage == 1 {
-                    Button(action: {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            currentPage -= 1
-                        }
-                    }) {
-                        HStack(spacing: 4) {
-                            Image(systemName: "chevron.left")
-                                .font(.displayCalloutRegular)
-                            Text(Strings.Common.cancel)
-                                .font(.displayBodyRegular)
-                        }
-                        .foregroundStyle(.blue800)
-                    }
-                }
-            }
-        }
         .onAppear {
             // 화면이 나타날 때마다 첫 번째 화면으로 초기화
             currentPage = 0

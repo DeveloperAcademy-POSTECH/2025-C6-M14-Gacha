@@ -104,7 +104,6 @@ final class MotionMeasureManager: MeasureManager, ObservableObject {
     func stopMeasuring() {
         isMeasuring = false
         motionManager.stopDeviceMotionUpdates()
-        print("센서 중지")
     }
 
 

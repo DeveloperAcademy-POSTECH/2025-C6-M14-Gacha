@@ -9,15 +9,22 @@ import SwiftUI
 
 struct MeasureSelectionView: View {
     @State private var showAlert: Bool = false
-    
+    @EnvironmentObject var vm: MeasureViewModel
+
     var body: some View {
-        VStack {
+        ScrollView {
             VStack (spacing: 16) {
                 CardView(
                     title: Strings.SelectType.Knee.Flexion.title,
                     description: Strings.SelectType.Knee.Flexion.description,
                     isActive: true,
-                    action: {}
+                    action: {
+                        // Knee Card 선택 시 modal flow 시작
+                        vm.startMeasureFlow(
+                            initialStep: .home,
+                            from: .select
+                        )
+                    }
                 )
                 CardView(
                     title: Strings.SelectType.Shoulder.Flexion.title,
@@ -38,6 +45,7 @@ struct MeasureSelectionView: View {
                     action: { showAlert = true }
                 )
             }
+            .padding(.top, 32)
             .padding(.horizontal, 16)
         }
         .alert(isPresented: $showAlert) {

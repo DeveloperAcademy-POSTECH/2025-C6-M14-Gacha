@@ -79,12 +79,13 @@ struct CapsuleButtonComponent: View {
             Text(title)
                 .font(.displayTitle3Bold)
                 .foregroundStyle(style.foregroundColor)
+                .frame(
+                    width: width ?? 313,
+                    height: height ?? 50
+                )
+                .background(style.backgroundColor)
+
         }
-        .frame(
-            width: width ?? 313,
-            height: height ?? 50
-        )
-        .background(style.backgroundColor)
         .cornerRadius(cornerRadius ?? max(height ?? 50, 0) / 2)  // cornerRadius가 있으면 사용, 없으면 Capsule 효과
         .disabled(!isEnabled)
         .opacity(isEnabled ? 1.0 : 0.5)
