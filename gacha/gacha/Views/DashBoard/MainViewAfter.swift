@@ -52,7 +52,6 @@ struct MainViewAfter: View {
                                             vm.prepareForNewMeasurement()
                                             vm.clearCurrentRecord()
 
-                                            await vm.deleteTodayRecords()
                                             await vm.checkTodayRecord()
 
                                             vm.navigationPath = NavigationPath()

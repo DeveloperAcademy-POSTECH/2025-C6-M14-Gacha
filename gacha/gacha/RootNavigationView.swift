@@ -109,6 +109,7 @@ struct RootNavigationView: View {
                 }
             }
         }
+
         .task {
             // 앱 시작 시 초기 데이터 로드
             await measureVM.checkTodayRecord()
