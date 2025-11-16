@@ -1,0 +1,85 @@
+//
+//  MeasureSelectionView.swift
+//  gacha
+//
+//  Created by Oh Seojin on 11/16/25.
+//
+
+import SwiftUI
+
+struct MeasureSelectionView: View {
+    @State private var showAlert: Bool = false
+    
+    var body: some View {
+        VStack {
+            VStack (spacing: 16) {
+                CardView(
+                    title: Strings.SelectType.Knee.Flexion.title,
+                    description: Strings.SelectType.Knee.Flexion.description,
+                    isActive: true,
+                    action: {}
+                )
+                CardView(
+                    title: Strings.SelectType.Shoulder.Flexion.title,
+                    description: Strings.SelectType.Shoulder.Flexion.description,
+                    isActive: false,
+                    action: { showAlert = true }
+                )
+                CardView(
+                    title: Strings.SelectType.Elbow.Extension.title,
+                    description: Strings.SelectType.Elbow.Extension.description,
+                    isActive: false,
+                    action: { showAlert = true }
+                )
+                CardView(
+                    title: Strings.SelectType.Hip.Adduction.title,
+                    description: Strings.SelectType.Hip.Adduction.description,
+                    isActive: false,
+                    action: { showAlert = true }
+                )
+            }
+            .padding(.horizontal, 16)
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("현재 지원되지 않는 측정입니다"),
+            message: Text("추후 지원될 예정입니다"),
+            dismissButton: .default(Text("닫기")))
+        }
+    }
+    
+    struct CardView: View {
+        var title: String
+        var description: String
+        var isActive: Bool
+        var action: () -> Void
+
+        var body: some View {
+            Button(action: action) {
+                VStack (spacing: 16) {
+                    HStack {
+                        Text(title)
+                            .font(.displayTitle3Bold)
+                            .foregroundColor(isActive ? .blue700 : .gray500)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.displayTitle3Bold)
+                            .foregroundColor(isActive ? .black : .gray900)
+                    }
+                    Text(description)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(isActive ? .black : .gray900)
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 16)
+                .background(isActive ? .blue200 : .gray300)
+                .cornerRadius(25)
+            }
+            .buttonStyle(.plain)
+        }
+    }
+}
+
+#Preview {
+    MeasureSelectionView()
+}
