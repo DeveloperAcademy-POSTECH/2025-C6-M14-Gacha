@@ -47,8 +47,6 @@ final class SwiftDataRecordRepository: RecordRepository {
             }
 
             print("📅 [hasTodayRecord] 현재 시간: \(now)")
-            print("📅 [hasTodayRecord] 오늘 시작: \(todayStart)")
-            print("📅 [hasTodayRecord] 내일 시작: \(tomorrowStart)")
 
             // 모든 레코드를 가져와서 현재 시간대 기준으로 필터링
             let allRecords = try await loadRecords()

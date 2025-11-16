@@ -89,12 +89,9 @@ struct PainMeasureView: View {
                         width: geo.size.width - 40
                     ) {
                         Task {
-                            await vm.checkTodayRecord()
-
                             if vm.hasTodayRecord {
                                 await vm.deleteTodayRecords()
                             }
-
                             if vm.currentRecord != nil {
                                 await vm.finishPainLevel(level: Int(value))
                             } else {
@@ -102,6 +99,12 @@ struct PainMeasureView: View {
                             }
 
                             await vm.saveCurrentRecord()
+
+                            // SwiftData 동기화를 위한 짧은 대기
+                            try? await Task.sleep(nanoseconds: 100_000_000) // 0.1초
+
+                            // 저장 완료 후 상태 업데이트
+                            await vm.checkTodayRecord()
 
                             await MainActor.run {
                                 vm.dismissMeasureFlow()

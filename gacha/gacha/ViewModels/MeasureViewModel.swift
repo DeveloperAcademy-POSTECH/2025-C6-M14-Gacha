@@ -422,7 +422,6 @@ final class MeasureViewModel: ObservableObject {
 
         do {
             try await repository.createRecord(record: currentRecord)
-            self.clearCurrentRecord()
         } catch {
             print("Error")
         }

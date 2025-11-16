@@ -94,6 +94,13 @@ struct RootNavigationView: View {
             .environmentObject(historyVM)
         }
         .toolbar(isInMeasureFlow ? .hidden : .visible, for: .tabBar)
+        .onChange(of: selectedTab) { oldValue, newValue in
+            if newValue == 0 {
+                Task {
+                    await calendarVM.loadMeasuredDates()
+                }
+            }
+        }
         .onChange(of: measureVM.showMeasureFlow) { oldValue, newValue in
             // 홈으로 돌아왔을 때 (modal이 닫혔을 때)
             if !newValue {
