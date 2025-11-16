@@ -29,19 +29,30 @@ class CalendarViewModel: ObservableObject {
     func loadMeasuredDates() async {
         isLoading = true
         defer { isLoading = false }
-        
+
         do {
             let records = try await repository.loadRecords()
             let calendar = Calendar.current
-            
+
+            print("📅 [loadMeasuredDates] 로드된 기록 수: \(records.count)")
+
             // 측정 기록의 날짜를 날짜만 추출하여 Set에 저장
             measuredDates = Set(records.map { record in
-                calendar.startOfDay(for: record.measuredDate)
+                let startOfDay = calendar.startOfDay(for: record.measuredDate)
+
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                dateFormatter.timeZone = calendar.timeZone
+                print("   - 기록: \(dateFormatter.string(from: record.measuredDate)) -> \(dateFormatter.string(from: startOfDay))")
+
+                return startOfDay
             })
-            
+
+            print("📅 [loadMeasuredDates] 측정된 날짜 수: \(measuredDates.count)")
+
             // 날짜 범위 계산
             await calculateDateRange(records: records)
-            
+
             // 데이터 로드 완료 후 현재 달로 스크롤
             shouldScrollToCurrentMonth = true
         } catch {
@@ -106,7 +117,14 @@ class CalendarViewModel: ObservableObject {
     func hasRecord(for date: Date) -> Bool {
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: date)
-        return measuredDates.contains(startOfDay)
+        let hasRecord = measuredDates.contains(startOfDay)
+
+        // 디버깅용 로그 (필요시 주석 해제)
+        // if hasRecord {
+        //     print("✅ [hasRecord] 기록 있음: \(startOfDay)")
+        // }
+
+        return hasRecord
     }
     
     func selectDate(_ date: Date) async {
@@ -115,18 +133,24 @@ class CalendarViewModel: ObservableObject {
         let today = Date()
         let startOfToday = calendar.startOfDay(for: today)
         let startOfDate = calendar.startOfDay(for: date)
-        
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = calendar.timeZone
+
+        print("📅 [selectDate] 선택한 날짜: \(dateFormatter.string(from: date))")
+        print("📅 [selectDate] 정규화된 날짜: \(dateFormatter.string(from: startOfDate))")
+        print("📅 [selectDate] 오늘: \(dateFormatter.string(from: startOfToday))")
+
         if startOfDate > startOfToday {
             // 미래 날짜는 선택 불가
-            print("⚠️ 미래 날짜는 선택할 수 없습니다: \(date)")
+            print("⚠️ 미래 날짜는 선택할 수 없습니다")
             return
         }
-        
+
         // 날짜를 startOfDay로 정규화하여 저장
         selectedDate = startOfDate
-        
-        print("✅ 날짜 선택: \(date) -> \(startOfDate)")
-        
+
         // 기록이 있는 날짜인지 확인
         if hasRecord(for: date) {
             do {
@@ -140,7 +164,7 @@ class CalendarViewModel: ObservableObject {
         } else {
             selectedRecord = nil
             showRecordModal = false
-            print("ℹ️ 기록이 없는 날짜입니다: \(date)")
+            print("ℹ️ 기록이 없는 날짜입니다")
         }
     }
     
