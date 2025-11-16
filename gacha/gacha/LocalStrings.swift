@@ -265,4 +265,37 @@ enum Strings {
             String(format: NSLocalizedString("history.chart.pain.first_record", comment: ""), level)
         }
     }
+    
+    // MARK: - Select Type
+    enum SelectType {
+        static var title: String { NSLocalizedString("select.type.title", comment: "") }
+        
+        enum Knee {
+            enum Flexion {
+                static var title: String { NSLocalizedString("select.type.knee.flexion.title", comment: "") }
+                static var description: String { NSLocalizedString("select.type.knee.flexion.description", comment: "") }
+            }
+        }
+        
+        enum Shoulder {
+            enum Flexion {
+                static var title: String { NSLocalizedString("select.type.shoulder.flexion.title", comment: "") }
+                static var description: String { NSLocalizedString("select.type.shoulder.flexion.description", comment: "") }
+            }
+        }
+        
+        enum Hip {
+            enum Adduction {
+                static var title: String { NSLocalizedString("select.type.hip.adduction.title", comment: "") }
+                static var description: String { NSLocalizedString("select.type.hip.adduction.description", comment: "") }
+            }
+        }
+        
+        enum Elbow {
+            enum Extension {
+                static var title: String { NSLocalizedString("select.type.elbow.extension.title", comment: "") }
+                static var description: String { NSLocalizedString("select.type.elbow.extension.description", comment: "") }
+            }
+        }
+    }
 }
