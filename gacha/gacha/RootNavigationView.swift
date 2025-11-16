@@ -114,20 +114,6 @@ struct RootNavigationView: View {
 
     // MARK: - View Builder
     @ViewBuilder
-    private func homeView() -> some View {
-        if measureVM.isLoading {
-            Text("Loading...")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else if measureVM.hasTodayRecord {
-            // 오늘 측정을 한 상태: MainViewAfter 표시
-            MainViewAfter()
-        } else {
-            // 오늘 측정을 안한 상태: MainViewBefore 표시
-            MainViewBefore()
-        }
-    }
-
-    @ViewBuilder
     private func viewForStep(_ step: MeasureFlowStep) -> some View {
         switch step {
         case .select:
@@ -137,7 +123,10 @@ struct RootNavigationView: View {
                 .navigationBarTitleDisplayMode(.large)
             
         case .home:
-            homeView()
+            MainViewBefore()
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle(Strings.DailyStart.title)
+                .navigationBarTitleDisplayMode(.large)
 
         case .countdown:
             CountdownView()

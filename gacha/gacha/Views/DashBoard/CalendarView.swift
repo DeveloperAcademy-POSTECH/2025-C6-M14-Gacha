@@ -243,11 +243,11 @@ struct MonthCalendarView: View {
         } else if isSelected {
             return Color("White")
         } else if isFuture {
-            return Color("Gray300")  // 미래 날짜는 더 연하게
+            return Color("Gray600")  // 미래 날짜는 더 연하게
         } else if isCurrentMonth {
             return Color("Gray900")
         } else {
-            return Color("Gray300")
+            return Color("Gray600")
         }
     }
     
