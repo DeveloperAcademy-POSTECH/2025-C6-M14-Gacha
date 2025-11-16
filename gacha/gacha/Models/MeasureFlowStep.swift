@@ -8,6 +8,7 @@ import Foundation
 
 /// 측정 플로우의 각 단계
 enum MeasureFlowStep: Hashable, Identifiable {
+    case select // 부위 선택 화면
     case home  // 홈 화면
     case countdown  // 대기 화면
     case flexionMeasure  // 측정 화면
@@ -17,6 +18,7 @@ enum MeasureFlowStep: Hashable, Identifiable {
 
     var id: String {
         switch self {
+        case .select: return "select"
         case .home: return "home"
         case .countdown: return "countdown"
         case .flexionMeasure: return "flexionMeasure"
@@ -29,8 +31,9 @@ enum MeasureFlowStep: Hashable, Identifiable {
 
 /// 네비게이션 소스 - 각 화면으로 진입한 경로를 추적
 enum NavigationSource: Hashable {
+    case select            // 부위 선택 화면에서 진입
     case home              // 홈 화면에서 직접 진입
-    case countdown    // 측정 로딩 화면에서 진입
+    case countdown         // 측정 로딩 화면에서 진입
     case flexionMeasure    // 굴곡 측정 화면에서 진입
     case completeMeasure   // 측정 완료 화면에서 진입
     case painLevel         // 통증 레벨 화면에서 진입
@@ -41,6 +44,7 @@ enum NavigationSource: Hashable {
     /// 현재 단계로부터 소스를 추론하는 헬퍼
     static func from(step: MeasureFlowStep) -> NavigationSource {
         switch step {
+        case .select: return .select
         case .home: return .home
         case .countdown: return .countdown
         case .flexionMeasure: return .flexionMeasure

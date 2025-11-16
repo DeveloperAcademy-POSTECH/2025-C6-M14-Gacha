@@ -13,11 +13,11 @@ struct MeasureFlowWrapper: View {
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
-        MeasureFlow(modelContext: modelContext)
+        RootNavigationView(modelContext: modelContext)
     }
 }
 
-struct MeasureFlow: View {
+struct RootNavigationView: View {
     @StateObject private var measureVM: MeasureViewModel
     @StateObject private var historyVM: HistoryViewModel
     @StateObject private var calendarVM: CalendarViewModel
@@ -58,7 +58,9 @@ struct MeasureFlow: View {
 
             // 측정 탭 (메인)
             NavigationStack {
-                homeView()
+                MeasureSelectionView()
+                    .navigationTitle(Strings.SelectType.title)
+                    .navigationBarTitleDisplayMode(.large)
                     .fullScreenCover(isPresented: $measureVM.showMeasureFlow) {
                         NavigationStack(path: $measureVM.navigationPath) {
                             // 빈 초기 화면 (navigationPath에 의해 즉시 대체됨)
@@ -128,6 +130,12 @@ struct MeasureFlow: View {
     @ViewBuilder
     private func viewForStep(_ step: MeasureFlowStep) -> some View {
         switch step {
+        case .select:
+            MeasureSelectionView()
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle(Strings.SelectType.title)
+                .navigationBarTitleDisplayMode(.large)
+            
         case .home:
             homeView()
 
