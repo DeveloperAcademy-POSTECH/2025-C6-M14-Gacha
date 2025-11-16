@@ -275,19 +275,12 @@ final class MeasureViewModel: ObservableObject {
             return detectedMaxAngle
         }
         
-        // 최대값 찾기
-        let maxAngle = angles.max() ?? 0
-        
-        // 최대값 ±5도 이내 데이터만 필터링
-        let nearMaxAngles = angles.filter { abs($0 - maxAngle) <= 5.0 }
-        
         // 필터링된 데이터의 최빈값 계산
-        if let modeValue = mode(of: nearMaxAngles.map { Int($0) }) {
+        if let modeValue = mode(of: angles.map { Int($0) }) {
             return Double(modeValue)
         }
         
-        // 최빈값 계산 실패 시 최대값 반환
-        return maxAngle
+        return detectedMaxAngle
     }
     
     // MARK: - 측정 취소
