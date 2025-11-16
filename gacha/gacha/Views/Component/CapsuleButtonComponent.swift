@@ -45,7 +45,7 @@ struct CapsuleButtonComponent: View {
             switch self {
             case .primary: return Color(.blue800)
             case .secondary: return Color(.blue300)
-            case .light: return Color(.gray400)
+            case .light: return Color(.gray500)
             }
         }
         
@@ -53,7 +53,7 @@ struct CapsuleButtonComponent: View {
             switch self {
             case .primary: return Color("White")
             case .secondary: return Color("Gray900")
-            case .light: return Color("Gray900")
+            case .light: return Color("White")
             }
         }
     }
@@ -77,12 +77,15 @@ struct CapsuleButtonComponent: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.displayTitle3Regular)
+                .font(.displayTitle3Bold)
                 .foregroundStyle(style.foregroundColor)
-                .frame(width: width ?? 313, height: height ?? 50)
-                .background(style.backgroundColor)
-                .cornerRadius(cornerRadius ?? (height ?? 50) / 2)  // cornerRadius가 있으면 사용, 없으면 Capsule 효과
         }
+        .frame(
+            width: width ?? 313,
+            height: height ?? 50
+        )
+        .background(style.backgroundColor)
+        .cornerRadius(cornerRadius ?? max(height ?? 50, 0) / 2)  // cornerRadius가 있으면 사용, 없으면 Capsule 효과
         .disabled(!isEnabled)
         .opacity(isEnabled ? 1.0 : 0.5)
         .buttonStyle(.plain)
@@ -108,7 +111,6 @@ struct CapsuleButtonComponent: View {
         CapsuleButtonComponent(
             title: "Disabled Button",
             style: .light,
-            isEnabled: false
         ) {
             print("This won't be called")
         }
