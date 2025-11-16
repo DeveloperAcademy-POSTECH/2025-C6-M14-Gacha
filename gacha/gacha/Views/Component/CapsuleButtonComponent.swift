@@ -66,7 +66,7 @@ struct CapsuleButtonComponent: View {
     // 커스터마이징 가능한 크기 옵션
     var width: CGFloat? = nil  // nil이면 기본값 313
     var height: CGFloat? = nil  // nil이면 기본값 50
-    var fontSize: CGFloat? = nil  // nil이면 기본값 17
+    var fontStyle: Font? = nil  // nil이면 기본값 17
     var cornerRadius: CGFloat? = nil  // nil이면 Capsule, 값이 있으면 RoundedRectangle
     
     // 액션
@@ -77,7 +77,7 @@ struct CapsuleButtonComponent: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.displayTitle3Bold)
+                .font(fontStyle ?? .displayTitle3Bold)
                 .foregroundStyle(style.foregroundColor)
                 .frame(
                     width: width ?? 313,

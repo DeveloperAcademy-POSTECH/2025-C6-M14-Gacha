@@ -35,7 +35,7 @@ struct MainViewAfter: View {
                             style: .light,
                             width: 361,
                             height: 54,
-                            fontSize: 20,
+                            fontStyle: .displayTitle3Bold,
                             cornerRadius: 100
                         ) {
                             showingAlert = true
