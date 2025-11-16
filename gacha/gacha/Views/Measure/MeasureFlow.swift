@@ -92,14 +92,16 @@ struct MeasureFlow: View {
             .environmentObject(historyVM)
         }
         .toolbar(isInMeasureFlow ? .hidden : .visible, for: .tabBar)
-        .onChange(of: measureVM.showMeasureFlow) { oldValue, newValue in
-            // 홈으로 돌아왔을 때 (modal이 닫혔을 때)
-            if !newValue {
-                Task {
-                    await measureVM.checkTodayRecord()
+        .onChange(of: selectedTab) { oldValue, newValue in
+                // 요약 탭으로 전환 시 데이터 리로드
+                if newValue == 0 {
+                    Task {
+                        await calendarVM.loadMeasuredDates()
+                    
                 }
             }
         }
+
         .task {
             // 앱 시작 시 초기 데이터 로드
             await measureVM.checkTodayRecord()
