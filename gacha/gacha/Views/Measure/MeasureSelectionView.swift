@@ -49,8 +49,8 @@ struct MeasureSelectionView: View {
             .padding(.horizontal, 16)
         }
         .alert(isPresented: $showAlert) {
-            Alert(title: Text("현재 지원되지 않는 측정입니다"),
-            message: Text("추후 지원될 예정입니다"),
+            Alert(title: Text(Strings.Alert.notyetTitle),
+            message: Text(Strings.Alert.notyetMessage),
             dismissButton: .default(Text("닫기")))
         }
     }
