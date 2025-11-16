@@ -20,6 +20,7 @@
 "button.pain_only" = "Enter Pain Only";
 "button.save" = "Save";
 "button.cancel" = "Cancel";
+"button.back" = "Back";
 
 /* Tabbar */
 "tabbar.calendar" = "Calendar";
@@ -86,7 +87,6 @@
 
 "progress.better_nopain.title" = "Recovery Going Well";
 "progress.better_nopain.description" = "Movement is smooth.\nNo pain, recovery is progressing.";
-
 "progress.better_mildpain.title" = "Positive Progress";
 "progress.better_mildpain.description" = "Slight stiffness is okay.\nMove slowly and steadily.";
 "progress.better_moderatepain.title" = "Check with Specialist";

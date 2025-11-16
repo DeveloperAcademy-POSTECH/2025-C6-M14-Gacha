@@ -20,6 +20,7 @@
 "button.pain_only" = "통증 수치만 입력하기";
 "button.save" = "저장";
 "button.cancel" = "취소";
+"button.back" = "뒤로";
 
 /* tabbar */
 "tabbar.calendar" = "기록";
@@ -86,7 +87,6 @@
 
 "progress.better_nopain.title" = "잘 회복되고 있어요";
 "progress.better_nopain.description" = "움직임이 부드러워졌어요.\n통증도 없고 회복이 잘되고 있어요.\n이대로 꾸준히 이어가요.";
-
 "progress.better_mildpain.title" = "좋은 변화가 보여요";
 "progress.better_mildpain.description" = "조금 뻐근할 수 있지만 괜찮아요.\n지금처럼 천천히 해요.\n무리하지 않는 게 중요해요.";
 "progress.better_moderatepain.title" = "전문가와 함께 점검해 보세요";

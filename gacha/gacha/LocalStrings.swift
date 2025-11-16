@@ -41,6 +41,7 @@ enum Strings {
         static var painOnly: String { NSLocalizedString("button.pain_only", comment: "") }
         static var save: String { NSLocalizedString("button.save", comment: "") }
         static var cancel: String { NSLocalizedString("button.cancel", comment: "") }
+        static var back: String { NSLocalizedString("button.back", comment: "") }
     }
     
     // MARK: - Tabbar
@@ -161,7 +162,6 @@ enum Strings {
         
         static var betterNoPainTitle: String { NSLocalizedString("progress.better_nopain.title", comment: "") }
         static var betterNoPainDescription: String { NSLocalizedString("progress.better_nopain.description", comment: "") }
-        
         static var betterMildPainTitle: String { NSLocalizedString("progress.better_mildpain.title", comment: "") }
         static var betterMildPainDescription: String { NSLocalizedString("progress.better_mildpain.description", comment: "") }
         
