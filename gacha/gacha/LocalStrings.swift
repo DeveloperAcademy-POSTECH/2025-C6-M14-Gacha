@@ -42,6 +42,7 @@ enum Strings {
         static var save: String { NSLocalizedString("button.save", comment: "") }
         static var cancel: String { NSLocalizedString("button.cancel", comment: "") }
         static var back: String { NSLocalizedString("button.back", comment: "") }
+        static var close: String { NSLocalizedString("button.close", comment: "") }
     }
     
     // MARK: - Tabbar

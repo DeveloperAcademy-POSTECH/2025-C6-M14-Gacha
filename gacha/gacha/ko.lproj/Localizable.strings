@@ -21,6 +21,7 @@
 "button.save" = "저장";
 "button.cancel" = "취소";
 "button.back" = "뒤로";
+"button.close" = "닫기";
 
 /* tabbar */
 "tabbar.calendar" = "기록";
@@ -40,12 +41,12 @@
 /* MainBefore - 1/2 */
 "daily_start.title" = "무릎 굽힘 측정 준비";
 "daily_start.instruction.no1" = "측정할 무릎을 최대한 굽혀 앉아주세요";
-"daily_start.instruction.no2" = "iPhone을 무릎 쪽 허벅지에 얹어주세요";
+"daily_start.instruction.no2" = "기기를 무릎 쪽 허벅지에 얹어주세요";
 "daily_start.instruction.no3" = "측정이 끝날 때까지 자세를 유지하세요";
 
 /* CountdownView */
 "measure.countdown.emphasis_text" = "잠시 후 측정이 시작돼요";
-"measure.countdown.description" = "iPhone을 무릎 쪽 허벅지 위에 얹은 채\n자세를 유지해 주세요";
+"measure.countdown.description" = "기기를 무릎 쪽 허벅지 위에 얹은 채\n자세를 유지해 주세요";
 
 /* FlexionMeasureView - 측정중 */
 "measure.flexion.title" = "무릎 굽힘 측정";
@@ -122,7 +123,7 @@
 "history.summary.title" = "요약";
 
 /* History Summary Card - ROM Change */
-"history.card.rom.title" = "무릎 굽힘 범위";
+"history.card.rom.title" = "무릎 굽힘";
 "history.card.rom.better" = "첫측정한 %d일 전보다\n무릎을 %d도\n더 움직일 수 있어요!";
 "history.card.rom.same" = "첫측정부터 %d일간\n무릎 움직이는 범위가\n유지되고 있어요";
 "history.card.rom.worse" = "첫측정한 %d일 전보다\n무릎이 %d도\n덜 움직여요";
@@ -135,10 +136,10 @@
 "history.card.pain.same" = "처음 기록한 날부터\n아픔을 같은 정도로\n느끼고 있어요";
 "history.card.pain.worse" = "처음 기록한 날보다\n아픔을 %d단계\n더 느껴요";
 "history.card.pain.no_record" = "첫 기록을 남겨보세요.\nAnggle과 함께\n변화를 기록해봐요!";
-"history.card.pain.first_record" = "처음 기록을\n남기셨군요.\n회복을 향한 첫걸음\nAnggle이 응원해요!";
+"history.card.pain.first_record" = "첫 기록을 남기셨군요.\n회복을 향한 첫걸음\nAnggle이 응원해요!";
 
 /* History Summary Chart - ROM Change */
-"history.chart.rom.title" = "무릎 굽힘 범위";
+"history.chart.rom.title" = "무릎 굽힘 변화";
 "history.chart.rom.better" = "이 기간 최대였던 %d°보다 %d° 더 움직일 수 있어요";
 "history.chart.rom.same" = "이 기간 최대였던 %d°와 같아요";
 "history.chart.rom.worse" = "이 기간 최대였던 %d°보다 %d° 덜 움직여요";
@@ -146,7 +147,7 @@
 "history.chart.rom.first_record" = "현재 무릎이 %d°까지 굽혀지고 있어요";
 
 /* History Summary Chart - Pain Change */
-"history.chart.pain.title" = "통증 정도";
+"history.chart.pain.title" = "통증 정도 변화";
 "history.chart.pain.better" = "이 기간 최저 통증인 %d단계보다 %d단계 덜 아파졌어요";
 "history.chart.pain.same" = "이 기간 최저 통증인 %d단계와 같아요";
 "history.chart.pain.worse" = "이 기간 최저 통증인 %d단계보다 %d단계 더 아파졌어요";

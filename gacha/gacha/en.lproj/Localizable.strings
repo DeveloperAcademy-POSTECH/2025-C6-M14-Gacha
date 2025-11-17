@@ -21,6 +21,7 @@
 "button.save" = "Save";
 "button.cancel" = "Cancel";
 "button.back" = "Back";
+"button.close" = "Close";
 
 /* Tabbar */
 "tabbar.calendar" = "Calendar";
@@ -40,12 +41,12 @@
 /* MainBefore - 1/2 */
 "daily_start.title" = "Ready for Knee Flexion";
 "daily_start.instruction.no1" = "Sit and bend your knee fully";
-"daily_start.instruction.no2" = "Place iPhone on thigh near the knee";
-"daily_start.instruction.no3" = "Hold still until measurement ends";
+"daily_start.instruction.no2" = "Place iPhone on thigh by knee";
+"daily_start.instruction.no3" = "Hold still until done";
 
 /* CountdownView */
 "measure.countdown.emphasis_text" = "Get Ready";
-"measure.countdown.description" = "Hold still and prepare for measurement.";
+"measure.countdown.description" = "Hold still and\nprepare for measurement";
 
 /* FlexionMeasureView - Measuring */
 "measure.flexion.title" = "Knee Flexion Measurement";
@@ -64,7 +65,7 @@
 "pain.category.10" = "Worst pain";
 
 /* Pain Levels 0-10 */
-"pain.level.0" = "No pain";
+"pain.level.0" = "I feel no pain";
 "pain.level.1" = "Very mild, barely noticeable";
 "pain.level.2" = "Slight discomfort";
 "pain.level.3" = "Knee feels tight and bothersome";
@@ -122,7 +123,7 @@
 "history.summary.title" = "Summary";
 
 /* History Summary Card - ROM Change */
-"history.card.rom.title" = "Knee Flexion Range";
+"history.card.rom.title" = "Knee Flexion";
 "history.card.rom.better" = "You can bend your knee %d° more than %d days ago! !";
 "history.card.rom.same" = "Knee range has\nstayed the same\nfor %d days.";
 "history.card.rom.worse" = "Your knee moves\n%d° less than\n%d days ago.";
@@ -138,7 +139,7 @@
 "history.card.pain.first_record" = "First record made!\nAnggle supports\nyour recovery step!";
 
 /* History Summary Chart - ROM Change */
-"history.chart.rom.title" = "Knee Flexion Range";
+"history.chart.rom.title" = "Knee Flexion Change";
 "history.chart.rom.better" = "You can flex %d° more than previous %d°";
 "history.chart.rom.same" = "Same as previous max %d°";
 "history.chart.rom.worse" = "You moved %d° less than previous %d°";
@@ -146,14 +147,14 @@
 "history.chart.rom.first_record" = "Your knee bend up to %d°";
 
 /* History Summary Chart - Pain Change */
-"history.chart.pain.title" = "Pain Level";
+"history.chart.pain.title" = "Pain Level Change";
 "history.chart.pain.better" = "Pain reduced by %d steps from %d";
 "history.chart.pain.same" = "Same pain level as previous %d";
 "history.chart.pain.worse" = "Pain increased by %d steps from %d";
 "history.chart.pain.no_record" = "Make your first record";
 "history.chart.pain.first_record" = "You’re feeling pain at level %d";
 
-
+/* Select Type */
 "select.type.title" = "Select";
 
 "select.type.knee.flexion.title" = "Knee Flexion";
