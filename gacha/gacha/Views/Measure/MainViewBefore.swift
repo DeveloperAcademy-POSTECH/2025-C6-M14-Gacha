@@ -43,7 +43,7 @@ struct MainViewBefore: View {
                         // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
                         HStack(spacing: 20) {
                             CapsuleButtonComponent(
-                                title: "뒤로",
+                                title: Strings.Button.back,
                                 style: .light,
                                 width: (UIScreen.main.bounds.width - 60) / 2
                             ) {
@@ -64,7 +64,7 @@ struct MainViewBefore: View {
                         // 두 번째 화면: "측정하기" 버튼 (primary style, 100px cornerRadius)
                         HStack(spacing: 20) {
                             CapsuleButtonComponent(
-                                title: "뒤로",
+                                title: Strings.Button.back,
                                 style: .light,
                                 width: (UIScreen.main.bounds.width - 60) / 2
                             ) {
