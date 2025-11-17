@@ -74,7 +74,7 @@ struct MainViewBefore: View {
                                 currentPage -= 1
                             }
                             CapsuleButtonComponent(
-                                title: Strings.Button.next,
+                                title: Strings.Button.measureStart,
                                 style: .primary,
                                 width: (UIScreen.main.bounds.width - 60) / 2
                             ) {
