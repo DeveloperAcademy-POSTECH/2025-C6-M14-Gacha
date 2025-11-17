@@ -12,6 +12,9 @@ struct MainViewBefore: View {
     @EnvironmentObject var vm: MeasureViewModel
 
     @State private var currentPage = 0  // 0: 첫 화면, 1: 두 번째 화면
+    @State private var showFlexionAlert = false
+    @State private var showPainAlert = false
+
 
     var body: some View {
         VStack(spacing: 0) {
@@ -75,8 +78,7 @@ struct MainViewBefore: View {
                                 style: .primary,
                                 width: (UIScreen.main.bounds.width - 60) / 2
                             ) {
-                                vm.shouldAutoStartMeasure = true
-                                vm.navigate(to: .countdown, from: .home)
+                                showFlexionAlert = true
                             }
                         }
                     }
@@ -84,7 +86,7 @@ struct MainViewBefore: View {
                     // 보조 링크: "고통수치만 입력하기" (16px, 밑줄, Gray500)
                     Button(action: {
                         // 홈에서 직접 PainLevel로 이동
-                        vm.navigate(to: .painLevel, from: .home)
+                        showPainAlert = true
                     }) {
                         Text(Strings.Button.painOnly)
                             .font(.displayBodyRegular)
@@ -103,6 +105,40 @@ struct MainViewBefore: View {
         .onAppear {
             // 화면이 나타날 때마다 첫 번째 화면으로 초기화
             currentPage = 0
+        }
+        .alert(isPresented: $showFlexionAlert) {
+            Alert(
+                title: Text(Strings.Alert.remeasureTitle),
+                message: Text(Strings.Alert.remeasureMessage),
+                primaryButton: .destructive(
+                    Text(Strings.Common.yes),
+                    action: {
+                        Task {
+                            vm.navigate(to: .countdown, from: .home)
+                        }
+                    }
+                ),
+                secondaryButton: .cancel(
+                    Text(Strings.Common.no)
+                )
+            )
+        }
+        .alert(isPresented: $showPainAlert) {
+            Alert(
+                title: Text("통증 기록을 다시 하겠어요?"),
+                message: Text(Strings.Alert.remeasureMessage),
+                primaryButton: .destructive(
+                    Text(Strings.Common.yes),
+                    action: {
+                        Task {
+                            vm.navigate(to: .painLevel, from: .home)
+                        }
+                    }
+                ),
+                secondaryButton: .cancel(
+                    Text(Strings.Common.no)
+                )
+            )
         }
     }
 }
