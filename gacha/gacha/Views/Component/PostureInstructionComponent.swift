@@ -19,15 +19,17 @@ import SwiftUI
 
 struct PostureInstructionComponent: View {
     var index: Int
+    let emphasisFont: Font = .displayBodyBold
+    let regularFont: Font = .displaySublineRegular
     
     var body: some View {
         VStack(spacing: 12) {
             // index 1
             HStack (spacing: 4) {
                 Image(systemName: "1.circle")
-                    .font(index == 1 ? .displayTitle3Bold : .displayBodyRegular)
+                    .font(index == 1 ? emphasisFont : regularFont)
                 Text(Strings.DailyStart.instructionNo1)
-                    .font(index == 1 ? .displayTitle3Bold : .displayBodyRegular)
+                    .font(index == 1 ? emphasisFont : regularFont)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .foregroundStyle(index == 1 ? Color(.blue800) : Color(.gray600))
@@ -35,18 +37,19 @@ struct PostureInstructionComponent: View {
             // index 2
             HStack {
                 Image(systemName: "2.circle")
-                    .font(index == 2 ? .displayTitle3Bold : .displayBodyRegular)
+                    .font(index == 2 ? emphasisFont : regularFont)
                 Text(Strings.DailyStart.instructionNo2)
-                    .font(index == 2 ? .displayTitle3Bold : .displayBodyRegular)                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(index == 2 ? emphasisFont : regularFont)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             .foregroundStyle(index == 2 ? Color(.blue800) : Color(.gray600))
             
             // index 3
             HStack {
                 Image(systemName: "3.circle")
-                    .font(index == 3 ? .displayTitle3Bold : .displayBodyRegular)
+                    .font(index == 3 ? emphasisFont : regularFont)
                 Text(Strings.DailyStart.instructionNo3)
-                    .font(index == 3 ? .displayTitle3Bold : .displayBodyRegular)
+                    .font(index == 3 ? emphasisFont : regularFont)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .foregroundStyle(index == 3 ? Color(.blue800) : Color(.gray600))
