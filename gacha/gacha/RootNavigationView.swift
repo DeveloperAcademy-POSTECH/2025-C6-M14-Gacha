@@ -129,7 +129,7 @@ struct RootNavigationView: View {
                 .navigationBarBackButtonHidden(true)
                 .navigationTitle(Strings.SelectType.title)
                 .navigationBarTitleDisplayMode(.large)
-            
+
         case .home:
             MainViewBefore()
                 .navigationBarBackButtonHidden(true)
@@ -162,7 +162,9 @@ struct RootNavigationView: View {
 
         case .summary:
             MainViewAfter()
-                .navigationBarHidden(true)
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle(Strings.Progress.title)
+                .navigationBarTitleDisplayMode(.large)
         }
     }
 }
