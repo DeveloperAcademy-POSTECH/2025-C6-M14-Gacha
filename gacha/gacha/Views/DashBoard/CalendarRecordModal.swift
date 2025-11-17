@@ -55,7 +55,7 @@ struct CalendarRecordModal: View {
             // 굴곡 각도
             VStack(alignment: .leading, spacing: 4) {
                 Text(Strings.Progress.flexionAngle)
-                    .font(.displayCalloutBold)
+                    .font(.displayFootnoteBold)
                     .foregroundColor(.blue700)
                 Text(formatAngle(record.flexionAngle))
                     .font(.displayTitle2Bold)
@@ -66,7 +66,7 @@ struct CalendarRecordModal: View {
             // 통증 정도
             VStack(alignment: .leading, spacing: 4) {
                 Text(Strings.Progress.painLevel)
-                    .font(.displayCalloutBold)
+                    .font(.displayFootnoteBold)
                     .foregroundColor(.blue700)
                 HStack (spacing: 4) {
                     Text(formatPainLevelForDisplay(record.painLevel))
@@ -111,7 +111,7 @@ struct CalendarRecordModal: View {
 
     private func formatAngle(_ angle: Double?) -> String {
         guard let angle = angle else {
-            return "-"
+            return "측정값 없음"
         }
         return "\(Int(angle))°"
     }

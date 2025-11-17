@@ -37,11 +37,13 @@ struct History: View {
                                 VStack(alignment: .leading, spacing: 8) {
                                     // Title
                                     Text(Strings.History.chartRomTitle)
-                                        .font(.displayTitle3Bold)
+                                        .font(.displaySublineBold)
+                                        .foregroundColor(.blue700)
                                         .id("romChart")
                                     if vm.chartData.isEmpty {
                                         // 측정된 데이터가 없을 때
                                         Text(Strings.History.chartRomNoRecord)
+                                            .font(.displayFootnoteRegular)
                                             .frame(
                                                 maxWidth: .infinity,
                                                 alignment: .leading
@@ -49,7 +51,8 @@ struct History: View {
                                     } else {
                                         // SubTitle
                                         Text(vm.romSubtitle)
-
+                                            .font(.displayFootnoteRegular)
+                                        
                                         romChart
 
                                     }
@@ -66,11 +69,13 @@ struct History: View {
                                 VStack(alignment: .leading, spacing: 8) {
                                     // Title
                                     Text(Strings.History.chartPainTitle)
-                                        .font(.displayTitle3Bold)
+                                        .font(.displaySublineBold)
+                                        .foregroundColor(.blue700)
                                         .id("painChart")
                                     if vm.chartData.isEmpty {
                                         // 측정된 데이터가 없을 때
                                         Text(Strings.History.chartPainNoRecord)
+                                            .font(.displayFootnoteRegular)
                                             .frame(
                                                 maxWidth: .infinity,
                                                 alignment: .leading
@@ -78,7 +83,8 @@ struct History: View {
                                     } else {
                                         // SubTitle
                                         Text(vm.painSubtitle)
-
+                                            .font(.displayFootnoteRegular)
+                                        
                                         painChart
                                     }
                                 }
@@ -326,7 +332,7 @@ struct History: View {
                 // 헤더
                 HStack {
                     Text(Strings.History.cardRomTitle)
-                        .font(.displayBodyBold)
+                        .font(.displaySublineBold)
                         .foregroundColor(Color("Blue700"))
                     Spacer()
                 }
@@ -337,8 +343,12 @@ struct History: View {
                 HStack(spacing: 0) {
                     Spacer()
                     if vm.recentRecords.count < 2 {
-                        Text(Strings.History.cardRomUnder2Days(days: vm.recentRecords.count))
-                            .font(.displayTitle1Bold)
+                        Text(
+                            Strings.History.cardRomUnder2Days(
+                                days: vm.recentRecords.count
+                            )
+                        )
+                        .font(.displayTitle1Bold)
                     } else if let first = vm.firstROM, let latest = vm.latestROM
                     {
                         // 기록이 여러 개일 때
@@ -354,7 +364,7 @@ struct History: View {
                 // 변화 설명 텍스트
                 Text(
                     vm.recentRecords.count < 2
-                    ? Strings.History.cardRomUnder2
+                        ? Strings.History.cardRomUnder2
                         : vm.romChangeText
                 )
                 .font(
@@ -371,11 +381,6 @@ struct History: View {
         .frame(width: 173, height: 173)
         .background(Color.white)
         .cornerRadius(15)
-        .onTapGesture {
-            withAnimation {
-                proxy.scrollTo("romChart", anchor: .top)
-            }
-        }
     }
 
     @ViewBuilder
@@ -385,7 +390,7 @@ struct History: View {
                 // 헤더
                 HStack {
                     Text(Strings.History.cardPainTitle)
-                        .font(.displayBodyBold)
+                        .font(.displaySublineBold)
                         .foregroundColor(Color("Blue700"))
                     Spacer()
                 }
@@ -404,7 +409,7 @@ struct History: View {
                         HStack(spacing: 0) {
                             Rectangle()
                                 .fill(Color("Blue700"))
-                                .frame(width: CGFloat(latest)     * 10, height: 3)
+                                .frame(width: CGFloat(latest) * 10, height: 3)
                                 .cornerRadius(4)
                             Spacer()
                             Text("\(latest)")
@@ -431,8 +436,10 @@ struct History: View {
                 // 변화 설명 텍스트
                 Text(
                     vm.recentRecords.count == 0
-                    ? Strings.History.cardPainNoRecord : ( vm.recentRecords.count < 2 ? Strings.History.cardPainFirstRecord
-                        : vm.painChangeText)
+                        ? Strings.History.cardPainNoRecord
+                        : (vm.recentRecords.count < 2
+                            ? Strings.History.cardPainFirstRecord
+                            : vm.painChangeText)
                 )
                 .font(
                     vm.recentRecords.count < 2
@@ -447,11 +454,6 @@ struct History: View {
         .frame(width: 173, height: 173)
         .background(Color.white)
         .cornerRadius(15)
-        .onTapGesture {
-            withAnimation {
-                proxy.scrollTo("painChart", anchor: .top)
-            }
-        }
     }
 
     // MARK: - Helper Methods
