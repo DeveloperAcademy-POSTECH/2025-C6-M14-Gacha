@@ -15,7 +15,7 @@
 /* Button */
 "button.next" = "Next";
 "button.measure" = "Go to Measure";
-"button.measure.start" = "Start Measurement";
+"button.measure.start" = "Start";
 "button.retake" = "Measure Again";
 "button.pain_only" = "Enter Pain Only";
 "button.save" = "Save";
