@@ -49,7 +49,6 @@ struct MainViewAfter: View {
                                     action: {
                                         Task {
                                             vm.isRemeasuring = true
-                                            vm.prepareForNewMeasurement()
                                             vm.clearCurrentRecord()
 
                                             await vm.checkTodayRecord()

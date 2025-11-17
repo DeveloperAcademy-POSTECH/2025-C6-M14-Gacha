@@ -62,6 +62,8 @@ struct FlexionMeasureView: View {
             }
         }
         .onAppear {
+            vm.prepareForNewMeasurement()
+            
             // 자동 시작 플래그 확인
             if vm.shouldAutoStartMeasure {
                 vm.shouldAutoStartMeasure = false

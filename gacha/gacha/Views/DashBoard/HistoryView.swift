@@ -180,7 +180,7 @@ struct History: View {
                 AxisGridLine()
             }
         }
-        .chartYScale(domain: 0...150)
+        .chartYScale(domain: 0...max(150, vm.romMaxValue))
         .chartXScale(domain: domain)
         .chartXSelection(value: $vm.selectedROMIndex)
         .frame(height: 361)
@@ -430,9 +430,9 @@ struct History: View {
 
                 // 변화 설명 텍스트
                 Text(
-                    vm.recentRecords.count < 2
-                        ? Strings.History.cardPainNoRecord
-                        : vm.painChangeText
+                    vm.recentRecords.count == 0
+                    ? Strings.History.cardPainNoRecord : ( vm.recentRecords.count < 2 ? Strings.History.cardPainFirstRecord
+                        : vm.painChangeText)
                 )
                 .font(
                     vm.recentRecords.count < 2
