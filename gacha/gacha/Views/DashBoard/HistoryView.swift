@@ -180,7 +180,7 @@ struct History: View {
                 AxisGridLine()
             }
         }
-        .chartYScale(domain: 0...150)
+        .chartYScale(domain: 0...max(150, vm.romMaxValue))
         .chartXScale(domain: domain)
         .chartXSelection(value: $vm.selectedROMIndex)
         .frame(height: 361)
