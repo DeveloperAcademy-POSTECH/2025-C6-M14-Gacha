@@ -67,24 +67,24 @@ struct MeasureSelectionView: View {
                     HStack {
                         Text(title)
                             .font(.displayTitle3Bold)
-                            .foregroundColor(isActive ? .blue700 : .gray500)
+                            .foregroundColor(isActive ? .blue700 : .gray400)
                         Spacer()
                         Image(systemName: "chevron.right")
                             .font(.displayTitle3Bold)
-                            .foregroundColor(isActive ? .black : .gray900)
+                            .foregroundColor(isActive ? .black : .gray400)
                     }
                     Text(description)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .multilineTextAlignment(.leading)
-                        .foregroundColor(isActive ? .black : .gray900)
+                        .foregroundColor(isActive ? .black : .gray300)
                 }
                 .padding(.horizontal, 24)
                 .padding(.vertical, 16)
-                .background(isActive ? .blue200 : .gray300)
+                .background(isActive ? .blue200 : .gray100)
                 .cornerRadius(25)
             }
             .buttonStyle(.plain)
-            .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 2)
+            .shadow(color: .black.opacity(isActive ? 0.15 : 0), radius: 2, x: 0, y: 2)
 
         }
     }
