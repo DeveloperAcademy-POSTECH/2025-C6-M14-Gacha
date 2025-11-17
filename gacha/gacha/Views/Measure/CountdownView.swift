@@ -51,6 +51,7 @@ struct CountdownView: View {
         )
         .onAppear {
             // Start sensor early to warm up before actual measurement view
+            vm.shouldAutoStartMeasure = true
             vm.startSensor()
         }
         .task {
