@@ -15,7 +15,6 @@ struct MainViewBefore: View {
     @State private var showFlexionAlert = false
     @State private var showPainAlert = false
 
-
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
@@ -74,11 +73,32 @@ struct MainViewBefore: View {
                                 currentPage -= 1
                             }
                             CapsuleButtonComponent(
-                                title: Strings.Button.next,
+                                title: Strings.Button.measureStart,
                                 style: .primary,
                                 width: (UIScreen.main.bounds.width - 60) / 2
                             ) {
-                                showFlexionAlert = true
+                                if vm.hasTodayRecord {
+                                    showFlexionAlert = true
+                                } else {
+                                    vm.navigate(to: .countdown, from: .home)
+                                }
+                            }
+                            .alert(isPresented: $showFlexionAlert) {
+                                Alert(
+                                    title: Text(Strings.Alert.remeasureTitle),
+                                    message: Text(Strings.Alert.remeasureMessage),
+                                    primaryButton: .destructive(
+                                        Text(Strings.Common.yes),
+                                        action: {
+                                            Task {
+                                                vm.navigate(to: .countdown, from: .home)
+                                            }
+                                        }
+                                    ),
+                                    secondaryButton: .cancel(
+                                        Text(Strings.Common.no)
+                                    )
+                                )
                             }
                         }
                     }
@@ -86,12 +106,33 @@ struct MainViewBefore: View {
                     // 보조 링크: "고통수치만 입력하기" (16px, 밑줄, Gray500)
                     Button(action: {
                         // 홈에서 직접 PainLevel로 이동
-                        showPainAlert = true
+                        if vm.hasTodayRecord {
+                            showPainAlert = true
+                        } else {
+                            vm.navigate(to: .painLevel, from: .home)
+                        }
                     }) {
                         Text(Strings.Button.painOnly)
                             .font(.displayBodyRegular)
                             .foregroundStyle(.gray500)
                             .underline()
+                    }
+                    .alert(isPresented: $showPainAlert) {
+                        Alert(
+                            title: Text("통증 기록을 다시 하겠어요?"),
+                            message: Text(Strings.Alert.remeasureMessage),
+                            primaryButton: .destructive(
+                                Text(Strings.Common.yes),
+                                action: {
+                                    Task {
+                                        vm.navigate(to: .painLevel, from: .home)
+                                    }
+                                }
+                            ),
+                            secondaryButton: .cancel(
+                                Text(Strings.Common.no)
+                            )
+                        )
                     }
                 }
                 .padding(.bottom, 40)
@@ -105,40 +146,9 @@ struct MainViewBefore: View {
         .onAppear {
             // 화면이 나타날 때마다 첫 번째 화면으로 초기화
             currentPage = 0
-        }
-        .alert(isPresented: $showFlexionAlert) {
-            Alert(
-                title: Text(Strings.Alert.remeasureTitle),
-                message: Text(Strings.Alert.remeasureMessage),
-                primaryButton: .destructive(
-                    Text(Strings.Common.yes),
-                    action: {
-                        Task {
-                            vm.navigate(to: .countdown, from: .home)
-                        }
-                    }
-                ),
-                secondaryButton: .cancel(
-                    Text(Strings.Common.no)
-                )
-            )
-        }
-        .alert(isPresented: $showPainAlert) {
-            Alert(
-                title: Text("통증 기록을 다시 하겠어요?"),
-                message: Text(Strings.Alert.remeasureMessage),
-                primaryButton: .destructive(
-                    Text(Strings.Common.yes),
-                    action: {
-                        Task {
-                            vm.navigate(to: .painLevel, from: .home)
-                        }
-                    }
-                ),
-                secondaryButton: .cancel(
-                    Text(Strings.Common.no)
-                )
-            )
+            Task {
+                await vm.checkTodayRecord()
+            }
         }
     }
 }
