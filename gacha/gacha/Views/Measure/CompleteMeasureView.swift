@@ -60,8 +60,6 @@ struct CompleteMeasureView: View {
                     action: {
                         Task {
                             vm.isRemeasuring = true
-                            vm.prepareForNewMeasurement()
-
                             await vm.checkTodayRecord()
 
                             // 다시 LoadingMeasure로 이동
