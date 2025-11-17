@@ -125,8 +125,8 @@ struct MainViewBefore: View {
         }
         .alert(isPresented: $showPainAlert) {
             Alert(
-                title: Text("통증 기록을 다시 하겠어요?"),
-                message: Text(Strings.Alert.remeasureMessage),
+                title: Text(Strings.Alert.rerecordPainTitle),
+                message: Text(Strings.Alert.rerecordPainMessage),
                 primaryButton: .destructive(
                     Text(Strings.Common.yes),
                     action: {

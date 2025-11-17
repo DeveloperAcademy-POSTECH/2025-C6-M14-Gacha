@@ -22,6 +22,7 @@
 "button.cancel" = "Cancel";
 "button.back" = "Back";
 "button.close" = "Close";
+"button.home" = "Back to Home";
 
 /* Tabbar */
 "tabbar.calendar" = "Calendar";
@@ -37,6 +38,8 @@
 "alert.remeasure.message" = "This will update today’s record";
 "alert.notyet.title" = "Not available yet";
 "alert.notyet.message" = "It’ll be ready soon";
+"alert.rerecord_pain.title" = "Record pain again?";
+"alert.rerecord_pain.message" = "This will update today’s record";
 
 /* MainBefore - 1/2 */
 "daily_start.title" = "Ready for Knee Flexion";
@@ -78,7 +81,7 @@
 "pain.level.10" = "Worst pain possible";
 
 /* MeasureView(After) */
-"progress.title" = "Today's Record";
+"progress.title" = "Result";
 
 "progress.flexion_angle" = "Knee Flexion";
 "progress.pain_level" = "Pain Level";
@@ -124,7 +127,7 @@
 
 /* History Summary Card - ROM Change */
 "history.card.rom.title" = "Knee Flexion";
-"history.card.rom.better" = "You can bend your knee %d° more than %d days ago! !";
+"history.card.rom.better" = "You can bend your knee %d° more than %d days ago!";
 "history.card.rom.same" = "Knee range has\nstayed the same\nfor %d days.";
 "history.card.rom.worse" = "Your knee moves\n%d° less than\n%d days ago.";
 "history.card.rom.under2Days" = "Day %d";
@@ -140,9 +143,9 @@
 
 /* History Summary Chart - ROM Change */
 "history.chart.rom.title" = "Knee Flexion Change";
-"history.chart.rom.better" = "You can flex %d° more than previous %d°";
+"history.chart.rom.better" = "You can flex %d° more than previous max of %d°";
 "history.chart.rom.same" = "Same as previous max %d°";
-"history.chart.rom.worse" = "You moved %d° less than previous %d°";
+"history.chart.rom.worse" = "You moved %d° less than previous max of %d°";
 "history.chart.rom.no_record" = "Take your first measurement";
 "history.chart.rom.first_record" = "Your knee bend up to %d°";
 
