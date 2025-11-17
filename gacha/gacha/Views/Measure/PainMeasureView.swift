@@ -107,9 +107,7 @@ struct PainMeasureView: View {
                             // 저장 완료 후 상태 업데이트
                             await vm.checkTodayRecord()
 
-                            await MainActor.run {
-                                vm.dismissMeasureFlow()
-                            }
+                            vm.navigate(to: .summary, from: .painLevel)
                         }
                     }
                     .padding(.horizontal, 20)

@@ -11,8 +11,6 @@ import SwiftUI
 struct MainViewAfter: View {
     @EnvironmentObject var vm: MeasureViewModel
 
-    @State private var showingAlert = false
-
     var body: some View {
         Group {
             if vm.isLoading {
@@ -29,56 +27,25 @@ struct MainViewAfter: View {
                     Spacer()
 
                     // MARK: - 하단 버튼 영역 (MainViewBefore와 동일한 구조)
-                    VStack(spacing: 16) {
-                        CapsuleButtonComponent(
-                            title: Strings.Button.retake,
-                            style: .light,
-                            width: 361,
-                            height: 54,
-                            fontStyle: .displayTitle3Bold,
-                            cornerRadius: 100
-                        ) {
-                            showingAlert = true
-                        }
-                        .alert(isPresented: $showingAlert) {
-                            Alert(
-                                title: Text(Strings.Alert.remeasureTitle),
-                                message: Text(Strings.Alert.remeasureMessage),
-                                primaryButton: .destructive(
-                                    Text(Strings.Common.yes),
-                                    action: {
-                                        Task {
-                                            vm.isRemeasuring = true
-                                            vm.clearCurrentRecord()
-
-                                            await vm.checkTodayRecord()
-
-                                            vm.navigationPath = NavigationPath()
-                                            vm.isRemeasuring = false
-                                        }
-                                    }
-                                ),
-                                secondaryButton: .cancel(
-                                    Text(Strings.Common.no)
-                                )
-                            )
-                        }
+                    CapsuleButtonComponent(
+                        title: "돌아가기",
+                        style: .primary,
+                        width: UIScreen.main.bounds.width - 40
+                    ) {
+                        vm.dismissMeasureFlow()
                     }
-                    .frame(height: 92)  // MainViewBefore와 동일한 버튼 영역 높이
-                    .padding(.bottom, 34)  // MainViewBefore와 동일한 하단 패딩
+                    .padding(.bottom, 40)
+
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        .navigationTitle(Strings.Progress.title)
-        .navigationBarTitleDisplayMode(.large)
         .onAppear {
             Task {
                 await vm.loadTodayRecord()
                 await vm.loadYesterdayRecord()
                 vm.calculateRecordChange()
             }
-            vm.clearCurrentRecord()
         }
     }
 
@@ -132,7 +99,7 @@ struct MainViewAfter: View {
                 Text(Strings.Progress.painLevel)
                     .font(.displayCalloutBold)
                     .foregroundColor(.blue700)
-                HStack (spacing: 4) {
+                HStack(spacing: 4) {
                     Text(vm.formatPainLevel(vm.currentRecord?.painLevel))
                         .font(.displayTitle2Bold)
 

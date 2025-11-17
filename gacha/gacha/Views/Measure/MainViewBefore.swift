@@ -15,7 +15,6 @@ struct MainViewBefore: View {
     @State private var showFlexionAlert = false
     @State private var showPainAlert = false
 
-
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
@@ -78,7 +77,11 @@ struct MainViewBefore: View {
                                 style: .primary,
                                 width: (UIScreen.main.bounds.width - 60) / 2
                             ) {
-                                showFlexionAlert = true
+                                if vm.hasTodayRecord {
+                                    showFlexionAlert = true
+                                } else {
+                                    vm.navigate(to: .countdown, from: .home)
+                                }
                             }
                         }
                     }
@@ -86,7 +89,11 @@ struct MainViewBefore: View {
                     // 보조 링크: "고통수치만 입력하기" (16px, 밑줄, Gray500)
                     Button(action: {
                         // 홈에서 직접 PainLevel로 이동
-                        showPainAlert = true
+                        if vm.hasTodayRecord {
+                            showPainAlert = true
+                        } else {
+                            vm.navigate(to: .painLevel, from: .home)
+                        }
                     }) {
                         Text(Strings.Button.painOnly)
                             .font(.displayBodyRegular)
