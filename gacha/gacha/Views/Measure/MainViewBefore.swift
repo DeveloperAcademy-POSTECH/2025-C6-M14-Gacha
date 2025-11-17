@@ -83,6 +83,23 @@ struct MainViewBefore: View {
                                     vm.navigate(to: .countdown, from: .home)
                                 }
                             }
+                            .alert(isPresented: $showFlexionAlert) {
+                                Alert(
+                                    title: Text(Strings.Alert.remeasureTitle),
+                                    message: Text(Strings.Alert.remeasureMessage),
+                                    primaryButton: .destructive(
+                                        Text(Strings.Common.yes),
+                                        action: {
+                                            Task {
+                                                vm.navigate(to: .countdown, from: .home)
+                                            }
+                                        }
+                                    ),
+                                    secondaryButton: .cancel(
+                                        Text(Strings.Common.no)
+                                    )
+                                )
+                            }
                         }
                     }
 
@@ -100,6 +117,23 @@ struct MainViewBefore: View {
                             .foregroundStyle(.gray500)
                             .underline()
                     }
+                    .alert(isPresented: $showPainAlert) {
+                        Alert(
+                            title: Text("통증 기록을 다시 하겠어요?"),
+                            message: Text(Strings.Alert.remeasureMessage),
+                            primaryButton: .destructive(
+                                Text(Strings.Common.yes),
+                                action: {
+                                    Task {
+                                        vm.navigate(to: .painLevel, from: .home)
+                                    }
+                                }
+                            ),
+                            secondaryButton: .cancel(
+                                Text(Strings.Common.no)
+                            )
+                        )
+                    }
                 }
                 .padding(.bottom, 40)
             }
@@ -112,40 +146,9 @@ struct MainViewBefore: View {
         .onAppear {
             // 화면이 나타날 때마다 첫 번째 화면으로 초기화
             currentPage = 0
-        }
-        .alert(isPresented: $showFlexionAlert) {
-            Alert(
-                title: Text(Strings.Alert.remeasureTitle),
-                message: Text(Strings.Alert.remeasureMessage),
-                primaryButton: .destructive(
-                    Text(Strings.Common.yes),
-                    action: {
-                        Task {
-                            vm.navigate(to: .countdown, from: .home)
-                        }
-                    }
-                ),
-                secondaryButton: .cancel(
-                    Text(Strings.Common.no)
-                )
-            )
-        }
-        .alert(isPresented: $showPainAlert) {
-            Alert(
-                title: Text("통증 기록을 다시 하겠어요?"),
-                message: Text(Strings.Alert.remeasureMessage),
-                primaryButton: .destructive(
-                    Text(Strings.Common.yes),
-                    action: {
-                        Task {
-                            vm.navigate(to: .painLevel, from: .home)
-                        }
-                    }
-                ),
-                secondaryButton: .cancel(
-                    Text(Strings.Common.no)
-                )
-            )
+            Task {
+                await vm.checkTodayRecord()
+            }
         }
     }
 }
