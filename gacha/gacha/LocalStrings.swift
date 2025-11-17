@@ -42,6 +42,8 @@ enum Strings {
         static var save: String { NSLocalizedString("button.save", comment: "") }
         static var cancel: String { NSLocalizedString("button.cancel", comment: "") }
         static var back: String { NSLocalizedString("button.back", comment: "") }
+        static var close: String { NSLocalizedString("button.close", comment: "") }
+        static var home: String { NSLocalizedString("button.home", comment: "") }
     }
     
     // MARK: - Tabbar
@@ -62,6 +64,10 @@ enum Strings {
         static var notyetTitle: String { NSLocalizedString("alert.notyet.title", comment: "")
         }
         static var notyetMessage: String { NSLocalizedString("alert.notyet.message", comment: "")
+        }
+        static var rerecordPainTitle: String { NSLocalizedString("alert.rerecord_pain.title", comment: "")
+        }
+        static var rerecordPainMessage: String { NSLocalizedString("alert.rerecord_pain.message", comment: "")
         }
     }
     
@@ -162,6 +168,7 @@ enum Strings {
         
         static var betterNoPainTitle: String { NSLocalizedString("progress.better_nopain.title", comment: "") }
         static var betterNoPainDescription: String { NSLocalizedString("progress.better_nopain.description", comment: "") }
+
         static var betterMildPainTitle: String { NSLocalizedString("progress.better_mildpain.title", comment: "") }
         static var betterMildPainDescription: String { NSLocalizedString("progress.better_mildpain.description", comment: "") }
         

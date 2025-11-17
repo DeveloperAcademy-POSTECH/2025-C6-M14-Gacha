@@ -28,7 +28,7 @@ struct MainViewAfter: View {
 
                     // MARK: - 하단 버튼 영역 (MainViewBefore와 동일한 구조)
                     CapsuleButtonComponent(
-                        title: "돌아가기",
+                        title: Strings.Button.home,
                         style: .primary,
                         width: UIScreen.main.bounds.width - 40
                     ) {

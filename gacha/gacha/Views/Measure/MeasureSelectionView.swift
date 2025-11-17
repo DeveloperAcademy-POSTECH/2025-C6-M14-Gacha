@@ -51,7 +51,7 @@ struct MeasureSelectionView: View {
         .alert(isPresented: $showAlert) {
             Alert(title: Text(Strings.Alert.notyetTitle),
             message: Text(Strings.Alert.notyetMessage),
-            dismissButton: .default(Text("닫기")))
+            dismissButton: .default(Text(Strings.Button.close)))
         }
     }
     
