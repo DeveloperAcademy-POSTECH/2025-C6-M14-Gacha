@@ -62,6 +62,13 @@ extension Font {
     static let displayCalloutSemibold = Font.system(size: 16, weight: .semibold)
     static let displayCalloutMedium = Font.system(size: 16, weight: .medium)
     static let displayCalloutRegular = Font.system(size: 16, weight: .regular)
+    
+    // Subline (15pt)
+    static let displaySublineBold = Font.system(size: 15, weight: .bold)
+    static let displaySublineSemibold = Font.system(size: 15, weight: .semibold)
+    static let displaySublineMedium = Font.system(size: 15, weight: .medium)
+    static let displaySublineRegular = Font.system(size: 15, weight: .regular)
+
 
     // Footnote (13pt)
     static let displayFootnoteBold = Font.system(size: 13, weight: .bold)
