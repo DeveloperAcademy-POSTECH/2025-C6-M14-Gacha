@@ -92,6 +92,7 @@ struct PainMeasureView: View {
                             if vm.hasTodayRecord {
                                 await vm.deleteTodayRecords()
                             }
+                            
                             if vm.currentRecord != nil {
                                 await vm.finishPainLevel(level: Int(value))
                             } else {
@@ -119,6 +120,11 @@ struct PainMeasureView: View {
 
         }
         .onAppear {
+            // home에서 접근했다면 currentRecord를 지움!
+            print(vm.getNavigationSource(for: .painLevel))
+            if vm.getNavigationSource(for: .painLevel) == .home {
+                vm.clearCurrentRecord()
+            }
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
