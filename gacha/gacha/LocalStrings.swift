@@ -234,6 +234,7 @@ enum Strings {
 
         // Card - Pain
         static var cardPainTitle: String { NSLocalizedString("history.card.pain.title", comment: "") }
+        static var cardPainStep: String { NSLocalizedString("history.card.pain.step", comment: "")}
         static func cardPainBetter(levels: Int) -> String {
             String(format: NSLocalizedString("history.card.pain.better", comment: ""), levels)
         }

@@ -363,7 +363,7 @@ struct History: View {
                     {
                         // 기록이 여러 개일 때
                         let change = latest - first
-                        Text("\(change > 0 ? "+" : "")\(change)°")
+                        Text("\(change > 0 ? "↑" : "")\(change)°")
                             .font(.roundedTitle1Bold)
                             .foregroundColor(Color("Gray900"))
                     }
@@ -408,37 +408,20 @@ struct History: View {
                 Spacer()
 
                 // 통증 레벨 바 표시
-                if vm.recentRecords.count < 2 {
+                HStack(spacing: 0) {
+                    Spacer()
+                    if vm.recentRecords.count < 2 {
+                        
+                    } else if let first = vm.firstPainLevel,
+                              let latest = vm.latestPainLevel
+                    {
+                        // 기록이 여러 개일 때
+                        let change = latest - first
+                        Text("\(change < 0 ? "↓" : "")\(abs(change)) \(Strings.History.cardPainStep)")
+                            .font(.roundedTitle1Bold)
+                            .foregroundColor(Color("Gray900"))
 
-                } else if let first = vm.firstPainLevel,
-                    let latest = vm.latestPainLevel
-                {
-                    // 기록이 여러 개일 때
-                    VStack(alignment: .leading, spacing: 0) {
-                        // 최근 통증 레벨
-                        HStack(spacing: 0) {
-                            Rectangle()
-                                .fill(Color("Blue700"))
-                                .frame(width: CGFloat(latest) * 10, height: 3)
-                                .cornerRadius(4)
-                            Spacer()
-                            Text("\(latest)")
-                                .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(Color("Gray900"))
-                        }
-                        // 첫 번째 통증 레벨
-                        HStack(spacing: 0) {
-                            Rectangle()
-                                .fill(Color("Gray500"))
-                                .frame(width: CGFloat(first) * 10, height: 3)
-                                .cornerRadius(4)
-                            Spacer()
-                            Text("\(first)")
-                                .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(Color("Gray900"))
-                        }
                     }
-
                 }
 
                 Spacer()
