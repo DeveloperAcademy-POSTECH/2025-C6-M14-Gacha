@@ -23,6 +23,9 @@
 "button.back" = "뒤로";
 "button.close" = "닫기";
 "button.home" = "처음으로";
+"button.calendar" = "기록 보러가기";
+"button.summary" = "요약 보러가기";
+
 
 /* tabbar */
 "tabbar.calendar" = "기록";
