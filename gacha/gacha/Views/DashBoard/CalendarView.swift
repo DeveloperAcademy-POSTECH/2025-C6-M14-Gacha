@@ -305,3 +305,47 @@ struct MonthCalendarView: View {
         return days
     }
 }
+
+// MARK: - Preview
+
+#Preview("October Data") {
+    let vm = CalendarViewModel(repository: MockRecordRepository(scenario: .octoberData))
+
+    return NavigationStack {
+        CalendarView()
+            .navigationTitle(Strings.Tabbar.calendar)
+            .navigationBarTitleDisplayMode(.large)
+            .environmentObject(vm)
+            .task {
+                await vm.loadMeasuredDates()
+            }
+    }
+}
+
+#Preview("No Record") {
+    let vm = CalendarViewModel(repository: MockRecordRepository(scenario: .noRecord))
+
+    return NavigationStack {
+        CalendarView()
+            .navigationTitle(Strings.Tabbar.calendar)
+            .navigationBarTitleDisplayMode(.large)
+            .environmentObject(vm)
+            .task {
+                await vm.loadMeasuredDates()
+            }
+    }
+}
+
+#Preview("Multiple Records") {
+    let vm = CalendarViewModel(repository: MockRecordRepository(scenario: .multipleRecordsPositive))
+
+    return NavigationStack {
+        CalendarView()
+            .navigationTitle(Strings.Tabbar.calendar)
+            .navigationBarTitleDisplayMode(.large)
+            .environmentObject(vm)
+            .task {
+                await vm.loadMeasuredDates()
+            }
+    }
+}
