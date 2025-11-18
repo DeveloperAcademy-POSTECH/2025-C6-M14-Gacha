@@ -27,24 +27,37 @@ struct MainViewAfter: View {
                     Spacer()
 
                     // MARK: - 하단 버튼 영역 (MainViewBefore와 동일한 구조)
-                    CapsuleButtonComponent(
-                        title: Strings.Button.home,
-                        style: .primary,
-                        width: UIScreen.main.bounds.width - 40
-                    ) {
-                        vm.dismissMeasureFlow()
+                    VStack (spacing: 20){
+                        CapsuleButtonComponent(
+                            title: Strings.Button.calendar,
+                            style: .primary,
+                            width: UIScreen.main.bounds.width - 40
+                        ) {
+                            vm.dismissMeasureFlow()
+                        }
+                        CapsuleButtonComponent(
+                            title: Strings.Button.summary,
+                            style: .secondary,
+                            width: UIScreen.main.bounds.width - 40
+                        ) {
+                            vm.dismissMeasureFlow()
+                        }
                     }
                     .padding(.bottom, 40)
+
 
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .onAppear {
-            Task {
-                await vm.loadTodayRecord()
-                await vm.loadYesterdayRecord()
-                vm.calculateRecordChange()
+            // 프리뷰에서는 이미 데이터가 설정되어 있으므로 로드 건너뛰기
+            if vm.currentRecord == nil {
+                Task {
+                    await vm.loadTodayRecord()
+                    await vm.loadYesterdayRecord()
+                    vm.calculateRecordChange()
+                }
             }
         }
     }
@@ -179,6 +192,9 @@ struct MainViewAfter: View {
     // 변화량 계산
     viewModel.calculateRecordChange()
 
+    // 로딩 상태 해제
+    viewModel.isLoading = false
+
     return NavigationStack {
         MainViewAfter()
             .environmentObject(viewModel)
@@ -202,6 +218,12 @@ struct MainViewAfter: View {
     todayRecord.painLevel = 6
     todayRecord.measuredDate = Date()
     viewModel.currentRecord = todayRecord
+
+    // 변화량 계산
+    viewModel.calculateRecordChange()
+
+    // 로딩 상태 해제
+    viewModel.isLoading = false
 
     return NavigationStack {
         MainViewAfter()
