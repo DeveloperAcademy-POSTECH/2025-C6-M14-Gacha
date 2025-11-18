@@ -14,17 +14,18 @@ struct CompleteMeasureView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            VStack {
-                VStack(spacing: 60) {
+            VStack(spacing: 40) {
+                Spacer()
+                VStack(spacing: 40) {
+                    Spacer()
                     Text(Strings.Flexion.flexionMeasured)
                         .font(.roundedExtraLargeBold)
                         .foregroundStyle(Color(.blue800))
-
                     // MARK: - 측정 결과
                     Text("\(Int(vm.measuredRom))°")
                         .font(.roundedExtraLargeBold)
                 }
-                .offset(y: geometry.size.height * 0.3)
+                .frame(height: 240)
 
                 Spacer()
 
@@ -48,7 +49,11 @@ struct CompleteMeasureView: View {
                 }
             }
             .padding(.horizontal, 20)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .frame(
+                maxWidth: .infinity,
+                maxHeight: .infinity,
+                alignment: .center
+            )
             .padding(.bottom, 40)
         }
         .alert(isPresented: $showingAlert) {
