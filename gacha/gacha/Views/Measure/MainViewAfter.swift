@@ -33,14 +33,14 @@ struct MainViewAfter: View {
                             style: .primary,
                             width: UIScreen.main.bounds.width - 40
                         ) {
-                            vm.dismissMeasureFlow()
+                            vm.dismissMeasureFlow(navigateToTab: 0)
                         }
                         CapsuleButtonComponent(
                             title: Strings.Button.summary,
                             style: .secondary,
                             width: UIScreen.main.bounds.width - 40
                         ) {
-                            vm.dismissMeasureFlow()
+                            vm.dismissMeasureFlow(navigateToTab: 2)
                         }
                     }
                     .padding(.bottom, 40)
