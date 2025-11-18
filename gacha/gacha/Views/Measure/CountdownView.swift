@@ -14,36 +14,37 @@ struct CountdownView: View {
     @State private var countdown: Int = 3
 
     var body: some View {
-        VStack {
-            
+        VStack(spacing: 0) {
             Spacer()
-            
+
             VStack(spacing: 40) {
-                CountdownNumber
-                
-                VStack(spacing: 20) {
+                VStack(spacing: 40) {
+                    Spacer()
+                    
+                    CountdownNumber
+
                     Text(Strings.Countdown.emphasisText)
                         .font(.displayTitle1Bold)
                         .foregroundStyle(Color(.blue800))
-                    Text(Strings.Countdown.description)
-                        .font(.displayTitle3Regular)
-                        .multilineTextAlignment(.center)
                 }
+                .frame(height: 240)
+
+                PostureInstructionComponent(index: 2)
+                    .padding(.horizontal, 20)
+                
+                CapsuleButtonComponent(
+                    title: Strings.Common.cancel,
+                    style: .light,
+                    width: UIScreen.main.bounds.width - 40,
+                    action: {
+                        vm.stopSensor()
+                        vm.dismissMeasureFlow()
+                    }
+                )
+                .padding(.horizontal, 20)
+                .padding(.bottom, 80)
             }
-            
-            Spacer()
-            
-            CapsuleButtonComponent(
-                title: Strings.Common.cancel,
-                style: .light,
-                width: UIScreen.main.bounds.width - 40,
-                action: {
-                    vm.stopSensor()
-                    vm.dismissMeasureFlow()
-                }
-            )
-            .padding(.bottom, 40)
-            
+
         }
         .frame(
             maxWidth: .infinity,
@@ -58,7 +59,7 @@ struct CountdownView: View {
             // 3-2-1 카운트다운 (각 1초씩, 총 3초)
             for number in (1...3).reversed() {
                 countdown = number
-                try? await Task.sleep(nanoseconds: 1_000_000_000) // 1초
+                try? await Task.sleep(nanoseconds: 1_000_000_000)  // 1초
 
                 if Task.isCancelled {
                     return
@@ -94,4 +95,3 @@ struct CountdownView: View {
     CountdownView()
         .environmentObject(viewModel)
 }
-
