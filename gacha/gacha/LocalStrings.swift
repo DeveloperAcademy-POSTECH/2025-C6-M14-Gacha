@@ -44,6 +44,8 @@ enum Strings {
         static var back: String { NSLocalizedString("button.back", comment: "") }
         static var close: String { NSLocalizedString("button.close", comment: "") }
         static var home: String { NSLocalizedString("button.home", comment: "") }
+        static var calendar: String { NSLocalizedString("button.calendar", comment: "")}
+        static var summary: String { NSLocalizedString("button.summary", comment: "")}
     }
     
     // MARK: - Tabbar
@@ -234,6 +236,7 @@ enum Strings {
 
         // Card - Pain
         static var cardPainTitle: String { NSLocalizedString("history.card.pain.title", comment: "") }
+        static var cardPainStep: String { NSLocalizedString("history.card.pain.step", comment: "")}
         static func cardPainBetter(levels: Int) -> String {
             String(format: NSLocalizedString("history.card.pain.better", comment: ""), levels)
         }

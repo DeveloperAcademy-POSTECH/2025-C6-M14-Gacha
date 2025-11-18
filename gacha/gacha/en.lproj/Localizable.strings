@@ -23,6 +23,8 @@
 "button.back" = "Back";
 "button.close" = "Close";
 "button.home" = "Back to Home";
+"button.calendar" = "Go to Calendar";
+"button.summary" = "Go to Summary";
 
 /* Tabbar */
 "tabbar.calendar" = "Calendar";
@@ -135,6 +137,7 @@
 
 /* History Summary Card - Pain Change */
 "history.card.pain.title" = "Pain Level";
+"history.card.pain.step" = "Point";
 "history.card.pain.better" = "You feel %d levels\nless pain than\non your first record!";
 "history.card.pain.same" = "You’ve felt the same\nlevel of pain\nsince your first record";
 "history.card.pain.worse" = "You feel %d levels\nmore pain than\non your first record";

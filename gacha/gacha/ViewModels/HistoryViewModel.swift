@@ -75,9 +75,11 @@ class HistoryViewModel: ObservableObject {
     }
     
     /// 마지막 (가장 최근) 기록의 ROM
+    /// 오늘 기록에 ROM이 없으면 이전 기록에서 가장 최근의 ROM 값을 반환
     var latestROM: Int? {
-        guard let last = recentRecords.last,
-              let rom = last.flexionAngle else { return nil }
+        // 역순으로 순회하여 flexionAngle이 있는 가장 최근 기록 찾기
+        guard let record = recentRecords.reversed().first(where: { $0.flexionAngle != nil }),
+              let rom = record.flexionAngle else { return nil }
         return Int(rom)
     }
     

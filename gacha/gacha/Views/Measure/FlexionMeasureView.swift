@@ -44,21 +44,25 @@ struct FlexionMeasureView: View {
             
             // MARK: - 메인 콘텐츠
             GeometryReader { geometry in
-                VStack(spacing: 60) {
-                    ZStack {
+                VStack(spacing: 40) {
+                    Spacer ()
+                    VStack {
+                        Spacer()
                         Text(Strings.Flexion.flexionMeasuring)
                             .font(.roundedExtraLargeBold)
                             .foregroundStyle(Color("Blue800"))
+                            .frame(height: 240)
                     }
-                    .frame(maxWidth: .infinity)
+                    .frame(height: 240)
                     .zIndex(2)  // 물 위에 표시
 
 
                     // MARK: - 측정 가이드
                     PostureInstructionComponent(index: 3)
                         .padding(.horizontal, 20)
+                    
+                    Spacer()
                 }
-                .offset(y: geometry.size.height * 0.3)
             }
         }
         .onAppear {

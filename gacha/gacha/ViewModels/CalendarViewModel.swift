@@ -71,37 +71,51 @@ class CalendarViewModel: ObservableObject {
             visibleMonths = []
             return
         }
-        
+
         var startMonth: Date
-        
+        var endMonth: Date
+
         if records.isEmpty {
-            // 기록이 없는 경우: 현재 달부터
+            // 기록이 없는 경우: 현재 달부터 현재 달 +3개월까지
             startMonth = currentMonth
+            endMonth = calendar.date(byAdding: .month, value: 3, to: currentMonth) ?? currentMonth
         } else {
-            // 기록이 있는 경우: 가장 오래된 기록의 달
+            // 기록이 있는 경우: 가장 오래된 기록의 달부터 가장 최근 기록의 달 +3개월까지
             do {
-                if let earliestRecord = try await repository.loadEarliestRecord(),
-                   let earliestMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: earliestRecord.measuredDate)) {
+                guard let earliestRecord = try await repository.loadEarliestRecord(),
+                      let latestRecord = try await repository.loadLatestRecord() else {
+                    startMonth = currentMonth
+                    endMonth = calendar.date(byAdding: .month, value: 3, to: currentMonth) ?? currentMonth
+                    visibleMonths = [currentMonth]
+                    return
+                }
+
+                // 가장 오래된 기록의 달
+                if let earliestMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: earliestRecord.measuredDate)) {
                     startMonth = earliestMonth
                 } else {
                     startMonth = currentMonth
                 }
+
+                // 가장 최근 기록의 달 +3개월
+                if let latestMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: latestRecord.measuredDate)),
+                   let latestPlusThree = calendar.date(byAdding: .month, value: 3, to: latestMonth) {
+                    endMonth = latestPlusThree
+                } else {
+                    endMonth = calendar.date(byAdding: .month, value: 3, to: currentMonth) ?? currentMonth
+                }
+
             } catch {
-                print("❌ 가장 오래된 기록 로드 실패: \(error)")
+                print("❌ 기록 로드 실패: \(error)")
                 startMonth = currentMonth
+                endMonth = calendar.date(byAdding: .month, value: 3, to: currentMonth) ?? currentMonth
             }
         }
-        
-        // 현재 달 +3개월
-        guard let endMonth = calendar.date(byAdding: .month, value: 3, to: currentMonth) else {
-            visibleMonths = [currentMonth]
-            return
-        }
-        
+
         // 시작 달부터 끝 달까지 모든 월 생성 (시간 순서대로)
         var months: [Date] = []
         var currentIterMonth = startMonth
-        
+
         while currentIterMonth <= endMonth {
             months.append(currentIterMonth)
             if let nextMonth = calendar.date(byAdding: .month, value: 1, to: currentIterMonth) {
@@ -110,7 +124,7 @@ class CalendarViewModel: ObservableObject {
                 break
             }
         }
-        
+
         visibleMonths = months
     }
     

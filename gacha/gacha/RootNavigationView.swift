@@ -107,6 +107,12 @@ struct RootNavigationView: View {
                 Task {
                     await measureVM.checkTodayRecord()
                 }
+
+                // 모달이 닫힌 후 탭 변경
+                if let targetTab = measureVM.targetTabAfterDismiss {
+                    selectedTab = targetTab
+                    measureVM.targetTabAfterDismiss = nil  // 초기화
+                }
             }
         }
 

@@ -23,6 +23,9 @@ final class MeasureViewModel: ObservableObject {
     // Modal 내부 navigation
     @Published var navigationPath = NavigationPath()
 
+    // 모달 닫은 후 이동할 탭 (nil이면 탭 변경 안 함)
+    @Published var targetTabAfterDismiss: Int? = nil
+
     // 재측정 플래그 (onChange에서 checkTodayRecord를 건너뛰기 위함)
     var isRemeasuring: Bool = false
 
@@ -357,7 +360,8 @@ final class MeasureViewModel: ObservableObject {
     }
 
     /// 측정 플로우 종료 (Modal 닫기)
-    func dismissMeasureFlow() {
+    func dismissMeasureFlow(navigateToTab: Int? = nil) {
+        targetTabAfterDismiss = navigateToTab
         showMeasureFlow = false
         navigationPath = NavigationPath()  // 정리
     }

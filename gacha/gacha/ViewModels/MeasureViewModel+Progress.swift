@@ -245,7 +245,7 @@ extension MeasureViewModel {
         let delta = result.flexRomDiff
 
         if delta > 0 {
-            return "+\(Int(delta))°"
+            return "↑\(Int(delta))°"
         } else {
             return nil
         }
