@@ -137,6 +137,16 @@ struct History: View {
                 .cornerRadius(4)
             }
 
+            // 130도 기준선
+            RuleMark(y: .value("Target", 130))
+                .foregroundStyle(Color("Blue700"))
+                .lineStyle(StrokeStyle(lineWidth: 1, dash: [5, 5]))
+                .annotation(position: .trailing, alignment: .center) {
+                    Text("130°")
+                        .font(.displayCaption1Regular)
+                        .foregroundStyle(Color("Blue700"))
+                }
+
             if let selectedIndex = selectedIndex,
                 selectedIndex >= 0 && selectedIndex < data.count
             {
@@ -180,7 +190,7 @@ struct History: View {
             AxisMarks { value in
                 AxisValueLabel {
                     if let angle = value.as(Double.self) {
-                        Text("\(Int(angle))")
+                        Text("\(Int(angle))°")
                     }
                 }
                 AxisGridLine()
