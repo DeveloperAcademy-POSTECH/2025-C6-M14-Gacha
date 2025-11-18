@@ -68,6 +68,7 @@ extension MockRecordRepository {
         case multipleRecordsNegative // ROM 감소, 통증 증가 (부정적)
         case sevenRecords23Days     // 7개 기록, 23일간
         case noChange               // 변화 없음
+        case octoberData            // 10월 데이터 포함 (11월에도 데이터 있음)
 
         func createRecords() -> [MeasuredRecord] {
             let calendar = Calendar.current
@@ -172,12 +173,48 @@ extension MockRecordRepository {
                     calendar.date(byAdding: .day, value: -4, to: today)!,
                     today
                 ]
-                
+
                 return dates.map { date in
                     let record = MeasuredRecord(
                         flexionAngle: 85,
                         measuredSeconds: 120,
                         painLevel: 5
+                    )
+                    record.measuredDate = date
+                    return record
+                }
+
+            case .octoberData:
+                // 10월과 11월 데이터
+                var dateComponents = DateComponents()
+                dateComponents.year = 2025
+
+                // 10월 데이터 (5개)
+                let octoberDates = [
+                    DateComponents(year: 2025, month: 10, day: 5),
+                    DateComponents(year: 2025, month: 10, day: 12),
+                    DateComponents(year: 2025, month: 10, day: 18),
+                    DateComponents(year: 2025, month: 10, day: 24),
+                    DateComponents(year: 2025, month: 10, day: 30)
+                ].compactMap { calendar.date(from: $0) }
+
+                // 11월 데이터 (3개)
+                let novemberDates = [
+                    DateComponents(year: 2025, month: 11, day: 5),
+                    DateComponents(year: 2025, month: 11, day: 12),
+                    DateComponents(year: 2025, month: 11, day: 18)
+                ].compactMap { calendar.date(from: $0) }
+
+                let allDates = octoberDates + novemberDates
+                let roms: [Double] = [70, 75, 80, 85, 88, 92, 95, 98]
+                let pains = [6, 6, 5, 5, 4, 4, 3, 3]
+
+                return zip(zip(allDates, roms), pains).map { data, pain in
+                    let (date, rom) = data
+                    let record = MeasuredRecord(
+                        flexionAngle: rom,
+                        measuredSeconds: 120,
+                        painLevel: pain
                     )
                     record.measuredDate = date
                     return record
