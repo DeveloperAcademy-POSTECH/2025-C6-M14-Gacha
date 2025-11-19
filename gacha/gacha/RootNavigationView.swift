@@ -145,7 +145,7 @@ struct RootNavigationView: View {
         case .countdown:
             CountdownView()
                 .navigationBarBackButtonHidden(true)
-                .navigationTitle(Strings.Flexion.title)
+                .navigationTitle(Strings.Extension.title)
                 .navigationBarTitleDisplayMode(.inline)
 
         case .extensionMeasure:

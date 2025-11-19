@@ -53,6 +53,9 @@
 "measure.countdown.emphasis_text" = "Get Ready";
 "measure.countdown.description" = "Hold still and\nprepare for measurement";
 
+/* ExtensionMeasureView */
+"measure.extension.title" = "Knee Extension Measurement";
+
 /* FlexionMeasureView - Measuring */
 "measure.flexion.title" = "Knee Flexion Measurement";
 "measure.flexion.measuring" = "Measuring";
