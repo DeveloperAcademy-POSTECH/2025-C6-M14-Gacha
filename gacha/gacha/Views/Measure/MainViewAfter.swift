@@ -29,18 +29,18 @@ struct MainViewAfter: View {
                     // MARK: - 하단 버튼 영역 (MainViewBefore와 동일한 구조)
                     VStack (spacing: 20){
                         CapsuleButtonComponent(
-                            title: Strings.Button.calendar,
+                            title: Strings.Button.summary,
                             style: .primary,
                             width: UIScreen.main.bounds.width - 40
                         ) {
-                            vm.dismissMeasureFlow(navigateToTab: 0)
+                            vm.dismissMeasureFlow(navigateToTab: 2)
                         }
                         CapsuleButtonComponent(
-                            title: Strings.Button.summary,
+                            title: Strings.Button.calendar,
                             style: .secondary,
                             width: UIScreen.main.bounds.width - 40
                         ) {
-                            vm.dismissMeasureFlow(navigateToTab: 2)
+                            vm.dismissMeasureFlow(navigateToTab: 0)
                         }
                     }
                     .padding(.bottom, 40)
