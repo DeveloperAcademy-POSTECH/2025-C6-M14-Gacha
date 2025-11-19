@@ -84,45 +84,44 @@ struct MainViewAfter: View {
         .background(Color("White"))
     }
 
-    /// 통계 섹션
+    /// 통계 섹션 (2x2 배열)
     var statisticsSection: some View {
-        HStack(spacing: 16) {
-            // 굴곡 각도
-            VStack(alignment: .leading, spacing: 4) {
-                Text(Strings.Progress.flexionAngle)
-                    .font(.displayCalloutBold)
-                    .foregroundColor(.blue700)
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text(vm.formatAngle(vm.currentRecord?.flexionAngle))
-                        .font(.displayTitle2Bold)
+        VStack(spacing: 12) {
+            // 첫 번째 행: 신전 - 굴곡
+            HStack(spacing: 12) {
+                // 신전
+                MainResultCell(
+                    title: "신전",
+                    value: vm.currentRecord?.extensionAngle.map { Int($0) },
+                    showDegree: true
+                )
 
-                    // 어제 대비 변화량
-                    if let trendText = vm.angleTrendText {
-                        Text(trendText)
-                            .font(.displayCaption1Regular)
-                            .foregroundColor(.blue700)
-                    }
-                }
+                // 굴곡
+                MainResultCell(
+                    title: "굴곡",
+                    value: vm.currentRecord?.flexionAngle.map { Int($0) },
+                    showDegree: true,
+                    trendText: vm.angleTrendText
+                )
             }
 
-            Spacer()
+            // 두 번째 행: ROM - 고통
+            HStack(spacing: 12) {
+                // ROM
+                MainResultCell(
+                    title: "ROM",
+                    value: vm.currentRecord?.ROM.map { Int($0) },
+                    showDegree: true
+                )
 
-            // 통증 정도
-            VStack(alignment: .leading, spacing: 4) {
-                Text(Strings.Progress.painLevel)
-                    .font(.displayCalloutBold)
-                    .foregroundColor(.blue700)
-                HStack(spacing: 4) {
-                    Text(vm.formatPainLevel(vm.currentRecord?.painLevel))
-                        .font(.displayTitle2Bold)
-
-                    Text("(\(vm.painCategoryText))")
-                        .font(.displayCaption1Regular)
-                        .foregroundColor(.gray600)
-                }
+                // 고통
+                MainResultCell(
+                    title: "고통",
+                    value: vm.currentRecord?.painLevel,
+                    showDegree: false,
+                    subtitle: vm.painCategoryText
+                )
             }
-
-            Spacer()
         }
         .frame(minHeight: 54)
     }
@@ -160,6 +159,51 @@ struct MainViewAfter: View {
 
 }
 
+// MARK: - 메인 결과 셀 컴포넌트
+struct MainResultCell: View {
+    let title: String
+    let value: Int?
+    var showDegree: Bool = true
+    var trendText: String? = nil
+    var subtitle: String? = nil
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.displayCalloutBold)
+                .foregroundColor(.blue700)
+
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                if let value = value {
+                    Text(showDegree ? "\(value)°" : "\(value)")
+                        .font(.displayTitle2Bold)
+                } else {
+                    Text(showDegree ? "--°" : "--")
+                        .font(.displayTitle2Bold)
+                }
+
+                // 변화량 텍스트 (굴곡에만 표시)
+                if let trendText = trendText {
+                    Text(trendText)
+                        .font(.displayCaption1Regular)
+                        .foregroundColor(.blue700)
+                }
+
+                // 서브타이틀 (고통 레벨에만 표시)
+                if let subtitle = subtitle {
+                    Text("(\(subtitle))")
+                        .font(.displayCaption1Regular)
+                        .foregroundColor(.gray600)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(Color("Blue50"))
+        .cornerRadius(8)
+    }
+}
+
 #Preview("With Comparison") {
     // Preview용 임시 repository와 ViewModel 생성
     let container = try! ModelContainer(
@@ -173,6 +217,7 @@ struct MainViewAfter: View {
 
     // 테스트용 오늘 레코드
     let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
     todayRecord.flexionAngle = 95
     todayRecord.painLevel = 4
     todayRecord.measuredDate = Date()
@@ -180,6 +225,7 @@ struct MainViewAfter: View {
 
     // 테스트용 어제 레코드
     let yesterdayRecord = MeasuredRecord()
+    yesterdayRecord.extensionAngle = 8
     yesterdayRecord.flexionAngle = 90
     yesterdayRecord.painLevel = 5
     yesterdayRecord.measuredDate = Calendar.current.date(
@@ -214,6 +260,7 @@ struct MainViewAfter: View {
 
     // 테스트용 첫 번째 레코드 (비교 대상 없음)
     let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 10
     todayRecord.flexionAngle = 85
     todayRecord.painLevel = 6
     todayRecord.measuredDate = Date()
