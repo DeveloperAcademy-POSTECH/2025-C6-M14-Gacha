@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct FlexionMeasureView: View {
+struct ExtensionMeasureView: View {
     @EnvironmentObject var vm: MeasureViewModel
     @State private var showingAlert = false
 
@@ -132,6 +132,6 @@ struct FlexionMeasureView: View {
     )
     let viewModel = MeasureViewModel(repository: repository)
 
-    return FlexionMeasureView()
+    return ExtensionMeasureView()
         .environmentObject(viewModel)
 }

@@ -11,7 +11,9 @@ enum MeasureFlowStep: Hashable, Identifiable {
     case select // 부위 선택 화면
     case home  // 홈 화면
     case countdown  // 대기 화면
-    case flexionMeasure  // 측정 화면
+    case extensionMeasure  // 신전 측정 화면
+    case extensionDone     // 신전 측정 완료
+    case flexionMeasure  // 굴곡 측정 화면
     case completeMeasure // 측정 완료 화면
     case painLevel  // PainLevel
     case summary  // MainViewAfter (측정 완료)
@@ -21,6 +23,8 @@ enum MeasureFlowStep: Hashable, Identifiable {
         case .select: return "select"
         case .home: return "home"
         case .countdown: return "countdown"
+        case .extensionMeasure: return "extensionMeasure"
+        case .extensionDone: return "extensionDone"
         case .flexionMeasure: return "flexionMeasure"
         case .completeMeasure: return "completeMeasure"
         case .painLevel: return "painLevel"
@@ -34,6 +38,8 @@ enum NavigationSource: Hashable {
     case select            // 부위 선택 화면에서 진입
     case home              // 홈 화면에서 직접 진입
     case countdown         // 측정 로딩 화면에서 진입
+    case extensionMeasure  // 신전 측정 화면에서 진입
+    case extensionDone     // 신전 측정 완료에서 진입
     case flexionMeasure    // 굴곡 측정 화면에서 진입
     case completeMeasure   // 측정 완료 화면에서 진입
     case painLevel         // 통증 레벨 화면에서 진입
@@ -48,6 +54,8 @@ enum NavigationSource: Hashable {
         case .home: return .home
         case .countdown: return .countdown
         case .flexionMeasure: return .flexionMeasure
+        case .extensionMeasure: return .extensionMeasure
+        case .extensionDone: return .extensionDone
         case .completeMeasure: return .completeMeasure
         case .painLevel: return .painLevel
         case .summary: return .summary
