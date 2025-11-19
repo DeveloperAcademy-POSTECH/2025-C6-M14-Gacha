@@ -55,6 +55,8 @@
 
 /* ExtensionMeasureView */
 "measure.extension.title" = "Knee Extension Measurement";
+"measure.extension.measuring" = "Measuring";
+"measure.extension.measured" = "Completed";
 
 /* FlexionMeasureView - Measuring */
 "measure.flexion.title" = "Knee Flexion Measurement";

@@ -91,6 +91,8 @@ enum Strings {
     // MARK: - ExtensionMeasureView
     enum Extension {
         static var title: String { NSLocalizedString("measure.extension.title", comment: "") }
+        static var extensionMeasuring: String { NSLocalizedString("measure.extension.measuring", comment: "") }
+        static var extensionMeasured: String { NSLocalizedString("measure.extension.measured", comment: "") }
     }
     
     // MARK: - FlexionMeasureView

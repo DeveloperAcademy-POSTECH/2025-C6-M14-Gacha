@@ -18,12 +18,37 @@ struct CompleteMeasureView: View {
                 Spacer()
                 VStack(spacing: 40) {
                     Spacer()
-                    Text(Strings.Flexion.flexionMeasured)
+                    Text("측정 완료!")
                         .font(.roundedExtraLargeBold)
                         .foregroundStyle(Color(.blue800))
-                    // MARK: - 측정 결과
-                    Text("\(Int(vm.measuredRom))°")
-                        .font(.roundedExtraLargeBold)
+
+                    // MARK: - 측정 결과 (2x2 배열)
+                    VStack(spacing: 20) {
+                        // 첫 번째 행: 신전 - 굴곡
+                        HStack(spacing: 20) {
+                            MeasurementResultCell(
+                                title: "신전",
+                                value: vm.currentRecord?.extensionAngle.map { Int($0) } ?? nil
+                            )
+                            MeasurementResultCell(
+                                title: "굴곡",
+                                value: vm.currentRecord?.flexionAngle.map { Int($0) } ?? nil
+                            )
+                        }
+
+                        // 두 번째 행: ROM - 고통
+                        HStack(spacing: 20) {
+                            MeasurementResultCell(
+                                title: "ROM",
+                                value: vm.currentRecord?.ROM.map { Int($0) } ?? nil
+                            )
+                            MeasurementResultCell(
+                                title: "고통",
+                                value: vm.currentRecord?.painLevel,
+                                showDegree: false
+                            )
+                        }
+                    }
                 }
                 .frame(height: 240)
 
@@ -39,7 +64,7 @@ struct CompleteMeasureView: View {
                         }
                     )
                     CapsuleButtonComponent(
-                        title: Strings.Button.save,
+                        title: Strings.Common.confirm,
                         style: .primary,
                         width: geometry.size.width - 40,
                         action: {
@@ -101,6 +126,35 @@ struct CompleteMeasureView: View {
                 vm.cancelFlexionMeasure()
             }
         }
+    }
+}
+
+// MARK: - 측정 결과 셀 컴포넌트
+struct MeasurementResultCell: View {
+    let title: String
+    let value: Int?
+    var showDegree: Bool = true
+
+    var body: some View {
+        VStack(spacing: 8) {
+            Text(title)
+                .font(.roundedLargeBold)
+                .foregroundStyle(Color("Gray600"))
+
+            if let value = value {
+                Text(showDegree ? "\(value)°" : "\(value)")
+                    .font(.roundedExtraLargeBold)
+                    .foregroundStyle(Color("Blue800"))
+            } else {
+                Text(showDegree ? "--°" : "--")
+                    .font(.roundedExtraLargeBold)
+                    .foregroundStyle(Color("Blue800"))
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 20)
+        .background(Color("Blue50"))
+        .cornerRadius(12)
     }
 }
 

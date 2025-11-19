@@ -56,6 +56,8 @@
 
 /* ExtensionMeasureView */
 "measure.extension.title" = "무릎 폄 측정";
+"measure.extension.measuring" = "측정 중";
+"measure.extension.measured" = "측정 완료";
 
 /* FlexionMeasureView - 측정중 */
 "measure.flexion.title" = "무릎 굽힘 측정";

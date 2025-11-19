@@ -46,12 +46,15 @@ struct FlexionMeasureView: View {
             GeometryReader { geometry in
                 VStack(spacing: 40) {
                     Spacer ()
-                    VStack {
+                    VStack(spacing: 20) {
                         Spacer()
                         Text(Strings.Flexion.flexionMeasuring)
                             .font(.roundedExtraLargeBold)
                             .foregroundStyle(Color("Blue800"))
-                            .frame(height: 240)
+                        Text("  \(Int(vm.currentAngle))°")
+                            .font(.roundedExtraLargeBold)
+                            .foregroundStyle(Color("Gray700"))
+                            
                     }
                     .frame(height: 240)
                     .zIndex(2)  // 물 위에 표시
@@ -67,11 +70,12 @@ struct FlexionMeasureView: View {
         }
         .onAppear {
             vm.prepareForNewMeasurement()
-            
+            vm.startSensor()  // 센서 명시적으로 시작
+
             // 자동 시작 플래그 확인
             if vm.shouldAutoStartMeasure {
                 vm.shouldAutoStartMeasure = false
-            
+
                 // 0.5초 후 자동 시작
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     vm.startFlexionMeasure()

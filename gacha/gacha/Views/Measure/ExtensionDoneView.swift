@@ -23,9 +23,10 @@ struct ExtensionDoneView: View {
                     
                     CountdownNumber
 
-                    Text(Strings.Countdown.emphasisText)
+                    Text("신전 측정 완료!\n이제 굴곡을 측정합니다")
                         .font(.displayTitle1Bold)
                         .foregroundStyle(Color(.blue800))
+                        .multilineTextAlignment(.center)
                 }
                 .frame(height: 240)
 
@@ -68,7 +69,7 @@ struct ExtensionDoneView: View {
 
             // Task가 취소되지 않았을 때만 실행
             if !Task.isCancelled {
-                vm.navigate(to: .flexionMeasure, from: .countdown)
+                vm.navigate(to: .flexionMeasure, from: .extensionDone)
             }
         }
     }
