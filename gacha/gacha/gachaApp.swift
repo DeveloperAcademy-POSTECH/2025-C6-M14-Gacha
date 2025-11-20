@@ -17,7 +17,7 @@ struct gachaApp: App {
             modelContainer = try ModelContainer(for: MeasuredRecord.self)
 
             // 예시 데이터 생성 (데모/프레젠테이션용)
-            insertSampleDataIfNeeded(container: modelContainer)
+//            insertSampleDataIfNeeded(container: modelContainer)
         } catch {
             fatalError("ModelContainer 초기화 실패: \(error)")
         }
