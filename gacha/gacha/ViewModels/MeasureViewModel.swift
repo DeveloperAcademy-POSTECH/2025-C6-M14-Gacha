@@ -89,11 +89,6 @@ final class MeasureViewModel: ObservableObject {
         case completed      // 완료
     }
 
-    enum MeasurementType {
-        case extensionAngle      // 신전 측정
-        case flexionAngle       // 굴곡 측정
-    }
-
     init(repository: RecordRepository) {
         self.repository = repository
         self.measureManager = MotionMeasureManager()

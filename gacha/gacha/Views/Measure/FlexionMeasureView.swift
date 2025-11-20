@@ -61,7 +61,7 @@ struct FlexionMeasureView: View {
 
 
                     // MARK: - 측정 가이드
-                    PostureInstructionComponent(index: 3)
+                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 3)
                         .padding(.horizontal, 20)
                     
                     Spacer()

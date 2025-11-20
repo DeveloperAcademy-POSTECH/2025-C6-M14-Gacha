@@ -28,7 +28,7 @@ struct MainViewBefore: View {
                         .scaledToFit()
                         .frame(width: 240, height: 240)
                     // 첫 번째 화면 안내 문구
-                    PostureInstructionComponent(index: 1)
+                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 1)
                 } else {
 
                     Image("extensionPosture2")
@@ -36,7 +36,7 @@ struct MainViewBefore: View {
                         .scaledToFit()
                         .frame(width: 240, height: 240)
                     // 두 번째 화면 안내 문구
-                    PostureInstructionComponent(index: 2)
+                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 2)
                 }
 
                 // MARK: - 버튼 영역 (92px height, 16px gap)

@@ -29,7 +29,7 @@ struct CountdownView: View {
                 }
                 .frame(height: 240)
 
-                PostureInstructionComponent(index: 2)
+                PostureInstructionComponent(type: vm.currentMeasurementType, index: 2)
                     .padding(.horizontal, 20)
                 
                 CapsuleButtonComponent(
