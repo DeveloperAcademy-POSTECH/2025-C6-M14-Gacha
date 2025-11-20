@@ -177,14 +177,14 @@
 /* Select Type */
 "select.type.title" = "측정 선택";
 
-"select.type.knee.flexion.title" = "무릎 굽힘 각도";
+"select.type.knee.flexion.title" = "무릎 움직임 범위";
 "select.type.knee.flexion.description" = "무릎을 얼마나 굽힐 수 있는지\n확인하세요";
 
-"select.type.shoulder.flexion.title" = "어깨 굽힘 각도";
+"select.type.shoulder.flexion.title" = "어깨 움직임 범위";
 "select.type.shoulder.flexion.description" = "팔을 얼마나 앞으로 들어올릴 수\n있는지 확인하세요";
 
-"select.type.hip.adduction.title" = "고관절 모음 각도";
-"select.type.hip.adduction.description" = "다리를 몸 안쪽으로 얼마나 모을 수\n있는지 확인하세요";
+"select.type.hip.adduction.title" = "발목 움직임 범위";
+"select.type.hip.adduction.description" = "발목을 얼마나 돌릴 수\n있는지 확인하세요";
 
-"select.type.elbow.extension.title" = "팔꿈치 폄 각도";
+"select.type.elbow.extension.title" = "팔꿈치 움직임 범위";
 "select.type.elbow.extension.description" = "팔꿈치를 얼마나 펼 수 있는지\n확인하세요";

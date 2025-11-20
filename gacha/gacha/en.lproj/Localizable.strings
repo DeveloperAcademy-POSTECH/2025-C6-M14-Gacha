@@ -177,14 +177,14 @@
 /* Select Type */
 "select.type.title" = "Select";
 
-"select.type.knee.flexion.title" = "Knee Flexion";
+"select.type.knee.flexion.title" = "Knee Range of Motion";
 "select.type.knee.flexion.description" = "Check how much you can\nbend your knee";
 
-"select.type.shoulder.flexion.title" = "Shoulder Flexion";
+"select.type.shoulder.flexion.title" = "Shoulder Range of Motion";
 "select.type.shoulder.flexion.description" = "Check how high you can\nraise your arm";
 
-"select.type.hip.adduction.title" = "Hip Adduction";
-"select.type.hip.adduction.description" = "Check how far you can\nbring your leg inward";
+"select.type.hip.adduction.title" = "Ankle Range of Motion";
+"select.type.hip.adduction.description" = "Check how much you can\n rotate your ankle";
 
-"select.type.elbow.extension.title" = "Elbow Extension";
+"select.type.elbow.extension.title" = "Elbow Range of Motion";
 "select.type.elbow.extension.description" = "Check how much you can\nstraighten your elbow";
