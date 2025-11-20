@@ -439,6 +439,7 @@ final class MeasureViewModel: ObservableObject {
 
     /// 측정 플로우 종료 (Modal 닫기)
     func dismissMeasureFlow(navigateToTab: Int? = nil) {
+        currentMeasurementType = .extensionAngle
         targetTabAfterDismiss = navigateToTab
         showMeasureFlow = false
         navigationPath = NavigationPath()  // 정리

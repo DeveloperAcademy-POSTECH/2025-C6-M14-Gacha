@@ -53,7 +53,7 @@ struct FlexionReadyView: View {
                         if vm.hasTodayRecord {
                             showPainAlert = true
                         } else {
-                            vm.navigate(to: .painLevel, from: .home)
+                            vm.navigate(to: .painLevel, from: .flexionReady)
                         }
                     }) {
                         Text(Strings.Button.painOnly)

@@ -97,17 +97,6 @@ struct CompleteMeasureView: View {
             )
         }
         .navigationBarHidden(true)
-        .onAppear {
-            // 자동 시작 플래그 확인
-            if vm.shouldAutoStartMeasure {
-                vm.shouldAutoStartMeasure = false
-
-                // 0.5초 후 자동 시작
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    vm.startFlexionMeasure()
-                }
-            }
-        }
         .onDisappear {
             if vm.isMeasuring {
                 vm.cancelFlexionMeasure()
