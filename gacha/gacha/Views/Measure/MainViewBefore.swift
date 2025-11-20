@@ -70,7 +70,9 @@ struct MainViewBefore: View {
                                 style: .light,
                                 width: (UIScreen.main.bounds.width - 60) / 2
                             ) {
-                                currentPage -= 1
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    currentPage -= 1
+                                }
                             }
                             CapsuleButtonComponent(
                                 title: Strings.Button.measureStart,
@@ -86,12 +88,17 @@ struct MainViewBefore: View {
                             .alert(isPresented: $showFlexionAlert) {
                                 Alert(
                                     title: Text(Strings.Alert.remeasureTitle),
-                                    message: Text(Strings.Alert.remeasureMessage),
+                                    message: Text(
+                                        Strings.Alert.remeasureMessage
+                                    ),
                                     primaryButton: .destructive(
                                         Text(Strings.Common.yes),
                                         action: {
                                             Task {
-                                                vm.navigate(to: .countdown, from: .home)
+                                                vm.navigate(
+                                                    to: .countdown,
+                                                    from: .home
+                                                )
                                             }
                                         }
                                     ),
