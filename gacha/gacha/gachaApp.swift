@@ -44,8 +44,9 @@ struct gachaApp: App {
            let recordDate = calendar.date(bySettingHour: 14, minute: 30, second: 0, of: date9DaysAgo) {
             let record = MeasuredRecord()
             record.measuredDate = recordDate
-            record.flexionAngle = 60.0  // 낮은 각도 (자유롭게 수정)
-            record.painLevel = 7        // 높은 통증 (자유롭게 수정)
+            record.extensionAngle = 10.0  // 높은 신전 각도 (자유롭게 수정)
+            record.flexionAngle = 60.0    // 낮은 굴곡 각도 (자유롭게 수정)
+            record.painLevel = 6          // 높은 통증 (자유롭게 수정)
             record.measuredSeconds = 0
             context.insert(record)
         }
@@ -57,10 +58,11 @@ struct gachaApp: App {
                 let record = MeasuredRecord()
                 record.measuredDate = recordDate
 
-                // 우상향: 각도는 증가, 통증은 감소
+                // 우상향: 신전 각도는 감소, 굴곡 각도는 증가, 통증은 감소
                 let progress = Double(8 - daysAgo) / 7.0  // 0.14 ~ 1.0
-                record.flexionAngle = 60.0 + (progress * 60.0)  // 60° → 120° (자유롭게 수정)
-                record.painLevel = 5 - Int(progress * 3.0)      // 5 → 2 (자유롭게 수정)
+                record.extensionAngle = 8.0 - (progress * 8.0)  // 10° → 5° (자유롭게 수정)
+                record.flexionAngle = 60.0 + (progress * 60.0)   // 60° → 120° (자유롭게 수정)
+                record.painLevel = 5 - Int(progress * 3.0)       // 5 → 2 (자유롭게 수정)
                 record.measuredSeconds = 0
 
                 context.insert(record)

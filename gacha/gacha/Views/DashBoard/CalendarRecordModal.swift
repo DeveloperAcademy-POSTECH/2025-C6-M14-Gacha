@@ -27,8 +27,7 @@ struct CalendarRecordModal: View {
                 .padding(.top, 22)
                 .padding(.horizontal, 32)
         }
-        .presentationDetents([.height(50
-                                      0)])
+        .presentationDetents([.height(500)])
         .presentationDragIndicator(.visible)
     }
 
