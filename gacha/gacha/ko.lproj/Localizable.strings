@@ -45,8 +45,8 @@
 "alert.rerecord_pain.message" = "새로 입력한 통증이 오늘의 결과로 저장돼요";
 
 /* MainBefore - 1/2 */
-"daily_start.title" = "무릎 굽힘 측정 준비";
-"daily_start.instruction.no1" = "측정할 무릎을 최대한 굽혀 앉아주세요";
+"daily_start.title" = "무릎 신전 측정 준비";
+"daily_start.instruction.no1" = "측정할 다리를 최대한 펴고 앉아 주세요";
 "daily_start.instruction.no2" = "기기를 무릎 쪽 허벅지에 얹어주세요";
 "daily_start.instruction.no3" = "측정이 끝날 때까지 자세를 유지하세요";
 
@@ -59,8 +59,11 @@
 "measure.extension.measuring" = "측정 중";
 "measure.extension.measured" = "측정 완료";
 
-/* FlexionMeasureView - 측정중 */
+/* ExtensionDoneView */
 "measure.flexion.title" = "무릎 굽힘 측정";
+"measure.instruction.no1" = "측정할 다리를 최대한 펴고 앉아 주세요";
+
+/* FlexionMeasureView - 측정중 */
 "measure.flexion.measuring" = "측정 중";
 "measure.flexion.measured" = "측정 완료";
 
