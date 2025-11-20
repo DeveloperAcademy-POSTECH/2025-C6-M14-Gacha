@@ -20,7 +20,7 @@ struct CountdownView: View {
             VStack(spacing: 40) {
                 VStack(spacing: 40) {
                     Spacer()
-                    
+
                     CountdownNumber
 
                     Text(Strings.Countdown.emphasisText)
@@ -29,16 +29,19 @@ struct CountdownView: View {
                 }
                 .frame(height: 240)
 
-                PostureInstructionComponent(type: vm.currentMeasurementType, index: 2)
-                    .padding(.horizontal, 20)
-                
+                PostureInstructionComponent(
+                    type: vm.currentMeasurementType,
+                    index: 2
+                )
+                .padding(.horizontal, 20)
+
                 CapsuleButtonComponent(
                     title: Strings.Common.cancel,
                     style: .light,
                     width: UIScreen.main.bounds.width - 40,
                     action: {
                         vm.stopSensor()
-                        vm.dismissMeasureFlow()
+                        vm.navigate(to: .home, from: .countdown)
                     }
                 )
                 .padding(.horizontal, 20)
@@ -68,7 +71,11 @@ struct CountdownView: View {
 
             // Task가 취소되지 않았을 때만 실행
             if !Task.isCancelled {
-                vm.navigate(to: .extensionMeasure, from: .countdown)
+                if vm.currentMeasurementType == .extensionAngle {
+                    vm.navigate(to: .extensionMeasure, from: .countdown)
+                } else {
+                    vm.navigate(to: .flexionMeasure, from: .countdown)
+                }
             }
         }
     }

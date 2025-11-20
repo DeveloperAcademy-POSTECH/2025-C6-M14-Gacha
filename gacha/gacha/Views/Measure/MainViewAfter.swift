@@ -27,18 +27,18 @@ struct MainViewAfter: View {
                     Spacer()
 
                     // MARK: - 하단 버튼 영역 (MainViewBefore와 동일한 구조)
-                    VStack (spacing: 20){
+                    HStack (spacing: 20){
                         CapsuleButtonComponent(
                             title: Strings.Button.summary,
                             style: .primary,
-                            width: UIScreen.main.bounds.width - 40
+                            width: (UIScreen.main.bounds.width - 60) / 2
                         ) {
                             vm.dismissMeasureFlow(navigateToTab: 2)
                         }
                         CapsuleButtonComponent(
                             title: Strings.Button.calendar,
                             style: .secondary,
-                            width: UIScreen.main.bounds.width - 40
+                            width: (UIScreen.main.bounds.width - 60) / 2
                         ) {
                             vm.dismissMeasureFlow(navigateToTab: 0)
                         }
@@ -69,7 +69,7 @@ struct MainViewAfter: View {
             // 1. 통계 섹션 (54px)
             statisticsSection
                 .padding(.horizontal, 20)
-                .padding(.bottom, 12)
+                .padding(.bottom, 16)
 
             // 2. 일러스트 영역 (240px)
             illustrationSection
@@ -86,19 +86,19 @@ struct MainViewAfter: View {
 
     /// 통계 섹션 (2x2 배열)
     var statisticsSection: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 16) {
             // 첫 번째 행: 신전 - 굴곡
-            HStack(spacing: 12) {
+            HStack(spacing: 16) {
                 // 신전
                 MainResultCell(
-                    title: "신전",
+                    title: Strings.Extension.angle,
                     value: vm.currentRecord?.extensionAngle.map { Int($0) },
                     showDegree: true
                 )
 
                 // 굴곡
                 MainResultCell(
-                    title: "굴곡",
+                    title: Strings.Flexion.angle,
                     value: vm.currentRecord?.flexionAngle.map { Int($0) },
                     showDegree: true,
                     trendText: vm.angleTrendText
@@ -106,7 +106,7 @@ struct MainViewAfter: View {
             }
 
             // 두 번째 행: ROM - 고통
-            HStack(spacing: 12) {
+            HStack(spacing: 16) {
                 // ROM
                 MainResultCell(
                     title: "ROM",
@@ -133,9 +133,28 @@ struct MainViewAfter: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 320, height: 240)
+            Text(vm.formatAngle(vm.currentRecord?.extensionAngle))
+                .font(.displayCalloutBold)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 2)
+                .background(.white)
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color("Gray500"), lineWidth: 2)
+                )
+                .offset(x: 130, y: -50)
             Text(vm.formatAngle(vm.currentRecord?.flexionAngle))
                 .font(.displayCalloutBold)
-                .offset(x: 70, y: -20)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 2)
+                .background(.white)
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color("Gray500"), lineWidth: 2)
+                )
+                .offset(x: 0, y: 120)
         }
         .frame(height: 240)
     }
@@ -198,7 +217,6 @@ struct MainResultCell: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(12)
         .background(Color("Blue50"))
         .cornerRadius(8)
     }

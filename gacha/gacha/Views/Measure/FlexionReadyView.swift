@@ -11,40 +11,78 @@ import SwiftUI
 struct FlexionReadyView: View {
     @EnvironmentObject var vm: MeasureViewModel
 
-    @State private var countdown: Int = 3
+    @State private var showPainAlert = false
 
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
 
+            // MARK: - 중앙 콘텐츠 영역
             VStack(spacing: 40) {
-                VStack(spacing: 40) {
-                    Spacer()
-                    
-                    CountdownNumber
-
-                    Text("신전 측정 완료!\n이제 굴곡을 측정합니다")
-                        .font(.displayTitle1Bold)
-                        .foregroundStyle(Color(.blue800))
-                        .multilineTextAlignment(.center)
-                }
-                .frame(height: 240)
-
-                PostureInstructionComponent(type: vm.currentMeasurementType, index: 2)
-                    .padding(.horizontal, 20)
-                
-                CapsuleButtonComponent(
-                    title: Strings.Common.cancel,
-                    style: .light,
-                    width: UIScreen.main.bounds.width - 40,
-                    action: {
-                        vm.stopSensor()
-                        vm.dismissMeasureFlow()
-                    }
+                Image("leg")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 240, height: 240)
+                // 첫 번째 화면 안내 문구
+                PostureInstructionComponent(
+                    type: vm.currentMeasurementType,
+                    index: 1
                 )
-                .padding(.horizontal, 20)
-                .padding(.bottom, 80)
+                
+                VStack(spacing: 20) {
+                    HStack(spacing: 20) {
+                        CapsuleButtonComponent(
+                            title: Strings.Button.retake,
+                            style: .light,
+                            width: (UIScreen.main.bounds.width - 60) / 2
+                        ) {
+                            vm.currentMeasurementType = .extensionAngle
+                            vm.navigate(to: .home, from: .flexionReady)
+                        }
+                        CapsuleButtonComponent(
+                            title: Strings.Button.measureStart,
+                            style: .primary,
+                            width: (UIScreen.main.bounds.width - 60) / 2
+                        ) {
+                            vm.currentMeasurementType = .flexionAngle
+                            vm.navigate(to: .countdown, from: .flexionReady)
+                        }
+                    }
+                    Button(action: {
+                        // 홈에서 직접 PainLevel로 이동
+                        if vm.hasTodayRecord {
+                            showPainAlert = true
+                        } else {
+                            vm.navigate(to: .painLevel, from: .home)
+                        }
+                    }) {
+                        Text(Strings.Button.painOnly)
+                            .font(.displayBodyRegular)
+                            .foregroundStyle(.gray500)
+                            .underline()
+                    }
+                    .alert(isPresented: $showPainAlert) {
+                        Alert(
+                            title: Text(Strings.Alert.rerecordPainTitle),
+                            message: Text(Strings.Alert.rerecordPainMessage),
+                            primaryButton: .destructive(
+                                Text(Strings.Common.yes),
+                                action: {
+                                    Task {
+                                        vm.navigate(to: .painLevel, from: .home)
+                                    }
+                                }
+                            ),
+                            secondaryButton: .cancel(
+                                Text(Strings.Common.no)
+                            )
+                        )
+                    }
+                }
+                .padding(.bottom, 40)
             }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 20)
 
         }
         .frame(
@@ -56,29 +94,6 @@ struct FlexionReadyView: View {
             vm.shouldAutoStartMeasure = true
             vm.startSensor()
         }
-        .task {
-            // 3-2-1 카운트다운 (각 1초씩, 총 3초)
-            for number in (1...3).reversed() {
-                countdown = number
-                try? await Task.sleep(nanoseconds: 1_000_000_000)  // 1초
-
-                if Task.isCancelled {
-                    return
-                }
-            }
-
-            // Task가 취소되지 않았을 때만 실행
-            if !Task.isCancelled {
-                vm.navigate(to: .flexionMeasure, from: .extensionDone)
-            }
-        }
-    }
-
-    private var CountdownNumber: some View {
-        Text("\(countdown)")
-            .font(.roundedExtraLargeBold)
-            .foregroundStyle(Color("Blue800"))
-            .frame(width: 100, height: 100)
     }
 }
 

@@ -424,6 +424,7 @@ final class MeasureViewModel: ObservableObject {
     
     /// 소스를 기록하며 네비게이션
     func navigate(to step: MeasureFlowStep, from source: NavigationSource) {
+        print("🧭 [Navigate] to: \(step), from: \(source), currentMeasurementType: \(currentMeasurementType)")
         setNavigationSource(for: step, source: source)
         navigationPath.append(step)
     }

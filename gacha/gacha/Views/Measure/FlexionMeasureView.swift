@@ -41,29 +41,39 @@ struct FlexionMeasureView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
             }
-            
+
             // MARK: - 메인 콘텐츠
             GeometryReader { geometry in
                 VStack(spacing: 40) {
-                    Spacer ()
+                    Spacer()
                     VStack(spacing: 20) {
                         Spacer()
                         Text(Strings.Flexion.flexionMeasuring)
                             .font(.roundedExtraLargeBold)
                             .foregroundStyle(Color("Blue800"))
-                        Text("  \(Int(vm.currentAngle))°")
-                            .font(.roundedExtraLargeBold)
-                            .foregroundStyle(Color("Gray700"))
-                            
+                        VStack(spacing: 8) {
+                            Text(Strings.Flexion.angle)
+                                .font(.displayTitle1Regular)
+                                .foregroundStyle(Color("Gray600"))
+                            Text("\(Int(vm.currentAngle*2))°")
+                                .font(.roundedExtraLargeBold)
+                                .foregroundStyle(Color("Gray700"))
+                        }
+                        .padding(16)
+                        .frame(height: 144)
+                        .cornerRadius(20)
+
                     }
                     .frame(height: 240)
                     .zIndex(2)  // 물 위에 표시
 
-
                     // MARK: - 측정 가이드
-                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 3)
-                        .padding(.horizontal, 20)
-                    
+                    PostureInstructionComponent(
+                        type: vm.currentMeasurementType,
+                        index: 3
+                    )
+                    .padding(.horizontal, 20)
+
                     Spacer()
                 }
             }
@@ -89,35 +99,35 @@ struct FlexionMeasureView: View {
             vm.stopSensor()
         }
     }
-    
+
     // MARK: - 진행률에 따른 그라데이션 색상
     private var progressGradient: LinearGradient {
         let progress = vm.overallProgress * 100  // 0~100으로 변환
         let colors: [Color]
-        
+
         switch progress {
         case 0..<25:
             colors = [
                 Color("Blue100"),
-                Color("Blue100").opacity(0.8)
+                Color("Blue100").opacity(0.8),
             ]
         case 25..<50:
             colors = [
                 Color("Blue200"),
-                Color("Blue200").opacity(0.8)
+                Color("Blue200").opacity(0.8),
             ]
         case 50..<75:
             colors = [
                 Color("Blue300"),
-                Color("Blue300").opacity(0.8)
+                Color("Blue300").opacity(0.8),
             ]
         default:  // 75~100
             colors = [
                 Color("Blue400"),
-                Color("Blue400").opacity(0.8)
+                Color("Blue400").opacity(0.8),
             ]
         }
-        
+
         return LinearGradient(
             colors: colors,
             startPoint: .bottom,

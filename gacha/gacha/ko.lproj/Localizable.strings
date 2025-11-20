@@ -62,9 +62,9 @@
 
 /* ExtensionDoneView */
 "measure.flexion.title" = "무릎 굽힘 측정";
-"measure.instruction.no1" = "측정할 다리를 최대한 펴고 앉아 주세요";
 
 /* FlexionReadyView */
+"measure.flexion.instruction.no1" = "측정할 다리를 최대한 펴고 앉아 주세요";
 "measure.flexion.ready.title" = "무릎 굽힘 측정 준비";
 
 /* FlexionMeasureView - 측정중 */

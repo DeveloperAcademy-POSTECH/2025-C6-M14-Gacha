@@ -61,9 +61,9 @@
 
 /* ExtensionDoneView */
 "measure.flexion.title" = "Knee Flexion Measurement";
-"measure.flexion.instruction.no1" = "Sit and ben your knee fully";
 
 /* FlexionReadyView */
+"measure.flexion.instruction.no1" = "Sit and ben your knee fully";
 "measure.flexion.ready.title" = "Ready for Knee Flexion";
 
 /* FlexionMeasureView - Measuring */

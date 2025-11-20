@@ -18,40 +18,27 @@ struct CompleteMeasureView: View {
                 Spacer()
                 VStack(spacing: 40) {
                     Spacer()
-                    Text("측정 완료!")
+                    Text(Strings.Extension.extensionMeasured)
                         .font(.roundedExtraLargeBold)
-                        .foregroundStyle(Color(.blue800))
-
-                    // MARK: - 측정 결과 (2x2 배열)
-                    VStack(spacing: 20) {
-                        // 첫 번째 행: 신전 - 굴곡
-                        HStack(spacing: 20) {
-                            MeasurementResultCell(
-                                title: "신전",
-                                value: vm.currentRecord?.extensionAngle.map { Int($0) } ?? nil
-                            )
-                            MeasurementResultCell(
-                                title: "굴곡",
-                                value: vm.currentRecord?.flexionAngle.map { Int($0) } ?? nil
-                            )
-                        }
-
-                        // 두 번째 행: ROM - 고통
-                        HStack(spacing: 20) {
-                            MeasurementResultCell(
-                                title: "ROM",
-                                value: vm.currentRecord?.ROM.map { Int($0) } ?? nil
-                            )
-                            MeasurementResultCell(
-                                title: "고통",
-                                value: vm.currentRecord?.painLevel,
-                                showDegree: false
-                            )
-                        }
+                        .foregroundStyle(Color("Blue800"))
+                    VStack(spacing: 8) {
+                        Text(Strings.Flexion.angle)
+                            .font(.displayTitle2Regular)
+                            .foregroundStyle(Color("Gray600"))
+                        Text("  \(Int(vm.currentRecord?.flexionAngle ?? 0))°")
+                            .font(.roundedExtraLargeBold)
+                            .foregroundStyle(Color("Gray700"))
                     }
+                    .padding(16)
+                    .frame(height: 144)
+                    .cornerRadius(20)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color("Blue300"), lineWidth: 2)
+                    )
+                    
                 }
                 .frame(height: 240)
-
                 Spacer()
 
                 VStack(spacing: 20) {

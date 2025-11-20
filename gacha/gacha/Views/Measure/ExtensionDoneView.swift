@@ -22,7 +22,7 @@ struct ExtensionDoneView: View {
                         .foregroundStyle(Color("Blue800"))
                     VStack(spacing: 8) {
                         Text(Strings.Extension.angle)
-                            .font(.displayTitle1Regular)
+                            .font(.displayTitle2Regular)
                             .foregroundStyle(Color("Gray600"))
                         Text("  \(Int(vm.currentRecord?.extensionAngle ?? 0))°")
                             .font(.roundedExtraLargeBold)
@@ -30,12 +30,14 @@ struct ExtensionDoneView: View {
                     }
                     .padding(16)
                     .frame(height: 144)
-                    .background(.blue200)
                     .cornerRadius(20)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color("Blue300"), lineWidth: 2)
+                    )
 
                 }
                 .frame(height: 240)
-                .zIndex(2)  // 물 위에 표시
 
                 // MARK: - 측정 가이드
                 PostureInstructionComponent(
