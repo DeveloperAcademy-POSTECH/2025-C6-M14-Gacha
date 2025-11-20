@@ -272,9 +272,9 @@ extension MeasureViewModel {
     /// 굴곡 각도에 따른 이미지 이름 반환
     var flexionImageName: String {
         guard let angle = currentRecord?.flexionAngle else {
-            return "result45"  // 기본값
+            return "noRecord"  // 기록이 없을 때
         }
-        
+
         switch angle {
         case ...60:
             return "result45"

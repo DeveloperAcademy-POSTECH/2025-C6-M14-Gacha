@@ -27,7 +27,8 @@ struct CalendarRecordModal: View {
                 .padding(.top, 22)
                 .padding(.horizontal, 32)
         }
-        .presentationDetents([.medium])
+        .presentationDetents([.height(50
+                                      0)])
         .presentationDragIndicator(.visible)
     }
 
@@ -51,54 +52,98 @@ struct CalendarRecordModal: View {
     
     /// 통계 섹션
     var statisticsSection: some View {
-        HStack(spacing: 16) {
-            // 굴곡 각도
-            VStack(alignment: .leading, spacing: 4) {
-                Text(Strings.Progress.flexionAngle)
-                    .font(.displayFootnoteBold)
-                    .foregroundColor(.blue700)
-                Text(formatAngle(record.flexionAngle))
-                    .font(.displayTitle2Bold)
+        VStack(spacing: 16) {
+            // 첫 번째 행: 신전 - 굴곡
+            HStack(spacing: 16) {
+                // 신전
+                MainResultCell(
+                    title: Strings.Extension.angle,
+                    value: record.extensionAngle.map { Int($0) },
+                    showDegree: true
+                )
+
+                // 굴곡
+                MainResultCell(
+                    title: Strings.Flexion.angle,
+                    value: record.flexionAngle.map { Int($0) },
+                    showDegree: true,
+                )
             }
 
-            Spacer()
+            // 두 번째 행: ROM - 고통
+            HStack(spacing: 16) {
+                // ROM
+                MainResultCell(
+                    title: "ROM",
+                    value: record.ROM.map { Int($0) },
+                    showDegree: true
+                )
 
-            // 통증 정도
-            VStack(alignment: .leading, spacing: 4) {
-                Text(Strings.Progress.painLevel)
-                    .font(.displayFootnoteBold)
-                    .foregroundColor(.blue700)
-                HStack (spacing: 4) {
-                    Text(formatPainLevelForDisplay(record.painLevel))
-                        .font(.displayTitle2Bold)
-
-                    if let painLevel = record.painLevel, !painCategoryText(for: painLevel).isEmpty {
-                        Text("(\(painCategoryText(for: painLevel)))")
-                            .font(.displayCaption1Regular)
-                            .foregroundColor(.gray600)
-                    }
-                }
+                // 고통
+                MainResultCell(
+                    title: "고통",
+                    value: record.painLevel,
+                    showDegree: false,
+                    subtitle: painCategoryText(for: record.painLevel ?? 0)
+                )
             }
-
-            Spacer()
         }
-        .frame(minHeight: 54)
     }
 
-    /// 일러스트 영역
-    private var illustrationSection: some View {
+    var illustrationSection: some View {
         ZStack {
             Image(flexionImageName)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 320, height: 240)
-            Text(formatAngle(record.flexionAngle))
-                .font(.displayCalloutBold)
-                .offset(x: 70, y: -20)
+            if record.extensionAngle != nil {
+                Text(formatAngle(record.extensionAngle))
+                    .font(.displayCalloutBold)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(.white)
+                    .cornerRadius(12)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color("Gray500"), lineWidth: 2)
+                    )
+                    .offset(x: 130, y: -50)
+            }
+            if record.flexionAngle != nil {
+                Text(formatAngle(record.flexionAngle))
+                    .font(.displayCalloutBold)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(.white)
+                    .cornerRadius(12)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color("Gray500"), lineWidth: 2)
+                    )
+                    .offset(calculateFlexionOffset())
+            }
         }
-        .frame(height: 240)
     }
 
+    /// Flexion 각도에 따라 offset 계산 (15도 단위로 다르게)
+    private func calculateFlexionOffset() -> CGSize {
+        guard let flexionAngle = record.flexionAngle else {
+            return CGSize(width: 0, height: 120)
+        }
+
+        // 60도부터 135도까지 15도 단위로 offset 조정
+        let normalizedAngle = max(60, min(135, flexionAngle)) // 60~135 범위로 제한
+
+        // Y offset: 60도: 30, 75도: 50, 90도: 70, 105도: 70, 120도: 50, 135도: 30
+        let step = Int((normalizedAngle - 60) / 15)
+        let yOffset = 30 + min(step, 5 - step) * 20
+
+        // X offset: 각도에 따라 조정 (60도: 70(오른쪽), 135도: -70(왼쪽))
+        let xOffset = 70 - ((normalizedAngle - 60) / 75) * 140
+
+        return CGSize(width: CGFloat(xOffset), height: CGFloat(yOffset))
+    }
+    
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.locale = Locale.current
@@ -128,7 +173,7 @@ struct CalendarRecordModal: View {
 
     private var flexionImageName: String {
         guard let angle = record.flexionAngle else {
-            return "result45"  // 기본값
+            return "noRecord"  // 기본값
         }
 
         switch angle {
