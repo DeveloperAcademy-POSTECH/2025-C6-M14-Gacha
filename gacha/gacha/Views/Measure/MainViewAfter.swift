@@ -154,9 +154,28 @@ struct MainViewAfter: View {
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(Color("Gray500"), lineWidth: 2)
                 )
-                .offset(x: 0, y: 120)
+                .offset(calculateFlexionOffset())
         }
         .frame(height: 240)
+    }
+
+    /// Flexion 각도에 따라 offset 계산 (15도 단위로 다르게)
+    private func calculateFlexionOffset() -> CGSize {
+        guard let flexionAngle = vm.currentRecord?.flexionAngle else {
+            return CGSize(width: 0, height: 120)
+        }
+
+        // 60도부터 135도까지 15도 단위로 offset 조정
+        let normalizedAngle = max(60, min(135, flexionAngle)) // 60~135 범위로 제한
+
+        // Y offset: 60도: 30, 75도: 50, 90도: 70, 105도: 70, 120도: 50, 135도: 30
+        let step = Int((normalizedAngle - 60) / 15)
+        let yOffset = 30 + min(step, 5 - step) * 20
+
+        // X offset: 각도에 따라 조정 (60도: 70(오른쪽), 135도: -70(왼쪽))
+        let xOffset = 70 - ((normalizedAngle - 60) / 75) * 140
+
+        return CGSize(width: CGFloat(xOffset), height: CGFloat(yOffset))
     }
 
     /// 피드백 박스
@@ -288,6 +307,156 @@ struct MainResultCell: View {
     viewModel.calculateRecordChange()
 
     // 로딩 상태 해제
+    viewModel.isLoading = false
+
+    return NavigationStack {
+        MainViewAfter()
+            .environmentObject(viewModel)
+    }
+}
+
+#Preview("Flexion 60°") {
+    let container = try! ModelContainer(
+        for: MeasuredRecord.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    let repository = SwiftDataRecordRepository(
+        modelContext: container.mainContext
+    )
+    let viewModel = MeasureViewModel(repository: repository)
+
+    let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
+    todayRecord.flexionAngle = 60
+    todayRecord.painLevel = 3
+    todayRecord.measuredDate = Date()
+    viewModel.currentRecord = todayRecord
+    viewModel.calculateRecordChange()
+    viewModel.isLoading = false
+
+    return NavigationStack {
+        MainViewAfter()
+            .environmentObject(viewModel)
+    }
+}
+
+#Preview("Flexion 75°") {
+    let container = try! ModelContainer(
+        for: MeasuredRecord.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    let repository = SwiftDataRecordRepository(
+        modelContext: container.mainContext
+    )
+    let viewModel = MeasureViewModel(repository: repository)
+
+    let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
+    todayRecord.flexionAngle = 75
+    todayRecord.painLevel = 3
+    todayRecord.measuredDate = Date()
+    viewModel.currentRecord = todayRecord
+    viewModel.calculateRecordChange()
+    viewModel.isLoading = false
+
+    return NavigationStack {
+        MainViewAfter()
+            .environmentObject(viewModel)
+    }
+}
+
+#Preview("Flexion 90°") {
+    let container = try! ModelContainer(
+        for: MeasuredRecord.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    let repository = SwiftDataRecordRepository(
+        modelContext: container.mainContext
+    )
+    let viewModel = MeasureViewModel(repository: repository)
+
+    let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
+    todayRecord.flexionAngle = 90
+    todayRecord.painLevel = 3
+    todayRecord.measuredDate = Date()
+    viewModel.currentRecord = todayRecord
+    viewModel.calculateRecordChange()
+    viewModel.isLoading = false
+
+    return NavigationStack {
+        MainViewAfter()
+            .environmentObject(viewModel)
+    }
+}
+
+#Preview("Flexion 105°") {
+    let container = try! ModelContainer(
+        for: MeasuredRecord.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    let repository = SwiftDataRecordRepository(
+        modelContext: container.mainContext
+    )
+    let viewModel = MeasureViewModel(repository: repository)
+
+    let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
+    todayRecord.flexionAngle = 105
+    todayRecord.painLevel = 3
+    todayRecord.measuredDate = Date()
+    viewModel.currentRecord = todayRecord
+    viewModel.calculateRecordChange()
+    viewModel.isLoading = false
+
+    return NavigationStack {
+        MainViewAfter()
+            .environmentObject(viewModel)
+    }
+}
+
+#Preview("Flexion 120°") {
+    let container = try! ModelContainer(
+        for: MeasuredRecord.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    let repository = SwiftDataRecordRepository(
+        modelContext: container.mainContext
+    )
+    let viewModel = MeasureViewModel(repository: repository)
+
+    let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
+    todayRecord.flexionAngle = 120
+    todayRecord.painLevel = 3
+    todayRecord.measuredDate = Date()
+    viewModel.currentRecord = todayRecord
+    viewModel.calculateRecordChange()
+    viewModel.isLoading = false
+
+    return NavigationStack {
+        MainViewAfter()
+            .environmentObject(viewModel)
+    }
+}
+
+#Preview("Flexion 135°") {
+    let container = try! ModelContainer(
+        for: MeasuredRecord.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    let repository = SwiftDataRecordRepository(
+        modelContext: container.mainContext
+    )
+    let viewModel = MeasureViewModel(repository: repository)
+
+    let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
+    todayRecord.flexionAngle = 135
+    todayRecord.painLevel = 3
+    todayRecord.measuredDate = Date()
+    viewModel.currentRecord = todayRecord
+    viewModel.calculateRecordChange()
     viewModel.isLoading = false
 
     return NavigationStack {
