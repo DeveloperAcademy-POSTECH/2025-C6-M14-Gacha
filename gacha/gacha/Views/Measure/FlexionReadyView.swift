@@ -68,9 +68,7 @@ struct FlexionReadyView: View {
                             primaryButton: .destructive(
                                 Text(Strings.Common.yes),
                                 action: {
-                                    Task {
-                                        vm.navigate(to: .painLevel, from: .home)
-                                    }
+                                    vm.navigate(to: .painLevel, from: .flexionReady)
                                 }
                             ),
                             secondaryButton: .cancel(

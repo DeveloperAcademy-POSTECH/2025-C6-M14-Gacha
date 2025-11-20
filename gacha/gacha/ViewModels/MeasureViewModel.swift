@@ -425,6 +425,16 @@ final class MeasureViewModel: ObservableObject {
     /// 소스를 기록하며 네비게이션
     func navigate(to step: MeasureFlowStep, from source: NavigationSource) {
         print("🧭 [Navigate] to: \(step), from: \(source), currentMeasurementType: \(currentMeasurementType)")
+
+        // .home으로 이동 시 스택 초기화 및 측정 상태 초기화
+        if step == .home {
+            navigationPath = NavigationPath()
+            clearAllNavigationSources()
+            prepareForNewMeasurement()
+            currentRecord = nil
+            print("🏠 [Navigate] 홈으로 이동 - 스택 및 측정 상태 초기화")
+        }
+
         setNavigationSource(for: step, source: source)
         navigationPath.append(step)
     }
