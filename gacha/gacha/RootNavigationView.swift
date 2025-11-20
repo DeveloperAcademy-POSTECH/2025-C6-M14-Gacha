@@ -145,9 +145,27 @@ struct RootNavigationView: View {
         case .countdown:
             CountdownView()
                 .navigationBarBackButtonHidden(true)
-                .navigationTitle(Strings.Flexion.title)
+                .navigationTitle(measureVM.currentMeasurementType == .extensionAngle ? Strings.Extension.title : Strings.Flexion.title)
                 .navigationBarTitleDisplayMode(.inline)
 
+        case .extensionMeasure:
+            ExtensionMeasureView()
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle(Strings.Extension.title)
+                .navigationBarTitleDisplayMode(.inline)
+            
+        case .extensionDone:
+            ExtensionDoneView()
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle(Strings.Extension.title)
+                .navigationBarTitleDisplayMode(.inline)
+            
+        case .flexionReady:
+            FlexionReadyView()
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle(Strings.Flexion.readyTitle)
+                .navigationBarTitleDisplayMode(.large)
+            
         case .flexionMeasure:
             FlexionMeasureView()
                 .navigationBarBackButtonHidden(true)

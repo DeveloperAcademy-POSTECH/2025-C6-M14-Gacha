@@ -27,20 +27,20 @@ struct MainViewAfter: View {
                     Spacer()
 
                     // MARK: - 하단 버튼 영역 (MainViewBefore와 동일한 구조)
-                    VStack (spacing: 20){
-                        CapsuleButtonComponent(
-                            title: Strings.Button.calendar,
-                            style: .primary,
-                            width: UIScreen.main.bounds.width - 40
-                        ) {
-                            vm.dismissMeasureFlow(navigateToTab: 0)
-                        }
+                    HStack (spacing: 20){
                         CapsuleButtonComponent(
                             title: Strings.Button.summary,
-                            style: .secondary,
-                            width: UIScreen.main.bounds.width - 40
+                            style: .primary,
+                            width: (UIScreen.main.bounds.width - 60) / 2
                         ) {
                             vm.dismissMeasureFlow(navigateToTab: 2)
+                        }
+                        CapsuleButtonComponent(
+                            title: Strings.Button.calendar,
+                            style: .secondary,
+                            width: (UIScreen.main.bounds.width - 60) / 2
+                        ) {
+                            vm.dismissMeasureFlow(navigateToTab: 0)
                         }
                     }
                     .padding(.bottom, 40)
@@ -69,7 +69,7 @@ struct MainViewAfter: View {
             // 1. 통계 섹션 (54px)
             statisticsSection
                 .padding(.horizontal, 20)
-                .padding(.bottom, 12)
+                .padding(.bottom, 16)
 
             // 2. 일러스트 영역 (240px)
             illustrationSection
@@ -84,45 +84,44 @@ struct MainViewAfter: View {
         .background(Color("White"))
     }
 
-    /// 통계 섹션
+    /// 통계 섹션 (2x2 배열)
     var statisticsSection: some View {
-        HStack(spacing: 16) {
-            // 굴곡 각도
-            VStack(alignment: .leading, spacing: 4) {
-                Text(Strings.Progress.flexionAngle)
-                    .font(.displayCalloutBold)
-                    .foregroundColor(.blue700)
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text(vm.formatAngle(vm.currentRecord?.flexionAngle))
-                        .font(.displayTitle2Bold)
+        VStack(spacing: 16) {
+            // 첫 번째 행: 신전 - 굴곡
+            HStack(spacing: 16) {
+                // 신전
+                MainResultCell(
+                    title: Strings.Extension.angle,
+                    value: vm.currentRecord?.extensionAngle.map { Int($0) },
+                    showDegree: true
+                )
 
-                    // 어제 대비 변화량
-                    if let trendText = vm.angleTrendText {
-                        Text(trendText)
-                            .font(.displayCaption1Regular)
-                            .foregroundColor(.blue700)
-                    }
-                }
+                // 굴곡
+                MainResultCell(
+                    title: Strings.Flexion.angle,
+                    value: vm.currentRecord?.flexionAngle.map { Int($0) },
+                    showDegree: true,
+                    trendText: vm.angleTrendText
+                )
             }
 
-            Spacer()
+            // 두 번째 행: ROM - 고통
+            HStack(spacing: 16) {
+                // ROM
+                MainResultCell(
+                    title: "ROM",
+                    value: vm.currentRecord?.ROM.map { Int($0) },
+                    showDegree: true
+                )
 
-            // 통증 정도
-            VStack(alignment: .leading, spacing: 4) {
-                Text(Strings.Progress.painLevel)
-                    .font(.displayCalloutBold)
-                    .foregroundColor(.blue700)
-                HStack(spacing: 4) {
-                    Text(vm.formatPainLevel(vm.currentRecord?.painLevel))
-                        .font(.displayTitle2Bold)
-
-                    Text("(\(vm.painCategoryText))")
-                        .font(.displayCaption1Regular)
-                        .foregroundColor(.gray600)
-                }
+                // 고통
+                MainResultCell(
+                    title: "고통",
+                    value: vm.currentRecord?.painLevel,
+                    showDegree: false,
+                    subtitle: vm.painCategoryText
+                )
             }
-
-            Spacer()
         }
         .frame(minHeight: 54)
     }
@@ -134,11 +133,49 @@ struct MainViewAfter: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 320, height: 240)
+            Text(vm.formatAngle(vm.currentRecord?.extensionAngle))
+                .font(.displayCalloutBold)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 2)
+                .background(.white)
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color("Gray500"), lineWidth: 2)
+                )
+                .offset(x: 130, y: -50)
             Text(vm.formatAngle(vm.currentRecord?.flexionAngle))
                 .font(.displayCalloutBold)
-                .offset(x: 70, y: -20)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 2)
+                .background(.white)
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color("Gray500"), lineWidth: 2)
+                )
+                .offset(calculateFlexionOffset())
         }
         .frame(height: 240)
+    }
+
+    /// Flexion 각도에 따라 offset 계산 (15도 단위로 다르게)
+    private func calculateFlexionOffset() -> CGSize {
+        guard let flexionAngle = vm.currentRecord?.flexionAngle else {
+            return CGSize(width: 0, height: 120)
+        }
+
+        // 60도부터 135도까지 15도 단위로 offset 조정
+        let normalizedAngle = max(60, min(135, flexionAngle)) // 60~135 범위로 제한
+
+        // Y offset: 60도: 30, 75도: 50, 90도: 70, 105도: 70, 120도: 50, 135도: 30
+        let step = Int((normalizedAngle - 60) / 15)
+        let yOffset = 30 + min(step, 5 - step) * 20
+
+        // X offset: 각도에 따라 조정 (60도: 70(오른쪽), 135도: -70(왼쪽))
+        let xOffset = 70 - ((normalizedAngle - 60) / 75) * 140
+
+        return CGSize(width: CGFloat(xOffset), height: CGFloat(yOffset))
     }
 
     /// 피드백 박스
@@ -160,6 +197,50 @@ struct MainViewAfter: View {
 
 }
 
+// MARK: - 메인 결과 셀 컴포넌트
+struct MainResultCell: View {
+    let title: String
+    let value: Int?
+    var showDegree: Bool = true
+    var trendText: String? = nil
+    var subtitle: String? = nil
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.displayCalloutBold)
+                .foregroundColor(.blue700)
+
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                if let value = value {
+                    Text(showDegree ? "\(value)°" : "\(value)")
+                        .font(.displayTitle2Bold)
+                } else {
+                    Text(showDegree ? "--°" : "--")
+                        .font(.displayTitle2Bold)
+                }
+
+                // 변화량 텍스트 (굴곡에만 표시)
+                if let trendText = trendText {
+                    Text(trendText)
+                        .font(.displayCaption1Regular)
+                        .foregroundColor(.blue700)
+                }
+
+                // 서브타이틀 (고통 레벨에만 표시)
+                if let subtitle = subtitle {
+                    Text("(\(subtitle))")
+                        .font(.displayCaption1Regular)
+                        .foregroundColor(.gray600)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color("Blue50"))
+        .cornerRadius(8)
+    }
+}
+
 #Preview("With Comparison") {
     // Preview용 임시 repository와 ViewModel 생성
     let container = try! ModelContainer(
@@ -173,6 +254,7 @@ struct MainViewAfter: View {
 
     // 테스트용 오늘 레코드
     let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
     todayRecord.flexionAngle = 95
     todayRecord.painLevel = 4
     todayRecord.measuredDate = Date()
@@ -180,6 +262,7 @@ struct MainViewAfter: View {
 
     // 테스트용 어제 레코드
     let yesterdayRecord = MeasuredRecord()
+    yesterdayRecord.extensionAngle = 8
     yesterdayRecord.flexionAngle = 90
     yesterdayRecord.painLevel = 5
     yesterdayRecord.measuredDate = Calendar.current.date(
@@ -214,6 +297,7 @@ struct MainViewAfter: View {
 
     // 테스트용 첫 번째 레코드 (비교 대상 없음)
     let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 10
     todayRecord.flexionAngle = 85
     todayRecord.painLevel = 6
     todayRecord.measuredDate = Date()
@@ -223,6 +307,156 @@ struct MainViewAfter: View {
     viewModel.calculateRecordChange()
 
     // 로딩 상태 해제
+    viewModel.isLoading = false
+
+    return NavigationStack {
+        MainViewAfter()
+            .environmentObject(viewModel)
+    }
+}
+
+#Preview("Flexion 60°") {
+    let container = try! ModelContainer(
+        for: MeasuredRecord.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    let repository = SwiftDataRecordRepository(
+        modelContext: container.mainContext
+    )
+    let viewModel = MeasureViewModel(repository: repository)
+
+    let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
+    todayRecord.flexionAngle = 60
+    todayRecord.painLevel = 3
+    todayRecord.measuredDate = Date()
+    viewModel.currentRecord = todayRecord
+    viewModel.calculateRecordChange()
+    viewModel.isLoading = false
+
+    return NavigationStack {
+        MainViewAfter()
+            .environmentObject(viewModel)
+    }
+}
+
+#Preview("Flexion 75°") {
+    let container = try! ModelContainer(
+        for: MeasuredRecord.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    let repository = SwiftDataRecordRepository(
+        modelContext: container.mainContext
+    )
+    let viewModel = MeasureViewModel(repository: repository)
+
+    let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
+    todayRecord.flexionAngle = 75
+    todayRecord.painLevel = 3
+    todayRecord.measuredDate = Date()
+    viewModel.currentRecord = todayRecord
+    viewModel.calculateRecordChange()
+    viewModel.isLoading = false
+
+    return NavigationStack {
+        MainViewAfter()
+            .environmentObject(viewModel)
+    }
+}
+
+#Preview("Flexion 90°") {
+    let container = try! ModelContainer(
+        for: MeasuredRecord.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    let repository = SwiftDataRecordRepository(
+        modelContext: container.mainContext
+    )
+    let viewModel = MeasureViewModel(repository: repository)
+
+    let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
+    todayRecord.flexionAngle = 90
+    todayRecord.painLevel = 3
+    todayRecord.measuredDate = Date()
+    viewModel.currentRecord = todayRecord
+    viewModel.calculateRecordChange()
+    viewModel.isLoading = false
+
+    return NavigationStack {
+        MainViewAfter()
+            .environmentObject(viewModel)
+    }
+}
+
+#Preview("Flexion 105°") {
+    let container = try! ModelContainer(
+        for: MeasuredRecord.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    let repository = SwiftDataRecordRepository(
+        modelContext: container.mainContext
+    )
+    let viewModel = MeasureViewModel(repository: repository)
+
+    let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
+    todayRecord.flexionAngle = 105
+    todayRecord.painLevel = 3
+    todayRecord.measuredDate = Date()
+    viewModel.currentRecord = todayRecord
+    viewModel.calculateRecordChange()
+    viewModel.isLoading = false
+
+    return NavigationStack {
+        MainViewAfter()
+            .environmentObject(viewModel)
+    }
+}
+
+#Preview("Flexion 120°") {
+    let container = try! ModelContainer(
+        for: MeasuredRecord.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    let repository = SwiftDataRecordRepository(
+        modelContext: container.mainContext
+    )
+    let viewModel = MeasureViewModel(repository: repository)
+
+    let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
+    todayRecord.flexionAngle = 120
+    todayRecord.painLevel = 3
+    todayRecord.measuredDate = Date()
+    viewModel.currentRecord = todayRecord
+    viewModel.calculateRecordChange()
+    viewModel.isLoading = false
+
+    return NavigationStack {
+        MainViewAfter()
+            .environmentObject(viewModel)
+    }
+}
+
+#Preview("Flexion 135°") {
+    let container = try! ModelContainer(
+        for: MeasuredRecord.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    let repository = SwiftDataRecordRepository(
+        modelContext: container.mainContext
+    )
+    let viewModel = MeasureViewModel(repository: repository)
+
+    let todayRecord = MeasuredRecord()
+    todayRecord.extensionAngle = 5
+    todayRecord.flexionAngle = 135
+    todayRecord.painLevel = 3
+    todayRecord.measuredDate = Date()
+    viewModel.currentRecord = todayRecord
+    viewModel.calculateRecordChange()
     viewModel.isLoading = false
 
     return NavigationStack {

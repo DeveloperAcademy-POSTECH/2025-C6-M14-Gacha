@@ -11,19 +11,26 @@ import Foundation
 class MeasuredRecord {
     var id: UUID
     var measuredDate: Date
+    var extensionAngle: Double?
     var flexionAngle: Double?
 
     @Transient
     var ROM: Double? {
-        return flexionAngle
+        // ROM = Flexion - Extension
+        guard let flexion = flexionAngle,
+              let extensionValue = extensionAngle else {
+            return nil
+        }
+        return flexion - extensionValue
     }
 
     var measuredSeconds: Int?
     var painLevel: Int?
 
-    init(flexionAngle: Double? = nil, measuredSeconds: Int? = nil, painLevel: Int? = nil) {
+    init(extensionAngle: Double? = nil, flexionAngle: Double? = nil, measuredSeconds: Int? = nil, painLevel: Int? = nil) {
         self.id = UUID()
         self.measuredDate = Date.now
+        self.extensionAngle = extensionAngle
         self.flexionAngle = flexionAngle
         self.measuredSeconds = measuredSeconds
         self.painLevel = painLevel

@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct FlexionMeasureView: View {
+struct ExtensionMeasureView: View {
     @EnvironmentObject var vm: MeasureViewModel
     @State private var showingAlert = false
 
@@ -41,18 +41,18 @@ struct FlexionMeasureView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
             }
-
+            
             // MARK: - 메인 콘텐츠
             GeometryReader { geometry in
                 VStack(spacing: 40) {
-                    Spacer()
+                    Spacer ()
                     VStack(spacing: 20) {
                         Spacer()
-                        Text(Strings.Flexion.flexionMeasuring)
+                        Text(Strings.Extension.extensionMeasuring)
                             .font(.roundedExtraLargeBold)
                             .foregroundStyle(Color("Blue800"))
                         VStack(spacing: 8) {
-                            Text(Strings.Flexion.angle)
+                            Text(Strings.Extension.angle)
                                 .font(.displayTitle1Regular)
                                 .foregroundStyle(Color("Gray600"))
                             Text("\(Int(vm.currentAngle*2))°")
@@ -62,25 +62,21 @@ struct FlexionMeasureView: View {
                         .padding(16)
                         .frame(height: 144)
                         .cornerRadius(20)
-
                     }
                     .frame(height: 240)
                     .zIndex(2)  // 물 위에 표시
 
-                    // MARK: - 측정 가이드
-                    PostureInstructionComponent(
-                        type: vm.currentMeasurementType,
-                        index: 3
-                    )
-                    .padding(.horizontal, 20)
 
+                    // MARK: - 측정 가이드
+                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 3)
+                        .padding(.horizontal, 20)
+                    
                     Spacer()
                 }
             }
         }
         .onAppear {
             vm.prepareForNewMeasurement()
-            vm.startSensor()  // 센서 명시적으로 시작
 
             // 자동 시작 플래그 확인
             if vm.shouldAutoStartMeasure {
@@ -88,46 +84,46 @@ struct FlexionMeasureView: View {
 
                 // 0.5초 후 자동 시작
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    vm.startFlexionMeasure()
+                    vm.startExtensionMeasure()
                 }
             }
         }
         .onDisappear {
             if vm.isMeasuring {
-                vm.cancelFlexionMeasure()
+                vm.cancelExtensionMeasure()
             }
             vm.stopSensor()
         }
     }
-
+    
     // MARK: - 진행률에 따른 그라데이션 색상
     private var progressGradient: LinearGradient {
         let progress = vm.overallProgress * 100  // 0~100으로 변환
         let colors: [Color]
-
+        
         switch progress {
         case 0..<25:
             colors = [
                 Color("Blue100"),
-                Color("Blue100").opacity(0.8),
+                Color("Blue100").opacity(0.8)
             ]
         case 25..<50:
             colors = [
                 Color("Blue200"),
-                Color("Blue200").opacity(0.8),
+                Color("Blue200").opacity(0.8)
             ]
         case 50..<75:
             colors = [
                 Color("Blue300"),
-                Color("Blue300").opacity(0.8),
+                Color("Blue300").opacity(0.8)
             ]
         default:  // 75~100
             colors = [
                 Color("Blue400"),
-                Color("Blue400").opacity(0.8),
+                Color("Blue400").opacity(0.8)
             ]
         }
-
+        
         return LinearGradient(
             colors: colors,
             startPoint: .bottom,
@@ -146,6 +142,6 @@ struct FlexionMeasureView: View {
     )
     let viewModel = MeasureViewModel(repository: repository)
 
-    return FlexionMeasureView()
+    return ExtensionMeasureView()
         .environmentObject(viewModel)
 }

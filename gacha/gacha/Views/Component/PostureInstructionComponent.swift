@@ -18,6 +18,7 @@ import SwiftUI
 ///   - index: 강조될 텍스트의 번호
 
 struct PostureInstructionComponent: View {
+    var type: MeasurementType
     var index: Int
     let emphasisFont: Font = .displayBodyBold
     let regularFont: Font = .displaySublineRegular
@@ -28,7 +29,7 @@ struct PostureInstructionComponent: View {
             HStack (spacing: 4) {
                 Image(systemName: "1.circle")
                     .font(index == 1 ? emphasisFont : regularFont)
-                Text(Strings.DailyStart.instructionNo1)
+                Text(type == .extensionAngle ? Strings.DailyStart.instructionNo1 : Strings.Flexion.instructionNo1)
                     .font(index == 1 ? emphasisFont : regularFont)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -64,5 +65,5 @@ struct PostureInstructionComponent: View {
 }
 
 #Preview {
-    PostureInstructionComponent(index: 1)
+    PostureInstructionComponent(type: .extensionAngle, index: 1)
 }

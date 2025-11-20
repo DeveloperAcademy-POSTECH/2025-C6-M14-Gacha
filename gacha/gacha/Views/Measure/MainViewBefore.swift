@@ -23,20 +23,20 @@ struct MainViewBefore: View {
             VStack(spacing: 40) {
                 // 안내 문구 영역
                 if currentPage == 0 {
-                    Image("before3")
+                    Image("extensionPosture")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 240, height: 240)
                     // 첫 번째 화면 안내 문구
-                    PostureInstructionComponent(index: 1)
+                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 1)
                 } else {
 
-                    Image("leg")
+                    Image("extensionPosture2")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 240, height: 240)
                     // 두 번째 화면 안내 문구
-                    PostureInstructionComponent(index: 2)
+                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 2)
                 }
 
                 // MARK: - 버튼 영역 (92px height, 16px gap)
@@ -70,7 +70,9 @@ struct MainViewBefore: View {
                                 style: .light,
                                 width: (UIScreen.main.bounds.width - 60) / 2
                             ) {
-                                currentPage -= 1
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    currentPage -= 1
+                                }
                             }
                             CapsuleButtonComponent(
                                 title: Strings.Button.measureStart,
@@ -86,12 +88,17 @@ struct MainViewBefore: View {
                             .alert(isPresented: $showFlexionAlert) {
                                 Alert(
                                     title: Text(Strings.Alert.remeasureTitle),
-                                    message: Text(Strings.Alert.remeasureMessage),
+                                    message: Text(
+                                        Strings.Alert.remeasureMessage
+                                    ),
                                     primaryButton: .destructive(
                                         Text(Strings.Common.yes),
                                         action: {
                                             Task {
-                                                vm.navigate(to: .countdown, from: .home)
+                                                vm.navigate(
+                                                    to: .countdown,
+                                                    from: .home
+                                                )
                                             }
                                         }
                                     ),
@@ -124,9 +131,7 @@ struct MainViewBefore: View {
                             primaryButton: .destructive(
                                 Text(Strings.Common.yes),
                                 action: {
-                                    Task {
-                                        vm.navigate(to: .painLevel, from: .home)
-                                    }
+                                    vm.navigate(to: .painLevel, from: .home)
                                 }
                             ),
                             secondaryButton: .cancel(

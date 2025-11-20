@@ -46,13 +46,14 @@ final class MeasureViewModel: ObservableObject {
     // MARK: - 새로운 측정 관련 프로퍼티
     @Published var isMeasuring: Bool = false
     @Published var measurementState: MeasurementState = .idle
+    @Published var currentMeasurementType: MeasurementType = .extensionAngle  // 현재 측정 타입
     @Published var detectedMaxAngle: Double = 0.0
     @Published var shouldAutoStartMeasure: Bool = false  // 자동 시작 플래그
     @Published var stabilizingProgress: Double = 0.0  // 안정화 진행률 (0.0~1.0)
     private var stableAngleTimer: Timer?
     private var lastStableAngle: Double = 0.0
     private var stableStartTime: Date?
-    private let stableDurationThreshold: TimeInterval = 1.4  // 1.4초
+    private let stableDurationThreshold: TimeInterval = 3.0  // 3초
     private let stableAngleThreshold: Double = 3.0  // ±3도
     private var lastHapticProgressLevel: Int = 0  // 마지막 햅틱 발생 레벨 (0, 1, 2...)
     
@@ -129,13 +130,14 @@ final class MeasureViewModel: ObservableObject {
         print("⚫ 센서 중지")
     }
     
-    // MARK: - 굴곡 측정 시작
-    func startFlexionMeasure() {
+    // MARK: - 신전 측정 시작
+    func startExtensionMeasure() {
         guard !isMeasuring else {
             print("⚠️ 이미 측정 중입니다.")
             return
         }
-        
+
+        currentMeasurementType = .extensionAngle
         isMeasuring = true
         measurementState = .started
         detectedMaxAngle = 0.0
@@ -143,7 +145,7 @@ final class MeasureViewModel: ObservableObject {
         stableStartTime = nil
         lastHapticProgressLevel = 0
         measureManager.startRecording()
-        
+
         // 안정 각도 감지 타이머 시작
         stableAngleTimer = Timer.scheduledTimer(
             withTimeInterval: 0.1,
@@ -151,7 +153,34 @@ final class MeasureViewModel: ObservableObject {
         ) { [weak self] _ in
             self?.checkAngleStability()
         }
-        
+
+        print("🏁 신전 측정 시작")
+    }
+
+    // MARK: - 굴곡 측정 시작
+    func startFlexionMeasure() {
+        guard !isMeasuring else {
+            print("⚠️ 이미 측정 중입니다.")
+            return
+        }
+
+        currentMeasurementType = .flexionAngle
+        isMeasuring = true
+        measurementState = .started
+        detectedMaxAngle = 0.0
+        lastStableAngle = 0.0
+        stableStartTime = nil
+        lastHapticProgressLevel = 0
+        measureManager.startRecording()
+
+        // 안정 각도 감지 타이머 시작
+        stableAngleTimer = Timer.scheduledTimer(
+            withTimeInterval: 0.1,
+            repeats: true
+        ) { [weak self] _ in
+            self?.checkAngleStability()
+        }
+
         print("🏁 굴곡 측정 시작")
     }
     
@@ -174,8 +203,8 @@ final class MeasureViewModel: ObservableObject {
             print("📳 진행률 햅틱: \(currentLevel * 10)%")
         }
 
-        // 각도 상승 감지 (5도 이상 변화)
-        if measurementState == .started && abs(currentAngle) > 5.0 {
+        // 각도 상승 감지
+        if measurementState == .started {
             measurementState = .moving
             print("🏃 움직임 감지됨")
         }
@@ -203,9 +232,13 @@ final class MeasureViewModel: ObservableObject {
                 stabilizingProgress = min(elapsed / stableDurationThreshold, 1.0)
                 
                 
-                // 1.4초 동안 안정 유지 시 측정 완료
+                // 3초 동안 안정 유지 시 측정 완료
                 if elapsed >= stableDurationThreshold {
-                    completeFlexionMeasure()
+                    if currentMeasurementType == .extensionAngle {
+                        completeExtensionMeasure()
+                    } else {
+                        completeFlexionMeasure()
+                    }
                 }
             }
         } else {
@@ -221,7 +254,32 @@ final class MeasureViewModel: ObservableObject {
         lastStableAngle = currentAngle
     }
     
-    // MARK: - 측정 완료
+    // MARK: - 신전 측정 완료
+    private func completeExtensionMeasure() {
+        guard isMeasuring else { return }
+
+        stableAngleTimer?.invalidate()
+        stableAngleTimer = nil
+        measureManager.stopRecording()
+
+        isMeasuring = false
+        measurementState = .completed
+
+        // 최빈값 계산
+        let finalAngle = calculateMeasuredROM()
+
+        print("✅ 신전 측정 완료: \(finalAngle)°")
+
+        // 강한 햅틱
+        triggerCompletionHaptic()
+
+        // 1초 후 다음 화면으로 이동
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.finishExtension(angle: finalAngle)
+        }
+    }
+
+    // MARK: - 굴곡 측정 완료
     private func completeFlexionMeasure() {
         guard isMeasuring else { return }
 
@@ -232,13 +290,22 @@ final class MeasureViewModel: ObservableObject {
         isMeasuring = false
         measurementState = .completed
 
-        // 최빈값 계산 (옵션 B: 최대값 근처만 사용)
-        let finalAngle = calculateFlexionROM()
-        measuredRom = finalAngle
+        // 최빈값 계산
+        let finalAngle = calculateMeasuredROM()
 
         print("✅ 굴곡 측정 완료: \(finalAngle)°")
 
-        // 강한 햅틱 0.5초 동안 울림
+        // 강한 햅틱
+        triggerCompletionHaptic()
+
+        // 1초 후 다음 화면으로 이동
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.finishFlexion(angle: finalAngle)
+        }
+    }
+
+    // MARK: - 완료 햅틱
+    private func triggerCompletionHaptic() {
         let heavyGenerator = UIImpactFeedbackGenerator(style: .heavy)
         let notificationGenerator = UINotificationFeedbackGenerator()
 
@@ -263,15 +330,10 @@ final class MeasureViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             notificationGenerator.notificationOccurred(.success)
         }
-
-        // 1초 후 다음 화면으로 이동
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            self?.finishFlexion(angle: finalAngle)
-        }
     }
-    
-    // MARK: - 최빈값 계산 (옵션 B)
-    private func calculateFlexionROM() -> Double {
+
+    // MARK: - 최빈값 계산
+    private func calculateMeasuredROM() -> Double {
         let angles = measureManager.recordedAngles.map { $0 * 2 }  // ROM 변환
         
         guard !angles.isEmpty else {
@@ -285,19 +347,34 @@ final class MeasureViewModel: ObservableObject {
         return detectedMaxAngle
     }
     
-    // MARK: - 측정 취소
+    // MARK: - 신전 측정 취소
+    func cancelExtensionMeasure() {
+        stableAngleTimer?.invalidate()
+        stableAngleTimer = nil
+        measureManager.stopRecording()
+
+        isMeasuring = false
+        measurementState = .idle
+        detectedMaxAngle = 0.0
+
+        measureManager.recordedAngles.removeAll()
+
+        print("❌ 신전 측정 취소됨")
+    }
+
+    // MARK: - 굴곡 측정 취소
     func cancelFlexionMeasure() {
         stableAngleTimer?.invalidate()
         stableAngleTimer = nil
         measureManager.stopRecording()
-        
+
         isMeasuring = false
         measurementState = .idle
         detectedMaxAngle = 0.0
-        
+
         measureManager.recordedAngles.removeAll()
-        
-        print("❌ 측정 취소됨")
+
+        print("❌ 굴곡 측정 취소됨")
     }
     
     // MARK: - 재측정 준비
@@ -347,6 +424,18 @@ final class MeasureViewModel: ObservableObject {
     
     /// 소스를 기록하며 네비게이션
     func navigate(to step: MeasureFlowStep, from source: NavigationSource) {
+        print("🧭 [Navigate] to: \(step), from: \(source), currentMeasurementType: \(currentMeasurementType)")
+
+        // .home으로 이동 시 스택 초기화 및 측정 상태 초기화
+        if step == .home {
+            navigationPath = NavigationPath()
+            clearAllNavigationSources()
+            prepareForNewMeasurement()
+            currentRecord = nil
+            currentMeasurementType = .extensionAngle
+            print("🏠 [Navigate] 홈으로 이동 - 스택 및 측정 상태 초기화")
+        }
+
         setNavigationSource(for: step, source: source)
         navigationPath.append(step)
     }
@@ -361,9 +450,27 @@ final class MeasureViewModel: ObservableObject {
 
     /// 측정 플로우 종료 (Modal 닫기)
     func dismissMeasureFlow(navigateToTab: Int? = nil) {
+        currentMeasurementType = .extensionAngle
         targetTabAfterDismiss = navigateToTab
         showMeasureFlow = false
         navigationPath = NavigationPath()  // 정리
+    }
+
+    // MARK: - Extension 측정 완료 시
+    func finishExtension(angle: Double) {
+        isLoading = true
+        defer { isLoading = false }
+
+        // 신전 각도 저장 (레코드 생성)
+        let record = MeasuredRecord()
+        record.extensionAngle = angle
+        record.measuredSeconds = 0
+
+        currentRecord = record
+        print("✅ Extension: \(record.extensionAngle ?? 0)°")
+
+        // ExtensionDoneView로 이동
+        navigate(to: .extensionDone, from: .extensionMeasure)
     }
 
     // MARK: - Flexion 측정 완료 시
@@ -371,15 +478,21 @@ final class MeasureViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
 
-        // 굴곡 각도만 측정
-        let record = MeasuredRecord()
+        // 굴곡 각도 추가 (기존 레코드에)
+        guard let record = currentRecord else {
+            print("⚠️ currentRecord가 없습니다. 새로 생성합니다.")
+            let newRecord = MeasuredRecord()
+            newRecord.flexionAngle = angle
+            currentRecord = newRecord
+            navigate(to: .completeMeasure, from: .flexionMeasure)
+            return
+        }
+
         record.flexionAngle = angle
-        record.measuredSeconds = 0  // 측정 시간은 자동 계산됨
+        print("✅ Flexion: \(record.flexionAngle ?? 0)°")
+        print("✅ ROM: \(record.ROM ?? 0)° (Flexion - Extension)")
 
-        currentRecord = record
-        print("✅ Flexion: \(record.flexionAngle)°")
-
-        // Modal 내부에서 PainLevel로 이동
+        // CompleteMeasureView로 이동
         navigate(to: .completeMeasure, from: .flexionMeasure)
     }
 

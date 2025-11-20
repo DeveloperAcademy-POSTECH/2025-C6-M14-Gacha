@@ -18,30 +18,42 @@ struct CompleteMeasureView: View {
                 Spacer()
                 VStack(spacing: 40) {
                     Spacer()
-                    Text(Strings.Flexion.flexionMeasured)
+                    Text(Strings.Extension.extensionMeasured)
                         .font(.roundedExtraLargeBold)
-                        .foregroundStyle(Color(.blue800))
-                    // MARK: - 측정 결과
-                    Text("\(Int(vm.measuredRom))°")
-                        .font(.roundedExtraLargeBold)
+                        .foregroundStyle(Color("Blue800"))
+                    VStack(spacing: 8) {
+                        Text(Strings.Flexion.angle)
+                            .font(.displayTitle2Regular)
+                            .foregroundStyle(Color("Gray600"))
+                        Text("  \(Int(vm.currentRecord?.flexionAngle ?? 0))°")
+                            .font(.roundedExtraLargeBold)
+                            .foregroundStyle(Color("Gray700"))
+                    }
+                    .padding(16)
+                    .frame(height: 144)
+                    .cornerRadius(20)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color("Blue300"), lineWidth: 2)
+                    )
+                    
                 }
                 .frame(height: 240)
-
                 Spacer()
 
-                VStack(spacing: 20) {
+                HStack(spacing: 20) {
                     CapsuleButtonComponent(
                         title: Strings.Button.retake,
                         style: .light,
-                        width: geometry.size.width - 40,
+                        width: (geometry.size.width - 60) / 2,
                         action: {
                             showingAlert = true
                         }
                     )
                     CapsuleButtonComponent(
-                        title: Strings.Button.save,
+                        title: Strings.Common.confirm,
                         style: .primary,
-                        width: geometry.size.width - 40,
+                        width: (geometry.size.width - 60) / 2,
                         action: {
                             vm.navigate(to: .painLevel, from: .completeMeasure)
                         }
@@ -85,22 +97,40 @@ struct CompleteMeasureView: View {
             )
         }
         .navigationBarHidden(true)
-        .onAppear {
-            // 자동 시작 플래그 확인
-            if vm.shouldAutoStartMeasure {
-                vm.shouldAutoStartMeasure = false
-
-                // 0.5초 후 자동 시작
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    vm.startFlexionMeasure()
-                }
-            }
-        }
         .onDisappear {
             if vm.isMeasuring {
                 vm.cancelFlexionMeasure()
             }
         }
+    }
+}
+
+// MARK: - 측정 결과 셀 컴포넌트
+struct MeasurementResultCell: View {
+    let title: String
+    let value: Int?
+    var showDegree: Bool = true
+
+    var body: some View {
+        VStack(spacing: 8) {
+            Text(title)
+                .font(.roundedLargeBold)
+                .foregroundStyle(Color("Gray600"))
+
+            if let value = value {
+                Text(showDegree ? "\(value)°" : "\(value)")
+                    .font(.roundedExtraLargeBold)
+                    .foregroundStyle(Color("Blue800"))
+            } else {
+                Text(showDegree ? "--°" : "--")
+                    .font(.roundedExtraLargeBold)
+                    .foregroundStyle(Color("Blue800"))
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 20)
+        .background(Color("Blue50"))
+        .cornerRadius(12)
     }
 }
 

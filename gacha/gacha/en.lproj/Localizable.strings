@@ -44,8 +44,8 @@
 "alert.rerecord_pain.message" = "This will update today’s record";
 
 /* MainBefore - 1/2 */
-"daily_start.title" = "Ready for Knee Flexion";
-"daily_start.instruction.no1" = "Sit and bend your knee fully";
+"daily_start.title" = "Ready for Knee Extension";
+"daily_start.instruction.no1" = "Sit and extend your leg as much as you can";
 "daily_start.instruction.no2" = "Place iPhone on thigh by knee";
 "daily_start.instruction.no3" = "Hold still until done";
 
@@ -53,10 +53,24 @@
 "measure.countdown.emphasis_text" = "Get Ready";
 "measure.countdown.description" = "Hold still and\nprepare for measurement";
 
+/* ExtensionMeasureView */
+"measure.extension.title" = "Knee Extension Measurement";
+"measure.extension.measuring" = "Measuring";
+"measure.extension.measured" = "Completed";
+"measure.extension.angle" = "Knee Extension Angle";
+
+/* ExtensionDoneView */
+"measure.flexion.title" = "Knee Flexion Measurement";
+
+/* FlexionReadyView */
+"measure.flexion.instruction.no1" = "Sit and ben your knee fully";
+"measure.flexion.ready.title" = "Ready for Knee Flexion";
+
 /* FlexionMeasureView - Measuring */
 "measure.flexion.title" = "Knee Flexion Measurement";
 "measure.flexion.measuring" = "Measuring";
 "measure.flexion.measured" = "Completed";
+"measure.flexion.angle" = "Knee Flexion Angle";
 
 /* PainLevelView */
 "pain.title" = "Record Pain Level";
