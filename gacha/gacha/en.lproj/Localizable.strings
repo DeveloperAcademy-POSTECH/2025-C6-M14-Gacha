@@ -57,15 +57,20 @@
 "measure.extension.title" = "Knee Extension Measurement";
 "measure.extension.measuring" = "Measuring";
 "measure.extension.measured" = "Completed";
+"measure.extension.angle" = "Knee Extension Angle";
 
 /* ExtensionDoneView */
 "measure.flexion.title" = "Knee Flexion Measurement";
 "measure.flexion.instruction.no1" = "Sit and ben your knee fully";
 
+/* FlexionReadyView */
+"measure.flexion.ready.title" = "Ready for Knee Flexion";
+
 /* FlexionMeasureView - Measuring */
 "measure.flexion.title" = "Knee Flexion Measurement";
 "measure.flexion.measuring" = "Measuring";
 "measure.flexion.measured" = "Completed";
+"measure.flexion.angle" = "Knee Flexion Angle";
 
 /* PainLevelView */
 "pain.title" = "Record Pain Level";

@@ -11,74 +11,56 @@ import SwiftUI
 struct ExtensionDoneView: View {
     @EnvironmentObject var vm: MeasureViewModel
 
-    @State private var countdown: Int = 3
-
     var body: some View {
-        VStack(spacing: 0) {
-            Spacer()
-
+        GeometryReader { geometry in
             VStack(spacing: 40) {
+                Spacer()
                 VStack(spacing: 40) {
                     Spacer()
-                    
-                    CountdownNumber
+                    Text(Strings.Extension.extensionMeasured)
+                        .font(.roundedExtraLargeBold)
+                        .foregroundStyle(Color("Blue800"))
+                    VStack(spacing: 8) {
+                        Text(Strings.Extension.angle)
+                            .font(.displayTitle1Regular)
+                            .foregroundStyle(Color("Gray600"))
+                        Text("  \(Int(vm.currentRecord?.extensionAngle ?? 0))°")
+                            .font(.roundedExtraLargeBold)
+                            .foregroundStyle(Color("Gray700"))
+                    }
+                    .padding(16)
+                    .frame(height: 144)
+                    .background(.blue200)
+                    .cornerRadius(20)
 
-                    Text("신전 측정 완료!\n이제 굴곡을 측정합니다")
-                        .font(.displayTitle1Bold)
-                        .foregroundStyle(Color(.blue800))
-                        .multilineTextAlignment(.center)
                 }
                 .frame(height: 240)
+                .zIndex(2)  // 물 위에 표시
 
-                PostureInstructionComponent(type: vm.currentMeasurementType, index: 2)
-                    .padding(.horizontal, 20)
-                
-                CapsuleButtonComponent(
-                    title: Strings.Common.cancel,
-                    style: .light,
-                    width: UIScreen.main.bounds.width - 40,
-                    action: {
-                        vm.stopSensor()
-                        vm.dismissMeasureFlow()
-                    }
+                // MARK: - 측정 가이드
+                PostureInstructionComponent(
+                    type: vm.currentMeasurementType,
+                    index: 3
                 )
                 .padding(.horizontal, 20)
-                .padding(.bottom, 80)
-            }
+                .opacity(0)
 
+                Spacer()
+            }
         }
         .frame(
             maxWidth: .infinity,
             maxHeight: .infinity,
         )
-        .onAppear {
-            // Start sensor early to warm up before actual measurement view
-            vm.shouldAutoStartMeasure = true
-            vm.startSensor()
-        }
         .task {
-            // 3-2-1 카운트다운 (각 1초씩, 총 3초)
-            for number in (1...3).reversed() {
-                countdown = number
-                try? await Task.sleep(nanoseconds: 1_000_000_000)  // 1초
-
-                if Task.isCancelled {
-                    return
-                }
-            }
-
             // Task가 취소되지 않았을 때만 실행
             if !Task.isCancelled {
-                vm.navigate(to: .flexionMeasure, from: .extensionDone)
+                try? await Task.sleep(nanoseconds: 2_000_000_000) // 2초 대기
+                if !Task.isCancelled {
+                    vm.navigate(to: .flexionReady, from: .extensionDone)
+                }
             }
         }
-    }
-
-    private var CountdownNumber: some View {
-        Text("\(countdown)")
-            .font(.roundedExtraLargeBold)
-            .foregroundStyle(Color("Blue800"))
-            .frame(width: 100, height: 100)
     }
 }
 

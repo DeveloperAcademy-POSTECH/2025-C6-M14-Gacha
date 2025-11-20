@@ -51,10 +51,17 @@ struct ExtensionMeasureView: View {
                         Text(Strings.Extension.extensionMeasuring)
                             .font(.roundedExtraLargeBold)
                             .foregroundStyle(Color("Blue800"))
-                        Text("  \(Int(vm.currentAngle))°")
-                            .font(.roundedExtraLargeBold)
-                            .foregroundStyle(Color("Gray700"))
-
+                        VStack(spacing: 8) {
+                            Text(Strings.Extension.angle)
+                                .font(.displayTitle1Regular)
+                                .foregroundStyle(Color("Gray600"))
+                            Text("  \(Int(vm.currentRecord?.extensionAngle ?? 0))°")
+                                .font(.roundedExtraLargeBold)
+                                .foregroundStyle(Color("Gray700"))
+                        }
+                        .padding(16)
+                        .frame(height: 144)
+                        .cornerRadius(20)
                     }
                     .frame(height: 240)
                     .zIndex(2)  // 물 위에 표시

@@ -58,14 +58,19 @@
 "measure.extension.title" = "무릎 폄 측정";
 "measure.extension.measuring" = "측정 중";
 "measure.extension.measured" = "측정 완료";
+"measure.extension.angle" = "무릎 폄 각도";
 
 /* ExtensionDoneView */
 "measure.flexion.title" = "무릎 굽힘 측정";
 "measure.instruction.no1" = "측정할 다리를 최대한 펴고 앉아 주세요";
 
+/* FlexionReadyView */
+"measure.flexion.ready.title" = "무릎 굽힘 측정 준비";
+
 /* FlexionMeasureView - 측정중 */
 "measure.flexion.measuring" = "측정 중";
 "measure.flexion.measured" = "측정 완료";
+"measure.flexion.angle" = "무릎 굽힘 각도";
 
 /* PainLevelView */
 "pain.title" = "통증 기록";
