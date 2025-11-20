@@ -432,6 +432,7 @@ final class MeasureViewModel: ObservableObject {
             clearAllNavigationSources()
             prepareForNewMeasurement()
             currentRecord = nil
+            currentMeasurementType = .extensionAngle
             print("🏠 [Navigate] 홈으로 이동 - 스택 및 측정 상태 초기화")
         }
 

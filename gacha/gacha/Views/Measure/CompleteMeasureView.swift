@@ -41,11 +41,11 @@ struct CompleteMeasureView: View {
                 .frame(height: 240)
                 Spacer()
 
-                VStack(spacing: 20) {
+                HStack(spacing: 20) {
                     CapsuleButtonComponent(
                         title: Strings.Button.retake,
                         style: .light,
-                        width: geometry.size.width - 40,
+                        width: (geometry.size.width - 60) / 2,
                         action: {
                             showingAlert = true
                         }
@@ -53,7 +53,7 @@ struct CompleteMeasureView: View {
                     CapsuleButtonComponent(
                         title: Strings.Common.confirm,
                         style: .primary,
-                        width: geometry.size.width - 40,
+                        width: (geometry.size.width - 60) / 2,
                         action: {
                             vm.navigate(to: .painLevel, from: .completeMeasure)
                         }
