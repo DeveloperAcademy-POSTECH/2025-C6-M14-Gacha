@@ -16,7 +16,7 @@
 "button.next" = "다음";
 "button.measure" = "측정하러 가기";
 "button.measure.start" = "측정 시작";
-"button.retake" = "다시 측정하기";
+"button.retake" = "다시 측정";
 "button.pain_only" = "통증 수치만 입력하기";
 "button.save" = "저장";
 "button.cancel" = "취소";
@@ -45,7 +45,7 @@
 "alert.rerecord_pain.message" = "새로 입력한 통증이 오늘의 결과로 저장돼요";
 
 /* MainBefore - 1/2 */
-"daily_start.title" = "무릎 폄 측정 준비";
+"daily_start.title" = "무릎 움직임 측정 안내";
 "daily_start.instruction.no1" = "측정할 다리를 최대한 펴고 앉아 주세요";
 "daily_start.instruction.no2" = "기기를 무릎 쪽 허벅지에 얹어주세요";
 "daily_start.instruction.no3" = "측정이 끝날 때까지 자세를 유지하세요";
@@ -78,7 +78,7 @@
 
 /* PainLevelView */
 "pain.title" = "통증 기록";
-"pain.description" = "슬라이더를 움직여 오늘 느낀 통증을 선택하세요";
+"pain.description" = "슬라이더를 움직여 통증 정도를 선택하세요";
 
 /* Pain Categories */
 "pain.category.0" = "통증 없음";
