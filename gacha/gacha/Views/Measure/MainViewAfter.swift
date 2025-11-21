@@ -236,7 +236,7 @@ struct MainResultCell: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color("Blue50"))
+
         .cornerRadius(8)
     }
 }

@@ -129,7 +129,6 @@ struct MeasurementResultCell: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 20)
-        .background(Color("Blue50"))
         .cornerRadius(12)
     }
 }
