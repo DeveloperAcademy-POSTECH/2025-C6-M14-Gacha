@@ -23,7 +23,7 @@ struct MainViewBefore: View {
             VStack(spacing: 40) {
                 // 안내 문구 영역
                 if currentPage == 0 {
-                    Image("extensionPosture")
+                    Image("startPosture")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 240, height: 240)
@@ -31,7 +31,7 @@ struct MainViewBefore: View {
                     PostureInstructionComponent(type: vm.currentMeasurementType, index: 1)
                 } else {
 
-                    Image("extensionPosture2")
+                    Image("flexionLeg")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 240, height: 240)

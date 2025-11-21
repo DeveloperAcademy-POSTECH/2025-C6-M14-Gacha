@@ -19,7 +19,7 @@ struct FlexionReadyView: View {
 
             // MARK: - 중앙 콘텐츠 영역
             VStack(spacing: 40) {
-                Image("leg")
+                Image("flexionLeg")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 240, height: 240)
