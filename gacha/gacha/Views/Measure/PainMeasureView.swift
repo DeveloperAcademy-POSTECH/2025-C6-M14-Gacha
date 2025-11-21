@@ -50,10 +50,10 @@ struct PainMeasureView: View {
                     VStack(spacing: 8) {
                         Text(Strings.PainCategory.category(for: Int(value)))
                             .font(.displayTitle1Bold)
-                            .foregroundStyle(Color("Gray700"))
+                            .foregroundStyle(Color.black)
                         Text(Strings.PainLevel.level(for: Int(value)))
                             .font(.displayTitle3Regular)
-                            .foregroundStyle(Color("Gray700"))
+                            .foregroundStyle(Color.black)
                             .frame(minHeight: isCompact ? 40 : 46)
                             .lineLimit(2)
                             .multilineTextAlignment(.center)
@@ -83,6 +83,9 @@ struct PainMeasureView: View {
 
                 VStack(spacing: isCompact ? 12 : 16) {
                     Text(Strings.Pain.description)
+                        .font(.roundedBodyMedium)
+                        .foregroundColor(.gray500)
+
                     CapsuleButtonComponent(
                         title: Strings.Common.confirm,
                         style: .primary,
