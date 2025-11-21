@@ -15,7 +15,7 @@
 /* Button */
 "button.next" = "다음";
 "button.measure" = "측정하러 가기";
-"button.measure.start" = "측정 시작";
+"button.measure.start" = "측정시작";
 "button.retake" = "다시 측정";
 "button.pain_only" = "통증 수치만 입력하기";
 "button.save" = "저장";
@@ -23,8 +23,8 @@
 "button.back" = "뒤로";
 "button.close" = "닫기";
 "button.home" = "처음으로";
-"button.calendar" = "기록 보러가기";
-"button.summary" = "요약 보러가기";
+"button.calendar" = "기록 보기";
+"button.summary" = "요약 보기";
 
 
 /* tabbar */
