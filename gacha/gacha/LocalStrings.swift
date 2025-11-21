@@ -81,6 +81,12 @@ enum Strings {
         static var instructionNo3: String { NSLocalizedString("daily_start.instruction.no3", comment: "") }
     }
     
+    // MARK: - Posture Instructions
+    enum PostureInstruction {
+        static var extensionInstruction: String { NSLocalizedString("posture_instruction.extension", comment: "") }
+        static var flexionInstruction: String { NSLocalizedString("posture_instruction.flexion", comment: "") }
+    }
+    
     // MARK: - CountdownView
     enum Countdown {
         static var emphasisText: String { NSLocalizedString("measure.countdown.emphasis_text", comment: "") }
