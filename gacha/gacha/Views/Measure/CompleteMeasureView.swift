@@ -76,7 +76,7 @@ struct CompleteMeasureView: View {
                         }
                     )
                     CapsuleButtonComponent(
-                        title: Strings.Common.confirm,
+                        title: Strings.Button.next, // '다음' 버튼
                         style: .primary,
                         width: (geometry.size.width - 60) / 2,
                         action: {

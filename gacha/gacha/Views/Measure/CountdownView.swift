@@ -17,19 +17,21 @@ struct CountdownView: View {
         VStack(spacing: 0) {
             Spacer()
 
-            VStack(spacing: 40) {
-                VStack(spacing: 40) {
+            VStack(spacing: 30) {
+                
                     Text(Strings.Countdown.emphasisText)
                         .font(.displayTitle1Bold)
                         .foregroundStyle(Color(.blue800))
                     
-                    Spacer()
-
                     CountdownNumber
 
-                   
-                }
-                .frame(height: 240)
+                    
+                    Image(postureImageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 240, height: 210)
+                    
+
 
                 PostureInstructionComponent(
                     type: vm.currentMeasurementType,
@@ -47,7 +49,7 @@ struct CountdownView: View {
                     }
                 )
                 .padding(.horizontal, 20)
-                .padding(.bottom, 80)
+                .padding(.bottom, 40)
             }
 
         }
@@ -87,6 +89,10 @@ struct CountdownView: View {
             .font(.roundedExtraLargeBold)
             .foregroundStyle(Color("Blue800"))
             .frame(width: 100, height: 100)
+    }
+    
+    private var postureImageName: String {
+        vm.currentMeasurementType == .extensionAngle ? "extensionLeg" : "flexionLeg"
     }
 }
 
