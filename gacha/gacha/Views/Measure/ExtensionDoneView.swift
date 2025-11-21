@@ -21,20 +21,26 @@ struct ExtensionDoneView: View {
                         .font(.roundedExtraLargeBold)
                         .foregroundStyle(Color("Blue800"))
                     VStack(spacing: 8) {
-                        Text(Strings.Extension.angle)
-                            .font(.displayTitle2Regular)
-                            .foregroundStyle(Color("Gray600"))
-                        Text("  \(Int(vm.currentRecord?.extensionAngle ?? 0))°")
+                        
+                        VStack{
+                            Text(Strings.Extension.angle)
+                                .font(.displayTitle3Regular)
+                                .foregroundStyle(Color.black)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 4)
+                        .background(Color.blue200)
+                        .cornerRadius(100)
+                        
+                        
+                        
+                        Text("\(Int(vm.currentRecord?.extensionAngle ?? 0))°")
                             .font(.roundedExtraLargeBold)
                             .foregroundStyle(Color("Gray700"))
                     }
                     .padding(16)
                     .frame(height: 144)
                     .cornerRadius(20)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color("Blue300"), lineWidth: 2)
-                    )
 
                 }
                 .frame(height: 240)
@@ -55,13 +61,11 @@ struct ExtensionDoneView: View {
             maxHeight: .infinity,
         )
         .task {
-            // Task가 취소되지 않았을 때만 실행
-            if !Task.isCancelled {
-                try? await Task.sleep(nanoseconds: 2_000_000_000) // 2초 대기
-                if !Task.isCancelled {
-                    vm.navigate(to: .flexionReady, from: .extensionDone)
-                }
-            }
+            guard !Task.isCancelled else { return }
+            vm.currentMeasurementType = .flexionAngle
+            try? await Task.sleep(nanoseconds: 2_000_000_000) // 2초 대기
+            guard !Task.isCancelled else { return }
+            vm.navigate(to: .countdown, from: .extensionDone)
         }
     }
 }

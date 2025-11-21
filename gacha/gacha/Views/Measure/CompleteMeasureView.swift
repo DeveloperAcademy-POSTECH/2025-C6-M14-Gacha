@@ -21,21 +21,46 @@ struct CompleteMeasureView: View {
                     Text(Strings.Extension.extensionMeasured)
                         .font(.roundedExtraLargeBold)
                         .foregroundStyle(Color("Blue800"))
-                    VStack(spacing: 8) {
-                        Text(Strings.Flexion.angle)
-                            .font(.displayTitle2Regular)
-                            .foregroundStyle(Color("Gray600"))
-                        Text("  \(Int(vm.currentRecord?.flexionAngle ?? 0))°")
-                            .font(.roundedExtraLargeBold)
-                            .foregroundStyle(Color("Gray700"))
+                    HStack{
+                        VStack(spacing: 8) {
+                            
+                            VStack{
+                                Text(Strings.Extension.angle)
+                                    .font(.displayTitle3Regular)
+                                    .foregroundStyle(Color.black)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 4)
+                            .background(Color.blue200)
+                            .cornerRadius(100)
+                            
+                            Text("\(Int(vm.currentRecord?.extensionAngle ?? 0))°")
+                                .font(.roundedExtraLargeBold)
+                                .foregroundStyle(Color("Gray700"))
+                        }
+                        .padding(16)
+                        .frame(height: 144)
+                        
+                        VStack(spacing: 8) {
+                            
+                            VStack{
+                                Text(Strings.Flexion.angle)
+                                    .font(.displayTitle3Regular)
+                                    .foregroundStyle(Color.black)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 4)
+                            .background(Color.blue200)
+                            .cornerRadius(100)
+                            
+                            Text("\(Int(vm.currentRecord?.flexionAngle ?? 0))°")
+                                .font(.roundedExtraLargeBold)
+                                .foregroundStyle(Color("Gray700"))
+                        }
+                        .padding(16)
+                        .frame(height: 144)
                     }
-                    .padding(16)
-                    .frame(height: 144)
-                    .cornerRadius(20)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color("Blue300"), lineWidth: 2)
-                    )
+    
                     
                 }
                 .frame(height: 240)
@@ -51,7 +76,7 @@ struct CompleteMeasureView: View {
                         }
                     )
                     CapsuleButtonComponent(
-                        title: Strings.Common.confirm,
+                        title: Strings.Button.next, // '다음' 버튼
                         style: .primary,
                         width: (geometry.size.width - 60) / 2,
                         action: {
@@ -63,8 +88,7 @@ struct CompleteMeasureView: View {
             .padding(.horizontal, 20)
             .frame(
                 maxWidth: .infinity,
-                maxHeight: .infinity,
-                alignment: .center
+                maxHeight: .infinity
             )
             .padding(.bottom, 40)
         }
@@ -76,18 +100,11 @@ struct CompleteMeasureView: View {
                     Text(Strings.Common.yes),
                     action: {
                         Task {
-                            vm.isRemeasuring = true
+                            await vm.deleteTodayRecords()
                             await vm.checkTodayRecord()
-
-                            // 다시 LoadingMeasure로 이동
                             await MainActor.run {
-                                vm.shouldAutoStartMeasure = true
-                                vm.navigationPath = NavigationPath()
-                                vm.navigationPath.append(
-                                    MeasureFlowStep.countdown
-                                )
+                                vm.navigate(to: .home, from: .completeMeasure)
                             }
-                            vm.isRemeasuring = false
                         }
                     }
                 ),
@@ -96,7 +113,6 @@ struct CompleteMeasureView: View {
                 )
             )
         }
-        .navigationBarHidden(true)
         .onDisappear {
             if vm.isMeasuring {
                 vm.cancelFlexionMeasure()
