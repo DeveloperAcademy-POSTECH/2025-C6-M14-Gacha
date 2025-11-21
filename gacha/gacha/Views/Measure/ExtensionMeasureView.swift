@@ -55,7 +55,7 @@ struct ExtensionMeasureView: View {
                             Text(Strings.Extension.angle)
                                 .font(.displayTitle1Regular)
                                 .foregroundStyle(Color("Gray600"))
-                            Text("\(Int(vm.currentAngle*2))°")
+                            Text("\(Int(vm.displayedAngle))°")
                                 .font(.roundedExtraLargeBold)
                                 .foregroundStyle(Color("Gray700"))
                         }
