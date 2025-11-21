@@ -52,9 +52,17 @@ struct FlexionMeasureView: View {
                             .font(.roundedExtraLargeBold)
                             .foregroundStyle(Color("Blue800"))
                         VStack(spacing: 8) {
-                            Text(Strings.Flexion.angle)
-                                .font(.displayTitle1Regular)
-                                .foregroundStyle(Color("Gray600"))
+                            VStack{
+                                Text(Strings.Flexion.angle)
+                                    .font(.displayTitle3Regular)
+                                    .foregroundStyle(Color.black)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 4)
+                            .background(Color.blue200)
+                            .cornerRadius(100)
+                            
+                            
                             Text("\(Int(vm.displayedAngle))°")
                                 .font(.roundedExtraLargeBold)
                                 .foregroundStyle(Color("Gray700"))
