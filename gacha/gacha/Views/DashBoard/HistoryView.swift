@@ -506,7 +506,7 @@ struct HistoryPreviewWrapper: View {
 #Preview("No Change") {
     HistoryPreviewWrapper(scenario: .noChange)
 }
-
-#Preview("Extended Records (11+)") {
-    HistoryPreviewWrapper(scenario: .extendedRecords)
-}
+//
+//#Preview("Extended Records (11+)") {
+//    HistoryPreviewWrapper(scenario: .extendedRecords)
+//}

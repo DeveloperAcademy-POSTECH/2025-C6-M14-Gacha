@@ -50,6 +50,7 @@ final class MeasureViewModel: ObservableObject {
     @Published var detectedMaxAngle: Double = 0.0
     @Published var shouldAutoStartMeasure: Bool = false  // 자동 시작 플래그
     @Published var stabilizingProgress: Double = 0.0  // 안정화 진행률 (0.0~1.0)
+    @Published var finalMeasuredAngle: Double? = nil  // 측정 완료 시 표시할 최종 각도
     private var stableAngleTimer: Timer?
     private var lastStableAngle: Double = 0.0
     private var stableStartTime: Date?
@@ -74,6 +75,14 @@ final class MeasureViewModel: ObservableObject {
         case .completed:
             return 1.0
         }
+    }
+
+    /// UI에 표시할 각도 (측정 완료 시에는 확정값을 노출)
+    var displayedAngle: Double {
+        if measurementState == .completed, let finalMeasuredAngle {
+            return finalMeasuredAngle
+        }
+        return currentAngle * 2
     }
 
     // MARK: - 현재 각도 (measureManager에서 가져옴)
@@ -144,6 +153,7 @@ final class MeasureViewModel: ObservableObject {
         lastStableAngle = 0.0
         stableStartTime = nil
         lastHapticProgressLevel = 0
+        finalMeasuredAngle = nil
         measureManager.startRecording()
 
         // 안정 각도 감지 타이머 시작
@@ -171,6 +181,7 @@ final class MeasureViewModel: ObservableObject {
         lastStableAngle = 0.0
         stableStartTime = nil
         lastHapticProgressLevel = 0
+        finalMeasuredAngle = nil
         measureManager.startRecording()
 
         // 안정 각도 감지 타이머 시작
@@ -270,6 +281,9 @@ final class MeasureViewModel: ObservableObject {
 
         print("✅ 신전 측정 완료: \(finalAngle)°")
 
+        finalMeasuredAngle = finalAngle
+        stopSensor()
+
         // 강한 햅틱
         triggerCompletionHaptic()
 
@@ -294,6 +308,9 @@ final class MeasureViewModel: ObservableObject {
         let finalAngle = calculateMeasuredROM()
 
         print("✅ 굴곡 측정 완료: \(finalAngle)°")
+
+        finalMeasuredAngle = finalAngle
+        stopSensor()
 
         // 강한 햅틱
         triggerCompletionHaptic()
@@ -358,6 +375,7 @@ final class MeasureViewModel: ObservableObject {
         detectedMaxAngle = 0.0
 
         measureManager.recordedAngles.removeAll()
+        finalMeasuredAngle = nil
 
         print("❌ 신전 측정 취소됨")
     }
@@ -373,6 +391,7 @@ final class MeasureViewModel: ObservableObject {
         detectedMaxAngle = 0.0
 
         measureManager.recordedAngles.removeAll()
+        finalMeasuredAngle = nil
 
         print("❌ 굴곡 측정 취소됨")
     }
@@ -387,6 +406,8 @@ final class MeasureViewModel: ObservableObject {
         stableStartTime = nil
         stabilizingProgress = 0.0
         
+        finalMeasuredAngle = nil
+
         
         // 타이머 정리
         stableAngleTimer?.invalidate()

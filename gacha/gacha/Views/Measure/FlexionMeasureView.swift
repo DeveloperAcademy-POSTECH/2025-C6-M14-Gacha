@@ -55,7 +55,7 @@ struct FlexionMeasureView: View {
                             Text(Strings.Flexion.angle)
                                 .font(.displayTitle1Regular)
                                 .foregroundStyle(Color("Gray600"))
-                            Text("\(Int(vm.currentAngle*2))°")
+                            Text("\(Int(vm.displayedAngle))°")
                                 .font(.roundedExtraLargeBold)
                                 .foregroundStyle(Color("Gray700"))
                         }
@@ -80,7 +80,7 @@ struct FlexionMeasureView: View {
         }
         .onAppear {
             vm.prepareForNewMeasurement()
-            vm.startSensor()  // 센서 명시적으로 시작
+        vm.startSensor()  // 센서 명시적으로 시작
 
             // 자동 시작 플래그 확인
             if vm.shouldAutoStartMeasure {
