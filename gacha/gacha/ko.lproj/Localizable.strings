@@ -67,6 +67,10 @@
 "measure.flexion.instruction.no1" = "측정할 다리를 최대한 펴고 앉아 주세요";
 "measure.flexion.ready.title" = "무릎 굽힘 측정 준비";
 
+/* PostureInstructionComponent */
+"posture_instruction.extension" = "다리를 펴고 iPhone을 허벅지 위에 3초간 올려두면 신전 각도가 측정됩니다";
+"posture_instruction.flexion" = "무릎을 굽힌 상태에서 동일하게 3초간 유지하면 굴곡 각도가 측정됩니다";
+
 /* FlexionMeasureView - 측정중 */
 "measure.flexion.measuring" = "측정 중";
 "measure.flexion.measured" = "측정 완료";

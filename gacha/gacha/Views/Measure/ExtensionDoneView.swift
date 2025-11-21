@@ -42,7 +42,7 @@ struct ExtensionDoneView: View {
                 // MARK: - 측정 가이드
                 PostureInstructionComponent(
                     type: vm.currentMeasurementType,
-                    index: 3
+                    index: 1
                 )
                 .padding(.horizontal, 20)
                 .opacity(0)

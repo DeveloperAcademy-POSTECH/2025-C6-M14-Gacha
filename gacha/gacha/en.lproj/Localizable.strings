@@ -66,6 +66,10 @@
 "measure.flexion.instruction.no1" = "Sit and ben your knee fully";
 "measure.flexion.ready.title" = "Ready for Knee Flexion";
 
+/* PostureInstructionComponent */
+"posture_instruction.extension" = "With your leg straight, place your iPhone on your thigh and hold for 3 seconds to measure the extension angle";
+"posture_instruction.flexion" = "Keep your knee bent in the same position for 3 seconds to measure the flexion angle";
+
 /* FlexionMeasureView - Measuring */
 "measure.flexion.title" = "Knee Flexion Measurement";
 "measure.flexion.measuring" = "Measuring";

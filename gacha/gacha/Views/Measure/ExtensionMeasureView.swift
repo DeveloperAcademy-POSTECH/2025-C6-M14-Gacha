@@ -68,7 +68,7 @@ struct ExtensionMeasureView: View {
 
 
                     // MARK: - 측정 가이드
-                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 3)
+                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 1)
                         .padding(.horizontal, 20)
                     
                     Spacer()

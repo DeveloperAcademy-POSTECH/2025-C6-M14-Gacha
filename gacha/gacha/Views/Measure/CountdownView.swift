@@ -19,19 +19,21 @@ struct CountdownView: View {
 
             VStack(spacing: 40) {
                 VStack(spacing: 40) {
+                    Text(Strings.Countdown.emphasisText)
+                        .font(.displayTitle1Bold)
+                        .foregroundStyle(Color(.blue800))
+                    
                     Spacer()
 
                     CountdownNumber
 
-                    Text(Strings.Countdown.emphasisText)
-                        .font(.displayTitle1Bold)
-                        .foregroundStyle(Color(.blue800))
+                   
                 }
                 .frame(height: 240)
 
                 PostureInstructionComponent(
                     type: vm.currentMeasurementType,
-                    index: 2
+                    index: vm.currentMeasurementType == .extensionAngle ? 1 : 2
                 )
                 .padding(.horizontal, 20)
 
