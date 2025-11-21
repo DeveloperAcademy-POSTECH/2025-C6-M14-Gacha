@@ -354,14 +354,15 @@ struct History: View {
                 // ROM 수치 표시
                 HStack(spacing: 0) {
                     Spacer()
-                    if vm.recentRecords.count < 2 {
+                    if vm.totalRecordCount < 2 {
                         Text(
                             Strings.History.cardRomUnder2Days(
-                                days: vm.recentRecords.count
+                                days: vm.totalRecordCount
                             )
                         )
                         .font(.displayTitle1Bold)
-                    } else if let first = vm.firstROM, let latest = vm.latestROM
+                    } else if let first = vm.firstAvailableROM,
+                              let latest = vm.latestROM
                     {
                         // 기록이 여러 개일 때
                         let change = latest - first
@@ -375,12 +376,12 @@ struct History: View {
 
                 // 변화 설명 텍스트
                 Text(
-                    vm.recentRecords.count < 2
+                    vm.totalRecordCount < 2
                         ? Strings.History.cardRomUnder2
                         : vm.romChangeText
                 )
                 .font(
-                    vm.recentRecords.count < 2
+                    vm.totalRecordCount < 2
                         ? .displayFootnoteRegular : .displayCalloutRegular
                 )
                 .foregroundColor(Color("Gray700"))
@@ -412,9 +413,9 @@ struct History: View {
                 // 통증 레벨 바 표시
                 HStack(spacing: 0) {
                     Spacer()
-                    if vm.recentRecords.count < 2 {
+                    if vm.totalRecordCount < 2 {
                         
-                    } else if let first = vm.firstPainLevel,
+                    } else if let first = vm.firstAvailablePainLevel,
                               let latest = vm.latestPainLevel
                     {
                         // 기록이 여러 개일 때
@@ -430,14 +431,14 @@ struct History: View {
 
                 // 변화 설명 텍스트
                 Text(
-                    vm.recentRecords.count == 0
+                    vm.totalRecordCount == 0
                         ? Strings.History.cardPainNoRecord
-                        : (vm.recentRecords.count < 2
+                        : (vm.totalRecordCount < 2
                             ? Strings.History.cardPainFirstRecord
                             : vm.painChangeText)
                 )
                 .font(
-                    vm.recentRecords.count < 2
+                    vm.totalRecordCount < 2
                         ? .displayFootnoteRegular : .displayCalloutRegular
                 )
                 .foregroundColor(Color("Gray700"))
@@ -504,4 +505,8 @@ struct HistoryPreviewWrapper: View {
 
 #Preview("No Change") {
     HistoryPreviewWrapper(scenario: .noChange)
+}
+
+#Preview("Extended Records (11+)") {
+    HistoryPreviewWrapper(scenario: .extendedRecords)
 }
