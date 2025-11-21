@@ -128,7 +128,8 @@ struct History: View {
             ForEach(data, id: \.record.id) { item in
                 BarMark(
                     x: .value("index", item.index),
-                    y: .value("flexion", item.record.flexionAngle ?? 0),
+                    yStart: .value("angle", item.record.extensionAngle ?? 0),
+                    yEnd: .value("angle", item.record.flexionAngle ?? 0),
                     width: .fixed(12)
                 )
                 .foregroundStyle(
@@ -136,16 +137,17 @@ struct History: View {
                 )
                 .cornerRadius(4)
             }
-
+            
+            // 도딘의 유산
             // 130도 기준선
-            RuleMark(y: .value("Target", 130))
-                .foregroundStyle(Color("Blue700"))
-                .lineStyle(StrokeStyle(lineWidth: 1, dash: [5, 5]))
-                .annotation(position: .trailing, alignment: .center) {
-                    Text("130°")
-                        .font(.displayCaption1Regular)
-                        .foregroundStyle(Color("Blue700"))
-                }
+//            RuleMark(y: .value("Target", 130))
+//                .foregroundStyle(Color("Blue700"))
+//                .lineStyle(StrokeStyle(lineWidth: 1, dash: [5, 5]))
+//                .annotation(position: .trailing, alignment: .center) {
+//                    Text("130°")
+//                        .font(.displayCaption1Regular)
+//                        .foregroundStyle(Color("Blue700"))
+//                }
 
             if let selectedIndex = selectedIndex,
                 selectedIndex >= 0 && selectedIndex < data.count

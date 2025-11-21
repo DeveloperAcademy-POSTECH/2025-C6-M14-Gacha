@@ -220,6 +220,21 @@ class HistoryViewModel: ObservableObject {
     
     // MARK: - Chart Y-Axis Range
     
+    var romMinValue: Double {
+        // extensionAngle 값들 중 최소값 계산
+        let validExtensionAngles = recentRecords
+            .compactMap { $0.extensionAngle }
+            .filter { $0.isFinite }
+        
+        guard let minExtension = validExtensionAngles.min() else {
+            // extensionAngle이 없는 경우 기본값 0
+            return 0
+        }
+        
+        // 0보다 작으면 0으로 제한
+        return max(minExtension, 0)
+    }
+    
     var romMaxValue: Double {
         // Use only finite, non-negative angles to avoid invalid ranges or NaN propagation
         let validAngles = recentRecords
