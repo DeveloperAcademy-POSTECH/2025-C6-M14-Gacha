@@ -160,12 +160,6 @@ struct RootNavigationView: View {
                 .navigationTitle(Strings.Extension.title)
                 .navigationBarTitleDisplayMode(.inline)
             
-        case .flexionReady:
-            FlexionReadyView()
-                .navigationBarBackButtonHidden(true)
-                .navigationTitle(Strings.Flexion.readyTitle)
-                .navigationBarTitleDisplayMode(.large)
-            
         case .flexionMeasure:
             FlexionMeasureView()
                 .navigationBarBackButtonHidden(true)

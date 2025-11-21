@@ -26,9 +26,6 @@ final class MeasureViewModel: ObservableObject {
     // 모달 닫은 후 이동할 탭 (nil이면 탭 변경 안 함)
     @Published var targetTabAfterDismiss: Int? = nil
 
-    // 재측정 플래그 (onChange에서 checkTodayRecord를 건너뛰기 위함)
-    var isRemeasuring: Bool = false
-
     @Published var currentRecord: MeasuredRecord? = nil
     @Published var allRecords: [MeasuredRecord] = []
     @Published var isLoading = false
