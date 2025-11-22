@@ -126,9 +126,22 @@ struct MonthCalendarView: View {
     
     private var monthYearString: String {
         let formatter = DateFormatter()
-        formatter.locale = Locale.current
+        // NSLocalizedString이 사용하는 언어와 동일한 locale 사용
+        formatter.locale = appLocale
         formatter.dateFormat = "MMMM"
         return formatter.string(from: monthDate)
+    }
+    
+    // NSLocalizedString이 실제로 사용하는 언어를 확인하여 locale 반환
+    private var appLocale: Locale {
+        // 테스트 문자열로 실제 언어 확인
+        let testString = NSLocalizedString("common.yes", comment: "")
+        // 영어인 경우
+        if testString == "Yes" {
+            return Locale(identifier: "en-US")
+        }
+        // 한국어인 경우
+        return Locale(identifier: "ko-KR")
     }
     
     private var isFirstMonth: Bool {
@@ -161,7 +174,8 @@ struct MonthCalendarView: View {
     
     private var weekdaySymbols: [String] {
         let formatter = DateFormatter()
-        formatter.locale = Locale.current
+        // NSLocalizedString이 사용하는 언어와 동일한 locale 사용
+        formatter.locale = appLocale
         
         // shortWeekdaySymbols는 현재 로케일에 맞는 요일 약어를 반환
         // iOS에서는 항상 일요일부터 시작하는 배열을 반환 (일요일=인덱스 0)

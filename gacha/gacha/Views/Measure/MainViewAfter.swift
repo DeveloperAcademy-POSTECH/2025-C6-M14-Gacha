@@ -92,7 +92,7 @@ struct MainViewAfter: View {
             HStack(spacing: 16) {
                 // 신전
                 MainResultCell(
-                    title: "무릎 펴짐 각도",
+                    title: Strings.Result.extensionAngle,
                     value: vm.currentRecord?.extensionAngle.map { Int($0) },
                     showDegree: true
                 )
@@ -110,14 +110,14 @@ struct MainViewAfter: View {
             HStack(spacing: 16) {
                 // ROM
                 MainResultCell(
-                    title: "무릎 가동 범위",
+                    title: Strings.Result.rom,
                     value: vm.currentRecord?.ROM.map { Int($0) },
                     showDegree: true
                 )
 
                 // 고통
                 MainResultCell(
-                    title: "통증 정도",
+                    title: Strings.Result.painLevel,
                     value: vm.currentRecord?.painLevel,
                     showDegree: false,
                     subtitle: vm.painCategoryText

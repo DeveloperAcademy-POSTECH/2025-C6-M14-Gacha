@@ -47,6 +47,7 @@
 
 /* MainBefore - 1/2 */
 "daily_start.title" = "무릎 움직임 측정 안내";
+"daily_start.subtitle" = "두 단계로 측정이 진행돼요";
 "daily_start.instruction.no1" = "측정할 다리를 최대한 펴고 앉아 주세요";
 "daily_start.instruction.no2" = "기기를 무릎 쪽 허벅지에 얹어주세요";
 "daily_start.instruction.no3" = "측정이 끝날 때까지 자세를 유지하세요";
@@ -61,6 +62,11 @@
 "measure.extension.measuring" = "측정 중";
 "measure.extension.measured" = "측정 완료";
 "measure.extension.angle" = "무릎 폄 각도";
+
+/* MainViewAfter */
+"result.extension_angle" = "무릎 펴짐 각도";
+"result.rom" = "무릎 가동 범위";
+"result.pain_level" = "통증 정도";
 
 /* FlexionMeasureView */
 "measure.flexion.title" = "무릎 굽힘 측정";
@@ -146,11 +152,11 @@
 
 /* History Summary Card - ROM Change */
 "history.card.rom.title" = "무릎 굽힘";
-"history.card.rom.better" = "첫측정한 %d일 전보다\n무릎을 %d도\n더 움직일 수 있어요!";
-"history.card.rom.same" = "첫측정부터 %d일간\n무릎 움직이는 범위가\n유지되고 있어요";
-"history.card.rom.worse" = "첫측정한 %d일 전보다\n무릎이 %d도\n덜 움직여요";
-"history.card.rom.under2Days" = "%d일째 측정";
-"history.card.rom.under2" = "이틀만 측정해도\n변화를 알 수 있어요";
+"history.card.rom.better" = "%d도 더 굽힐 수 있어요\n%d일 전보다!";
+"history.card.rom.same" = "%d일간\n범위가 유지되고 있어요";
+"history.card.rom.worse" = "%d도 덜 굽혀져요\n%d일 전보다";
+"history.card.rom.under2Days" = "%d일째";
+"history.card.rom.under2" = "2일만 측정해도\n변화를 알 수 있어요";
 
 /* History Summary Card - Pain Change */
 "history.card.pain.title" = "통증 정도";

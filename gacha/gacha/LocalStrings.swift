@@ -78,6 +78,7 @@ enum Strings {
     // MARK: - MainBefore
     enum DailyStart {
         static var title: String { NSLocalizedString("daily_start.title", comment: "") }
+        static var subtitle: String { NSLocalizedString("daily_start.subtitle", comment: "") }
         static var instructionNo1: String { NSLocalizedString("daily_start.instruction.no1", comment: "") }
         static var instructionNo2: String { NSLocalizedString("daily_start.instruction.no2", comment: "") }
         static var instructionNo3: String { NSLocalizedString("daily_start.instruction.no3", comment: "") }
@@ -249,14 +250,14 @@ enum Strings {
 
         // Card - ROM
         static var cardRomTitle: String { NSLocalizedString("history.card.rom.title", comment: "") }
-        static func cardRomBetter(days: Int, degrees: Int) -> String {
-            String(format: NSLocalizedString("history.card.rom.better", comment: ""), days, degrees)
+        static func cardRomBetter(degrees: Int, days: Int) -> String {
+            String(format: NSLocalizedString("history.card.rom.better", comment: ""), degrees, days)
         }
         static func cardRomSame(days: Int) -> String {
             String(format: NSLocalizedString("history.card.rom.same", comment: ""), days)
         }
-        static func cardRomWorse(days: Int, degrees: Int) -> String {
-            String(format: NSLocalizedString("history.card.rom.worse", comment: ""), days, degrees)
+        static func cardRomWorse(degrees: Int, days: Int) -> String {
+            String(format: NSLocalizedString("history.card.rom.worse", comment: ""), degrees, days)
         }
         static func cardRomUnder2Days(days: Int) -> String {
             String(format: NSLocalizedString("history.card.rom.under2Days", comment: ""), days)
@@ -278,14 +279,14 @@ enum Strings {
 
         // Chart - ROM
         static var chartRomTitle: String { NSLocalizedString("history.chart.rom.title", comment: "") }
-        static func chartRomBetter(prevMax: Int, improvement: Int) -> String {
-            String(format: NSLocalizedString("history.chart.rom.better", comment: ""), prevMax, improvement)
+        static func chartRomBetter(improvement: Int, prevMax: Int) -> String {
+            String(format: NSLocalizedString("history.chart.rom.better", comment: ""), improvement, prevMax)
         }
         static func chartRomSame(prevMax: Int) -> String {
             String(format: NSLocalizedString("history.chart.rom.same", comment: ""), prevMax)
         }
-        static func chartRomWorse(prevMax: Int, decline: Int) -> String {
-            String(format: NSLocalizedString("history.chart.rom.worse", comment: ""), prevMax, decline)
+        static func chartRomWorse(decline: Int, prevMax: Int) -> String {
+            String(format: NSLocalizedString("history.chart.rom.worse", comment: ""), decline, prevMax)
         }
         static var chartRomNoRecord: String { NSLocalizedString("history.chart.rom.no_record", comment: "") }
         static func chartRomFirstRecord(angle: Int) -> String {
@@ -301,12 +302,19 @@ enum Strings {
             String(format: NSLocalizedString("history.chart.pain.same", comment: ""), level)
         }
         static func chartPainWorse(increase: Int, from: Int) -> String {
-            String(format: NSLocalizedString("history.chart.pain.worse", comment: ""), from, increase)
+            String(format: NSLocalizedString("history.chart.pain.worse", comment: ""), increase, from)
         }
         static var chartPainNoRecord: String { NSLocalizedString("history.chart.pain.no_record", comment: "") }
         static func chartPainFirstRecord(level: Int) -> String {
             String(format: NSLocalizedString("history.chart.pain.first_record", comment: ""), level)
         }
+    }
+    
+    // MARK: - MainViewAfter
+    enum Result {
+        static var extensionAngle: String { NSLocalizedString("result.extension_angle", comment: "") }
+        static var rom: String { NSLocalizedString("result.rom", comment: "") }
+        static var painLevel: String { NSLocalizedString("result.pain_level", comment: "") }
     }
     
     // MARK: - Select Type

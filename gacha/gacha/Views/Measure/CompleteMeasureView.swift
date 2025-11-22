@@ -21,8 +21,8 @@ struct CompleteMeasureView: View {
                     Text(Strings.Extension.extensionMeasured)
                         .font(.roundedExtraLargeBold)
                         .foregroundStyle(Color("Blue800"))
-                    HStack{
-                        VStack(spacing: 8) {
+                    HStack(spacing: 20){
+                        VStack(spacing: 8){
                             
                             VStack{
                                 Text(Strings.Extension.angle)
@@ -38,8 +38,8 @@ struct CompleteMeasureView: View {
                                 .font(.roundedExtraLargeBold)
                                 .foregroundStyle(Color("Gray700"))
                         }
-                        .padding(16)
                         .frame(height: 144)
+
                         
                         VStack(spacing: 8) {
                             
@@ -57,8 +57,8 @@ struct CompleteMeasureView: View {
                                 .font(.roundedExtraLargeBold)
                                 .foregroundStyle(Color("Gray700"))
                         }
-                        .padding(16)
                         .frame(height: 144)
+                        
                     }
     
                     

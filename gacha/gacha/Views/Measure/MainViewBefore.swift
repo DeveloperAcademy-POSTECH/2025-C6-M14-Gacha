@@ -18,7 +18,7 @@ struct MainViewBefore: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack{ //SubTitle
-                Text("두 단계로 측정이 진행돼요")
+                Text(Strings.DailyStart.subtitle)
                     .font(.displayBodyRegular)
                 Spacer()
             }
