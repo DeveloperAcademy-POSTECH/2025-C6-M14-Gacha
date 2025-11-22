@@ -113,53 +113,41 @@
 "progress.flexion_angle" = "Knee Flexion Angle";
 "progress.pain_level" = "Pain Level";
 
-"progress.first_record.title" = "Your first record!";
-"progress.first_record.description" = "Today's record is your first step toward recovery.\nLet's keep going together.";
+"progress.first_record.title" = "First Record!";
+"progress.first_record.description" = "Today marks your first step.\nKeep moving forward consistently.";
 
-"progress.better_nopain.title" = "Recovering well";
-"progress.better_nopain.description" = "Movement is smoother.\nNo pain, recovery progressing well.\nKeep it up.";
+"progress.better_nopain.title" = "Recovery Going Well";
+"progress.better_nopain.description" = "Movement is smooth.\nNo pain, recovery is progressing.";
+"progress.better_mildpain.title" = "Positive Progress";
+"progress.better_mildpain.description" = "Slight stiffness is okay.\nMove slowly and steadily.";
+"progress.better_moderatepain.title" = "Check with Specialist";
+"progress.better_moderatepain.description" = "Movement improved but some pain remains.\nConsult a specialist.";
+"progress.better_severepain.title" = "Need Specialist";
+"progress.better_severepain.description" = "Movement is fine but pain is severe.\nAdjust recovery pace.";
+"progress.better_excruciatingpain.title" = "See Specialist";
+"progress.better_excruciatingpain.description" = "Pain management is crucial.\nSeek treatment and rest.";
 
-"progress.better_mildpain.title" = "Showing good progress";
-"progress.better_mildpain.description" = "Might feel a bit stiff, but that's okay.\nKeep going slowly.\nDon't push yourself.";
+"progress.same_nopain.title" = "Stable Condition";
+"progress.same_nopain.description" = "No change. Maintaining steadily is good.";
+"progress.same_mildpain.title" = "Manage Gently";
+"progress.same_mildpain.description" = "Recovery may vary. Take rest and progress slowly.";
+"progress.same_moderatepain.title" = "Consult Specialist";
+"progress.same_moderatepain.description" = "Movement similar but pain continues.\nCheck with specialist.";
+"progress.same_severepain.title" = "Seek Specialist Help";
+"progress.same_severepain.description" = "No movement change, pain persists.\nConsult specialist.";
+"progress.same_excruciatingpain.title" = "See Specialist Quickly";
+"progress.same_excruciatingpain.description" = "Pain is severe. Seek help promptly.";
 
-"progress.better_moderatepain.title" = "Check with a specialist";
-"progress.better_moderatepain.description" = "Movement improved.\nStill have some pain.\nConsult a specialist.";
-
-"progress.better_severepain.title" = "Need specialist's help";
-"progress.better_severepain.description" = "Movement is fine, but pain is severe.\nSome strain during recovery.\nMay need to adjust recovery pace.";
-
-"progress.better_excruciatingpain.title" = "See a doctor";
-"progress.better_excruciatingpain.description" = "Pain management is more important now.\nSeek treatment from a specialist quickly.\nYou need sufficient rest.";
-
-"progress.same_nopain.title" = "Stable condition";
-"progress.same_nopain.description" = "No change, but that's not bad.\nGood to maintain steadily.\nGradually move to the next step.";
-
-"progress.same_mildpain.title" = "Manage gently";
-"progress.same_mildpain.description" = "Can vary by condition.\nIt's okay to rest.\nRecovery comes slowly.";
-
-"progress.same_moderatepain.title" = "Consult a specialist";
-"progress.same_moderatepain.description" = "Movement similar, but have pain.\nProgress has slowed.\nMay need to check your condition.";
-
-"progress.same_severepain.title" = "Seek specialist's help";
-"progress.same_severepain.description" = "No change in movement, pain continues.\nGet an accurate check from a specialist.\nGood to catch the cause early.";
-
-"progress.same_excruciatingpain.title" = "See a doctor quickly";
-"progress.same_excruciatingpain.description" = "Pain is severe.\nDon't delay, find a specialist.\nQuick action starts recovery.";
-
-"progress.worse_nopain.title" = "Movement slightly decreased";
-"progress.worse_nopain.description" = "No pain, but joint feels stiff.\nMove gently to loosen it up.\nBetter not to push yourself.";
-
-"progress.worse_mildpain.title" = "Body feels tired today";
-"progress.worse_mildpain.description" = "Movement slightly decreased.\nLet your body rest today.\nTry measuring again tomorrow.";
-
-"progress.worse_moderatepain.title" = "Get advice from a specialist";
-"progress.worse_moderatepain.description" = "Movement decreased and have pain.\nRecovery flow has slowed.\nNeed a specialist's advice.";
-
-"progress.worse_severepain.title" = "Need specialist's consultation";
-"progress.worse_severepain.description" = "Movement decreased and pain is severe.\nCondition is worsening.\nReconsider your recovery plan.";
-
-"progress.worse_excruciatingpain.title" = "Get treatment quickly";
-"progress.worse_excruciatingpain.description" = "Difficult to move and pain is severe.\nDon't delay, find a specialist.\nTreatment is top priority now.";
+"progress.worse_nopain.title" = "Movement Slightly Reduced";
+"progress.worse_nopain.description" = "No pain but joint feels stiff.\nMove gently.";
+"progress.worse_mildpain.title" = "Body Feels Tired";
+"progress.worse_mildpain.description" = "Flexion reduced. Rest well today.";
+"progress.worse_moderatepain.title" = "Get Specialist Advice";
+"progress.worse_moderatepain.description" = "Movement reduced, pain present.\nConsult specialist.";
+"progress.worse_severepain.title" = "Medical Consult Needed";
+"progress.worse_severepain.description" = "Movement reduced, pain severe.\nRevise recovery plan.";
+"progress.worse_excruciatingpain.title" = "Immediate Treatment Needed";
+"progress.worse_excruciatingpain.description" = "Movement difficult, pain severe.\nSee specialist immediately.";
 
 /* HistoryView */
 "history.summary.title" = "Summary";
