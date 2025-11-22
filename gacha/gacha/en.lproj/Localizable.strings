@@ -15,7 +15,7 @@
 /* Button */
 "button.next" = "Next";
 "button.measure" = "Go to Measure";
-"button.measure.start" = "Start Measuring";
+"button.measure.start" = "Start";
 "button.retake" = "Measure Again";
 "button.pain_only" = "Enter Pain Level Only";
 "button.save" = "Save";
@@ -23,27 +23,27 @@
 "button.back" = "Back";
 "button.close" = "Close";
 "button.home" = "Back to Home";
-"button.calendar" = "View Records";
-"button.summary" = "View Summary";
+"button.calendar" = "Calendar";
+"button.summary" = "Summary";
 
 /* Tabbar */
-"tabbar.calendar" = "Records";
+"tabbar.calendar" = "Calendar";
 "tabbar.measure" = "Measure";
 "tabbar.summary" = "Summary";
 
 /* Alerts */
 "alert.cancel.flexion.title" = "Cancel measurement?";
-"alert.cancel.flexion.message" = "The measurement will not be saved,\nand you'll return to the first screen";
+"alert.cancel.flexion.message" = "The measurement will not be saved,\nand return to the first screen";
 "alert.cancel.extension.title" = "Cancel measurement?";
-"alert.cancel.extension.message" = "You'll return to the first screen";
+"alert.cancel.extension.message" = "Return to the first screen";
 "alert.cancel.pain.title" = "Cancel pain record?";
-"alert.cancel.pain.message" = "You'll return to the first screen";
+"alert.cancel.pain.message" = "Return to the first screen";
 "alert.remeasure.title" = "Measure your knee again?";
 "alert.remeasure.message" = "The new angle will be saved as today's result";
-"alert.notyet.title" = "This measurement is not yet supported";
-"alert.notyet.message" = "It will be supported in the future";
+"alert.notyet.title" = "Not available yet";
+"alert.notyet.message" = "It’ll be ready soon";
 "alert.rerecord_pain.title" = "Record pain again?";
-"alert.rerecord_pain.message" = "The new pain level will be saved as today's result";
+"alert.rerecord_pain.message" = "This will update today’s record";
 
 /* MainBefore - 1/2 */
 "daily_start.title" = "Measurement Guide";
@@ -53,7 +53,7 @@
 "daily_start.instruction.no3" = "Hold this position until measurement is complete";
 
 /* CountdownView */
-"measure.countdown.flextion" = "Bend your knee and get ready";
+"measure.countdown.flexion" = "Bend your knee and get ready";
 "measure.countdown.extension" = "Straighten your knee and get ready";
 "measure.countdown.description" = "Keep your device on your thigh\nand hold your position";
 
@@ -72,16 +72,16 @@
 "measure.flexion.angle" = "Flexion Angle";
 
 /* PostureInstructionComponent */
-"posture_instruction.extension" = "With your leg straight, place iPhone on your thigh and hold for 3 seconds to measure extension angle";
-"posture_instruction.flexion" = "Keep your knee bent in the same position for 3 seconds to measure flexion angle";
-"posture_instruction.MainViewBefore1" = "Sit with your leg straight, place iPhone on your thigh, and wait until extension measurement is complete";
-"posture_instruction.MainViewBefore2" = "Bend your knee as much as possible and hold until flexion measurement is complete";
-"posture_instruction.extension_countdown1" = "Sit with your leg straight and place iPhone on your thigh for 3 seconds to measure extension angle";
-"posture_instruction.extension_countdown2" = "Keep your knee bent in the same position for 3 seconds to measure flexion angle";
+"posture_instruction.extension" = "Sit with leg straight, iPhone on thigh, and wait for measurement";
+"posture_instruction.flexion" = "Bend your knee fully and hold until measurement is done";
+"posture_instruction.MainViewBefore1" = "Sit with leg straight, iPhone on thigh, and wait for measurement";
+"posture_instruction.MainViewBefore2" = "Bend your knee fully and hold until measurement is done";
+"posture_instruction.extension_countdown1" = "Sit with leg straight, iPhone on thigh, and wait for measurement";
+"posture_instruction.extension_countdown2" = "Bend your knee fully and hold until measurement is done";
 
 /* PainLevelView */
 "pain.title" = "Record Pain Level";
-"pain.description" = "Move the slider to select your pain level";
+"pain.description" = "Move slider to select your pain level";
 
 /* MainViewAfter */
 "result.extension_angle" = "Extension Angle";
@@ -93,10 +93,10 @@
 "pain.category.1to3" = "Mild pain";
 "pain.category.4to6" = "Moderate pain";
 "pain.category.7to9" = "Severe pain";
-"pain.category.10" = "Very severe pain";
+"pain.category.10" = "Worst pain";
 
 /* Pain Levels 0-10 (11 categories) */
-"pain.level.0" = "No pain";
+"pain.level.0" = "I feel no pain";
 "pain.level.1" = "Slightly uncomfortable but okay";
 "pain.level.2" = "Feels a bit stiff";
 "pain.level.3" = "Feels tight and bothersome";
@@ -165,10 +165,10 @@
 "history.summary.title" = "Summary";
 
 /* History Summary Card - ROM Change */
-"history.card.rom.title" = "Knee Flexion";
-"history.card.rom.better" = "You can bend %d° more\nthan %d days ago!";
+"history.card.rom.title" = "Knee ROM";
+"history.card.rom.better" = "You can move %d° more\nthan %d days ago!";
 "history.card.rom.same" = "Range maintained\nfor %d days";
-"history.card.rom.worse" = "You bend %d° less\nthan %d days ago";
+"history.card.rom.worse" = "You can move %d° less\nthan %d days ago";
 "history.card.rom.under2Days" = "Day %d";
 "history.card.rom.under2" = "See changes\nafter 2 days";
 
@@ -179,28 +179,28 @@
 "history.card.pain.same" = "Same pain level\nsince first record";
 "history.card.pain.worse" = "%d steps more pain\nthan your first record";
 "history.card.pain.no_record" = "Make your first record.\nTrack changes with Anggle!";
-"history.card.pain.first_record" = "Your first record!\nFirst step toward recovery.\nAnggle is cheering you on!";
+"history.card.pain.first_record" = "Anggle cheers your first step toward recovery!";
 
 /* History Summary Chart - ROM Change */
-"history.chart.rom.title" = "Knee Flexion Change";
-"history.chart.rom.better" = "%d° more than max %d° this period";
-"history.chart.rom.same" = "Same as max %d° this period";
-"history.chart.rom.worse" = "%d° less than max %d° this period";
+"history.chart.rom.title" = "Knee ROM Change";
+"history.chart.rom.better" = "%d° more than max %d° in this 7-day view";
+"history.chart.rom.same" = "same as max %d° in this 7-day view";
+"history.chart.rom.worse" = "%d° less than max %d° in this 7-day view";
 "history.chart.rom.no_record" = "Complete your first measurement";
-"history.chart.rom.first_record" = "Your knee bends up to %d°";
+"history.chart.rom.first_record" = "Your knee can move up to %d°";
 
 /* History Summary Chart - Pain Change */
 "history.chart.pain.title" = "Pain Level Change";
-"history.chart.pain.better" = "%d steps less than lowest %d this period";
-"history.chart.pain.same" = "Same as lowest %d this period";
-"history.chart.pain.worse" = "%d steps more than lowest %d this period";
+"history.chart.pain.better" = "%d steps less than lowest %d in this 7-day view";
+"history.chart.pain.same" = "Same as lowest %d in this 7-day view";
+"history.chart.pain.worse" = "%d steps more than lowest %d in this 7-day view";
 "history.chart.pain.no_record" = "Make your first record";
-"history.chart.pain.first_record" = "Feeling pain at level %d";
+"history.chart.pain.first_record" = "You are feeling pain at level %d";
 
 /* Select Type */
 "select.type.title" = "Select Measurement";
 "select.type.knee.flexion.title" = "Knee Range of Motion";
-"select.type.knee.flexion.description" = "Check how much you can\nbend your knee";
+"select.type.knee.flexion.description" = "Check how much your knee can\nstraighten and bend";
 "select.type.shoulder.flexion.title" = "Shoulder Range of Motion";
 "select.type.shoulder.flexion.description" = "Check how high you can\nraise your arm forward";
 "select.type.hip.adduction.title" = "Ankle Range of Motion";

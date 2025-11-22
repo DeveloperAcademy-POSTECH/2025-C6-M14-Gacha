@@ -73,7 +73,7 @@ struct CalendarRecordModal: View {
             HStack(spacing: 16) {
                 // ROM
                 MainResultCell(
-                    title: "ROM",
+                    title: Strings.Result.rom,
                     value: record.ROM.map { Int($0) },
                     showDegree: true
                 )

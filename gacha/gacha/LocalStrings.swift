@@ -100,7 +100,7 @@ enum Strings {
     
     // MARK: - CountdownView
     enum Countdown {
-        static var flexion: String { NSLocalizedString("measure.countdown.flextion", comment: "") }
+        static var flexion: String { NSLocalizedString("measure.countdown.flexion", comment: "") }
         static var extensionText: String { NSLocalizedString("measure.countdown.extension", comment: "") }
         static var description: String { NSLocalizedString("measure.countdown.description", comment: "")
         }
