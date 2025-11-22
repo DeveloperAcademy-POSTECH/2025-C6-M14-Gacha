@@ -102,9 +102,9 @@ class HistoryViewModel: ObservableObject {
         }
 
         if change > 0 {
-            return Strings.History.cardRomBetter(degrees: abs(change), days: daysBetweenRecords)
+            return Strings.History.cardRomBetter(days: daysBetweenRecords, degrees: abs(change))
         } else {
-            return Strings.History.cardRomWorse(degrees: abs(change), days: daysBetweenRecords)
+            return Strings.History.cardRomWorse(days: daysBetweenRecords, degrees: abs(change))
         }
     }
 
@@ -148,12 +148,25 @@ class HistoryViewModel: ObservableObject {
         guard totalRecordCount > 1,
               let firstDate = allRecords.first?.measuredDate,
               let lastDate = allRecords.last?.measuredDate else {
+            print("📅 [daysBetweenRecords] 기록이 1개 이하: \(totalRecordCount)")
             return 0
         }
         
         let calendar = Calendar.current
-        let components = calendar.dateComponents([.day], from: firstDate, to: lastDate)
-        return components.day ?? 0
+        // 각 날짜의 시작 시간을 기준으로 비교
+        let firstDayStart = calendar.startOfDay(for: firstDate)
+        let lastDayStart = calendar.startOfDay(for: lastDate)
+        let components = calendar.dateComponents([.day], from: firstDayStart, to: lastDayStart)
+        let days = max(components.day ?? 0, 0)  // 음수 방지
+        
+        print("📅 [daysBetweenRecords] 계산:")
+        print("   - 첫 기록: \(firstDate) -> \(formatShortDate(firstDate))")
+        print("   - 마지막 기록: \(lastDate) -> \(formatShortDate(lastDate))")
+        print("   - 첫 날 시작: \(firstDayStart)")
+        print("   - 마지막 날 시작: \(lastDayStart)")
+        print("   - 날짜 차이: \(days)일")
+        
+        return days
     }
     
     /// 첫 번째 (가장 오래된) 기록 중 통증 레벨이 존재하는 값
