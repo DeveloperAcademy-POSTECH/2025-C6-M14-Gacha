@@ -17,6 +17,13 @@ struct MainViewBefore: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            HStack{ //SubTitle
+                Text("두 단계로 측정이 진행돼요")
+                    .font(.displayBodyRegular)
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+            
             Spacer()
 
             // MARK: - 중앙 콘텐츠 영역
@@ -142,6 +149,7 @@ struct MainViewBefore: View {
                 }
                 .padding(.bottom, 40)
             }
+
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 20)
         }
@@ -159,18 +167,8 @@ struct MainViewBefore: View {
 }
 
 #Preview {
-    // 1. 메모리 전용 ModelContainer 생성
-    let container = try! ModelContainer(
-        for: MeasuredRecord.self,
-        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-    )
-
-    // 2. Repository 생성
-    let repository = SwiftDataRecordRepository(
-        modelContext: container.mainContext
-    )
-
-    // 3. ViewModel 생성
+    // Preview에서는 MockRepository 사용 (SwiftData 크래시 방지)
+    let repository = MockRecordRepository(scenario: .noRecord)
     let vm = MeasureViewModel(repository: repository)
 
     MainViewBefore()
