@@ -59,6 +59,8 @@ enum Strings {
     enum Alert {
         static var cancelFlexionTitle: String { NSLocalizedString("alert.cancel.flexion.title", comment: "") }
         static var cancelFlexionMessage: String { NSLocalizedString("alert.cancel.flexion.message", comment: "") }
+        static var cancelExtensionTitle: String { NSLocalizedString("alert.cancel.extension.title", comment: "") }
+        static var cancelExtensionMessage: String { NSLocalizedString("alert.cancel.extension.message", comment: "") }
         static var cancelPainTitle: String { NSLocalizedString("alert.cancel.pain.title", comment: "") }
         static var cancelPainMessage: String { NSLocalizedString("alert.cancel.pain.message", comment: "") }
         static var remeasureTitle: String { NSLocalizedString("alert.remeasure.title", comment: "") }
@@ -85,11 +87,20 @@ enum Strings {
     enum PostureInstruction {
         static var extensionInstruction: String { NSLocalizedString("posture_instruction.extension", comment: "") }
         static var flexionInstruction: String { NSLocalizedString("posture_instruction.flexion", comment: "") }
+        
+        // MainViewBefore용
+        static var mainViewBefore1: String { NSLocalizedString("posture_instruction.MainViewBefore1", comment: "") }
+        static var mainViewBefore2: String { NSLocalizedString("posture_instruction.MainViewBefore2", comment: "") }
+        
+        // Countdown/Measure용
+        static var extensionCountdown1: String { NSLocalizedString("posture_instruction.extension_countdown1", comment: "") }
+        static var extensionCountdown2: String { NSLocalizedString("posture_instruction.extension_countdown2", comment: "") }
     }
     
     // MARK: - CountdownView
     enum Countdown {
-        static var emphasisText: String { NSLocalizedString("measure.countdown.emphasis_text", comment: "") }
+        static var flexion: String { NSLocalizedString("measure.countdown.flextion", comment: "") }
+        static var extensionText: String { NSLocalizedString("measure.countdown.extension", comment: "") }
         static var description: String { NSLocalizedString("measure.countdown.description", comment: "")
         }
     }
