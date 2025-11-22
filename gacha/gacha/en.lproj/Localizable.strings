@@ -84,8 +84,8 @@
 "pain.description" = "Move the slider to select your pain level";
 
 /* MainViewAfter */
-"result.extension_angle" = "Knee Extension Angle";
-"result.rom" = "Knee Range of Motion";
+"result.extension_angle" = "Extension Angle";
+"result.rom" = "Range of Motion";
 "result.pain_level" = "Pain Level";
 
 /* Pain Categories */

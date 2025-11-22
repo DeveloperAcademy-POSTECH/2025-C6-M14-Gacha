@@ -22,10 +22,10 @@ struct CountdownView: View {
             Spacer()
 
             VStack(spacing: 30) {
-                
                     Text(emphasisText)
                         .font(.displayTitle1Bold)
                         .foregroundStyle(Color(.blue800))
+                        .padding(.horizontal, 5)
                     
                     CountdownNumber
 
@@ -64,7 +64,6 @@ struct CountdownView: View {
                 .padding(.horizontal, 20)
                 .padding(.bottom, 40)
             }
-
         }
         .frame(
             maxWidth: .infinity,
