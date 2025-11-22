@@ -250,14 +250,28 @@ enum Strings {
 
         // Card - ROM
         static var cardRomTitle: String { NSLocalizedString("history.card.rom.title", comment: "") }
-        static func cardRomBetter(degrees: Int, days: Int) -> String {
-            String(format: NSLocalizedString("history.card.rom.better", comment: ""), degrees, days)
+        static func cardRomBetter(days: Int, degrees: Int) -> String {
+            let format = NSLocalizedString("history.card.rom.better", comment: "")
+            // 영어: "You can move %d° more than %d days ago" → (degrees, days)
+            // 한국어: "첫측정한 %d일 전보다 %d도 더" → (days, degrees)
+            if Locale.current.language.languageCode?.identifier == "ko" {
+                return String(format: format, days, degrees)
+            } else {
+                return String(format: format, degrees, days)
+            }
         }
         static func cardRomSame(days: Int) -> String {
             String(format: NSLocalizedString("history.card.rom.same", comment: ""), days)
         }
-        static func cardRomWorse(degrees: Int, days: Int) -> String {
-            String(format: NSLocalizedString("history.card.rom.worse", comment: ""), degrees, days)
+        static func cardRomWorse(days: Int, degrees: Int) -> String {
+            let format = NSLocalizedString("history.card.rom.worse", comment: "")
+            // 영어: "You can move %d° less than %d days ago" → (degrees, days)
+            // 한국어: "첫측정한 %d일 전보다 %d도 덜" → (days, degrees)
+            if Locale.current.language.languageCode?.identifier == "ko" {
+                return String(format: format, days, degrees)
+            } else {
+                return String(format: format, degrees, days)
+            }
         }
         static func cardRomUnder2Days(days: Int) -> String {
             String(format: NSLocalizedString("history.card.rom.under2Days", comment: ""), days)
@@ -280,13 +294,27 @@ enum Strings {
         // Chart - ROM
         static var chartRomTitle: String { NSLocalizedString("history.chart.rom.title", comment: "") }
         static func chartRomBetter(improvement: Int, prevMax: Int) -> String {
-            String(format: NSLocalizedString("history.chart.rom.better", comment: ""), improvement, prevMax)
+            let format = NSLocalizedString("history.chart.rom.better", comment: "")
+            // 영어: "%d° more than max %d°" → (improvement, prevMax)
+            // 한국어: "최대였던 %d°보다 %d° 더" → (prevMax, improvement)
+            if Locale.current.language.languageCode?.identifier == "ko" {
+                return String(format: format, prevMax, improvement)
+            } else {
+                return String(format: format, improvement, prevMax)
+            }
         }
         static func chartRomSame(prevMax: Int) -> String {
             String(format: NSLocalizedString("history.chart.rom.same", comment: ""), prevMax)
         }
         static func chartRomWorse(decline: Int, prevMax: Int) -> String {
-            String(format: NSLocalizedString("history.chart.rom.worse", comment: ""), decline, prevMax)
+            let format = NSLocalizedString("history.chart.rom.worse", comment: "")
+            // 영어: "%d° less than max %d°" → (decline, prevMax)
+            // 한국어: "최대였던 %d°보다 %d° 덜" → (prevMax, decline)
+            if Locale.current.language.languageCode?.identifier == "ko" {
+                return String(format: format, prevMax, decline)
+            } else {
+                return String(format: format, decline, prevMax)
+            }
         }
         static var chartRomNoRecord: String { NSLocalizedString("history.chart.rom.no_record", comment: "") }
         static func chartRomFirstRecord(angle: Int) -> String {
