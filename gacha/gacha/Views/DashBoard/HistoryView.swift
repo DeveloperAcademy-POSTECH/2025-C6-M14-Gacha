@@ -212,7 +212,7 @@ struct History: View {
         {
             let selectedRecord = vm.recentRecords[selectedIndex]
             VStack(alignment: .center, spacing: 4) {
-                Text(Strings.History.chartRomTitle)
+                Text(Strings.History.cardRomTitle)
                     .font(.displayCaption1Semibold)
                     .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -310,7 +310,7 @@ struct History: View {
         {
             let selectedRecord = vm.recentRecords[selectedIndex]
             VStack(alignment: .leading, spacing: 4) {
-                Text(Strings.History.chartPainTitle)
+                Text(Strings.History.cardPainTitle)
                     .font(.displayCaption1Semibold)
                     .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -402,7 +402,7 @@ struct History: View {
             VStack(alignment: .leading) {
                 // 헤더
                 HStack {
-                    Text(Strings.History.cardPainTitle)
+                    Text(Strings.History.chartPainTitle)
                         .font(.displaySublineBold)
                         .foregroundColor(Color("Blue700"))
                     Spacer()
