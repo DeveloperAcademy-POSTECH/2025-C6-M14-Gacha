@@ -145,7 +145,7 @@ struct RootNavigationView: View {
         case .countdown:
             CountdownView()
                 .navigationBarBackButtonHidden(true)
-                .navigationTitle(measureVM.currentMeasurementType == .extensionAngle ? Strings.Extension.title : Strings.Flexion.title)
+//                .navigationTitle(measureVM.currentMeasurementType == .extensionAngle ? Strings.Extension.title : Strings.Flexion.title)
                 .navigationBarTitleDisplayMode(.inline)
 
         case .extensionMeasure:
