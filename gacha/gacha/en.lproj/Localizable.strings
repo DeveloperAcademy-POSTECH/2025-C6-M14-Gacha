@@ -1,10 +1,10 @@
 /*
-    Localizable.strings
-    gacha
- 
-    Created by 김순주 on 11/15/25.
- 
-    */
+   Localizable.strings
+   gacha
+
+   Created by 김순주 on 11/15/25.
+
+*/
 
 /* Common */
 "common.yes" = "Yes";
@@ -15,180 +15,195 @@
 /* Button */
 "button.next" = "Next";
 "button.measure" = "Go to Measure";
-"button.measure.start" = "Start";
+"button.measure.start" = "Start Measuring";
 "button.retake" = "Measure Again";
-"button.pain_only" = "Enter Pain Only";
+"button.pain_only" = "Enter Pain Level Only";
 "button.save" = "Save";
 "button.cancel" = "Cancel";
 "button.back" = "Back";
 "button.close" = "Close";
 "button.home" = "Back to Home";
-"button.calendar" = "Go to Calendar";
-"button.summary" = "Go to Summary";
+"button.calendar" = "View Records";
+"button.summary" = "View Summary";
 
 /* Tabbar */
-"tabbar.calendar" = "Calendar";
+"tabbar.calendar" = "Records";
 "tabbar.measure" = "Measure";
 "tabbar.summary" = "Summary";
 
 /* Alerts */
-"alert.cancel.flexion.title" = "Cancel knee flexion measurement?";
-"alert.cancel.flexion.message" = "Return to the first screen";
+"alert.cancel.flexion.title" = "Cancel measurement?";
+"alert.cancel.flexion.message" = "The measurement will not be saved,\nand you'll return to the first screen";
+"alert.cancel.extension.title" = "Cancel measurement?";
+"alert.cancel.extension.message" = "You'll return to the first screen";
 "alert.cancel.pain.title" = "Cancel pain record?";
-"alert.cancel.pain.message" = "Return to the first screen";
-"alert.remeasure.title" = "Measure knee again?";
-"alert.remeasure.message" = "This will update today’s record";
-"alert.notyet.title" = "Not available yet";
-"alert.notyet.message" = "It’ll be ready soon";
+"alert.cancel.pain.message" = "You'll return to the first screen";
+"alert.remeasure.title" = "Measure your knee again?";
+"alert.remeasure.message" = "The new angle will be saved as today's result";
+"alert.notyet.title" = "This measurement is not yet supported";
+"alert.notyet.message" = "It will be supported in the future";
 "alert.rerecord_pain.title" = "Record pain again?";
-"alert.rerecord_pain.message" = "This will update today’s record";
+"alert.rerecord_pain.message" = "The new pain level will be saved as today's result";
 
 /* MainBefore - 1/2 */
-"daily_start.title" = "Ready for Knee Extension";
-"daily_start.instruction.no1" = "Sit and extend your leg as much as you can";
-"daily_start.instruction.no2" = "Place iPhone on thigh by knee";
-"daily_start.instruction.no3" = "Hold still until done";
+"daily_start.title" = "Measurement Guide";
+"daily_start.subtitle" = "Measurement will proceed in two steps";
+"daily_start.instruction.no1" = "Sit and extend your leg as much as possible";
+"daily_start.instruction.no2" = "Place your device on your thigh near your knee";
+"daily_start.instruction.no3" = "Hold this position until measurement is complete";
 
 /* CountdownView */
-"measure.countdown.emphasis_text" = "Get Ready";
-"measure.countdown.description" = "Hold still and\nprepare for measurement";
+"measure.countdown.flextion" = "Bend your knee and get ready";
+"measure.countdown.extension" = "Straighten your knee and get ready";
+"measure.countdown.description" = "Keep your device on your thigh\nand hold your position";
 
 /* ExtensionMeasureView */
 "measure.extension.title" = "Knee Extension Measurement";
 "measure.extension.measuring" = "Measuring";
-"measure.extension.measured" = "Completed";
-"measure.extension.angle" = "Knee Extension Angle";
+"measure.extension.measured" = "Complete";
+"measure.extension.angle" = "Extension Angle";
 
-/* ExtensionDoneView */
+/* FlexionMeasureView */
 "measure.flexion.title" = "Knee Flexion Measurement";
-
-/* FlexionReadyView */
-"measure.flexion.instruction.no1" = "Sit and ben your knee fully";
-"measure.flexion.ready.title" = "Ready for Knee Flexion";
+"measure.flexion.ready.title" = "Ready for Knee Flexion Measurement";
+"measure.flexion.measuring" = "Measuring";
+"measure.flexion.measured" = "Complete";
+"measure.flexion.instruction.no1" = "Please sit and extend your leg as much as possible";
+"measure.flexion.angle" = "Flexion Angle";
 
 /* PostureInstructionComponent */
-"posture_instruction.extension" = "With your leg straight, place your iPhone on your thigh and hold for 3 seconds to measure the extension angle";
-"posture_instruction.flexion" = "Keep your knee bent in the same position for 3 seconds to measure the flexion angle";
-
-/* FlexionMeasureView - Measuring */
-"measure.flexion.title" = "Knee Flexion Measurement";
-"measure.flexion.measuring" = "Measuring";
-"measure.flexion.measured" = "Completed";
-"measure.flexion.angle" = "Knee Flexion Angle";
+"posture_instruction.extension" = "With your leg straight, place iPhone on your thigh and hold for 3 seconds to measure extension angle";
+"posture_instruction.flexion" = "Keep your knee bent in the same position for 3 seconds to measure flexion angle";
+"posture_instruction.MainViewBefore1" = "Sit with your leg straight, place iPhone on your thigh, and wait until extension measurement is complete";
+"posture_instruction.MainViewBefore2" = "Bend your knee as much as possible and hold until flexion measurement is complete";
+"posture_instruction.extension_countdown1" = "Sit with your leg straight and place iPhone on your thigh for 3 seconds to measure extension angle";
+"posture_instruction.extension_countdown2" = "Keep your knee bent in the same position for 3 seconds to measure flexion angle";
 
 /* PainLevelView */
 "pain.title" = "Record Pain Level";
-"pain.description" = "Move slider to select your pain level";
+"pain.description" = "Move the slider to select your pain level";
+
+/* MainViewAfter */
+"result.extension_angle" = "Knee Extension Angle";
+"result.rom" = "Knee Range of Motion";
+"result.pain_level" = "Pain Level";
 
 /* Pain Categories */
 "pain.category.0" = "No pain";
 "pain.category.1to3" = "Mild pain";
 "pain.category.4to6" = "Moderate pain";
 "pain.category.7to9" = "Severe pain";
-"pain.category.10" = "Worst pain";
+"pain.category.10" = "Very severe pain";
 
-/* Pain Levels 0-10 */
-"pain.level.0" = "I feel no pain";
-"pain.level.1" = "Very mild, barely noticeable";
-"pain.level.2" = "Slight discomfort";
-"pain.level.3" = "Knee feels tight and bothersome";
-"pain.level.4" = "Painful but can move";
-"pain.level.5" = "Persistent pain";
-"pain.level.6" = "Pain affects daily activities";
-"pain.level.7" = "Pain disrupts sleep";
-"pain.level.8" = "Pain limits movement";
-"pain.level.9" = "Pain is hard to tolerate";
-"pain.level.10" = "Worst pain possible";
+/* Pain Levels 0-10 (11 categories) */
+"pain.level.0" = "No pain";
+"pain.level.1" = "Slightly uncomfortable but okay";
+"pain.level.2" = "Feels a bit stiff";
+"pain.level.3" = "Feels tight and bothersome";
+"pain.level.4" = "Can move but hurts";
+"pain.level.5" = "Hurts continuously";
+"pain.level.6" = "Hurts so much daily activities are difficult";
+"pain.level.7" = "Hurts so much I can't sleep well";
+"pain.level.8" = "Hurts too much to move";
+"pain.level.9" = "Hurts so much I groan involuntarily";
+"pain.level.10" = "Never felt pain like this before";
 
 /* MeasureView(After) */
-"progress.title" = "Result";
-
-"progress.flexion_angle" = "Knee Flexion";
+"progress.title" = "Measurement Result";
+"progress.flexion_angle" = "Knee Flexion Angle";
 "progress.pain_level" = "Pain Level";
 
-"progress.first_record.title" = "First Record!";
-"progress.first_record.description" = "Today marks your first step.\nKeep moving forward consistently.";
+"progress.first_record.title" = "Your first record!";
+"progress.first_record.description" = "Today's record is your first step toward recovery.\nLet's keep going together.";
 
-"progress.better_nopain.title" = "Recovery Going Well";
-"progress.better_nopain.description" = "Movement is smooth.\nNo pain, recovery is progressing.";
-"progress.better_mildpain.title" = "Positive Progress";
-"progress.better_mildpain.description" = "Slight stiffness is okay.\nMove slowly and steadily.";
-"progress.better_moderatepain.title" = "Check with Specialist";
-"progress.better_moderatepain.description" = "Movement improved but some pain remains.\nConsult a specialist.";
-"progress.better_severepain.title" = "Need Specialist";
-"progress.better_severepain.description" = "Movement is fine but pain is severe.\nAdjust recovery pace.";
-"progress.better_excruciatingpain.title" = "See Specialist";
-"progress.better_excruciatingpain.description" = "Pain management is crucial.\nSeek treatment and rest.";
+"progress.better_nopain.title" = "Recovering well";
+"progress.better_nopain.description" = "Movement is smoother.\nNo pain, recovery progressing well.\nKeep it up.";
 
-"progress.same_nopain.title" = "Stable Condition";
-"progress.same_nopain.description" = "No change. Maintaining steadily is good.";
-"progress.same_mildpain.title" = "Manage Gently";
-"progress.same_mildpain.description" = "Recovery may vary. Take rest and progress slowly.";
-"progress.same_moderatepain.title" = "Consult Specialist";
-"progress.same_moderatepain.description" = "Movement similar but pain continues.\nCheck with specialist.";
-"progress.same_severepain.title" = "Seek Specialist Help";
-"progress.same_severepain.description" = "No movement change, pain persists.\nConsult specialist.";
-"progress.same_excruciatingpain.title" = "See Specialist Quickly";
-"progress.same_excruciatingpain.description" = "Pain is severe. Seek help promptly.";
+"progress.better_mildpain.title" = "Showing good progress";
+"progress.better_mildpain.description" = "Might feel a bit stiff, but that's okay.\nKeep going slowly.\nDon't push yourself.";
 
-"progress.worse_nopain.title" = "Movement Slightly Reduced";
-"progress.worse_nopain.description" = "No pain but joint feels stiff.\nMove gently.";
-"progress.worse_mildpain.title" = "Body Feels Tired";
-"progress.worse_mildpain.description" = "Flexion reduced. Rest well today.";
-"progress.worse_moderatepain.title" = "Get Specialist Advice";
-"progress.worse_moderatepain.description" = "Movement reduced, pain present.\nConsult specialist.";
-"progress.worse_severepain.title" = "Medical Consult Needed";
-"progress.worse_severepain.description" = "Movement reduced, pain severe.\nRevise recovery plan.";
-"progress.worse_excruciatingpain.title" = "Immediate Treatment Needed";
-"progress.worse_excruciatingpain.description" = "Movement difficult, pain severe.\nSee specialist immediately.";
+"progress.better_moderatepain.title" = "Check with a specialist";
+"progress.better_moderatepain.description" = "Movement improved.\nStill have some pain.\nConsult a specialist.";
+
+"progress.better_severepain.title" = "Need specialist's help";
+"progress.better_severepain.description" = "Movement is fine, but pain is severe.\nSome strain during recovery.\nMay need to adjust recovery pace.";
+
+"progress.better_excruciatingpain.title" = "See a doctor";
+"progress.better_excruciatingpain.description" = "Pain management is more important now.\nSeek treatment from a specialist quickly.\nYou need sufficient rest.";
+
+"progress.same_nopain.title" = "Stable condition";
+"progress.same_nopain.description" = "No change, but that's not bad.\nGood to maintain steadily.\nGradually move to the next step.";
+
+"progress.same_mildpain.title" = "Manage gently";
+"progress.same_mildpain.description" = "Can vary by condition.\nIt's okay to rest.\nRecovery comes slowly.";
+
+"progress.same_moderatepain.title" = "Consult a specialist";
+"progress.same_moderatepain.description" = "Movement similar, but have pain.\nProgress has slowed.\nMay need to check your condition.";
+
+"progress.same_severepain.title" = "Seek specialist's help";
+"progress.same_severepain.description" = "No change in movement, pain continues.\nGet an accurate check from a specialist.\nGood to catch the cause early.";
+
+"progress.same_excruciatingpain.title" = "See a doctor quickly";
+"progress.same_excruciatingpain.description" = "Pain is severe.\nDon't delay, find a specialist.\nQuick action starts recovery.";
+
+"progress.worse_nopain.title" = "Movement slightly decreased";
+"progress.worse_nopain.description" = "No pain, but joint feels stiff.\nMove gently to loosen it up.\nBetter not to push yourself.";
+
+"progress.worse_mildpain.title" = "Body feels tired today";
+"progress.worse_mildpain.description" = "Movement slightly decreased.\nLet your body rest today.\nTry measuring again tomorrow.";
+
+"progress.worse_moderatepain.title" = "Get advice from a specialist";
+"progress.worse_moderatepain.description" = "Movement decreased and have pain.\nRecovery flow has slowed.\nNeed a specialist's advice.";
+
+"progress.worse_severepain.title" = "Need specialist's consultation";
+"progress.worse_severepain.description" = "Movement decreased and pain is severe.\nCondition is worsening.\nReconsider your recovery plan.";
+
+"progress.worse_excruciatingpain.title" = "Get treatment quickly";
+"progress.worse_excruciatingpain.description" = "Difficult to move and pain is severe.\nDon't delay, find a specialist.\nTreatment is top priority now.";
 
 /* HistoryView */
 "history.summary.title" = "Summary";
 
 /* History Summary Card - ROM Change */
 "history.card.rom.title" = "Knee Flexion";
-"history.card.rom.better" = "You can bend your knee %d° more than %d days ago!";
-"history.card.rom.same" = "Knee range has\nstayed the same\nfor %d days.";
-"history.card.rom.worse" = "Your knee moves\n%d° less than\n%d days ago.";
+"history.card.rom.better" = "You can bend %d° more\nthan %d days ago!";
+"history.card.rom.same" = "Range maintained\nfor %d days";
+"history.card.rom.worse" = "You bend %d° less\nthan %d days ago";
 "history.card.rom.under2Days" = "Day %d";
-"history.card.rom.under2" = "Changes appear\nafter 2 days";
+"history.card.rom.under2" = "See changes\nafter 2 days";
 
 /* History Summary Card - Pain Change */
 "history.card.pain.title" = "Pain Level";
-"history.card.pain.step" = "Point";
-"history.card.pain.better" = "You feel %d levels\nless pain than\non your first record!";
-"history.card.pain.same" = "You’ve felt the same\nlevel of pain\nsince your first record";
-"history.card.pain.worse" = "You feel %d levels\nmore pain than\non your first record";
-"history.card.pain.no_record" = "Make first record!\nTrack changes\nwith Anggle";
-"history.card.pain.first_record" = "First record made!\nAnggle supports\nyour recovery step!";
+"history.card.pain.step" = "Step";
+"history.card.pain.better" = "%d steps less pain\nthan your first record!";
+"history.card.pain.same" = "Same pain level\nsince first record";
+"history.card.pain.worse" = "%d steps more pain\nthan your first record";
+"history.card.pain.no_record" = "Make your first record.\nTrack changes with Anggle!";
+"history.card.pain.first_record" = "Your first record!\nFirst step toward recovery.\nAnggle is cheering you on!";
 
 /* History Summary Chart - ROM Change */
 "history.chart.rom.title" = "Knee Flexion Change";
-"history.chart.rom.better" = "You can flex %d° more than previous max of %d°";
-"history.chart.rom.same" = "Same as previous max %d°";
-"history.chart.rom.worse" = "You moved %d° less than previous max of %d°";
-"history.chart.rom.no_record" = "Take your first measurement";
-"history.chart.rom.first_record" = "Your knee bend up to %d°";
+"history.chart.rom.better" = "%d° more than max %d° this period";
+"history.chart.rom.same" = "Same as max %d° this period";
+"history.chart.rom.worse" = "%d° less than max %d° this period";
+"history.chart.rom.no_record" = "Complete your first measurement";
+"history.chart.rom.first_record" = "Your knee bends up to %d°";
 
 /* History Summary Chart - Pain Change */
 "history.chart.pain.title" = "Pain Level Change";
-"history.chart.pain.better" = "Pain reduced by %d steps from %d";
-"history.chart.pain.same" = "Same pain level as previous %d";
-"history.chart.pain.worse" = "Pain increased by %d steps from %d";
+"history.chart.pain.better" = "%d steps less than lowest %d this period";
+"history.chart.pain.same" = "Same as lowest %d this period";
+"history.chart.pain.worse" = "%d steps more than lowest %d this period";
 "history.chart.pain.no_record" = "Make your first record";
-"history.chart.pain.first_record" = "You’re feeling pain at level %d";
+"history.chart.pain.first_record" = "Feeling pain at level %d";
 
 /* Select Type */
-"select.type.title" = "Select";
-
+"select.type.title" = "Select Measurement";
 "select.type.knee.flexion.title" = "Knee Range of Motion";
 "select.type.knee.flexion.description" = "Check how much you can\nbend your knee";
-
 "select.type.shoulder.flexion.title" = "Shoulder Range of Motion";
-"select.type.shoulder.flexion.description" = "Check how high you can\nraise your arm";
-
+"select.type.shoulder.flexion.description" = "Check how high you can\nraise your arm forward";
 "select.type.hip.adduction.title" = "Ankle Range of Motion";
-"select.type.hip.adduction.description" = "Check how much you can\n rotate your ankle";
-
+"select.type.hip.adduction.description" = "Check how much you can\nrotate your ankle";
 "select.type.elbow.extension.title" = "Elbow Range of Motion";
 "select.type.elbow.extension.description" = "Check how much you can\nstraighten your elbow";

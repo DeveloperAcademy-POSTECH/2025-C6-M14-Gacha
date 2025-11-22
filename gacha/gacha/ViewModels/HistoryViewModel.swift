@@ -102,9 +102,9 @@ class HistoryViewModel: ObservableObject {
         }
 
         if change > 0 {
-            return Strings.History.cardRomBetter(days: daysBetweenRecords, degrees: abs(change))
+            return Strings.History.cardRomBetter(degrees: abs(change), days: daysBetweenRecords)
         } else {
-            return Strings.History.cardRomWorse(days: daysBetweenRecords, degrees: abs(change))
+            return Strings.History.cardRomWorse(degrees: abs(change), days: daysBetweenRecords)
         }
     }
 
@@ -135,11 +135,11 @@ class HistoryViewModel: ObservableObject {
 
         // 비교 (ROM은 클수록 좋음)
         if Double(todayROM) > maxPreviousROM {
-            return Strings.History.chartRomBetter(prevMax: maxPreviousROMInt, improvement: difference)
+            return Strings.History.chartRomBetter(improvement: difference, prevMax: maxPreviousROMInt)
         } else if Double(todayROM) == maxPreviousROM {
             return Strings.History.chartRomSame(prevMax: maxPreviousROMInt)
         } else {
-            return Strings.History.chartRomWorse(prevMax: maxPreviousROMInt, decline: difference)
+            return Strings.History.chartRomWorse(decline: difference, prevMax: maxPreviousROMInt)
         }
     }
     
