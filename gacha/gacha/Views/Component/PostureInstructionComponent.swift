@@ -10,15 +10,22 @@ import SwiftUI
 /// 사용 예시:
 /// ```swift
 /// PostureInstructionComponent(
+///     context: .mainViewBefore,
 ///     index: 1
 /// )
 /// ```
 ///
 /// - Parameters:
+///   - context: 뷰 컨텍스트 (어떤 뷰에서 사용되는지)
 ///   - index: 강조될 텍스트의 번호
 
+enum InstructionContext {
+    case mainViewBefore
+    case countdown
+}
+
 struct PostureInstructionComponent: View {
-    var type: MeasurementType
+    var context: InstructionContext
     var index: Int
     private let emphasisFont: Font = .displayBodyBold
     private let regularFont: Font = .displaySublineRegular
@@ -32,14 +39,22 @@ struct PostureInstructionComponent: View {
         if (1...2).contains(index) {
             return index
         }
-        return type == .extensionAngle ? 1 : 2
+        return 1
     }
     
     private var instructions: [Instruction] {
-        [
-            Instruction(id: 1, text: Strings.PostureInstruction.extensionInstruction),
-            Instruction(id: 2, text: Strings.PostureInstruction.flexionInstruction),
-        ]
+        switch context {
+        case .mainViewBefore:
+            return [
+                Instruction(id: 1, text: Strings.PostureInstruction.mainViewBefore1),
+                Instruction(id: 2, text: Strings.PostureInstruction.mainViewBefore2),
+            ]
+        case .countdown:
+            return [
+                Instruction(id: 1, text: Strings.PostureInstruction.extensionCountdown1),
+                Instruction(id: 2, text: Strings.PostureInstruction.extensionCountdown2),
+            ]
+        }
     }
     
     var body: some View {
@@ -72,5 +87,5 @@ struct PostureInstructionComponent: View {
 }
 
 #Preview {
-    PostureInstructionComponent(type: .extensionAngle, index: 1)
+    PostureInstructionComponent(context: .mainViewBefore, index: 1)
 }

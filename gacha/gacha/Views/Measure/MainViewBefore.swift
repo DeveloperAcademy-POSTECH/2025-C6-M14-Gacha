@@ -35,7 +35,7 @@ struct MainViewBefore: View {
                         .scaledToFit()
                         .frame(width: 240, height: 240)
                     // 첫 번째 화면 안내 문구
-                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 1)
+                    PostureInstructionComponent(context: .mainViewBefore, index: 1)
                 } else {
 
                     Image("flexionLeg")
@@ -43,7 +43,7 @@ struct MainViewBefore: View {
                         .scaledToFit()
                         .frame(width: 240, height: 240)
                     // 두 번째 화면 안내 문구
-                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 2)
+                    PostureInstructionComponent(context: .mainViewBefore, index: 2)
                 }
 
                 // MARK: - 버튼 영역 (92px height, 16px gap)
@@ -151,7 +151,7 @@ struct MainViewBefore: View {
             }
 
             .frame(maxWidth: .infinity)
-            .padding(.horizontal, 20)
+            .padding(.horizontal, 16)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle(Strings.DailyStart.title)

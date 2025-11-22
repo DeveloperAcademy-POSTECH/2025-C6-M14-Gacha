@@ -47,7 +47,7 @@ struct ExtensionDoneView: View {
 
                 // MARK: - 측정 가이드
                 PostureInstructionComponent(
-                    type: vm.currentMeasurementType,
+                    context: .countdown,
                     index: 1
                 )
                 .padding(.horizontal, 20)
