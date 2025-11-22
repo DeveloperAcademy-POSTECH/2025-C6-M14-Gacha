@@ -52,10 +52,18 @@ struct FlexionMeasureView: View {
                             .font(.roundedExtraLargeBold)
                             .foregroundStyle(Color("Blue800"))
                         VStack(spacing: 8) {
-                            Text(Strings.Flexion.angle)
-                                .font(.displayTitle1Regular)
-                                .foregroundStyle(Color("Gray600"))
-                            Text("\(Int(vm.currentAngle*2))°")
+                            VStack{
+                                Text(Strings.Flexion.angle)
+                                    .font(.displayTitle3Regular)
+                                    .foregroundStyle(Color.black)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 4)
+                            .background(Color.blue200)
+                            .cornerRadius(100)
+                            
+                            
+                            Text("\(Int(vm.displayedAngle))°")
                                 .font(.roundedExtraLargeBold)
                                 .foregroundStyle(Color("Gray700"))
                         }
@@ -69,8 +77,8 @@ struct FlexionMeasureView: View {
 
                     // MARK: - 측정 가이드
                     PostureInstructionComponent(
-                        type: vm.currentMeasurementType,
-                        index: 3
+                        context: .countdown,
+                        index: 2
                     )
                     .padding(.horizontal, 20)
 
@@ -80,7 +88,7 @@ struct FlexionMeasureView: View {
         }
         .onAppear {
             vm.prepareForNewMeasurement()
-            vm.startSensor()  // 센서 명시적으로 시작
+        vm.startSensor()  // 센서 명시적으로 시작
 
             // 자동 시작 플래그 확인
             if vm.shouldAutoStartMeasure {

@@ -17,26 +17,33 @@ struct MainViewBefore: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            HStack{ //SubTitle
+                Text(Strings.DailyStart.subtitle)
+                    .font(.displayBodyRegular)
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+            
             Spacer()
 
             // MARK: - 중앙 콘텐츠 영역
             VStack(spacing: 40) {
                 // 안내 문구 영역
                 if currentPage == 0 {
-                    Image("extensionPosture")
+                    Image("startPosture")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 240, height: 240)
                     // 첫 번째 화면 안내 문구
-                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 1)
+                    PostureInstructionComponent(context: .mainViewBefore, index: 1)
                 } else {
 
-                    Image("extensionPosture2")
+                    Image("flexionLeg")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 240, height: 240)
                     // 두 번째 화면 안내 문구
-                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 2)
+                    PostureInstructionComponent(context: .mainViewBefore, index: 2)
                 }
 
                 // MARK: - 버튼 영역 (92px height, 16px gap)
@@ -142,8 +149,9 @@ struct MainViewBefore: View {
                 }
                 .padding(.bottom, 40)
             }
+
             .frame(maxWidth: .infinity)
-            .padding(.horizontal, 20)
+            .padding(.horizontal, 16)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle(Strings.DailyStart.title)
@@ -159,18 +167,8 @@ struct MainViewBefore: View {
 }
 
 #Preview {
-    // 1. 메모리 전용 ModelContainer 생성
-    let container = try! ModelContainer(
-        for: MeasuredRecord.self,
-        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-    )
-
-    // 2. Repository 생성
-    let repository = SwiftDataRecordRepository(
-        modelContext: container.mainContext
-    )
-
-    // 3. ViewModel 생성
+    // Preview에서는 MockRepository 사용 (SwiftData 크래시 방지)
+    let repository = MockRecordRepository(scenario: .noRecord)
     let vm = MeasureViewModel(repository: repository)
 
     MainViewBefore()

@@ -52,10 +52,22 @@ struct ExtensionMeasureView: View {
                             .font(.roundedExtraLargeBold)
                             .foregroundStyle(Color("Blue800"))
                         VStack(spacing: 8) {
-                            Text(Strings.Extension.angle)
-                                .font(.displayTitle1Regular)
-                                .foregroundStyle(Color("Gray600"))
-                            Text("\(Int(vm.currentAngle*2))°")
+                            
+                            
+                            
+                            
+                            VStack{
+                                Text(Strings.Extension.angle)
+                                    .font(.displayTitle3Regular)
+                                    .foregroundStyle(Color.black)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 4)
+                            .background(Color.blue200)
+                            .cornerRadius(100)
+                            
+                            
+                            Text("\(Int(vm.displayedAngle))°")
                                 .font(.roundedExtraLargeBold)
                                 .foregroundStyle(Color("Gray700"))
                         }
@@ -68,7 +80,7 @@ struct ExtensionMeasureView: View {
 
 
                     // MARK: - 측정 가이드
-                    PostureInstructionComponent(type: vm.currentMeasurementType, index: 3)
+                    PostureInstructionComponent(context: .countdown, index: 1)
                         .padding(.horizontal, 20)
                     
                     Spacer()

@@ -12,6 +12,7 @@ import SwiftUI
 class HistoryViewModel: ObservableObject {
     private var repository: RecordRepository
 
+    @Published private(set) var allRecords: [MeasuredRecord] = []
     @Published var recentRecords: [MeasuredRecord] = []
     @Published var selectedROMDate: Date? = nil
     @Published var selectedPainDate: Date? = nil
@@ -67,31 +68,34 @@ class HistoryViewModel: ObservableObject {
     
     // MARK: - Summary Cards Data
     
-    /// 첫 번째 (가장 오래된) 기록의 ROM
-    var firstROM: Int? {
-        guard let first = recentRecords.first,
-              let rom = first.flexionAngle else { return nil }
+    var totalRecordCount: Int {
+        allRecords.count
+    }
+    
+    /// 첫 번째 (가장 오래된) 기록 중 ROM 값이 존재하는 각도
+    var firstAvailableROM: Int? {
+        guard let record = allRecords.first(where: { $0.flexionAngle != nil }),
+              let rom = record.flexionAngle else { return nil }
         return Int(rom)
     }
     
     /// 마지막 (가장 최근) 기록의 ROM
     /// 오늘 기록에 ROM이 없으면 이전 기록에서 가장 최근의 ROM 값을 반환
     var latestROM: Int? {
-        // 역순으로 순회하여 flexionAngle이 있는 가장 최근 기록 찾기
-        guard let record = recentRecords.reversed().first(where: { $0.flexionAngle != nil }),
+        guard let record = allRecords.reversed().first(where: { $0.flexionAngle != nil }),
               let rom = record.flexionAngle else { return nil }
         return Int(rom)
     }
     
     /// ROM 변화량 (최근 - 오래된)
     var romChange: Int? {
-        guard let first = firstROM, let latest = latestROM else { return nil }
+        guard let first = firstAvailableROM, let latest = latestROM else { return nil }
         return latest - first
     }
     
     /// ROM 변화 설명 텍스트
     var romChangeText: String {
-        guard recentRecords.count > 1,
+        guard totalRecordCount > 1,
               let change = romChange,
               change != 0 else {
             return Strings.History.cardRomSame(days: daysBetweenRecords)
@@ -131,48 +135,64 @@ class HistoryViewModel: ObservableObject {
 
         // 비교 (ROM은 클수록 좋음)
         if Double(todayROM) > maxPreviousROM {
-            return Strings.History.chartRomBetter(prevMax: maxPreviousROMInt, improvement: difference)
+            return Strings.History.chartRomBetter(improvement: difference, prevMax: maxPreviousROMInt)
         } else if Double(todayROM) == maxPreviousROM {
             return Strings.History.chartRomSame(prevMax: maxPreviousROMInt)
         } else {
-            return Strings.History.chartRomWorse(prevMax: maxPreviousROMInt, decline: difference)
+            return Strings.History.chartRomWorse(decline: difference, prevMax: maxPreviousROMInt)
         }
     }
     
     /// 첫 번째와 마지막 기록 사이의 날짜 차이 (일 단위)
     var daysBetweenRecords: Int {
-        guard recentRecords.count > 1,
-              let firstDate = recentRecords.first?.measuredDate,
-              let lastDate = recentRecords.last?.measuredDate else {
+        guard totalRecordCount > 1,
+              let firstDate = allRecords.first?.measuredDate,
+              let lastDate = allRecords.last?.measuredDate else {
+            print("📅 [daysBetweenRecords] 기록이 1개 이하: \(totalRecordCount)")
             return 0
         }
         
         let calendar = Calendar.current
-        let components = calendar.dateComponents([.day], from: firstDate, to: lastDate)
-        return components.day ?? 0
+        // 각 날짜의 시작 시간을 기준으로 비교
+        let firstDayStart = calendar.startOfDay(for: firstDate)
+        let lastDayStart = calendar.startOfDay(for: lastDate)
+        let components = calendar.dateComponents([.day], from: firstDayStart, to: lastDayStart)
+        let days = max(components.day ?? 0, 0)  // 음수 방지
+        
+        print("📅 [daysBetweenRecords] 계산:")
+        print("   - 첫 기록: \(firstDate) -> \(formatShortDate(firstDate))")
+        print("   - 마지막 기록: \(lastDate) -> \(formatShortDate(lastDate))")
+        print("   - 첫 날 시작: \(firstDayStart)")
+        print("   - 마지막 날 시작: \(lastDayStart)")
+        print("   - 날짜 차이: \(days)일")
+        
+        return days
     }
     
-    /// 첫 번째 (가장 오래된) 기록의 통증 레벨
-    var firstPainLevel: Int? {
-        guard let first = recentRecords.first else { return nil }
-        return first.painLevel
+    /// 첫 번째 (가장 오래된) 기록 중 통증 레벨이 존재하는 값
+    var firstAvailablePainLevel: Int? {
+        guard let record = allRecords.first(where: { $0.painLevel != nil }) else {
+            return nil
+        }
+        return record.painLevel
     }
     
     /// 마지막 (가장 최근) 기록의 통증 레벨
     var latestPainLevel: Int? {
-        guard let last = recentRecords.last else { return nil }
+        guard let last = allRecords.last else { return nil }
         return last.painLevel
     }
     
     /// 통증 변화량 (처음 - 최근, 양수면 줄어든 것)
     var painChange: Int? {
-        guard let first = firstPainLevel, let latest = latestPainLevel else { return nil }
+        guard let first = firstAvailablePainLevel, let latest = latestPainLevel else { return nil }
         return first - latest
     }
     
     /// 통증 변화 설명 텍스트
     var painChangeText: String {
-        guard let change = painChange,
+        guard totalRecordCount > 1,
+              let change = painChange,
               change != 0 else {
             return Strings.History.cardPainSame
         }
@@ -219,6 +239,21 @@ class HistoryViewModel: ObservableObject {
     }
     
     // MARK: - Chart Y-Axis Range
+    
+    var romMinValue: Double {
+        // extensionAngle 값들 중 최소값 계산
+        let validExtensionAngles = recentRecords
+            .compactMap { $0.extensionAngle }
+            .filter { $0.isFinite }
+        
+        guard let minExtension = validExtensionAngles.min() else {
+            // extensionAngle이 없는 경우 기본값 0
+            return 0
+        }
+        
+        // 0보다 작으면 0으로 제한
+        return max(minExtension, 0)
+    }
     
     var romMaxValue: Double {
         // Use only finite, non-negative angles to avoid invalid ranges or NaN propagation
@@ -288,8 +323,10 @@ class HistoryViewModel: ObservableObject {
         defer { isLoading = false }
         
         do {
-            let allRecords = try await repository.loadRecords()
-            recentRecords = Array(allRecords.prefix(7)).reversed()
+            let fetchedRecords = try await repository.loadRecords()
+            let ascending = Array(fetchedRecords.reversed())
+            allRecords = ascending
+            recentRecords = Array(ascending.suffix(7))
             print("📅 loadRecentRecords - Total records: \(allRecords.count), Recent records: \(recentRecords.count)")
             for (index, record) in recentRecords.enumerated() {
                 print("  [\(index)] Date: \(record.measuredDate), Formatted: \(formatShortDate(record.measuredDate))")

@@ -59,6 +59,8 @@ enum Strings {
     enum Alert {
         static var cancelFlexionTitle: String { NSLocalizedString("alert.cancel.flexion.title", comment: "") }
         static var cancelFlexionMessage: String { NSLocalizedString("alert.cancel.flexion.message", comment: "") }
+        static var cancelExtensionTitle: String { NSLocalizedString("alert.cancel.extension.title", comment: "") }
+        static var cancelExtensionMessage: String { NSLocalizedString("alert.cancel.extension.message", comment: "") }
         static var cancelPainTitle: String { NSLocalizedString("alert.cancel.pain.title", comment: "") }
         static var cancelPainMessage: String { NSLocalizedString("alert.cancel.pain.message", comment: "") }
         static var remeasureTitle: String { NSLocalizedString("alert.remeasure.title", comment: "") }
@@ -76,14 +78,30 @@ enum Strings {
     // MARK: - MainBefore
     enum DailyStart {
         static var title: String { NSLocalizedString("daily_start.title", comment: "") }
+        static var subtitle: String { NSLocalizedString("daily_start.subtitle", comment: "") }
         static var instructionNo1: String { NSLocalizedString("daily_start.instruction.no1", comment: "") }
         static var instructionNo2: String { NSLocalizedString("daily_start.instruction.no2", comment: "") }
         static var instructionNo3: String { NSLocalizedString("daily_start.instruction.no3", comment: "") }
     }
     
+    // MARK: - Posture Instructions
+    enum PostureInstruction {
+        static var extensionInstruction: String { NSLocalizedString("posture_instruction.extension", comment: "") }
+        static var flexionInstruction: String { NSLocalizedString("posture_instruction.flexion", comment: "") }
+        
+        // MainViewBefore용
+        static var mainViewBefore1: String { NSLocalizedString("posture_instruction.MainViewBefore1", comment: "") }
+        static var mainViewBefore2: String { NSLocalizedString("posture_instruction.MainViewBefore2", comment: "") }
+        
+        // Countdown/Measure용
+        static var extensionCountdown1: String { NSLocalizedString("posture_instruction.extension_countdown1", comment: "") }
+        static var extensionCountdown2: String { NSLocalizedString("posture_instruction.extension_countdown2", comment: "") }
+    }
+    
     // MARK: - CountdownView
     enum Countdown {
-        static var emphasisText: String { NSLocalizedString("measure.countdown.emphasis_text", comment: "") }
+        static var flexion: String { NSLocalizedString("measure.countdown.flexion", comment: "") }
+        static var extensionText: String { NSLocalizedString("measure.countdown.extension", comment: "") }
         static var description: String { NSLocalizedString("measure.countdown.description", comment: "")
         }
     }
@@ -233,13 +251,27 @@ enum Strings {
         // Card - ROM
         static var cardRomTitle: String { NSLocalizedString("history.card.rom.title", comment: "") }
         static func cardRomBetter(days: Int, degrees: Int) -> String {
-            String(format: NSLocalizedString("history.card.rom.better", comment: ""), days, degrees)
+            let format = NSLocalizedString("history.card.rom.better", comment: "")
+            // 영어: "You can move %d° more than %d days ago" → (degrees, days)
+            // 한국어: "첫측정한 %d일 전보다 %d도 더" → (days, degrees)
+            if Locale.current.language.languageCode?.identifier == "ko" {
+                return String(format: format, days, degrees)
+            } else {
+                return String(format: format, degrees, days)
+            }
         }
         static func cardRomSame(days: Int) -> String {
             String(format: NSLocalizedString("history.card.rom.same", comment: ""), days)
         }
         static func cardRomWorse(days: Int, degrees: Int) -> String {
-            String(format: NSLocalizedString("history.card.rom.worse", comment: ""), days, degrees)
+            let format = NSLocalizedString("history.card.rom.worse", comment: "")
+            // 영어: "You can move %d° less than %d days ago" → (degrees, days)
+            // 한국어: "첫측정한 %d일 전보다 %d도 덜" → (days, degrees)
+            if Locale.current.language.languageCode?.identifier == "ko" {
+                return String(format: format, days, degrees)
+            } else {
+                return String(format: format, degrees, days)
+            }
         }
         static func cardRomUnder2Days(days: Int) -> String {
             String(format: NSLocalizedString("history.card.rom.under2Days", comment: ""), days)
@@ -261,14 +293,28 @@ enum Strings {
 
         // Chart - ROM
         static var chartRomTitle: String { NSLocalizedString("history.chart.rom.title", comment: "") }
-        static func chartRomBetter(prevMax: Int, improvement: Int) -> String {
-            String(format: NSLocalizedString("history.chart.rom.better", comment: ""), prevMax, improvement)
+        static func chartRomBetter(improvement: Int, prevMax: Int) -> String {
+            let format = NSLocalizedString("history.chart.rom.better", comment: "")
+            // 영어: "%d° more than max %d°" → (improvement, prevMax)
+            // 한국어: "최대였던 %d°보다 %d° 더" → (prevMax, improvement)
+            if Locale.current.language.languageCode?.identifier == "ko" {
+                return String(format: format, prevMax, improvement)
+            } else {
+                return String(format: format, improvement, prevMax)
+            }
         }
         static func chartRomSame(prevMax: Int) -> String {
             String(format: NSLocalizedString("history.chart.rom.same", comment: ""), prevMax)
         }
-        static func chartRomWorse(prevMax: Int, decline: Int) -> String {
-            String(format: NSLocalizedString("history.chart.rom.worse", comment: ""), prevMax, decline)
+        static func chartRomWorse(decline: Int, prevMax: Int) -> String {
+            let format = NSLocalizedString("history.chart.rom.worse", comment: "")
+            // 영어: "%d° less than max %d°" → (decline, prevMax)
+            // 한국어: "최대였던 %d°보다 %d° 덜" → (prevMax, decline)
+            if Locale.current.language.languageCode?.identifier == "ko" {
+                return String(format: format, prevMax, decline)
+            } else {
+                return String(format: format, decline, prevMax)
+            }
         }
         static var chartRomNoRecord: String { NSLocalizedString("history.chart.rom.no_record", comment: "") }
         static func chartRomFirstRecord(angle: Int) -> String {
@@ -284,12 +330,19 @@ enum Strings {
             String(format: NSLocalizedString("history.chart.pain.same", comment: ""), level)
         }
         static func chartPainWorse(increase: Int, from: Int) -> String {
-            String(format: NSLocalizedString("history.chart.pain.worse", comment: ""), from, increase)
+            String(format: NSLocalizedString("history.chart.pain.worse", comment: ""), increase, from)
         }
         static var chartPainNoRecord: String { NSLocalizedString("history.chart.pain.no_record", comment: "") }
         static func chartPainFirstRecord(level: Int) -> String {
             String(format: NSLocalizedString("history.chart.pain.first_record", comment: ""), level)
         }
+    }
+    
+    // MARK: - MainViewAfter
+    enum Result {
+        static var extensionAngle: String { NSLocalizedString("result.extension_angle", comment: "") }
+        static var rom: String { NSLocalizedString("result.rom", comment: "") }
+        static var painLevel: String { NSLocalizedString("result.pain_level", comment: "") }
     }
     
     // MARK: - Select Type

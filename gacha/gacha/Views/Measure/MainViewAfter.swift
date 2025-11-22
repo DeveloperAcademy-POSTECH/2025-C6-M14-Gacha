@@ -28,19 +28,20 @@ struct MainViewAfter: View {
 
                     // MARK: - 하단 버튼 영역 (MainViewBefore와 동일한 구조)
                     HStack (spacing: 20){
-                        CapsuleButtonComponent(
-                            title: Strings.Button.summary,
-                            style: .primary,
-                            width: (UIScreen.main.bounds.width - 60) / 2
-                        ) {
-                            vm.dismissMeasureFlow(navigateToTab: 2)
-                        }
+                        
                         CapsuleButtonComponent(
                             title: Strings.Button.calendar,
                             style: .secondary,
                             width: (UIScreen.main.bounds.width - 60) / 2
                         ) {
                             vm.dismissMeasureFlow(navigateToTab: 0)
+                        }
+                        CapsuleButtonComponent(
+                            title: Strings.Button.summary,
+                            style: .primary,
+                            width: (UIScreen.main.bounds.width - 60) / 2
+                        ) {
+                            vm.dismissMeasureFlow(navigateToTab: 2)
                         }
                     }
                     .padding(.bottom, 40)
@@ -91,7 +92,7 @@ struct MainViewAfter: View {
             HStack(spacing: 16) {
                 // 신전
                 MainResultCell(
-                    title: Strings.Extension.angle,
+                    title: Strings.Result.extensionAngle,
                     value: vm.currentRecord?.extensionAngle.map { Int($0) },
                     showDegree: true
                 )
@@ -109,14 +110,14 @@ struct MainViewAfter: View {
             HStack(spacing: 16) {
                 // ROM
                 MainResultCell(
-                    title: "ROM",
+                    title: Strings.Result.rom,
                     value: vm.currentRecord?.ROM.map { Int($0) },
                     showDegree: true
                 )
 
                 // 고통
                 MainResultCell(
-                    title: "고통",
+                    title: Strings.Result.painLevel,
                     value: vm.currentRecord?.painLevel,
                     showDegree: false,
                     subtitle: vm.painCategoryText
@@ -236,7 +237,7 @@ struct MainResultCell: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color("Blue50"))
+
         .cornerRadius(8)
     }
 }

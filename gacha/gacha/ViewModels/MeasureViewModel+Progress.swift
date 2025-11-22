@@ -276,19 +276,27 @@ extension MeasureViewModel {
         }
 
         switch angle {
-        case ...60:
+        case ..<22.5:
+            return "result15"
+        case 22.5..<37.5:
+            return "result30"
+        case 37.5..<52.5:
             return "result45"
-        case 60..<75:
+        case 52.5..<67.5:
             return "result60"
-        case 75..<90:
+        case 67.5..<82.5:
             return "result75"
-        case 90..<105:
+        case 82.5..<95:
             return "result90"
-        case 105..<120:
+        case 95..<102.5:
+            return "result100"
+        case 102.5..<107.5:
             return "result105"
-        case 120..<135:
+        case 107.5..<115:
+            return "result110"
+        case 115..<127.5:
             return "result120"
-        default:  // 135 이상
+        default:  // 127.5 이상
             return "result135"
         }
     }

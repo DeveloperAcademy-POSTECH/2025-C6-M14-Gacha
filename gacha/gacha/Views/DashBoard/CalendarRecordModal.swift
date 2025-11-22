@@ -73,14 +73,14 @@ struct CalendarRecordModal: View {
             HStack(spacing: 16) {
                 // ROM
                 MainResultCell(
-                    title: "ROM",
+                    title: Strings.Result.rom,
                     value: record.ROM.map { Int($0) },
                     showDegree: true
                 )
 
                 // 고통
                 MainResultCell(
-                    title: "고통",
+                    title: Strings.Result.painLevel,
                     value: record.painLevel,
                     showDegree: false,
                     subtitle: painCategoryText(for: record.painLevel ?? 0)
@@ -145,17 +145,30 @@ struct CalendarRecordModal: View {
     
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale.current
+        // NSLocalizedString이 사용하는 언어와 동일한 locale 사용
+        formatter.locale = appLocale
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter.string(from: date)
+    }
+    
+    // NSLocalizedString이 실제로 사용하는 언어를 확인하여 locale 반환
+    private var appLocale: Locale {
+        // 테스트 문자열로 실제 언어 확인
+        let testString = NSLocalizedString("common.yes", comment: "")
+        // 영어인 경우
+        if testString == "Yes" {
+            return Locale(identifier: "en-US")
+        }
+        // 한국어인 경우
+        return Locale(identifier: "ko-KR")
     }
 
     // MARK: - Helper Methods
 
     private func formatAngle(_ angle: Double?) -> String {
         guard let angle = angle else {
-            return "측정값 없음"
+            return "--°"
         }
         return "\(Int(angle))°"
     }
