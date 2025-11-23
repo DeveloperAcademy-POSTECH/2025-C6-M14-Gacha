@@ -491,10 +491,6 @@ struct HistoryPreviewWrapper: View {
     HistoryPreviewWrapper(scenario: .singleRecord)
 }
 
-#Preview("Positive Progress (67° → 97°)") {
-    HistoryPreviewWrapper(scenario: .multipleRecordsPositive)
-}
-
 #Preview("Negative Progress") {
     HistoryPreviewWrapper(scenario: .multipleRecordsNegative)
 }
