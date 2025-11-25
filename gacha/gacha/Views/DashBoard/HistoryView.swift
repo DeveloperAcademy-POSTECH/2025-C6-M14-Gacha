@@ -217,7 +217,7 @@ struct History: View {
                     .foregroundStyle(Color("Gray700"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
 
-                Text("\(Int(selectedRecord.flexionAngle ?? 0))°")
+                Text("\(Int(selectedRecord.extensionAngle ?? 0))°~\(Int(selectedRecord.flexionAngle ?? 0))°")
                     .font(.displayTitle2Semibold)
                     .foregroundStyle(Color("Gray900"))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -358,27 +358,29 @@ struct History: View {
                 
                 Spacer()
 
+                VStack(alignment:.leading, spacing: 4){
+                    // 헤더
+                    HStack {
+                        Text(Strings.History.cardRomTitle)
+                            .font(.displaySublineBold)
+                            .foregroundColor(Color("Blue700"))
+                    }
+        
 
-                // 헤더
-                HStack {
-                    Text(Strings.History.cardRomTitle)
-                        .font(.displaySublineBold)
-                        .foregroundColor(Color("Blue700"))
+                    // 변화 설명 텍스트
+                    Text(
+                        vm.totalRecordCount < 2
+                            ? Strings.History.cardRomUnder2
+                            : vm.romChangeText
+                    )
+                    .font(
+                        vm.totalRecordCount < 2
+                            ? .displayFootnoteRegular : .displayCalloutRegular
+                    )
+                    .foregroundColor(Color("Gray700"))
+                    .lineLimit(3)
                 }
-    
-
-                // 변화 설명 텍스트
-                Text(
-                    vm.totalRecordCount < 2
-                        ? Strings.History.cardRomUnder2
-                        : vm.romChangeText
-                )
-                .font(
-                    vm.totalRecordCount < 2
-                        ? .displayFootnoteRegular : .displayCalloutRegular
-                )
-                .foregroundColor(Color("Gray700"))
-                .lineLimit(3)
+                
 
             }
             .padding(.horizontal, 16)
@@ -391,7 +393,6 @@ struct History: View {
     private func painSummaryCard(proxy: ScrollViewProxy) -> some View {
 
             VStack(alignment: .leading) {
-                
                 
                 // 통증 레벨 바 표시
                 HStack(spacing: 0) {
@@ -411,30 +412,33 @@ struct History: View {
                 
                 Spacer()
 
-                
-                // 헤더
-                HStack {
-                    Text(Strings.History.chartPainTitle)
-                        .font(.displaySublineBold)
-                        .foregroundColor(Color("Blue700"))
-                }
-
-
-
-                // 변화 설명 텍스트
-                Text(
-                    vm.totalRecordCount == 0
+                VStack(alignment:.leading, spacing: 4){
+                    
+                    
+                    // 헤더
+                    HStack {
+                        Text(Strings.History.chartPainTitle)
+                            .font(.displaySublineBold)
+                            .foregroundColor(Color("Blue700"))
+                    }
+                    
+                    
+                    
+                    // 변화 설명 텍스트
+                    Text(
+                        vm.totalRecordCount == 0
                         ? Strings.History.cardPainNoRecord
                         : (vm.totalRecordCount < 2
-                            ? Strings.History.cardPainFirstRecord
-                            : vm.painChangeText)
-                )
-                .font(
-                    vm.totalRecordCount < 2
+                           ? Strings.History.cardPainFirstRecord
+                           : vm.painChangeText)
+                    )
+                    .font(
+                        vm.totalRecordCount < 2
                         ? .displayFootnoteRegular : .displayCalloutRegular
-                )
-                .foregroundColor(Color("Gray700"))
-//                .lineLimit(3)
+                    )
+                    .foregroundColor(Color("Gray700"))
+                    .lineLimit(3)
+                }
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
