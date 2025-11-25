@@ -405,8 +405,8 @@ struct History: View {
                         Text("\(change < 0 ? "↓" : "")\(abs(change)) \(Strings.History.cardPainStep)")
                             .font(.roundedTitle1Bold)
                             .foregroundColor(Color("Gray900"))
-
                     }
+                    Spacer()
                 }
                 
                 Spacer()
