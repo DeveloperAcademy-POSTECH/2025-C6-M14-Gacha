@@ -358,7 +358,7 @@ struct History: View {
                 
                 Spacer()
 
-                VStack(alignment:.leading, spacing: 4){
+                VStack(alignment:.leading, spacing: 6){
                     // 헤더
                     HStack {
                         Text(Strings.History.cardRomTitle)
@@ -412,7 +412,7 @@ struct History: View {
                 
                 Spacer()
 
-                VStack(alignment:.leading, spacing: 4){
+                VStack(alignment:.leading, spacing: 6){
                     
                     
                     // 헤더

@@ -51,7 +51,7 @@ struct gachaApp: App {
             context.insert(record)
         }
 
-        // 7일 전 ~ 1일 전 (우상향 데이터)
+        // 7일 전 ~ 1일 전 (우상향 데이터, 최대 굴곡 105° 고정)
         for daysAgo in (1...7).reversed() {
             if let date = calendar.date(byAdding: .day, value: -daysAgo, to: today),
                let recordDate = calendar.date(bySettingHour: 14, minute: 30, second: 0, of: date) {
@@ -61,7 +61,7 @@ struct gachaApp: App {
                 // 우상향: 신전 각도는 감소, 굴곡 각도는 증가, 통증은 감소
                 let progress = Double(8 - daysAgo) / 7.0  // 0.14 ~ 1.0
                 record.extensionAngle = 8.0 - (progress * 8.0)  // 10° → 5° (자유롭게 수정)
-                record.flexionAngle = 60.0 + (progress * 60.0)   // 60° → 120° (자유롭게 수정)
+                record.flexionAngle = 60.0 + (progress * 45.0)   // 60° → 105°로 제한
                 record.painLevel = 5 - Int(progress * 3.0)       // 5 → 2 (자유롭게 수정)
                 record.measuredSeconds = 0
 
