@@ -148,9 +148,9 @@ struct CountdownView: View {
             : Strings.Alert.cancelFlexionMessage
     }
     
-    /// 카운트다운을 처음부터 시작 (3부터)
+    /// 카운트다운을 처음부터 시작 (측정 종류별 기본값 사용)
     private func startCountdown() {
-        countdown = 3
+        countdown = vm.currentMeasurementType == .extensionAngle ? 3 : 5
         resumeCountdown()
     }
     

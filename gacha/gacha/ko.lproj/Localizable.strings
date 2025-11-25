@@ -107,7 +107,7 @@
 "pain.level.10" = "이렇게 아픈 건 처음이에요";
 
 /* MeasureView(After) */
-"progress.title" = "측정 결과";
+"progress.title" = "오늘의 측정 결과";
 "progress.flexion_angle" = "무릎 굽힘 각도";
 "progress.pain_level" = "통증 정도";
 

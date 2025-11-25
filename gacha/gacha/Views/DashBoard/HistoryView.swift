@@ -338,29 +338,11 @@ struct History: View {
 
     @ViewBuilder
     private func romSummaryCard(proxy: ScrollViewProxy) -> some View {
-        VStack {
             VStack(alignment: .leading) {
-
-                // 헤더
-                HStack {
-                    Text(Strings.History.cardRomTitle)
-                        .font(.displaySublineBold)
-                        .foregroundColor(Color("Blue700"))
-                    Spacer()
-                }
-
-                Spacer()
 
                 // ROM 수치 표시
                 HStack(spacing: 0) {
-                    Spacer()
                     if vm.totalRecordCount < 2 {
-                        Text(
-                            Strings.History.cardRomUnder2Days(
-                                days: vm.totalRecordCount
-                            )
-                        )
-                        .font(.displayTitle1Bold)
                     } else if let first = vm.firstAvailableROM,
                               let latest = vm.latestROM
                     {
@@ -370,9 +352,20 @@ struct History: View {
                             .font(.roundedTitle1Bold)
                             .foregroundColor(Color("Gray900"))
                     }
-                }
+                    Spacer()
 
+                }
+                
                 Spacer()
+
+
+                // 헤더
+                HStack {
+                    Text(Strings.History.cardRomTitle)
+                        .font(.displaySublineBold)
+                        .foregroundColor(Color("Blue700"))
+                }
+    
 
                 // 변화 설명 텍스트
                 Text(
@@ -390,31 +383,20 @@ struct History: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
+            .frame(width: 173, height: 173)
+            .background(Color.white)
+            .cornerRadius(15)
         }
-        .frame(width: 173, height: 173)
-        .background(Color.white)
-        .cornerRadius(15)
-    }
-
     @ViewBuilder
     private func painSummaryCard(proxy: ScrollViewProxy) -> some View {
-        VStack {
+
             VStack(alignment: .leading) {
-                // 헤더
-                HStack {
-                    Text(Strings.History.chartPainTitle)
-                        .font(.displaySublineBold)
-                        .foregroundColor(Color("Blue700"))
-                    Spacer()
-                }
-
-                Spacer()
-
+                
+                
                 // 통증 레벨 바 표시
                 HStack(spacing: 0) {
-                    Spacer()
                     if vm.totalRecordCount < 2 {
-                        
+
                     } else if let first = vm.firstAvailablePainLevel,
                               let latest = vm.latestPainLevel
                     {
@@ -423,11 +405,21 @@ struct History: View {
                         Text("\(change < 0 ? "↓" : "")\(abs(change)) \(Strings.History.cardPainStep)")
                             .font(.roundedTitle1Bold)
                             .foregroundColor(Color("Gray900"))
-
                     }
+                    Spacer()
+                }
+                
+                Spacer()
+
+                
+                // 헤더
+                HStack {
+                    Text(Strings.History.chartPainTitle)
+                        .font(.displaySublineBold)
+                        .foregroundColor(Color("Blue700"))
                 }
 
-                Spacer()
+
 
                 // 변화 설명 텍스트
                 Text(
@@ -442,14 +434,15 @@ struct History: View {
                         ? .displayFootnoteRegular : .displayCalloutRegular
                 )
                 .foregroundColor(Color("Gray700"))
-                .lineLimit(3)
+//                .lineLimit(3)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
-        }
-        .frame(width: 173, height: 173)
-        .background(Color.white)
-        .cornerRadius(15)
+            .frame(width: 173, height: 173)
+            .background(Color.white)
+            .cornerRadius(15)
+//        }
+        
     }
 
     // MARK: - Helper Methods
