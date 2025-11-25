@@ -11,7 +11,6 @@ import SwiftUI
 struct MainViewBefore: View {
     @EnvironmentObject var vm: MeasureViewModel
 
-    @State private var currentPage = 0  // 0: 첫 화면, 1: 두 번째 화면
     @State private var showFlexionAlert = false
     @State private var showPainAlert = false
 
@@ -29,91 +28,55 @@ struct MainViewBefore: View {
             // MARK: - 중앙 콘텐츠 영역
             VStack(spacing: 40) {
                 // 안내 문구 영역
-                if currentPage == 0 {
-                    Image("startPosture")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 240, height: 240)
-                    // 첫 번째 화면 안내 문구
-                    PostureInstructionComponent(context: .mainViewBefore, index: 1)
-                } else {
-
-                    Image("flexionLeg")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 240, height: 240)
-                    // 두 번째 화면 안내 문구
-                    PostureInstructionComponent(context: .mainViewBefore, index: 2)
-                }
+                Image("startPosture")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 240, height: 240)
+                PostureInstructionComponent(context: .mainViewBefore, index: 1)
 
                 // MARK: - 버튼 영역 (92px height, 16px gap)
                 VStack(spacing: 20) {
-                    if currentPage == 0 {
-                        // 첫 번째 화면: "다음" 버튼 (light style, 100px cornerRadius)
-                        HStack(spacing: 20) {
-                            CapsuleButtonComponent(
-                                title: Strings.Button.back,
-                                style: .light,
-                                width: (UIScreen.main.bounds.width - 60) / 2
-                            ) {
-                                vm.stopSensor()
-                                vm.dismissMeasureFlow()
-                            }
-                            CapsuleButtonComponent(
-                                title: Strings.Button.next,
-                                style: .primary,
-                                width: (UIScreen.main.bounds.width - 60) / 2
-                            ) {
-                                withAnimation(.easeInOut(duration: 0.3)) {
-                                    currentPage = 1
-                                }
+                    HStack(spacing: 20) {
+                        CapsuleButtonComponent(
+                            title: Strings.Button.back,
+                            style: .light,
+                            width: (UIScreen.main.bounds.width - 60) / 2
+                        ) {
+                            vm.stopSensor()
+                            vm.dismissMeasureFlow()
+                        }
+                        CapsuleButtonComponent(
+                            title: Strings.Button.next,
+                            style: .primary,
+                            width: (UIScreen.main.bounds.width - 60) / 2
+                        ) {
+                            if vm.hasTodayRecord {
+                                showFlexionAlert = true
+                            } else {
+                                vm.navigate(to: .countdown, from: .home)
                             }
                         }
-                    } else {
-                        // 두 번째 화면: "측정하기" 버튼 (primary style, 100px cornerRadius)
-                        HStack(spacing: 20) {
-                            CapsuleButtonComponent(
-                                title: Strings.Button.back,
-                                style: .light,
-                                width: (UIScreen.main.bounds.width - 60) / 2
-                            ) {
-                                withAnimation(.easeInOut(duration: 0.3)) {
-                                    currentPage -= 1
-                                }
-                            }
-                            CapsuleButtonComponent(
-                                title: Strings.Button.measureStart,
-                                style: .primary,
-                                width: (UIScreen.main.bounds.width - 60) / 2
-                            ) {
-                                if vm.hasTodayRecord {
-                                    showFlexionAlert = true
-                                } else {
-                                    vm.navigate(to: .countdown, from: .home)
-                                }
-                            }
-                            .alert(isPresented: $showFlexionAlert) {
-                                Alert(
-                                    title: Text(Strings.Alert.remeasureTitle),
-                                    message: Text(
-                                        Strings.Alert.remeasureMessage
-                                    ),
-                                    primaryButton: .destructive(
-                                        Text(Strings.Common.yes),
-                                        action: {
-                                            Task {
-                                                vm.navigate(
-                                                    to: .countdown,
-                                                    from: .home
-                                                )
-                                            }
+                        .alert(isPresented: $showFlexionAlert) {
+                            Alert(
+                                title: Text(Strings.Alert.remeasureTitle),
+                                message: Text(
+                                    Strings.Alert.remeasureMessage
+                                ),
+                                primaryButton: .destructive(
+                                    Text(Strings.Common.yes),
+                                    action: {
+                                        Task {
+                                            vm.navigate(
+                                                to: .countdown,
+                                                from: .home
+                                            )
                                         }
-                                    ),
-                                    secondaryButton: .cancel(
-                                        Text(Strings.Common.no)
-                                    )
+                                    }
+                                ),
+                                secondaryButton: .cancel(
+                                    Text(Strings.Common.no)
                                 )
-                            }
+                            )
                         }
                     }
 
@@ -157,8 +120,6 @@ struct MainViewBefore: View {
         .navigationTitle(Strings.DailyStart.title)
         .navigationBarTitleDisplayMode(.large)
         .onAppear {
-            // 화면이 나타날 때마다 첫 번째 화면으로 초기화
-            currentPage = 0
             Task {
                 await vm.checkTodayRecord()
             }
