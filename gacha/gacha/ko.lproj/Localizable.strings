@@ -151,7 +151,7 @@
 "history.summary.title" = "요약";
 
 /* History Summary Card - ROM Change */
-"history.card.rom.title" = "무릎 움직임";
+"history.card.rom.title" = "무릎 가동 범위";
 "history.card.rom.better" = "첫측정한 %d일 전보다\n%d도 더 움직여요!";
 "history.card.rom.same" = "%d일간\n움직임 범위가 유지되고 있어요";
 "history.card.rom.worse" = "첫측정한 %d일 전보다\n%d도 덜 움직여요";
@@ -168,7 +168,7 @@
 "history.card.pain.first_record" = "첫 기록을 남기셨군요.\n회복을 향한 첫걸음\nAnggle이 응원해요!";
 
 /* History Summary Chart - ROM Change */
-"history.chart.rom.title" = "무릎 움직임 변화";
+"history.chart.rom.title" = "무릎 가동 범위 변화";
 "history.chart.rom.better" = "현재 보이는 7일간 최대였던 %d°보다 %d° 더 움직여요";
 "history.chart.rom.same" = "현재 보이는 7일간 최대였던 %d°와 같아요";
 "history.chart.rom.worse" = "현재 보이는 7일간 최대였던 %d°보다 %d° 덜 움직여요";
