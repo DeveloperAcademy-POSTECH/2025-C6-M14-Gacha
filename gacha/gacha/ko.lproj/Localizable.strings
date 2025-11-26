@@ -15,7 +15,7 @@
 /* Button */
 "button.next" = "다음";
 "button.measure" = "측정하기";
-"button.measure.start" = "측정시작";
+"button.measure.start" = "측정 시작";
 "button.retake" = "다시 측정";
 "button.pain_only" = "통증 수치만 입력하기";
 "button.save" = "저장";
