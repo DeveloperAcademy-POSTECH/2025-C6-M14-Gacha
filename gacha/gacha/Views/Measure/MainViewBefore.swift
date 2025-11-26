@@ -11,7 +11,7 @@ import SwiftUI
 struct MainViewBefore: View {
     @EnvironmentObject var vm: MeasureViewModel
 
-    @State private var showFlexionAlert = false
+//    @State private var showFlexionAlert = false
     @State private var showPainAlert = false
 
     var body: some View {
@@ -46,37 +46,39 @@ struct MainViewBefore: View {
                             vm.dismissMeasureFlow()
                         }
                         CapsuleButtonComponent(
-                            title: Strings.Button.next,
+                            title: Strings.Button.measureStart,
                             style: .primary,
                             width: (UIScreen.main.bounds.width - 60) / 2
                         ) {
-                            if vm.hasTodayRecord {
-                                showFlexionAlert = true
-                            } else {
-                                vm.navigate(to: .countdown, from: .home)
-                            }
-                        }
-                        .alert(isPresented: $showFlexionAlert) {
-                            Alert(
-                                title: Text(Strings.Alert.remeasureTitle),
-                                message: Text(
-                                    Strings.Alert.remeasureMessage
-                                ),
-                                primaryButton: .destructive(
-                                    Text(Strings.Common.yes),
-                                    action: {
-                                        Task {
-                                            vm.navigate(
-                                                to: .countdown,
-                                                from: .home
-                                            )
-                                        }
-                                    }
-                                ),
-                                secondaryButton: .cancel(
-                                    Text(Strings.Common.no)
-                                )
-                            )
+                            vm.navigate(to: .countdown, from: .home)
+
+//                            if vm.hasTodayRecord {
+//                                showFlexionAlert = true
+//                            } else {
+//                                vm.navigate(to: .countdown, from: .home)
+//                            }
+//                        }
+//                        .alert(isPresented: $showFlexionAlert) {
+//                            Alert(
+//                                title: Text(Strings.Alert.remeasureTitle),
+//                                message: Text(
+//                                    Strings.Alert.remeasureMessage
+//                                ),
+//                                primaryButton: .destructive(
+//                                    Text(Strings.Common.yes),
+//                                    action: {
+//                                        Task {
+//                                            vm.navigate(
+//                                                to: .countdown,
+//                                                from: .home
+//                                            )
+//                                        }
+//                                    }
+//                                ),
+//                                secondaryButton: .cancel(
+//                                    Text(Strings.Common.no)
+//                                )
+//                            )
                         }
                     }
 
