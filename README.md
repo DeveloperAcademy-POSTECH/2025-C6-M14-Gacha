@@ -1,161 +1,119 @@
-# 무릎 재활 트래커
+# Anggle
 
-> 무릎 회복 과정을 기록하고 추적하는 iOS 앱
+> **하루 1분,  
+> 앙글과 함께 더 나은 내일을 만들어보세요**  
+>
+> 어디서나 간편한 무릎 재활 기록 —  
+> **3초면 충분한 나만의 재활 체크**
 
-[![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)]()
-[![Xcode](https://img.shields.io/badge/Xcode-15.0-blue.svg)]()
-[![iOS](https://img.shields.io/badge/iOS-17.0+-blue.svg)]()
+![Swift](https://img.shields.io/badge/Swift-5.9-orange)
+![Xcode](https://img.shields.io/badge/Xcode-15.0-blue)
+![iOS](https://img.shields.io/badge/iOS-17.0+-blue)
 
 ---
 
-## 소개
+## ✨ 소개
 
-무릎 수술이나 부상 후 재활할 때 가장 중요한 게 꾸준한 기록입니다. 
-이 앱은 iPhone 모션 센서로 무릎 가동 범위를 측정하고, 회복 추이를 시각화해서 보여줍니다.
+**Anggle** 은 iPhone의 모션 센서를 활용해  
+무릎 관절 가동 범위(ROM)와 통증 정도를 **빠르고 직관적으로 기록**할 수 있는  
+무릎 재활 기록 앱입니다.
 
+감각에 의존하던 재활 과정을  
+**숫자와 그래프로 확인 가능한 데이터**로 제공합니다.
 
-## 프로젝트 기간
-- 개발 기간: `2025.10.20 - 2025.10.31`
+## 👥 팀원
 
+| 이름 | 역할 |
+|----|----|
+| 전유진 | Product Manager |
+| 오서진 | iOS Developer |
+| 차원준 | iOS Developer |
+| 김순주 | UX Writer |
+| 임준혁 | UI/UX Designer |
+| 황지민 | UI/UX Designer |
 
-## 기술 스택
+---
 
-- **언어**: Swift
-- **UI**: SwiftUI
-- **데이터**: SwiftData
-- **센서**: CoreMotion
-- **차트**: Swift Charts
-- **아키텍처**: MVVM
+## ❓ 기획 배경
 
+무릎 재활은 회복 속도를 체감하기 어렵습니다.
 
-## 주요 기능
+꾸준히 운동해도  
+> *“내가 정말 좋아지고 있는 걸까?”*  
 
-### 측정
-- 무릎 펴짐 각도(신전) 측정
-- 무릎 굽힘 각도(굴곡) 측정
-- 가동 범위(ROM) 자동 계산
+라는 불안은 쉽게 사라지지 않습니다.
 
-### 기록
-- 주별 데이터 그래프
-- 무릎 가동범위 변화 추이
-- 통증 수준 기록 (VAS 0-10)
+Anggle은 **아이폰을 허벅지에 올리고 무릎을 굽히는 것만으로**  
+즉시 각도를 측정하고 기록할 수 있도록 만들었습니다.
 
-### 분석
-- 이전 기록과 비교
-- 상태별 피드백 메시지
+---
+
+## 🎯 대상 사용자
+
+- 무릎 수술(ACL 등) 후 회복 중인 사용자
+- 무릎 부상으로 재활 치료를 진행 중인 사용자
+- 무릎 관절 가동 범위(ROM)를 **수치로 관리**하고 싶은 사용자
+- 재활 경과를 **객관적인 데이터**로 확인하고 싶은 사용자
+
+---
+
+## 🧩 주요 기능
+
+### 📐 측정
+- 무릎 관절 가동 범위(ROM)
+- 굴곡(Flexion) / 신전(Extension)
+- 통증 수준 기록 (VAS 0–10)
+
+### 📊 기록
+- 주간 ROM 변화 그래프
+- 측정 기록 히스토리
+- 통증 변화 추적
+
+### 🔍 분석
+- 이전 기록 대비 변화 비교
+- 상태 기반 피드백 제공
 - 악화 시 주의 안내
 
+---
 
-## 화면 구성 및 시연
+## ▶️ 사용 방법
 
-| 기능 | 설명 |
-|------|------|
-| 측정 시작 | 측정 안내 및 자세 가이드 |
-| 신전 측정 | 다리 펴진 상태 각도 측정 |
-| 굴곡 측정 | 다리 굽힌 상태 각도 측정 |
-| 통증 기록 | VAS 기반 통증 수준 입력 |
-| 결과 확인 | 측정값 및 변화 분석 |
-| 히스토리 | 주간 추이 그래프 |
+1. 앉은 상태에서 측정할 다리 준비
+2. iPhone을 허벅지 또는 정강이에 밀착
+3. 측정 버튼을 누르고 자세 유지
+4. 무릎을 굽혀 다시 측정
+5. 통증 수준 입력 후 결과 확인
 
+---
 
-## 폴더 구조
+## 🛠 기술 스택
 
-```
+- **Language**: Swift  
+- **UI**: SwiftUI  
+- **Architecture**: MVVM  
+- **Data**: SwiftData  
+- **Sensor**: CoreMotion  
+- **Chart**: Swift Charts  
+- **Minimum iOS**: 17.0+
+
+---
+
+## 🗂 프로젝트 구조
+
+```text
 gacha/
-┣ Models/
-┃ ┣ MeasuredRecord.swift
-┃ ┣ MotionMeasureManager.swift
-┃ ┣ PatientStates.swift
-┃ ┗ RecordRepository.swift
-┣ ViewModels/
-┃ ┣ MeasureViewModel.swift
-┃ ┗ ProgressHistoryViewModel.swift
-┣ Views/
-┃ ┣ Measure/
-┃ ┃ ┣ ExtensionMeasureView.swift
-┃ ┃ ┣ FlexionMeasureView.swift
-┃ ┃ ┗ PainLevelView.swift
-┃ ┣ Progress/
-┃ ┃ ┣ ProgressDetailView.swift
-┃ ┃ ┗ ProgressHistoryView.swift
-┃ ┗ Component/
-┃   ┣ ButtonComponent.swift
-┃   ┗ CapsuleButtonComponent.swift
-┗ DesignSystem/
-  ┣ Typography.swift
-  ┗ ViewExtension.swift
+├── Models/
+├── ViewModels/
+├── Views/
+│   ├── Measure/
+│   ├── Progress/
+│   └── Component/
+└── DesignSystem/
 ```
 
+---
 
-## 팀 소개
+## 📄 License
 
-| 이름 | 역할 | GitHub |
-|------|------|--------|
-| 차원준 | iOS Developer | [@chawj](https://github.com/chawj) |
-| 오서진 | iOS Developer | [@seojin](https://github.com/seojin) |
-
-## 브랜치 전략
-
-- `main`: 안정 버전
-- `dev`: 개발 통합 브랜치
-- `feature/*`: 기능 개발
-- `fix/*`: 버그 수정
-
-## 커밋 컨벤션
-
-Conventional Commits 사용
-
-```
-feat: 굴곡 측정 화면 구현
-fix: 측정 데이터 저장 오류 수정
-refactor: ViewModel 로직 분리
-design: 버튼 컴포넌트 스타일 수정
-docs: README 업데이트
-```
-
-
-## 실행 방법
-
-### 요구사항
-- Xcode 15.0+
-- iOS 17.0+ 실제 기기 (시뮬레이터는 모션 센서 미지원)
-
-### 설치
-```bash
-git clone https://github.com/yourteam/gacha.git
-cd gacha
-open gacha.xcodeproj
-```
-
-### 빌드
-1. Xcode에서 프로젝트 열기
-2. Signing & Capabilities에서 팀 설정
-3. 실제 기기 연결
-4. `Cmd + R` 실행
-
-
-## 사용 방법
-
-1. 평평한 곳에 앉아서 다리 펴기
-2. iPhone을 허벅지 위에 올리기
-3. 측정 버튼 길게 누르기 (3초)
-4. 다리 구부린 상태로 한 번 더 측정
-5. 통증 수준 입력
-6. 결과 확인
-
-
-## 주의사항
-
-- 의료 기기가 아니며 전문 의료인 진단을 대체할 수 없습니다
-- 측정 결과는 참고용으로만 활용하세요
-- 정확한 진단은 의료 전문가와 상담이 필요합니다
-
-
-## 개인정보 보호
-
-모든 데이터는 기기 내부에만 저장되며 외부 서버로 전송되지 않습니다.
-
-
-## License
-
-Copyright © 2025. All rights reserved.
+Copyright © 2025 Anggle Team.  
+All rights reserved.
